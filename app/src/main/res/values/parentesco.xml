@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="parentesco">
+        <item>Madre</item>
+        <item>Padre</item>
+        <item>Hermanos</item>
+        <item>Tios</item>
+        <item>Abuelos</item>
+        <item>Primos</item>
+        <item>Hijos</item>
+        <item>Sobrinos</item>
+    </string-array>
+
+
+</resources>
