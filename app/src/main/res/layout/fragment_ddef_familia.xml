@@ -133,6 +133,32 @@
         android:layout_marginTop="20dp"
         android:hint="Ingreso Mensual"
         android:inputType="number" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="30dp"
+
+        android:layout_marginBottom="15dp">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text=""/>
+
+        <Button
+            android:id="@+id/btnNuevaFamilia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:text="+"
+            android:textColor="@color/colorLetra" />
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -167,4 +193,6 @@
 
 
     </LinearLayout>
+
+
 </LinearLayout>
