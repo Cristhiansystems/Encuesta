@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".sb_lugar_vives">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="III. SERVICIOS BÁSICOS"
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="3.01 ¿El lugar donde vives" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="50dp"
+        >
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="50dp"
+        android:orientation="vertical"
+        >
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <RadioButton
+                android:id="@+id/lugarVivesPropia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Propia"/>
+
+            <RadioButton
+                android:id="@+id/lugarVivesAlquilada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alquilada" />
+
+            <RadioButton
+                android:id="@+id/lugarVivesAnticretico"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Anticretico" />
+
+            <RadioButton
+                android:id="@+id/lugarVivesCedida"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cedida por parentesco" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                >
+
+                <RadioButton
+                    android:id="@+id/lugarVivesOtro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Otro (Especifique)" />
+
+                <EditText
+                    android:id="@+id/txtLugarVivesOtro"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+
+                    android:inputType="text" />
+            </LinearLayout>
+        </RadioGroup>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="15dp">
+        >
+    <Button
+        android:id="@+id/btnAtras10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_weight="1"
+        android:background="@color/colorAccent"
+        android:text="ATRAS"
+        android:textColor="@color/colorLetra" />
+
+    <Button
+        android:id="@+id/btnSiguiente10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/botonSig"
+        android:layout_weight="1"
+        android:text="SIGUIENTE"
+        android:textColor="@color/colorLetra" />
+    </LinearLayout>
+</LinearLayout>

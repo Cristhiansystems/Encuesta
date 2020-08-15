@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".sb_agua">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="III. SERVICIOS BÁSICOS"
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="3.07 ¿De dónde obtienen el agua que utilizan para" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="servicios del hogar?" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <RadioButton
+            android:id="@+id/aguaDentroCañeria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Por cañeria dentri de la vivienda"/>
+
+        <RadioButton
+            android:id="@+id/aguaAfueraCañeria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Por cañeria fuera de la vivienda, pero dentro del edificio, lote o terreno" />
+
+        <RadioButton
+            android:id="@+id/aguafueraTerreno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Por cañeria fuera del lote o terreno" />
+
+        <RadioButton
+            android:id="@+id/aguaPozo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pozo en el hogar" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/aguaOtro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Otro (Especifique)" />
+
+            <EditText
+                android:id="@+id/txtAguaOtro"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+
+                android:inputType="text" />
+        </LinearLayout>
+    </RadioGroup>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="15dp">
+        >
+        <Button
+            android:id="@+id/btnAtras11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="ATRAS"
+            android:textColor="@color/colorLetra" />
+
+        <Button
+            android:id="@+id/btnSiguiente11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/botonSig"
+            android:layout_weight="1"
+            android:text="SIGUIENTE"
+            android:textColor="@color/colorLetra" />
+    </LinearLayout>
+</LinearLayout>

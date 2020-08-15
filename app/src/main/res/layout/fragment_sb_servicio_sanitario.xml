@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".sb_servicio_sanitario">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="III. SERVICIOS BÁSICOS"
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="3.05 Tienes servicio sanitario, baño, letrina" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="50dp"
+        >
+
+        <RadioButton
+            android:id="@+id/servSanSiPriv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Si, Privado"/>
+
+        <RadioButton
+            android:id="@+id/servSanSiComp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Si, Compartido" />
+
+        <RadioButton
+            android:id="@+id/servSanSiFuera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Si, fuera del hogar" />
+
+        <RadioButton
+            android:id="@+id/servSanNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No tiene" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="3.06 ¿Poseen en tu vivienda energía eléctrica?" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="50dp"
+        >
+
+        <RadioButton
+            android:id="@+id/energiaElecSi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Si"/>
+
+        <RadioButton
+            android:id="@+id/energiaElecNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/energiaElecOtro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Especificar si existe otro tipo" />
+
+            <EditText
+                android:id="@+id/txtenrgiaElecOtro"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+
+                android:inputType="text" />
+        </LinearLayout>
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="15dp">
+        >
+        <Button
+            android:id="@+id/btnAtras13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="ATRAS"
+            android:textColor="@color/colorLetra" />
+
+        <Button
+            android:id="@+id/btnSiguiente13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/botonSig"
+            android:layout_weight="1"
+            android:text="SIGUIENTE"
+            android:textColor="@color/colorLetra" />
+    </LinearLayout>
+</LinearLayout>
