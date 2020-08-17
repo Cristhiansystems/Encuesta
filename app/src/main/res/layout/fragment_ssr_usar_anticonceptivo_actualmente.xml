@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ssr_usar_anticonceptivo_actualmente">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="V. SALUD SEXUAL Y REPORDUCTIVA"
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="5.07 ¿Actualmente tú y tu enamorado(a) (cortejo/a), o tu pareja están usando algún método anticonceptivo o están haciendo algo para postergar o evitar un embarazo?" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="50dp"
+        >
+
+        <RadioButton
+            android:id="@+id/usarAnticonceptivoActualSi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Si" />
+
+        <RadioButton
+            android:id="@+id/usarAnticonceptivoActualNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No" />
+
+        <RadioButton
+            android:id="@+id/usarAnticonceptivoActualNosabe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No sabe/ no esta seguro(a)" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="15dp">
+        >
+        <Button
+            android:id="@+id/btnAtras22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="ATRAS"
+            android:textColor="@color/colorLetra" />
+
+        <Button
+            android:id="@+id/btnSiguiente22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/botonSig"
+            android:layout_weight="1"
+            android:text="SIGUIENTE"
+            android:textColor="@color/colorLetra" />
+    </LinearLayout>
+</LinearLayout>

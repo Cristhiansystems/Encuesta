@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ssr_desicion_uso_anticonceptivos">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="V. SALUD SEXUAL Y REPORDUCTIVA"
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="5.09 ¿De quien fue la desición del uso de anticonceptivos?" />
+
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="50dp"
+        >
+
+        <RadioButton
+            android:id="@+id/usoAnticonceptivoTuya"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="¿Tuya?" />
+
+        <RadioButton
+            android:id="@+id/usoAnticonceptivoPareja"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿Tu pareja?" />
+
+        <RadioButton
+            android:id="@+id/usoAnticonceptivoConjunta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿Desición Conjunta?" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Para Mujeres"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="5.10 ¿Estás embarazada actualmente o has estado embarazada?"
+ />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Para Hombres"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="5.10 ¿Tu actual pareja esta embarazada?"
+    />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="50dp"
+        >
+
+        <RadioButton
+            android:id="@+id/embarazoSi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Si" />
+
+        <RadioButton
+            android:id="@+id/embarazoNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No" />
+
+        <RadioButton
+            android:id="@+id/embarazoNosabe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No sabe/no esta seguro(a)" />
+    </RadioGroup>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="15dp">
+        >
+        <Button
+            android:id="@+id/btnAtras24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="ATRAS"
+            android:textColor="@color/colorLetra" />
+
+        <Button
+            android:id="@+id/btnSiguiente24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/botonSig"
+            android:layout_weight="1"
+            android:text="SIGUIENTE"
+            android:textColor="@color/colorLetra" />
+    </LinearLayout>
+</LinearLayout>

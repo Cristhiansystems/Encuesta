@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".db_combustible">
+    tools:context=".v_tipo_violencia">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="III. SERVICIOS BÁSICOS"
+        android:text="VII. VIOLENCIA"
         android:textColor="@color/colorLetra"
         android:background="@color/colorRojo"/>
 
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="3.08 ¿Qué combustibles utilizas para cocinar tus alimentos?" />
+        android:text="7.01 ¿Que tipo de violencia has sufrido?" />
 
 
     <LinearLayout
@@ -28,6 +28,7 @@
         android:layout_marginTop="30dp"
         android:orientation="horizontal"
         android:background="#FF0000"
+        android:layout_marginHorizontal="10dp"
 
         >
         <TextView
@@ -57,13 +58,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Energia eléctrica" />
+            android:text="Violencia Física (golpes, bofetadas, empujones, jalón de cabellos, pellizcos, pateaduras, mordeduras, quemaduras)" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -72,33 +74,33 @@
             >
 
             <RadioButton
-                android:id="@+id/combusEnergiaSi"
+                android:id="@+id/violenciaFisicaSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/combusEnergiaNo"
+                android:id="@+id/violenciaFisicaNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
         </RadioGroup>
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Gas domiciliario" />
+            android:text="Violencia Psicológica/Verbal (Insultos, amenazas, maltrato verbal, ridiculización, intimidación, menosprecio, burlas, etc.)" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -107,33 +109,33 @@
             >
 
             <RadioButton
-                android:id="@+id/gasDomiciliarioSi"
+                android:id="@+id/violenciaPsicologicaSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/gasDomiciliarioNo"
+                android:id="@+id/violenciaPsicologicaNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
         </RadioGroup>
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Gas licuado" />
+            android:text="Violencia sexual (sexo por fuerza, venta para actos sexuales, acoso sexual, tocar tu cuerpo sin permiso)" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -142,96 +144,26 @@
             >
 
             <RadioButton
-                android:id="@+id/gasLicuadoSi"
+                android:id="@+id/violenciaSexualSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/gasLicuadoNo"
+                android:id="@+id/violenciaSexualNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
         </RadioGroup>
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Carbón" />
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
-
-            <RadioButton
-                android:id="@+id/carbonSi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:text="Si" />
-
-            <RadioButton
-                android:id="@+id/carbonNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No" />
-        </RadioGroup>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Leña" />
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
-
-            <RadioButton
-                android:id="@+id/lenaSi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:text="Si" />
-
-            <RadioButton
-                android:id="@+id/lenaNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No" />
-        </RadioGroup>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
@@ -241,7 +173,7 @@
             android:text="Otro (Especificar)" />
 
         <EditText
-            android:id="@+id/txtotronomCombustible"
+            android:id="@+id/txtotroTipoViolencia"
             android:layout_weight="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -254,14 +186,49 @@
             >
 
             <RadioButton
-                android:id="@+id/otroCombustibleSi"
+                android:id="@+id/otroTipoViolenciaSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/otroCombustibleNo"
+                android:id="@+id/otroTipoViolenciaNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="No sabe/ No responde" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/noSabeTipoViolenciaSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/noSabeTipoViolenciaNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
@@ -278,7 +245,7 @@
         android:layout_marginBottom="15dp">
         >
         <Button
-            android:id="@+id/btnAtras14"
+            android:id="@+id/btnAtras32"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -289,7 +256,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente14"
+            android:id="@+id/btnSiguiente32"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"

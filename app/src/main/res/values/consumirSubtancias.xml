@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="consumirSubtancia">
+        <item>Una sola vez</item>
+        <item>Alguna vez durante los ultimos 12 meses</item>
+        <item>Algunas veces mensualmente</item>
+        <item>Algunas veces semanalmente</item>
+        <item>Diariamente</item>
+        <item>No contesta</item>
+    </string-array>
+
+
+</resources>

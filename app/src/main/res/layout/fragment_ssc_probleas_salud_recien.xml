@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ssc_probleas_salud_recien">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="IV. SALUD Y SUBSTANCIAS CONTROLADAS"
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="4.04 ¿Qué problemas de salud has tenido durante los" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="ultimos 6 meses?" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal"
+        android:background="@color/colorRojo">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textColor="@color/colorLetra"
+            android:text="Problemas de salud"/>
+
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorLetra"
+            android:layout_weight="1"
+            android:text="Si"/>
+
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorLetra"
+            android:layout_weight="1"
+            android:text="No"/>
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorLetra"
+            android:layout_weight="1"
+            android:text="Frecuencia"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Dolor de cabeza"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+            >
+
+            <RadioButton
+                android:id="@+id/dolorCabezaSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/dolorCabezaNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="No" />
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/frecuenciaDolorCabeza"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Digestivas"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+            >
+
+            <RadioButton
+                android:id="@+id/digestivasSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/digestivasNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="No" />
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/frecuenciaDigestivas"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Respiratorias"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+            >
+
+            <RadioButton
+                android:id="@+id/respiratoriaSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/respiratoriaNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="No" />
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/frecuenciaRespiratoria"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Molestias Genitales"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+            >
+
+            <RadioButton
+                android:id="@+id/molestiasGenitalesSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/molestiasGenitalesNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="No" />
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/frecuenciaMolestiasGenitales"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Cortes, heridas, quemaduras, golpes"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+            >
+
+            <RadioButton
+                android:id="@+id/cortesSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/cortesNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="No" />
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/frecuenciaCortes"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Problemas de piel(hosgos, rasca-rasca)"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+            >
+
+            <RadioButton
+                android:id="@+id/problemasPielSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/problemasPielNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="No" />
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/frecuenciaproblemasPiel"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Fracturas, fisuras, etc"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+            >
+
+            <RadioButton
+                android:id="@+id/fracturaSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/fracturaNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="No" />
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/frecuenciaFractura"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Desmayos"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+            >
+
+            <RadioButton
+                android:id="@+id/desmayoSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/desmayoNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="No" />
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/frecuenciaDesmayo"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="ITS(Infecciones de Transmisión Sexual)"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+            >
+
+            <RadioButton
+                android:id="@+id/itsSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/itsNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="No" />
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/frecuenciaIts"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="otro(Especificar)"/>
+
+        <EditText
+            android:id="@+id/txtOtroProblemasSaludRecien"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+            >
+
+            <RadioButton
+                android:id="@+id/otroProblemaSaludRecienSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/otroProblemaSaludRecienNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="No" />
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/frecuenciaotroProblemaSaludRecien"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="15dp">
+        >
+        <Button
+            android:id="@+id/btnAtras17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="ATRAS"
+            android:textColor="@color/colorLetra" />
+
+        <Button
+            android:id="@+id/btnSiguiente17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/botonSig"
+            android:layout_weight="1"
+            android:text="SIGUIENTE"
+            android:textColor="@color/colorLetra" />
+    </LinearLayout>
+</LinearLayout>

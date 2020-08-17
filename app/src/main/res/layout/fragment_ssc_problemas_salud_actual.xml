@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".db_combustible">
+    tools:context=".ssc_problemas_salud_actual">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="III. SERVICIOS BÁSICOS"
+        android:text="IV. SALUD Y SUBSTANCIAS CONTROLADAS"
         android:textColor="@color/colorLetra"
         android:background="@color/colorRojo"/>
 
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="3.08 ¿Qué combustibles utilizas para cocinar tus alimentos?" />
+        android:text="4.03 Cuando tienes problemas de salud ¿dónde vas?" />
 
 
     <LinearLayout
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Energia eléctrica" />
+            android:text="Centro de salud pública" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -72,14 +72,14 @@
             >
 
             <RadioButton
-                android:id="@+id/combusEnergiaSi"
+                android:id="@+id/centroPublicaSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/combusEnergiaNo"
+                android:id="@+id/centroPublicaNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Gas domiciliario" />
+            android:text="Centro de salud privado" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -107,14 +107,14 @@
             >
 
             <RadioButton
-                android:id="@+id/gasDomiciliarioSi"
+                android:id="@+id/centroPirvadoSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/gasDomiciliarioNo"
+                android:id="@+id/centroPrivadoNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
@@ -133,7 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Gas licuado" />
+            android:text="Farmacia" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -142,14 +142,48 @@
             >
 
             <RadioButton
-                android:id="@+id/gasLicuadoSi"
+                android:id="@+id/farmaciaSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/gasLicuadoNo"
+                android:id="@+id/farmaciaNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Institución (ONG´s, fundaciones)" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/institucionSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/institucionNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
@@ -168,7 +202,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Carbón" />
+            android:text="Naturista, Kallahuaya, yatiri, curandero" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -177,20 +211,19 @@
             >
 
             <RadioButton
-                android:id="@+id/carbonSi"
+                android:id="@+id/naturistaSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/carbonNo"
+                android:id="@+id/naturistaNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
         </RadioGroup>
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -203,7 +236,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Leña" />
+            android:text="Me curo solo/no hago nada" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -212,14 +245,14 @@
             >
 
             <RadioButton
-                android:id="@+id/lenaSi"
+                android:id="@+id/curoSoloSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/lenaNo"
+                android:id="@+id/curoSoloNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
@@ -241,7 +274,7 @@
             android:text="Otro (Especificar)" />
 
         <EditText
-            android:id="@+id/txtotronomCombustible"
+            android:id="@+id/txtotroProblemasSaludActual"
             android:layout_weight="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -254,14 +287,14 @@
             >
 
             <RadioButton
-                android:id="@+id/otroCombustibleSi"
+                android:id="@+id/otroProblemaSaludActualSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/otroCombustibleNo"
+                android:id="@+id/otroProblemaSaludActualNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
@@ -278,7 +311,7 @@
         android:layout_marginBottom="15dp">
         >
         <Button
-            android:id="@+id/btnAtras14"
+            android:id="@+id/btnAtras16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -289,7 +322,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente14"
+            android:id="@+id/btnSiguiente16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"

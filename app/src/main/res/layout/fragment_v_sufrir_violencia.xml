@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".v_sufrir_violencia">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="VII. VIOLENCIA"
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="7.02 ¿Por parte de quien has sufrido violencia?" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:background="#FF0000"
+        android:layout_marginHorizontal="10dp"
+
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="15"
+            android:text="" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Muy a menudo"
+            android:textColor="#FBF7F7"
+            android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Alguna vez"
+            android:textColor="#FBF7F7"
+            android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Una vez"
+            android:textColor="#FBF7F7"
+            android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Nunca"
+            android:textColor="#FBF7F7"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Padre" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+
+            >
+
+            <RadioButton
+                android:id="@+id/mmPadre"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+
+                 />
+
+            <RadioButton
+                android:id="@+id/avPadre"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+
+                 />
+
+            <RadioButton
+                android:id="@+id/uvPadre"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/ncPadre"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+
+                />
+        </RadioGroup>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Madre" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+
+            >
+
+            <RadioButton
+                android:id="@+id/mmMadre"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/avMadre"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/uvMadre"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/ncMadre"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+
+                />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Hermanos" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+
+            >
+
+            <RadioButton
+                android:id="@+id/mmHermano"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/avHermano"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/uvHermano"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/ncHermano"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+
+                />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Parientes" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+
+            >
+
+            <RadioButton
+                android:id="@+id/mmPariente"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/avPariente"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/uvPariente"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/ncPariente"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+
+                />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Amigos" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+
+            >
+
+            <RadioButton
+                android:id="@+id/mmAmigo"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/avAmigo"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/uvAmigo"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/ncAmigo"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+
+                />
+        </RadioGroup>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Pareja" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+
+            >
+
+            <RadioButton
+                android:id="@+id/mmPareja"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/avPareja"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/uvPareja"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/ncPareja"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+
+                />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Educadores" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+
+            >
+
+            <RadioButton
+                android:id="@+id/mmEducador"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/avEducador"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/uvEducador"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/ncEducador"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+
+                />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Profesores" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+
+            >
+
+            <RadioButton
+                android:id="@+id/mmProfesor"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/avProfesor"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/uvProfesor"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/ncProfesor"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+
+                />
+        </RadioGroup>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Otro (Especificar)" />
+
+        <EditText
+            android:id="@+id/txtotroSufrirViolencia"
+            android:layout_weight="1"
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+
+            >
+
+            <RadioButton
+                android:id="@+id/mmOtroSufrirViolencia"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/avOtroSufrirViolencia"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/uvOtroSufrirViolencia"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RadioButton
+                android:id="@+id/ncOtroSufrirViolencia"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+
+                />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="15dp">
+        >
+        <Button
+            android:id="@+id/btnAtras33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="ATRAS"
+            android:textColor="@color/colorLetra" />
+
+        <Button
+            android:id="@+id/btnSiguiente33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/botonSig"
+            android:layout_weight="1"
+            android:text="SIGUIENTE"
+            android:textColor="@color/colorLetra" />
+    </LinearLayout>
+</LinearLayout>

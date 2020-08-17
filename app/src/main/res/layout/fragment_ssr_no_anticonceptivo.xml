@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".db_combustible">
+    tools:context=".ssr_no_anticonceptivo">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="III. SERVICIOS BÁSICOS"
+        android:text="V. SALUD SEXUAL Y REPORDUCTIVA"
         android:textColor="@color/colorLetra"
         android:background="@color/colorRojo"/>
 
@@ -19,15 +19,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="3.08 ¿Qué combustibles utilizas para cocinar tus alimentos?" />
+        android:text="5.08 ¿Por qué no están usando anticonceptivos para evitar un embarazo?" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="50dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Respuesta"
+            />
 
 
+        <EditText
+            android:id="@+id/txtrespuestaNoAnticonceptivo"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:inputType="text|textMultiLine"
+            android:gravity="top"/>
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:orientation="horizontal"
         android:background="#FF0000"
+        android:layout_marginHorizontal="10dp"
 
         >
         <TextView
@@ -52,18 +76,20 @@
 
     </LinearLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Energia eléctrica" />
+            android:text="Costo económico" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -72,14 +98,49 @@
             >
 
             <RadioButton
-                android:id="@+id/combusEnergiaSi"
+                android:id="@+id/costoEconomicoSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/combusEnergiaNo"
+                android:id="@+id/costoEconomicoNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Deseamos tener un hijo/a" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/desearHijoSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/deserHijoNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
@@ -92,13 +153,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Gas domiciliario" />
+            android:text="Los anticonceptivos causan daño a la mujer" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -107,14 +169,14 @@
             >
 
             <RadioButton
-                android:id="@+id/gasDomiciliarioSi"
+                android:id="@+id/causaDañoMujerSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/gasDomiciliarioNo"
+                android:id="@+id/causanDañoMujerNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
@@ -127,13 +189,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Gas licuado" />
+            android:text="Cuando uno usa condón no es lo mismo" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -142,14 +205,49 @@
             >
 
             <RadioButton
-                android:id="@+id/gasLicuadoSi"
+                android:id="@+id/condonNoMismoSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/gasLicuadoNo"
+                android:id="@+id/condonNoMismoNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Noce como se usan" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/noceUsanSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/noceUsanNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
@@ -162,76 +260,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Carbón" />
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
-
-            <RadioButton
-                android:id="@+id/carbonSi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:text="Si" />
-
-            <RadioButton
-                android:id="@+id/carbonNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No" />
-        </RadioGroup>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Leña" />
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
-
-            <RadioButton
-                android:id="@+id/lenaSi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:text="Si" />
-
-            <RadioButton
-                android:id="@+id/lenaNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No" />
-        </RadioGroup>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
@@ -241,7 +270,7 @@
             android:text="Otro (Especificar)" />
 
         <EditText
-            android:id="@+id/txtotronomCombustible"
+            android:id="@+id/txtotroNoAnticonceptivo"
             android:layout_weight="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -254,20 +283,19 @@
             >
 
             <RadioButton
-                android:id="@+id/otroCombustibleSi"
+                android:id="@+id/otroNoAnticonceptivoSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/otroCombustibleNo"
+                android:id="@+id/otroNoAnticonceptivoNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
         </RadioGroup>
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -278,7 +306,7 @@
         android:layout_marginBottom="15dp">
         >
         <Button
-            android:id="@+id/btnAtras14"
+            android:id="@+id/btnAtras23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -289,7 +317,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente14"
+            android:id="@+id/btnSiguiente23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"

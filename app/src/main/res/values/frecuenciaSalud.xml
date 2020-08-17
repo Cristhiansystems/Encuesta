@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="frecuenciaSalud">
+        <item>A diario</item>
+        <item>Una vez a la semana</item>
+        <item>2 veces al mes</item>
+        <item>Rara vez</item>
+    </string-array>
+
+
+</resources>

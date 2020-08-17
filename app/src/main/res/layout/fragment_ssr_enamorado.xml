@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ssr_enamorado">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="V. SALUD SEXUAL Y REPORDUCTIVA"
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="5.03 ¿Tienes o tuviste enamorado/a (cortejo/a), o pareja?" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:orientation="vertical"
+        >
+
+        <RadioButton
+            android:id="@+id/tuvisteEnamoradoSi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Si" />
+
+        <RadioButton
+            android:id="@+id/tuvisteEnamoradoNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No" />
+    </RadioGroup>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="5.04 En los últimos seis meses ¿has tenido relaciones sexuales coitales?" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:orientation="vertical"
+        >
+
+        <RadioButton
+            android:id="@+id/relacionesrecienSi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Si" />
+
+        <RadioButton
+            android:id="@+id/relacionesrecienNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="5.05 ¿Qué edad tenías, cuando tuviste tu primera relación sexual (coital)?" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Años (ANOTE 00 SI NO TUVO)"
+                />
+
+
+            <EditText
+                android:id="@+id/txtedadPrimeraRelacion"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:inputType="number" />
+
+        </LinearLayout>
+        <RadioButton
+            android:id="@+id/edadrelacionSexualNoTuvo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="No Tuvo" />
+
+        <RadioButton
+            android:id="@+id/edadrelacionSexualNoSabe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No sabe/ No responde/ No recuerda" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="15dp">
+        >
+        <Button
+            android:id="@+id/btnAtras20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="ATRAS"
+            android:textColor="@color/colorLetra" />
+
+        <Button
+            android:id="@+id/btnSiguiente20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/botonSig"
+            android:layout_weight="1"
+            android:text="SIGUIENTE"
+            android:textColor="@color/colorLetra" />
+    </LinearLayout>
+</LinearLayout>
