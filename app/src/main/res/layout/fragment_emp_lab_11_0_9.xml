@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".emp_lab_11_0_9">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="XI EMPRENDEDURISMO LABORAL"
+        android:textColor="@color/colorLetra"
+        android:background="@color/botonSig"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:text="11.09 ¿Te gustaría capacitarte y/o tecnificarte en algún rubro o especializarte en el que hiciste anteriormente?"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/SiMeGustariaCapacitarte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="1"
+                android:text="SI" />
+
+            <RadioButton
+                android:id="@+id/NoMeGustariaCapacitarte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="NO" />
+        </RadioGroup>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="11.10 ¿Menciona en que rubro te gustaria capacitarte y/o tecnificarte? "/>
+    <EditText
+        android:id="@+id/txtResp.11.10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="3"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="11.11 Por qué no te gustaria capacitarte y/o tecnificarte?"/>
+    <EditText
+        android:id="@+id/txtResp.11.11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="3"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="11.12 Sólo para las personas que respondieron SI en la
+        pregunta 11.01 ¿A qué edad empezaste a trabajar?"/>
+    <EditText
+        android:id="@+id/txtResp.11.12"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="80dp"
+        android:lines="1"
+        android:hint="R."/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:text="11.13 ¿Porqué empezaste  a trabajar a esta edad?"/>
+    <EditText
+        android:id="@+id/txtResp.11.13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="2"
+        android:hint="R."/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="15dp">
+        >
+
+
+
+
+        <Button
+            android:id="@+id/btnAtras3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="ATRAS"
+            android:textColor="@color/colorLetra" />
+
+        <Button
+            android:id="@+id/btnSiguiente3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+
+            android:background="@color/botonSig"
+            android:layout_weight="1"
+            android:text="SIGUIENTE"
+            android:textColor="@color/colorLetra" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

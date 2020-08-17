@@ -4,42 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".emp_pers_8_0_1">
+    tools:context=".emp_lab_11_0_18">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="XII EMPODERAMIENTO PERSONAL"
-        android:textColor="@color/colorLetra"
-        android:background="@color/botonSig"/>
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="8.01 Ahora me gustaria conversar contigo acerca de cómo eres, tu carácter" />
+        android:text="XI EMPRENDEDURISMO LABORAL"
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="¿Que piensas de ti y como te sientes contigo misma(o)?" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Registre una sola respuesta" />
-    <EditText
-        android:id="@+id/txtRegUnaSolResp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:text="11.18 ¿Cómo encontraste el trabajo?" />
 
-        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:background="@color/botonSig"
+        android:background="@color/colorRojo"
 
         >
         <TextView
@@ -76,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Me acepto como soy" />
+            android:text="A través de mis familiares" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -85,14 +71,14 @@
             >
 
             <RadioButton
-                android:id="@+id/SiMeAcepComoSoy"
+                android:id="@+id/SiAtravesDeMisFamiliares"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/NoMeAcepComoSoy"
+                android:id="@+id/NoAtravesDeMisFamiliares"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -109,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Quisiera ser otra persona" />
+            android:text="A través de amistades " />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -118,14 +104,14 @@
             >
 
             <RadioButton
-                android:id="@+id/SiQuisSerOtraPers"
+                android:id="@+id/SiAtravesDeAmistades"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/NoQuisSerOtraPers"
+                android:id="@+id/NoAtravesDeAmistades"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -141,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Dependo mucho de lo que los demás me dicen" />
+            android:text="A través de avisos de prensa" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -150,14 +136,14 @@
             >
 
             <RadioButton
-                android:id="@+id/SiDepeMuchDLQLosDemDic"
+                android:id="@+id/SiAtravesDeAvisosPrensa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/NoDepeMuchDLQLosDemDic"
+                android:id="@+id/NoAtravesDeAvisosPrensa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -173,7 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Me acepto como persona valiosa y única" />
+            android:text="A través de avisos de agencias de empleo" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -182,51 +168,20 @@
             >
 
             <RadioButton
-                android:id="@+id/SiMeAcepComoPersValiYUnic"
+                android:id="@+id/SiAtravesDeAvisosAgenciasEmpleo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/NoMeAcepComoPersValiYUnic"
+                android:id="@+id/NoAtravesDeAvisosAgenciasEmpleo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
         </RadioGroup>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Acepto que todas las personas tienen cualidades y limitaciones" />
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
-
-            <RadioButton
-                android:id="@+id/SiAcepQTodPersTieCualYLimi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:text="SI" />
-
-            <RadioButton
-                android:id="@+id/NoAcepQTodPersTieCualYLimi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="NO" />
-        </RadioGroup>
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -238,8 +193,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Busco apoyo en otras personas sin depender de ellas" />
-
+            android:text="A través de la intervención de este  programa" />
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -247,18 +201,20 @@
             >
 
             <RadioButton
-                android:id="@+id/SiBuscApoy"
+                android:id="@+id/SiAtravesDeLaIntervencionPrograma"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/NoBuscApoy"
+                android:id="@+id/NoAtravesDeLaIntervencionPrograma"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
         </RadioGroup>
+
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -270,104 +226,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Actuó con autonomía" />
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
-
-            <RadioButton
-                android:id="@+id/SiActConAut"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:text="SI" />
-
-            <RadioButton
-                android:id="@+id/NoActConAut"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="NO" />
-        </RadioGroup>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Acepto lo que soy y siento" />
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
-
-            <RadioButton
-                android:id="@+id/SiAcepLoQSoyYSie"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:text="SI" />
-
-            <RadioButton
-                android:id="@+id/NoAcepLoQSoyYSie"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="NO" />
-        </RadioGroup>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Soy Responsable de los actos, sentimientos, deseos y necesidades" />
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
-
-            <RadioButton
-                android:id="@+id/SiSoyRespActSentDesNec"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:text="SI" />
-
-            <RadioButton
-                android:id="@+id/NoSoyRespActSentDesNec"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="NO" />
-        </RadioGroup>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Otro" />
+            android:text="Otro (especificar)" />
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -396,16 +255,60 @@
         android:layout_height="wrap_content"
 
         />
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:text="11.19 ¿Para trabajar en donde estás, realizaste algún curso, taller y/o te capacitaron?"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/SiRealiceUnCursoTaller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="1"
+                android:text="SI" />
+
+            <RadioButton
+                android:id="@+id/NoRealiceUnCursoTaller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="NO" />
+        </RadioGroup>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:text="11.20 Menciona la razon por la que no realizaste algun curso qué?"/>
+    <EditText
+        android:id="@+id/txtResp.11.15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="2"
+        android:hint="R."/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
         android:layout_marginBottom="15dp">
         >
-
         <Button
             android:id="@+id/btnAtras3"
             android:layout_width="wrap_content"
@@ -430,7 +333,5 @@
 
 
     </LinearLayout>
-
-
 
 </LinearLayout>

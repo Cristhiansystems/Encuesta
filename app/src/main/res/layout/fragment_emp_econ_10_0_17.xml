@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".emp_econ_10_0_17">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="10.17 ¿Puedes proporcionarnos los datos de tus ventas en bolivianos en los últimos tres meses?" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:background="@color/colorRojo"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4.5"
+            android:layout_margin="15dp"
+            android:textAlignment="center"
+            android:textColor="@color/colorLetra"
+            android:text="Mes"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/colorLetra"
+            android:layout_weight="5"
+            android:textAlignment="center"
+            android:layout_margin="15dp"
+            android:text="Monto (Bs.)"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/colorLetra"
+            android:layout_weight="6"
+            android:textAlignment="center"
+            android:layout_margin="5dp"
+            android:text="Ingreso al día"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorLetra"
+            android:textAlignment="center"
+            android:layout_weight="6"
+            android:text="Días de trabajo a la semana"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <EditText
+            android:id="@+id/Mes1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4.5"
+            android:hint="Mes 1"
+            />
+        <EditText
+            android:id="@+id/Mes1Monto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            />
+        <EditText
+            android:id="@+id/Mes1IngresoDia"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6"/>
+        <EditText
+            android:id="@+id/Mes1DiasTrabajo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <EditText
+            android:id="@+id/Mes2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4.5"
+            android:hint="Mes 2"/>
+        <EditText
+            android:id="@+id/Mes2Monto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"/>
+        <EditText
+            android:id="@+id/Mes2IngresoDia"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6"/>
+        <EditText
+            android:id="@+id/Mes2DiasTrabajo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <EditText
+            android:id="@+id/Mes3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4.5"
+            android:hint="Mes 3"/>
+        <EditText
+            android:id="@+id/Mes3Monto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"/>
+        <EditText
+            android:id="@+id/Mes3IngresoDia"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6"/>
+        <EditText
+            android:id="@+id/Mes3DiasTrabajo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="10.18 ¿Analizas previamente  en qué vas a gastar  tus ingresos?" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_weight="1"
+            android:text="Siempre"/>
+        <CheckBox
+            android:id="@+id/ChkSiempre"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="60dp"
+            android:layout_weight="1.5"
+            android:text="1"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Alguna vez"/>
+        <CheckBox
+            android:id="@+id/chkAlgunaVez"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="60dp"
+            android:layout_weight="1.5"
+            android:text="2"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Ocasionalmente" />
+
+        <CheckBox
+            android:id="@+id/chkOcasionalmente"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:layout_marginLeft="60dp"
+            android:text="3" />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Nunca"/>
+        <CheckBox
+            android:id="@+id/chkNunca"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="60dp"
+            android:layout_weight="1.5"
+            android:text="4"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="15dp">
+        >
+
+
+        <Button
+            android:id="@+id/btnAtras3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="ATRAS"
+            android:textColor="@color/colorLetra" />
+
+        <Button
+            android:id="@+id/btnSiguiente3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+
+            android:background="@color/botonSig"
+            android:layout_weight="1"
+            android:text="SIGUIENTE"
+            android:textColor="@color/colorLetra" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

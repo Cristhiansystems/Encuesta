@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".obs_encuestador">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OBSERVACIONES DEL/LA ENCUESTADOR/A  (olor a consumo, higiene, auto lesiones, etc. )"
+        android:textColor="@color/colorLetra"
+        android:background="@color/botonSig"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="30"
+        android:hint="Observaciones......"/>
+
+</LinearLayout>
