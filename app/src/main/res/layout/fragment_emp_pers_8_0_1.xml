@@ -390,6 +390,7 @@
 
 
     </LinearLayout>
+
     <EditText
         android:id="@+id/txtOtro"
         android:layout_width="match_parent"
