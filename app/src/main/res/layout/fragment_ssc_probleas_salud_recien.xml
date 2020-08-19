@@ -14,6 +14,15 @@
         android:textColor="@color/colorLetra"
         android:background="@color/colorRojo"/>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -26,6 +35,30 @@
 
         android:text="ultimos 6 meses?" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="50dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Respuesta"
+            />
+
+
+        <EditText
+            android:id="@+id/txtrespuestaProblemasSaludRecien"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:inputType="text|textMultiLine"
+            android:gravity="top"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -471,7 +504,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginHorizontal="10dp"
         android:orientation="horizontal">
 
@@ -548,4 +580,6 @@
             android:text="SIGUIENTE"
             android:textColor="@color/colorLetra" />
     </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

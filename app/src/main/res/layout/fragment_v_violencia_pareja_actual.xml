@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".v_violencia_pareja_actual">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="VII. VIOLENCIA"
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="7.04 Por favor dime si en los últimos 12 meses, se presentaron las siguientes situaciones en relación con tu PAREJA/ENAMORADO/A" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="(MM) muy a menudo"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="(AV) algunas veces"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="(N) una vez o nunca"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="(NC) no contesta/no sabe"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+                android:background="#FF0000"
+                android:layout_marginHorizontal="10dp"
+
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="15"
+                    android:text="" />
+
+                <TextView
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="MM"
+                    android:textColor="#FBF7F7"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="AV"
+                    android:textColor="#FBF7F7"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="N"
+                    android:textColor="#FBF7F7"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="NC"
+                    android:textColor="#FBF7F7"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="10dp"
+                >
+
+                <TextView
+                    android:layout_width="190dp"
+                    android:layout_height="match_parent"
+                    android:text="¿Te ha empujado o jaloneado?" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+
+                    >
+
+                    <RadioButton
+                        android:id="@+id/mmEmpujado"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/avEmpujado"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/nEmpujado"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/ncEmpujado"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="10dp"
+                >
+
+                <TextView
+                    android:layout_width="190dp"
+                    android:layout_height="match_parent"
+                    android:text="¿Te ha golpeado con la mano o con el pie?" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+
+                    >
+
+                    <RadioButton
+                        android:id="@+id/mmGolpeado"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/avGolpeado"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/nGolpeado"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/ncGolpeado"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="10dp"
+                >
+
+                <TextView
+                    android:layout_width="190dp"
+                    android:layout_height="match_parent"
+                    android:text="¿Te ha golpeado con un objeto?" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+
+                    >
+
+                    <RadioButton
+                        android:id="@+id/mmGolpeadoObjeto"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/avGolpeadoObjeto"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/nGolpeadoObjeto"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/ncGolpeadoObjeto"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="10dp"
+                >
+
+                <TextView
+                    android:layout_width="190dp"
+                    android:layout_height="match_parent"
+                    android:text="¿Tu pareja te ha golpeado fuertemente quedando marcas en el cuerpo?" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+
+                    >
+
+                    <RadioButton
+                        android:id="@+id/mmGolpeadoMarcas"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/avGolpeadoMarcas"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/nGolpeadoMarcas"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/ncGolpeadoMarcas"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="10dp"
+                >
+
+                <TextView
+                    android:layout_width="190dp"
+                    android:layout_height="match_parent"
+                    android:text="¿Te ha forzado a tener relaciones sexuales que no querías?" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+
+                    >
+
+                    <RadioButton
+                        android:id="@+id/mmForzarRelaciones"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/avForzarRelaciones"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/nForzarRelaciones"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/ncForzarRelaciones"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Otro (Especificar)" />
+
+                <EditText
+                    android:id="@+id/txtotroViolenciaParejaActual"
+                    android:layout_weight="1"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+
+                    >
+
+                    <RadioButton
+                        android:id="@+id/mmViolenciaParejaActua"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/avViolenciaParejaActua"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/nViolenciaParejaActua"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/ncViolenciaParejaActua"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+
+                        />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+
+                android:layout_marginBottom="15dp">
+                >
+                <Button
+                    android:id="@+id/btnAtras35"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:text="ATRAS"
+                    android:textColor="@color/colorLetra" />
+
+                <Button
+                    android:id="@+id/btnSiguiente35"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/botonSig"
+                    android:layout_weight="1"
+                    android:text="SIGUIENTE"
+                    android:textColor="@color/colorLetra" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

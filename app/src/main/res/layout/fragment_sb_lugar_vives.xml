@@ -13,7 +13,15 @@
         android:text="III. SERVICIOS BÁSICOS"
         android:textColor="@color/colorLetra"
         android:background="@color/colorRojo"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -124,4 +132,6 @@
         android:text="SIGUIENTE"
         android:textColor="@color/colorLetra" />
     </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".v_buscar_ayuda">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="VII. VIOLENCIA"
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="7.05 Buscaste ayuda por esta situación" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:orientation="vertical"
+            >
+
+            <RadioButton
+                android:id="@+id/buscasteAyudaSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Si"/>
+
+            <RadioButton
+                android:id="@+id/buscasteAyudaNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="7.06 ¿Donde buscate ayuda?" />
+
+
+
+        <EditText
+            android:id="@+id/txtrespuestaDondeAyuda"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:inputType="text|textMultiLine"
+            android:layout_marginHorizontal="50dp"
+            android:hint="¿Donde buscaste ayuda?"
+            android:gravity="top"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="7.07 ¿Por qué no buscaste ayuda?" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:background="#FF0000"
+            android:layout_marginHorizontal="10dp"
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="15"
+                android:text="" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="#FBF7F7"
+                android:text="SI" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="#FBF7F7"
+                android:text="NO" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="10dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Miedos, temores personales" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                >
+
+                <RadioButton
+                    android:id="@+id/miedoSi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Si" />
+
+                <RadioButton
+                    android:id="@+id/miedoNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+            </RadioGroup>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="10dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Creencias, tradiciones, principios" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                >
+
+                <RadioButton
+                    android:id="@+id/creenciasSi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Si" />
+
+                <RadioButton
+                    android:id="@+id/creenciasNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="10dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Represalias familiares" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                >
+
+                <RadioButton
+                    android:id="@+id/represaliasSi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Si" />
+
+                <RadioButton
+                    android:id="@+id/represaliasNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="10dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Otro (Especificar)" />
+
+
+            <EditText
+                android:id="@+id/txtotroNoBuscarAyuda"
+                android:layout_weight="1"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                >
+
+                <RadioButton
+                    android:id="@+id/otroNoBuscarAyudaSi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Si" />
+
+                <RadioButton
+                    android:id="@+id/otroNoBuscarAyudaNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+            </RadioGroup>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="10dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="No sabe/ no responde" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                >
+
+                <RadioButton
+                    android:id="@+id/noBuscarAyudaNoSabeSi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Si" />
+
+                <RadioButton
+                    android:id="@+id/noBuscarAyudaNoSabeNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+            </RadioGroup>
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="7.08 Menciona si conoces alguna organización, grupo o personas que protegen a los niños/as y adolecentes" />
+
+
+        <EditText
+            android:id="@+id/txtrespuestaConocerOrganizacion"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:inputType="text|textMultiLine"
+            android:layout_marginHorizontal="50dp"
+            android:hint="Menciona organización, grupo o personas que protegen a los niños y adolecentes"
+            android:gravity="top"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+
+            android:layout_marginBottom="15dp">
+            >
+            <Button
+                android:id="@+id/btnAtras35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"
+                android:text="ATRAS"
+                android:textColor="@color/colorLetra" />
+
+            <Button
+                android:id="@+id/btnSiguiente35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/botonSig"
+                android:layout_weight="1"
+                android:text="SIGUIENTE"
+                android:textColor="@color/colorLetra" />
+        </LinearLayout>
+
+    </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>
