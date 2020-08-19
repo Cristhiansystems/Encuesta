@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:title="Principal">
+    <menu>
+        <item
+            android:id="@+id/nueva_encuesta"
+            android:icon="@drawable/ic_create_new_folder"
+            android:title="Nueva Encuesta"
+            >
+
+        </item>
+        <item
+            android:id="@+id/lista_encuesta"
+            android:icon="@drawable/ic_format_list_bulleted"
+            android:title="lista de encuestas"
+            >
+
+        </item>
+    </menu>
+
+
+</item>
+
+</menu>
