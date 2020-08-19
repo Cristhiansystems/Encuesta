@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -26,7 +27,9 @@ public class sb_cuartos extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    Button btnSiguiente;
+    Button btnAtras;
+    View vista;
     private OnFragmentInteractionListener mListener;
 
     public sb_cuartos() {
@@ -64,7 +67,24 @@ public class sb_cuartos extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sb_cuartos, container, false);
+        vista=inflater.inflate(R.layout.fragment_sb_cuartos, container, false);
+        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente12);
+        btnAtras= (Button) vista.findViewById(R.id.btnAtras12);
+
+        btnSiguiente.setOnClickListener(v -> {
+
+            Fragment miFragment=null;
+            miFragment=new sb_servicio_sanitario();
+            getFragmentManager().beginTransaction().replace(R.id.container,miFragment).commit();
+        });
+
+        btnAtras.setOnClickListener(v -> {
+
+            Fragment miFragment=null;
+            miFragment=new sb_tipo_vivienda();
+            getFragmentManager().beginTransaction().replace(R.id.container,miFragment).commit();
+        });
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

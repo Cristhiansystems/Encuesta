@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -26,7 +27,9 @@ public class ssc_alimento extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    Button btnSiguiente;
+    Button btnAtras;
+    View vista;
     private OnFragmentInteractionListener mListener;
 
     public ssc_alimento() {
@@ -64,7 +67,24 @@ public class ssc_alimento extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ssc_alimento, container, false);
+        vista=inflater.inflate(R.layout.fragment_ssc_alimento, container, false);
+        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente16);
+        btnAtras= (Button) vista.findViewById(R.id.btnAtras16);
+
+        btnSiguiente.setOnClickListener(v -> {
+
+            Fragment miFragment=null;
+            miFragment=new ssc_problemas_salud_actual();
+            getFragmentManager().beginTransaction().replace(R.id.container,miFragment).commit();
+        });
+
+        btnAtras.setOnClickListener(v -> {
+
+            Fragment miFragment=null;
+            miFragment=new db_combustible();
+            getFragmentManager().beginTransaction().replace(R.id.container,miFragment).commit();
+        });
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -73,7 +73,6 @@
             android:id="@+id/txtnumCi"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-
             android:inputType="number" />
 
         <RadioGroup
@@ -221,7 +220,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="otro"/>
+            android:text="Otro" />
 
         <EditText
             android:id="@+id/txtotronom"
@@ -296,7 +295,7 @@
 
 
         <Button
-            android:id="@+id/btnAtras3"
+            android:id="@+id/btnAtras4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -307,7 +306,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente3"
+            android:id="@+id/btnSiguiente4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"

@@ -107,7 +107,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="150dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="Dolor de cabeza"/>
@@ -116,19 +116,19 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="2"
+
             >
 
             <RadioButton
                 android:id="@+id/dolorCabezaSi"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
                 android:id="@+id/dolorCabezaNo"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="No" />
@@ -153,7 +153,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="150dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="Digestivas"/>
@@ -162,19 +162,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="2"
             >
 
             <RadioButton
                 android:id="@+id/digestivasSi"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
                 android:id="@+id/digestivasNo"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="No" />
@@ -199,7 +198,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="150dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="Respiratorias"/>
@@ -208,19 +207,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="2"
             >
 
             <RadioButton
                 android:id="@+id/respiratoriaSi"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
                 android:id="@+id/respiratoriaNo"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="No" />
@@ -242,7 +240,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="150dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="Molestias Genitales"/>
@@ -251,19 +249,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="2"
             >
 
             <RadioButton
                 android:id="@+id/molestiasGenitalesSi"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
                 android:id="@+id/molestiasGenitalesNo"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="No" />
@@ -286,7 +283,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="150dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="Cortes, heridas, quemaduras, golpes"/>
@@ -295,19 +292,19 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="2"
+
             >
 
             <RadioButton
                 android:id="@+id/cortesSi"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
                 android:id="@+id/cortesNo"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="No" />
@@ -329,7 +326,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="150dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="Problemas de piel(hosgos, rasca-rasca)"/>
@@ -338,19 +335,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="2"
             >
 
             <RadioButton
                 android:id="@+id/problemasPielSi"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
                 android:id="@+id/problemasPielNo"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="No" />
@@ -375,7 +371,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="150dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="Fracturas, fisuras, etc"/>
@@ -384,19 +380,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="2"
             >
 
             <RadioButton
                 android:id="@+id/fracturaSi"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
                 android:id="@+id/fracturaNo"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="No" />
@@ -421,7 +416,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="150dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="Desmayos"/>
@@ -430,19 +425,19 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="2"
+
             >
 
             <RadioButton
                 android:id="@+id/desmayoSi"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
                 android:id="@+id/desmayoNo"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="No" />
@@ -465,7 +460,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="150dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="ITS(Infecciones de Transmisión Sexual)"/>
@@ -474,19 +469,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="2"
             >
 
             <RadioButton
                 android:id="@+id/itsSi"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
                 android:id="@+id/itsNo"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="No" />
@@ -511,31 +505,32 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="otro(Especificar)"/>
+            android:text="otro (Especificar)"/>
 
         <EditText
             android:id="@+id/txtOtroProblemasSaludRecien"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
             android:layout_weight="1"
+            android:layout_height="wrap_content"
+
             />
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="2"
+
             >
 
             <RadioButton
                 android:id="@+id/otroProblemaSaludRecienSi"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
                 android:id="@+id/otroProblemaSaludRecienNo"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
 
                 android:text="No" />

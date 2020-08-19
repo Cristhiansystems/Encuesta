@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 
 /**
@@ -26,6 +28,10 @@ public class Identificacion_geografica extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    Button btnSiguiente;
+    Button btnAtras;
+    View vista;
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,8 +69,17 @@ public class Identificacion_geografica extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_identificacion_geografica, container, false);
+        vista=inflater.inflate(R.layout.fragment_identificacion_geografica, container, false);
+        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente1);
+        btnAtras= (Button) vista.findViewById(R.id.btnAtras1);
+
+        btnSiguiente.setOnClickListener(v -> {
+
+            Fragment miFragment=null;
+            miFragment=new dp_nombre_completo();
+            getFragmentManager().beginTransaction().replace(R.id.container,miFragment).commit();
+        });
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

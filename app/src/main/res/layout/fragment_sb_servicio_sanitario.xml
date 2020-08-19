@@ -97,7 +97,7 @@
 
             <RadioButton
                 android:id="@+id/energiaElecOtro"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
 
                 android:text="Especificar si existe otro tipo" />

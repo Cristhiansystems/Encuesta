@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 
 /**
@@ -27,6 +29,9 @@ public class dp_nombre_completo extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    Button btnSiguiente;
+    Button btnAtras;
+    View vista;
     private OnFragmentInteractionListener mListener;
 
     public dp_nombre_completo() {
@@ -64,7 +69,24 @@ public class dp_nombre_completo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dp_nombre_completo, container, false);
+        vista=inflater.inflate(R.layout.fragment_dp_nombre_completo, container, false);
+        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente2);
+        btnAtras= (Button) vista.findViewById(R.id.btnAtras2);
+
+        btnSiguiente.setOnClickListener(v -> {
+
+            Fragment miFragment=null;
+            miFragment=new dp_genero();
+            getFragmentManager().beginTransaction().replace(R.id.container,miFragment).commit();
+        });
+
+        btnAtras.setOnClickListener(v -> {
+
+            Fragment miFragment=null;
+            miFragment=new Identificacion_geografica();
+            getFragmentManager().beginTransaction().replace(R.id.container,miFragment).commit();
+        });
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
