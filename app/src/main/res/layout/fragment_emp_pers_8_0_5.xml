@@ -32,10 +32,11 @@
         android:text="Registre una sola respuesta"
         android:textColor="@color/colorRojo"/>
     <EditText
-        android:id="@+id/txtRegUnaSolResp"
+        android:id="@+id/txtRegUnaSolResp8.05"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="4"
+        android:hint="Resp..."
         />
 
     <LinearLayout
@@ -236,11 +237,11 @@
 
     </LinearLayout>
     <EditText
-        android:id="@+id/txtOtro"
+        android:id="@+id/txtOtro8.05"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="3"
-
+        android:hint="Resp..."
         />
 
     <LinearLayout

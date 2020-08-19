@@ -32,10 +32,11 @@
         android:text="Registre una sola respuesta"
         android:textColor="@color/colorRojo"/>
     <EditText
-        android:id="@+id/txtRegUnaSolResp"
+        android:id="@+id/txtRegUnaSolResp8.02"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="4"
+        android:hint="Resp..."
         />
 
     <LinearLayout
@@ -275,7 +276,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Otro" />
+            android:text="Otro (Especificar)" />
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -299,10 +300,11 @@
 
     </LinearLayout>
     <EditText
-        android:id="@+id/txtOtro"
+        android:id="@+id/txtOtro8.02"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="4"
+        android:hint="Resp...."
 
         />
 

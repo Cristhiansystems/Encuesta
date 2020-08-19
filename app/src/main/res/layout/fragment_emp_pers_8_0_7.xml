@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="8.8 Menciona el nivel/curso actual" />
+        android:text="8.08 Menciona el nivel/curso actual" />
 
 
     <LinearLayout
@@ -268,8 +268,10 @@
     </LinearLayout>
 
     <EditText
+        android:id="@+id/txtOtro8.08"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Resp..."
         />
 
     <CheckBox
