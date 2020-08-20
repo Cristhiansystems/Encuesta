@@ -255,7 +255,6 @@
                 android:id="@+id/molestiasGenitalesSi"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-
                 android:text="Si" />
 
             <RadioButton
@@ -267,10 +266,10 @@
         </RadioGroup>
 
         <Spinner
-            android:id="@+id/frecuenciaMolestiasGenitales"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+        android:id="@+id/frecuenciaMolestiasGenitales"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
 
     </LinearLayout>
 
