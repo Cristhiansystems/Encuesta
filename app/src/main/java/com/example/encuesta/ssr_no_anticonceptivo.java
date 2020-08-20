@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -26,7 +28,10 @@ public class ssr_no_anticonceptivo extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    FragmentTransaction transaction;
+    Button btnSiguiente;
+    Button btnAtras;
+    View vista;
     private OnFragmentInteractionListener mListener;
 
     public ssr_no_anticonceptivo() {
@@ -64,7 +69,30 @@ public class ssr_no_anticonceptivo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ssr_no_anticonceptivo, container, false);
+        vista=inflater.inflate(R.layout.fragment_ssr_no_anticonceptivo, container, false);
+        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente23);
+        btnAtras= (Button) vista.findViewById(R.id.btnAtras23);
+
+        btnSiguiente.setOnClickListener(v -> {
+
+            Fragment miFragment=null;
+            miFragment=new ssr_desicion_uso_anticonceptivos();
+            transaction=getFragmentManager().beginTransaction();
+            transaction.replace(R.id.container,miFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
+
+        btnAtras.setOnClickListener(v -> {
+
+            Fragment miFragment=null;
+            miFragment=new ssr_usar_anticonceptivo_actualmente();
+            transaction=getFragmentManager().beginTransaction();
+            transaction.replace(R.id.container,miFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

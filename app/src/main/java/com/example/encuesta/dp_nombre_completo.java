@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ public class dp_nombre_completo extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    FragmentTransaction transaction;
     Button btnSiguiente;
     Button btnAtras;
     View vista;
@@ -77,14 +78,20 @@ public class dp_nombre_completo extends Fragment {
 
             Fragment miFragment=null;
             miFragment=new dp_genero();
-            getFragmentManager().beginTransaction().replace(R.id.container,miFragment).commit();
+            transaction=getFragmentManager().beginTransaction();
+            transaction.replace(R.id.container,miFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         });
 
         btnAtras.setOnClickListener(v -> {
 
             Fragment miFragment=null;
             miFragment=new Identificacion_geografica();
-            getFragmentManager().beginTransaction().replace(R.id.container,miFragment).commit();
+            transaction=getFragmentManager().beginTransaction();
+            transaction.replace(R.id.container,miFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         });
         return vista;
     }
