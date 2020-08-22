@@ -70,8 +70,8 @@ public class v_tipo_violencia extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         vista=inflater.inflate(R.layout.fragment_v_tipo_violencia, container, false);
-        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente320);
-        btnAtras= (Button) vista.findViewById(R.id.btnAtras320);
+        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente32);
+        btnAtras= (Button) vista.findViewById(R.id.btnAtras32);
 
         btnSiguiente.setOnClickListener(v -> {
 

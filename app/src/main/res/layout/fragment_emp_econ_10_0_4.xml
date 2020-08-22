@@ -13,6 +13,14 @@
         android:text="X EMPRENDEDURISIMO ECONOMICO"
         android:textColor="@color/colorLetra"
         android:background="@color/botonSig"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -24,7 +32,7 @@
         android:id="@+id/txtResp10.04"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:hint="Resp..."
         />
     <TextView
         android:layout_width="match_parent"
@@ -72,6 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:lines="3"
+        android:hint="Resp..."
 
         />
     <LinearLayout
@@ -85,7 +94,7 @@
 
 
         <Button
-            android:id="@+id/btnAtras3"
+            android:id="@+id/btnAtras49"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -96,7 +105,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente3"
+            android:id="@+id/btnSiguiente49"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -108,5 +117,7 @@
 
 
     </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

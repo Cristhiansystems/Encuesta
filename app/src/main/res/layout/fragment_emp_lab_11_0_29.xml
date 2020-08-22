@@ -13,6 +13,14 @@
         android:text="XI EMPRENDEDURISMO LABORAL"
         android:textColor="@color/colorLetra"
         android:background="@color/colorRojo"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,6 +37,31 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:text="(Marcar las respuestas por orden de importancia 1,2,3… )"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:background="@color/colorRojo">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_weight="1"
+                    android:text=""/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="5dp"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorLetra"
+                    android:layout_weight="3"
+                    android:text="Orden"/>
+
+            </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
@@ -226,7 +259,7 @@
         android:id="@+id/txtResp.Otro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-    android:hint="R."
+    android:hint="Resp..."
 
         />
     <TextView
@@ -272,7 +305,7 @@
         android:layout_marginBottom="15dp">
         >
         <Button
-            android:id="@+id/btnAtras3"
+            android:id="@+id/btnAtras65"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -283,7 +316,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente3"
+            android:id="@+id/btnSiguiente65"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -295,5 +328,7 @@
 
 
     </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

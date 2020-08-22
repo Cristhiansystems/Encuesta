@@ -14,7 +14,14 @@
         android:text="XII EMPODERAMIENTO PERSONAL"
         android:textColor="@color/colorLetra"
         android:background="@color/botonSig"/>
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -221,14 +228,14 @@
             >
 
             <RadioButton
-                android:id="@+id/OtroSi"
+                android:id="@+id/OtroSi8.5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/OtroNo"
+                android:id="@+id/OtroNo8.5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -288,7 +295,7 @@
         >
 
         <Button
-            android:id="@+id/btnAtras3"
+            android:id="@+id/btnAtras40"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -299,7 +306,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente3"
+            android:id="@+id/btnSiguiente40"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -311,7 +318,8 @@
 
 
     </LinearLayout>
-
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

@@ -12,7 +12,15 @@
         android:layout_height="wrap_content"
         android:text="IX ORGANIZACIONES"
         android:textColor="@color/colorLetra"
-        android:background="@color/botonSig"/>
+        android:background="@color/colorRojo"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -31,9 +39,10 @@
         android:textColor="@color/colorRojo"
         android:text="Registre una sola respuesta" />
     <EditText
-        android:id="@+id/txtRegUnaSolResp"
+        android:id="@+id/txtRegUnaSolResp9.4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Resp..."
         android:lines="3"
 
         />
@@ -217,14 +226,14 @@
             >
 
             <RadioButton
-                android:id="@+id/OtroSi"
+                android:id="@+id/OtroSi9.4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/OtroNo"
+                android:id="@+id/OtroNo9.4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -233,10 +242,11 @@
 
     </LinearLayout>
     <EditText
-        android:id="@+id/txtOtro"
+        android:id="@+id/txtOtro9.4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="2"
+        android:hint="Resp..."
         />
 
     <LinearLayout
@@ -245,12 +255,12 @@
         android:layout_marginTop="30dp"
         android:orientation="horizontal"
 
-        >
+
         >
 
 
         <Button
-            android:id="@+id/btnAtras3"
+            android:id="@+id/btnAtras46"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -261,7 +271,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente3"
+            android:id="@+id/btnSiguiente46"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -273,5 +283,6 @@
 
 
     </LinearLayout>
-
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

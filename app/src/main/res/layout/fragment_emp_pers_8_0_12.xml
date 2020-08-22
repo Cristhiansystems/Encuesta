@@ -14,6 +14,14 @@
         android:text="XII EMPODERAMIENTO PERSONAL"
         android:textColor="@color/colorLetra"
         android:background="@color/colorRojo"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -21,127 +29,76 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:text="8.12 ¿Cuál es la razón principal por la que dejaste de estudiar?" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:orientation="vertical"
         android:layout_marginTop="30dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        android:layout_marginLeft="40dp">
 
-            android:layout_weight="1"
-            android:text="Cuidado de hijos/as -/hermanos/as"/>
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="60dp"
-            android:layout_weight="1.5"
-            android:text="1"/>
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Trabajo"/>
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="60dp"
-            android:layout_weight="1.5"
-            android:text="2"/>
 
-    </LinearLayout>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/RdCuidadoHijos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Mi pareja no estaba de acuerdo" />
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"
-            android:layout_marginLeft="60dp"
-            android:text="3" />
+                    android:text="Cuidado de hijos/as -/hermanos/as" />
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Embarazo"/>
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"
-            android:layout_marginLeft="60dp"
-            android:text="4"/>
+                <RadioButton
+                    android:id="@+id/RdTrabajo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+                    android:text="Trabajo" />
 
-            android:text="Falta de recursos económicos"/>
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"
-            android:layout_marginLeft="60dp"
-            android:text="5"/>
+                <RadioButton
+                    android:id="@+id/RdParejaNoestabaDeAcuerdo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:text="Mi pareja no estaba de acuerdo" />
+                <RadioButton
+                    android:id="@+id/RdEmbarazo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:text="Embarazo" />
+                <RadioButton
+                    android:id="@+id/RdFaltaRecursosEconomicos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:text="Falta de recursos económicos" />
+                <RadioButton
+                    android:id="@+id/RdOtro8.12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:text="Otro (Especificar)" />
+
+            </RadioGroup>
+
+
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Otro (especificar)"/>
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="60dp"
-            android:layout_weight="1.5"
-            android:text="7"/>
 
-    </LinearLayout>
     <EditText
+        android:id="@+id/txtOtro8.12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginRight="10dp"
-
+        android:hint="Resp..."
         android:lines="2"/>
     <TextView
         android:layout_width="wrap_content"
@@ -163,7 +120,7 @@
         >
 
         <RadioButton
-            android:id="@+id/OtroSi"
+            android:id="@+id/OtroSi8.13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -171,7 +128,7 @@
             android:text="SI" />
 
         <RadioButton
-            android:id="@+id/OtroNo"
+            android:id="@+id/OtroNo8.13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -188,7 +145,7 @@
         >
 
         <Button
-            android:id="@+id/btnAtras3"
+            android:id="@+id/btnAtras44"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -199,7 +156,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente3"
+            android:id="@+id/btnSiguiente44"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -211,5 +168,7 @@
 
 
     </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

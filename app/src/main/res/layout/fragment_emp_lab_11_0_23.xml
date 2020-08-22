@@ -13,6 +13,14 @@
         android:text="XI EMPRENDEDURISMO LABORAL"
         android:textColor="@color/colorLetra"
         android:background="@color/colorRojo"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,37 +65,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:orientation="vertical">
 
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="30dp"
-                android:textStyle="bold"
-                android:text="Contrato firmado"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:layout_marginLeft="30dp"
-                android:textStyle="bold"
-                android:text="Es un acuerdo hablado"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="30dp"
-                android:textStyle="bold"
-                android:text="Otro (Especificar)"/>
-
-
-        </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,27 +77,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <RadioButton
-                    android:id="@+id/IdContratoFirmado"
+                    android:id="@+id/RdContratoFirmado"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
 
-                    android:text="1" />
+                    android:text="Contrato firmado" />
 
                 <RadioButton
-                    android:id="@+id/IdAcuerdoHablado"
+                    android:id="@+id/RdAcuerdoHablado"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
 
-                    android:text="2" />
+                    android:text="Es un acuerdo hablado" />
                 <RadioButton
-                    android:id="@+id/Otro"
+                    android:id="@+id/RdOtro11.24"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
 
-                    android:text="3" />
+                    android:text="Otro (Especificar)" />
 
 
             </RadioGroup>
@@ -130,7 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:hint="R."
+        android:hint="Resp..."
         />
     <TextView
         android:layout_width="match_parent"
@@ -144,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:hint="R."
+        android:hint="Resp..."
         />
     <TextView
         android:layout_width="match_parent"
@@ -176,7 +156,7 @@
         android:layout_marginBottom="15dp">
         >
         <Button
-            android:id="@+id/btnAtras3"
+            android:id="@+id/btnAtras63"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -187,7 +167,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente3"
+            android:id="@+id/btnSiguiente63"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -199,5 +179,6 @@
 
 
     </LinearLayout>
-
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

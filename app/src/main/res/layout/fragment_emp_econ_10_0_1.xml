@@ -13,6 +13,14 @@
         android:text="X EMPRENDEDURISIMO ECONOMICO"
         android:textColor="@color/colorLetra"
         android:background="@color/botonSig"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -199,14 +207,14 @@
             >
 
             <RadioButton
-                android:id="@+id/OtroSi"
+                android:id="@+id/OtroSi10.1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/OtroNo"
+                android:id="@+id/OtroNo10.1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -215,9 +223,10 @@
 
     </LinearLayout>
     <EditText
-        android:id="@+id/txtOtro"
+        android:id="@+id/txtOtro10.1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Resp..."
 
         />
 
@@ -262,9 +271,10 @@
         android:layout_marginTop="10dp"
         android:text="10.03 ¿Menciona que tipo de emprendimiento?" />
     <EditText
-        android:id="@+id/Resp9.07"
+        android:id="@+id/Resp10.3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="Resp..."/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -277,7 +287,7 @@
 
 
         <Button
-            android:id="@+id/btnAtras3"
+            android:id="@+id/btnAtras48"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -288,7 +298,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente3"
+            android:id="@+id/btnSiguiente48"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -300,6 +310,8 @@
 
 
     </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -41,6 +43,10 @@ public class emp_lab_11_0_34 extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment emp_lab_11_0_34.
      */
+    FragmentTransaction transaction;
+    Button btnSiguiente;
+    Button btnAtras;
+    View vista;
     // TODO: Rename and change types and number of parameters
     public static emp_lab_11_0_34 newInstance(String param1, String param2) {
         emp_lab_11_0_34 fragment = new emp_lab_11_0_34();
@@ -64,7 +70,31 @@ public class emp_lab_11_0_34 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_emp_lab_11_0_34, container, false);
+       vista= inflater.inflate(R.layout.fragment_emp_lab_11_0_34, container, false);
+        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente67);
+        btnAtras= (Button) vista.findViewById(R.id.btnAtras67);
+
+        btnSiguiente.setOnClickListener(v -> {
+
+            Fragment miFragment=null;
+            miFragment=new sat_muni_12_0_1();
+
+            transaction=getFragmentManager().beginTransaction();
+            transaction.replace(R.id.container,miFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
+
+        btnAtras.setOnClickListener(v -> {
+
+            Fragment miFragment=null;
+            miFragment=new emp_lab_11_0_31();
+            transaction=getFragmentManager().beginTransaction();
+            transaction.replace(R.id.container,miFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

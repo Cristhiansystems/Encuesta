@@ -13,6 +13,14 @@
         android:text="XI EMPRENDEDURISMO LABORAL"
         android:textColor="@color/colorLetra"
         android:background="@color/botonSig"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,6 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="4"
+        android:hint="Resp..."
 
         />
     <TextView
@@ -67,11 +76,11 @@
         android:text="11.05 Menciona por qué NO te gustaria realizar alguna actividad laboral" />
 
     <EditText
-        android:id="@+id/txtResp10.11"
+        android:id="@+id/txtResp11.05"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="4"
-
+        android:hint="Resp..."
         />
     <LinearLayout
         android:layout_width="match_parent"
@@ -86,7 +95,7 @@
 
 
         <Button
-            android:id="@+id/btnAtras3"
+            android:id="@+id/btnAtras57"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -97,7 +106,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente3"
+            android:id="@+id/btnSiguiente57"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -109,6 +118,8 @@
 
 
     </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

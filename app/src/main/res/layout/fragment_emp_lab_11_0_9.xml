@@ -13,6 +13,14 @@
         android:text="XI EMPRENDEDURISMO LABORAL"
         android:textColor="@color/colorLetra"
         android:background="@color/botonSig"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,6 +57,7 @@
         </RadioGroup>
     </LinearLayout>
     <TextView
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -57,21 +66,25 @@
         android:id="@+id/txtResp.11.10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Resp..."
         android:lines="3"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:textStyle="bold"
         android:text="11.11 Por qué no te gustaria capacitarte y/o tecnificarte?"/>
     <EditText
         android:id="@+id/txtResp.11.11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Resp..."
         android:lines="3"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:textStyle="bold"
         android:text="11.12 Sólo para las personas que respondieron SI en la
         pregunta 11.01 ¿A qué edad empezaste a trabajar?"/>
     <EditText
@@ -81,7 +94,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="80dp"
         android:lines="1"
-        android:hint="R."/>
+        android:hint="Resp..."/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -93,7 +106,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="2"
-        android:hint="R."/>
+        android:hint="Resp..."/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -108,7 +121,7 @@
 
 
         <Button
-            android:id="@+id/btnAtras3"
+            android:id="@+id/btnAtras59"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -119,7 +132,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente3"
+            android:id="@+id/btnSiguiente59"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -131,6 +144,7 @@
 
 
     </LinearLayout>
-
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

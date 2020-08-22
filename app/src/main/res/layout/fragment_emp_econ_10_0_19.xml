@@ -7,6 +7,14 @@
     tools:context=".emp_econ_10_0_19">
 
     <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -165,14 +173,14 @@
             >
 
             <RadioButton
-                android:id="@+id/OtroSi"
+                android:id="@+id/OtroSi10.20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/OtroNo"
+                android:id="@+id/OtroNo10.20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -181,10 +189,10 @@
 
     </LinearLayout>
     <EditText
-        android:id="@+id/txtOtro"
+        android:id="@+id/txtOtro10.20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:hint="Resp..."
         />
 
     <LinearLayout
@@ -198,7 +206,7 @@
 
 
         <Button
-            android:id="@+id/btnAtras3"
+            android:id="@+id/btnAtras54"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -209,7 +217,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente3"
+            android:id="@+id/btnSiguiente54"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -221,6 +229,7 @@
 
 
     </LinearLayout>
-
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

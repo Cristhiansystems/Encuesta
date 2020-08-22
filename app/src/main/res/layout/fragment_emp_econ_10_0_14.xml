@@ -7,103 +7,67 @@
     tools:context=".emp_econ_10_0_14">
 
     <!-- TODO: Update blank fragment layout -->
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="10.14 ¿Con qué frecuencia vendes tus productos?" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
-        <TextView
+   <RadioGroup
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/RdCadaDia"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1.5"
+            android:text="Cada día"/>
 
-            android:layout_weight="1"
-            android:text="Cada día "/>
-        <CheckBox
-            android:id="@+id/ChkCadaDia"
+
+        <RadioButton
+            android:id="@+id/RdUnaVezPorSemana"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="60dp"
             android:layout_weight="1.5"
-            android:text="1"/>
+            android:text="Una vez a la semana"/>
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-        <TextView
+
+        <RadioButton
+            android:id="@+id/RdUnaVezAlMes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Una vez a la semana "/>
-        <CheckBox
-            android:id="@+id/chkUnaVezPorSemana"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="60dp"
             android:layout_weight="1.5"
-            android:text="2"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_marginLeft="60dp"
             android:text="Una vez al mes" />
 
-        <CheckBox
-            android:id="@+id/chkUnaVezAlMes"
+
+        <RadioButton
+            android:id="@+id/RdOtro10.14"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.5"
             android:layout_marginLeft="60dp"
-            android:text="3" />
-
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:text="Otro (especificar)"/>
-        <CheckBox
-            android:id="@+id/chkOtro10.14"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="60dp"
-            android:layout_weight="1.5"
-            android:text="4"/>
+   </RadioGroup>
 
-    </LinearLayout>
     <EditText
         android:id="@+id/txtOtro10.14"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:lines="2"/>
+        android:lines="2"
+        android:hint="Resp..."/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -260,14 +224,14 @@
             >
 
             <RadioButton
-                android:id="@+id/OtroSi"
+                android:id="@+id/OtroSi10.15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/OtroNo"
+                android:id="@+id/OtroNo10.15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -276,10 +240,10 @@
 
     </LinearLayout>
     <EditText
-        android:id="@+id/txtOtro"
+        android:id="@+id/txtOtro10.15"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:hint="Resp..."
         />
     <TextView
         android:layout_width="match_parent"
@@ -326,7 +290,7 @@
 
 
         <Button
-            android:id="@+id/btnAtras3"
+            android:id="@+id/btnAtras52"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -337,7 +301,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente3"
+            android:id="@+id/btnSiguiente52"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -349,4 +313,6 @@
 
 
     </LinearLayout>
+</LinearLayout>
+    </ScrollView>
 </LinearLayout>

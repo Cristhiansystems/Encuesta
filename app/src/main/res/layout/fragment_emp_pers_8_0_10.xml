@@ -13,149 +13,94 @@
         android:text="XII EMPODERAMIENTO PERSONAL"
         android:textColor="@color/colorLetra"
         android:background="@color/colorRojo"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="8.10 ¿Hasta qué nivel piensas estudiar?" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
-        <TextView
+   <RadioGroup
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/RdPri8.10"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
-            android:layout_weight="1"
+            android:layout_marginLeft="60dp"
+            android:layout_weight="1.5"
             android:text="Primaria"/>
-        <CheckBox
+
+
+
+        <RadioButton
+            android:id="@+id/RdSec8.10"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="60dp"
             android:layout_weight="1.5"
-            android:text="1"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:text="Secundaria"/>
-        <CheckBox
+
+
+        <RadioButton
+            android:id="@+id/RdNorPolMil8.10"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="60dp"
             android:layout_weight="1.5"
-            android:text="2"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_marginLeft="60dp"
             android:text="Normal/ policia/ militar" />
 
-        <CheckBox
+
+        <RadioButton
+            android:id="@+id/RdUni8.10"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.5"
             android:layout_marginLeft="60dp"
-            android:text="3" />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:text="Universitaria"/>
-        <CheckBox
+
+
+        <RadioButton
+            android:id="@+id/RdTecUni8.10"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.5"
             android:layout_marginLeft="60dp"
-            android:text="4"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-
             android:text="Técnico universitario"/>
-        <CheckBox
+
+
+        <RadioButton
+            android:id="@+id/RdTecMed8.10"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.5"
             android:layout_marginLeft="60dp"
-            android:text="5"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:text="Técnico medio"/>
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"
-            android:layout_marginLeft="60dp"
-            android:text="6"/>
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-        <TextView
+
+        <RadioButton
+            android:id="@+id/RdOtro8.10"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_marginLeft="60dp"
+            android:layout_weight="1.5"
             android:text="Otro (especificar)"/>
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="60dp"
-            android:layout_weight="1.5"
-            android:text="7"/>
+   </RadioGroup>
 
-    </LinearLayout>
     <EditText
+        android:id="@+id/txtResp8.10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:hint="Resp..."
         android:lines="2"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -167,7 +112,7 @@
         >
 
         <Button
-            android:id="@+id/btnAtras3"
+            android:id="@+id/btnAtras43"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -178,7 +123,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente3"
+            android:id="@+id/btnSiguiente43"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -190,6 +135,7 @@
 
 
     </LinearLayout>
-
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

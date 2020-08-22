@@ -13,6 +13,14 @@
         android:text="XI EMPRENDEDURISMO LABORAL"
         android:textColor="@color/colorLetra"
         android:background="@color/botonSig"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,7 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="2"
-        android:hint="R."/>
+        android:hint="Resp..."/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -85,101 +93,57 @@
         android:layout_marginTop="10dp"
         android:textStyle="bold"
         android:text="11.17 ¿Cuánto tiempo estas en ese trabajo?"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="30dp"
-                android:textStyle="bold"
-                android:text="1 - 3 meses"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:layout_marginLeft="30dp"
-                android:textStyle="bold"
-                android:text="3 - 6 meses"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="30dp"
-                android:textStyle="bold"
-                android:text="6 meses a un año"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:layout_marginLeft="30dp"
-                android:textStyle="bold"
-                android:text="1 - 3 años"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginLeft="30dp"
-                android:textStyle="bold"
-                android:text="Mas de 3 años"/>
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="20dp"
+          android:layout_marginLeft="50dp"
+          android:orientation="vertical">
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <RadioButton
-                    android:id="@+id/Meses1-3"
+                    android:id="@+id/RdMeses1-3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
 
-                    android:text="1" />
+                    android:text="1 - 3 meses" />
 
                 <RadioButton
-                    android:id="@+id/Meses3-6"
+                    android:id="@+id/RdMeses3-6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
 
-                    android:text="2" />
+                    android:text="3 - 6 meses" />
                 <RadioButton
-                    android:id="@+id/Meses6AUnAño"
+                    android:id="@+id/RdMeses6AUnAño"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
 
-                    android:text="3" />
+                    android:text="6 meses a un año" />
                 <RadioButton
-                    android:id="@+id/Años1-3"
+                    android:id="@+id/RdAños1-3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
 
-                    android:text="4" />
+                    android:text="1 - 3 años" />
                 <RadioButton
-                    android:id="@+id/AñosMasDe3"
+                    android:id="@+id/RdAñosMasDe3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:text="5" />
+                    android:text="Mas de 3 años" />
 
             </RadioGroup>
-        </LinearLayout>
 
-    </LinearLayout>
+      </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -193,7 +157,7 @@
 
 
         <Button
-            android:id="@+id/btnAtras3"
+            android:id="@+id/btnAtras60"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -204,7 +168,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente3"
+            android:id="@+id/btnSiguiente60"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -216,5 +180,7 @@
 
 
     </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
