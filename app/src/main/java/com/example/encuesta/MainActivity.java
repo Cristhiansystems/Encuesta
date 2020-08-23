@@ -11,7 +11,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements
         v_violencia_pareja_actual.OnFragmentInteractionListener,
@@ -82,6 +84,11 @@ public class MainActivity extends AppCompatActivity implements
         navigationView=findViewById(R.id.navigationView);
 
         navigationView.setNavigationItemSelectedListener(this);
+        Bundle parametros = this.getIntent().getExtras();
+
+            String tipo_usuario = parametros.getString("Usuario");
+            EsconderItem(tipo_usuario);
+
 
 
 
@@ -100,6 +107,17 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+    private void EsconderItem(String Usuario)
+    {
+        
+        switch (Usuario){
+            case "Adolescente":
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.lista_encuesta).setVisible(false);
+            break;
+
+        }
     }
 
     @Override
