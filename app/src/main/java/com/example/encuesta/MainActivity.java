@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements
         sat_muni_12_0_4.OnFragmentInteractionListener,
         sat_muni_12_0_7.OnFragmentInteractionListener,
         preg_eval_13_0_1.OnFragmentInteractionListener,
-        preg_eval_13_0_3.OnFragmentInteractionListener{
+        preg_eval_13_0_3.OnFragmentInteractionListener,obs_encuestador.
+        OnFragmentInteractionListener{
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;

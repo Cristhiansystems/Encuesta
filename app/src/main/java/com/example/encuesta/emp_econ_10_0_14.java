@@ -71,8 +71,8 @@ public class emp_econ_10_0_14 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         vista= inflater.inflate(R.layout.fragment_emp_econ_10_0_14, container, false);
-        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente52);
-        btnAtras= (Button) vista.findViewById(R.id.btnAtras52);
+        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente53);
+        btnAtras= (Button) vista.findViewById(R.id.btnAtras53);
 
         btnSiguiente.setOnClickListener(v -> {
 

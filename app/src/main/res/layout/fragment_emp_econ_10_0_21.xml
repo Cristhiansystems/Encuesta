@@ -263,7 +263,7 @@
 
 
         <Button
-            android:id="@+id/btnAtras55"
+            android:id="@+id/btnAtras56"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -274,7 +274,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente55"
+            android:id="@+id/btnSiguiente56"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"

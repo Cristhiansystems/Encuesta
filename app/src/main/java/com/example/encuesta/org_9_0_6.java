@@ -72,8 +72,8 @@ public class org_9_0_6 extends Fragment {
         // Inflate the layout for this fragment
         vista= inflater.inflate(R.layout.fragment_org_9_0_6, container, false);
 
-        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente47);
-        btnAtras= (Button) vista.findViewById(R.id.btnAtras47);
+        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente48);
+        btnAtras= (Button) vista.findViewById(R.id.btnAtras48);
 
         btnSiguiente.setOnClickListener(v -> {
 

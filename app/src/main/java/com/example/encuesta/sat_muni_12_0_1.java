@@ -71,8 +71,8 @@ public class sat_muni_12_0_1 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         vista= inflater.inflate(R.layout.fragment_sat_muni_12_0_1, container, false);
-        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente68);
-        btnAtras= (Button) vista.findViewById(R.id.btnAtras68);
+        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente69);
+        btnAtras= (Button) vista.findViewById(R.id.btnAtras69);
 
         btnSiguiente.setOnClickListener(v -> {
 

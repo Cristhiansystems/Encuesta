@@ -310,7 +310,7 @@
 
 
         <Button
-            android:id="@+id/btnAtras58"
+            android:id="@+id/btnAtras59"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -321,7 +321,7 @@
             android:textColor="@color/colorLetra" />
 
         <Button
-            android:id="@+id/btnSiguiente58"
+            android:id="@+id/btnSiguiente59"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
