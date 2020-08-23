@@ -1,5 +1,6 @@
 package com.example.encuesta;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,9 +12,21 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public class MainActivity extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener,
         v_violencia_pareja_actual.OnFragmentInteractionListener,
         v_violencia_pareja.OnFragmentInteractionListener,
         v_tipo_violencia.OnFragmentInteractionListener,
@@ -69,6 +82,9 @@ public class MainActivity extends AppCompatActivity implements
     NavigationView navigationView;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -88,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         actionBarDrawerToggle.syncState();
-
+        request= Volley.newRequestQueue(this);
         fragmentManager=getSupportFragmentManager();
         fragmentTransaction=fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.container,new principal());
@@ -105,10 +121,8 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         drawerLayout.closeDrawer(GravityCompat.START);
         if (menuItem.getItemId()==R.id.nueva_encuesta) {
-            fragmentManager=getSupportFragmentManager();
-            fragmentTransaction=fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container,new Identificacion_geografica());
-            fragmentTransaction.commit();
+            cargarWebservices();
+
         }   if (menuItem.getItemId()==R.id.lista_encuesta) {
             fragmentManager=getSupportFragmentManager();
             fragmentTransaction=fragmentManager.beginTransaction();
@@ -117,5 +131,38 @@ public class MainActivity extends AppCompatActivity implements
 
         }
         return false;
+    }
+
+    private void cargarWebservices() {
+
+        progreso=new ProgressDialog(this);
+        progreso.setMessage("cargando...");
+        progreso.show();
+        String url="http://192.168.0.13/encuestasWS/registroEncuesta.php";
+        url=url.replace(" ", "%20");
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        progreso.hide();
+        Toast.makeText(this, "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+        Log.i("ERROR: ", error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+
+        JSONArray json=response.optJSONArray("usuario");
+
+
+        progreso.hide();
+        Toast.makeText(this, "Encuesta" + json.toString(), Toast.LENGTH_SHORT).show();
+        fragmentManager=getSupportFragmentManager();
+        fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container,new Identificacion_geografica());
+        fragmentTransaction.commit();
     }
 }
