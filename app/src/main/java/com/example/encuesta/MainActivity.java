@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements
         Bundle parametros = this.getIntent().getExtras();
 
             String tipo_usuario = parametros.getString("Usuario");
-           // EsconderItem(tipo_usuario);
+            EsconderItem(tipo_usuario);
 
 
 
@@ -108,7 +108,17 @@ public class MainActivity extends AppCompatActivity implements
     public void onFragmentInteraction(Uri uri) {
 
     }
+    private void EsconderItem(String Usuario)
+    {
+        
+        switch (Usuario){
+            case "Adolescente":
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.lista_encuesta).setVisible(false);
+            break;
 
+        }
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
