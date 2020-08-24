@@ -72,8 +72,8 @@ public class emp_econ_10_0_7 extends Fragment {
         // Inflate the layout for this fragment
         vista= inflater.inflate(R.layout.fragment_emp_econ_10_0_7, container, false);
 
-        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente50);
-        btnAtras= (Button) vista.findViewById(R.id.btnAtras50);
+        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente51);
+        btnAtras= (Button) vista.findViewById(R.id.btnAtras51);
 
         btnSiguiente.setOnClickListener(v -> {
 

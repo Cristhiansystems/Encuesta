@@ -71,8 +71,8 @@ public class obs_encuestador extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         vista= inflater.inflate(R.layout.fragment_obs_encuestador, container, false);
-        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente73);
-        btnAtras= (Button) vista.findViewById(R.id.btnAtras73);
+        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente74);
+        btnAtras= (Button) vista.findViewById(R.id.btnAtras74);
 
         btnSiguiente.setOnClickListener(v -> {
 

@@ -71,8 +71,8 @@ public class preg_eval_13_0_3 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         vista= inflater.inflate(R.layout.fragment_preg_eval_13_0_3, container, false);
-        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente71);
-        btnAtras= (Button) vista.findViewById(R.id.btnAtras71);
+        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente73);
+        btnAtras= (Button) vista.findViewById(R.id.btnAtras73);
 
         btnSiguiente.setOnClickListener(v -> {
 

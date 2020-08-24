@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".login"
+    android:orientation="vertical"
+    tools:showIn="@layout/activity_login">
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="ACCESO A LA APLICACIÓN"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Por favor seleccione uno de los usuarios"/>
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/rdIdAdolescente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Adolescente"/>
+        <RadioButton
+            android:id="@+id/rdIdEncuestador"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Encuestador"/>
+    </RadioGroup>
+    <Button
+        android:id="@+id/btnAcceder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ACCEDER"
+        />
+</LinearLayout>

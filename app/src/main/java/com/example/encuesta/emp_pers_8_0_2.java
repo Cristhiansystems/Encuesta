@@ -82,7 +82,7 @@ public class emp_pers_8_0_2 extends Fragment {
         btnAtras.setOnClickListener(v -> {
 
             Fragment miFragment=null;
-            miFragment=new emp_pers_8_0_2();
+            miFragment=new emp_pers_8_0_1();
             transaction=getFragmentManager().beginTransaction();
             transaction.replace(R.id.container,miFragment);
             transaction.addToBackStack(null);

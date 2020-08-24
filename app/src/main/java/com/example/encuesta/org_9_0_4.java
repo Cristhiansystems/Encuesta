@@ -74,8 +74,8 @@ public class org_9_0_4 extends Fragment {
 
 
 
-        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente46);
-        btnAtras= (Button) vista.findViewById(R.id.btnAtras46);
+        btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente47);
+        btnAtras= (Button) vista.findViewById(R.id.btnAtras47);
 
         btnSiguiente.setOnClickListener(v -> {
 
