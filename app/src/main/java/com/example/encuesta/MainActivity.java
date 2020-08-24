@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements
     }
     private void EsconderItem(String Usuario)
     {
-        
+
         switch (Usuario){
             case "Adolescente":
             Menu nav_Menu = navigationView.getMenu();
