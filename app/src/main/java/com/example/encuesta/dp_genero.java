@@ -28,9 +28,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -132,12 +134,7 @@ public class dp_genero extends Fragment implements Response.Listener<JSONObject>
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new documento();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta4(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
@@ -205,25 +202,32 @@ public class dp_genero extends Fragment implements Response.Listener<JSONObject>
             genero=jsonObject.optInt("genero");
             Edad=jsonObject.optString("edad");
             FechaNac=jsonObject.optString("fecha_nacimiento");
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            date = dateFormat.parse(FechaNac);
+            String dateString = FechaNac;
+
+            // convert string to date
+            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = f.parse(dateString);
+
+            // change the date format
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            String result = df.format(date);
+
+            txtFecNac.setText(result);
+            txtedad.setText(Edad.toString());
 
 
+            if(genero==1){
+                radHombre.setChecked(true);
+            }else if(genero==2){
+                radMujer.setChecked(true);
+            }
 
         }catch (JSONException e){
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        txtedad.setText(Edad.toString());
-        SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
-        String fecharesultado = format1.format(date);
-        txtFecNac.setText(fecharesultado);
-        if(genero==1){
-            radHombre.setChecked(true);
-        }else if(genero==2){
-            radMujer.setChecked(true);
-        }
+
     }
 
     /**

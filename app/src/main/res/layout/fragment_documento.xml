@@ -6,6 +6,13 @@
     android:orientation="vertical"
     tools:context=".documento">
 
+    <TextView
+        android:id="@+id/idDocumento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
@@ -82,14 +89,14 @@
             >
 
             <RadioButton
-                android:id="@+id/Si1"
+                android:id="@+id/SiCI"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/No1"
+                android:id="@+id/NoCI"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
@@ -124,14 +131,14 @@
             >
 
             <RadioButton
-                android:id="@+id/Si2"
+                android:id="@+id/SiRun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/No2"
+                android:id="@+id/NoRun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
@@ -160,14 +167,14 @@
             >
 
             <RadioButton
-                android:id="@+id/Si3"
+                android:id="@+id/SiCN"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/No3"
+                android:id="@+id/NoCN"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
@@ -195,14 +202,14 @@
             >
 
             <RadioButton
-                android:id="@+id/Si4"
+                android:id="@+id/SiLibreta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/No4"
+                android:id="@+id/NoLibreta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
@@ -223,7 +230,7 @@
             android:text="Otro" />
 
         <EditText
-            android:id="@+id/txtotronom"
+            android:id="@+id/txtotroDocumento"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
              />
@@ -235,14 +242,14 @@
             >
 
             <RadioButton
-                android:id="@+id/Si5"
+                android:id="@+id/SiOtroDocumento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/No5"
+                android:id="@+id/NoOtroDocumento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />
@@ -271,14 +278,14 @@
             >
 
             <RadioButton
-                android:id="@+id/Si6"
+                android:id="@+id/SiNingunoDocumento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="Si" />
 
             <RadioButton
-                android:id="@+id/No6"
+                android:id="@+id/NoNingunoDocumento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No" />

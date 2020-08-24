@@ -102,6 +102,10 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
     Identificacion_geografica identificacion_geografica;
     dp_nombre_completo dp_nombre_completo;
     dp_genero dp_genero;
+    documento dp_documento;
+    dp_telefono dp_telefono;
+    dp_estado_civil dp_estado_civil;
+    dp_direccion dp_direccion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -250,5 +254,55 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
         getSupportFragmentManager().
                 beginTransaction().
                 replace(R.id.container, dp_genero).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta4(String idEncuesta){
+        dp_documento=new documento();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        dp_documento.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, dp_documento).addToBackStack(null).commit();
+    }
+
+
+    public void enviarEncuesta5(String idEncuesta){
+        dp_telefono=new dp_telefono();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        dp_telefono.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, dp_telefono).addToBackStack(null).commit();
+    }
+
+
+    public void enviarEncuesta6(String idEncuesta){
+        dp_estado_civil=new dp_estado_civil();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        dp_estado_civil.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, dp_estado_civil).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta7(String idEncuesta){
+        dp_direccion=new dp_direccion();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        dp_direccion.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, dp_direccion).addToBackStack(null).commit();
     }
 }

@@ -1,14 +1,32 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -19,7 +37,7 @@ import android.widget.Button;
  * Use the {@link dp_estado_civil#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class dp_estado_civil extends Fragment {
+public class dp_estado_civil extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,6 +50,20 @@ public class dp_estado_civil extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+    TextView idFragment;
+    String idEncuesta;
+    Integer estado_civil;
+    RadioButton rdSoltero, rdCasada, rdConcubino, rdDivorcada, rdViuda, rdSeparada, rdPadreSoltero, rdMadreSoltera, rdotro;
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     private OnFragmentInteractionListener mListener;
 
     public dp_estado_civil() {
@@ -72,29 +104,50 @@ public class dp_estado_civil extends Fragment {
         vista=inflater.inflate(R.layout.fragment_dp_estado_civil, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente6);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras6);
+        idFragment= (TextView) vista.findViewById(R.id.idEstadoCivil);
 
+        rdSoltero=(RadioButton) vista.findViewById(R.id.soltera);
+        rdCasada=(RadioButton) vista.findViewById(R.id.casada);
+        rdConcubino=(RadioButton) vista.findViewById(R.id.concubinato);
+        rdDivorcada=(RadioButton) vista.findViewById(R.id.divorciada);
+        rdSeparada=(RadioButton) vista.findViewById(R.id.separada);
+        rdPadreSoltero=(RadioButton) vista.findViewById(R.id.padreSoltero);
+        rdMadreSoltera=(RadioButton) vista.findViewById(R.id.madreSoltera);
+        rdotro=(RadioButton) vista.findViewById(R.id.otroEstadoCivil);
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new dp_direccion();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta7(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new dp_telefono();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta5(idFragment.getText().toString());
         });
         return vista;
     }
 
+    private void cargarWebServices() {
+
+        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -104,6 +157,15 @@ public class dp_estado_civil extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+
+
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
+
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -117,6 +179,50 @@ public class dp_estado_civil extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+        Log.i("ERROR: ", error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        JSONArray json=response.optJSONArray("usuario");
+        JSONObject jsonObject=null;
+
+        try{
+            jsonObject=json.getJSONObject(0);
+            idEncuesta=jsonObject.optString("encuesta_emt");
+            estado_civil=jsonObject.optInt("estado_civil");
+
+
+
+            if(estado_civil==1){
+                rdSoltero.setChecked(true);
+            }else if(estado_civil==2){
+                rdCasada.setChecked(true);
+            }else if(estado_civil==3){
+                rdConcubino.setChecked(true);
+            }else if(estado_civil==4){
+                rdDivorcada.setChecked(true);
+            }else if(estado_civil==5){
+                rdViuda.setChecked(true);
+            }else if(estado_civil==6){
+                rdSeparada.setChecked(true);
+            }else if(estado_civil==7){
+                rdPadreSoltero.setChecked(true);
+            }else if(estado_civil==8){
+                rdMadreSoltera.setChecked(true);
+            }else if(estado_civil==88){
+                rdotro.setChecked(true);
+            }
+
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
     }
 
     /**

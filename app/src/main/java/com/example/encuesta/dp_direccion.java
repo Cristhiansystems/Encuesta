@@ -1,14 +1,32 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -19,7 +37,7 @@ import android.widget.Button;
  * Use the {@link dp_direccion#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class dp_direccion extends Fragment {
+public class dp_direccion extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,6 +50,22 @@ public class dp_direccion extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+    TextView idFragment;
+    EditText txtRespuesta, txtotro;
+    String idEncuesta, Respuesta, otroDireccion;
+    Integer tipoVivienda;
+    RadioButton rdcasa, rdalquiler, rdalojamiento, rdalbergue, rdcentro, rdhogar, rdcalle, rdotro, rdTrabajo;
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
+
     private OnFragmentInteractionListener mListener;
 
     public dp_direccion() {
@@ -72,29 +106,53 @@ public class dp_direccion extends Fragment {
         vista=inflater.inflate(R.layout.fragment_dp_direccion, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente7);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras7);
+        idFragment= (TextView) vista.findViewById(R.id.idDireccion);
 
+        rdcasa=(RadioButton) vista.findViewById(R.id.casaFamiliar);
+        rdalquiler=(RadioButton) vista.findViewById(R.id.alquiler);
+        rdalojamiento=(RadioButton) vista.findViewById(R.id.alojamiento);
+        rdalbergue=(RadioButton) vista.findViewById(R.id.albergue);
+        rdcentro=(RadioButton) vista.findViewById(R.id.centroJusticia);
+        rdhogar=(RadioButton) vista.findViewById(R.id.hogar);
+        rdcalle=(RadioButton) vista.findViewById(R.id.calle);
+        rdTrabajo=(RadioButton) vista.findViewById(R.id.trabajo);
+        rdotro=(RadioButton) vista.findViewById(R.id.otroDireccion);
+        txtRespuesta=(EditText) vista.findViewById(R.id.txtdireccion);
+        txtotro=(EditText) vista.findViewById(R.id.txtNombreDireccion);
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ddef_familia();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta6(idFragment.getText().toString());
         });
+
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new dp_estado_civil();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta6(idFragment.getText().toString());
         });
         return vista;
     }
+    private void cargarWebServices() {
 
+        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -104,6 +162,13 @@ public class dp_direccion extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
+
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -117,6 +182,54 @@ public class dp_direccion extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+        Log.i("ERROR: ", error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        JSONArray json=response.optJSONArray("usuario");
+        JSONObject jsonObject=null;
+
+        try{
+            jsonObject=json.getJSONObject(0);
+            idEncuesta=jsonObject.optString("encuesta_emt");
+            tipoVivienda=jsonObject.optInt("tipo_vivienda");
+            Respuesta=jsonObject.optString("direccion");
+            otroDireccion=jsonObject.optString("tipo_vivienda_otro");
+
+
+            txtRespuesta.setText(Respuesta.toString());
+            txtotro.setText(otroDireccion.toString());
+
+            if(tipoVivienda==1){
+                rdcasa.setChecked(true);
+            }else if(tipoVivienda==2){
+                rdalquiler.setChecked(true);
+            }else if(tipoVivienda==3){
+                rdalojamiento.setChecked(true);
+            }else if(tipoVivienda==4){
+                rdalbergue.setChecked(true);
+            }else if(tipoVivienda==5){
+                rdcentro.setChecked(true);
+            }else if(tipoVivienda==6){
+                rdhogar.setChecked(true);
+            }else if(tipoVivienda==7){
+                rdcalle.setChecked(true);
+            }else if(tipoVivienda==8){
+                rdTrabajo.setChecked(true);
+            }else if(tipoVivienda==88){
+                rdotro.setChecked(true);
+            }
+
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
     }
 
     /**
