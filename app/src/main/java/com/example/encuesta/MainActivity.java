@@ -1,6 +1,7 @@
 package com.example.encuesta;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -12,7 +13,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+
 import android.util.Log;
+
+import android.view.Menu;
+
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -24,9 +29,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener,
+public class MainActivity extends AppCompatActivity implements IComunicacionFragments, Response.Listener<JSONObject>, Response.ErrorListener,
         v_violencia_pareja_actual.OnFragmentInteractionListener,
         v_violencia_pareja.OnFragmentInteractionListener,
         v_tipo_violencia.OnFragmentInteractionListener,
@@ -75,16 +81,27 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         sat_muni_12_0_4.OnFragmentInteractionListener,
         sat_muni_12_0_7.OnFragmentInteractionListener,
         preg_eval_13_0_1.OnFragmentInteractionListener,
-        preg_eval_13_0_3.OnFragmentInteractionListener{
+        preg_eval_13_0_3.OnFragmentInteractionListener,obs_encuestador.
+        OnFragmentInteractionListener{
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
     NavigationView navigationView;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+
+    //volley
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+
+
+    //navegarFragments
+    String idEncuesta;
+    IComunicacionFragments ICF;
+    Identificacion_geografica identificacion_geografica;
+    dp_nombre_completo dp_nombre_completo;
+    dp_genero dp_genero;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -97,6 +114,11 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         navigationView=findViewById(R.id.navigationView);
 
         navigationView.setNavigationItemSelectedListener(this);
+        Bundle parametros = this.getIntent().getExtras();
+
+            String tipo_usuario = parametros.getString("Usuario");
+            EsconderItem(tipo_usuario);
+
 
 
 
@@ -115,6 +137,17 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+    private void EsconderItem(String Usuario)
+    {
+        
+        switch (Usuario){
+            case "Adolescente":
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.lista_encuesta).setVisible(false);
+            break;
+
+        }
     }
 
     @Override
@@ -156,13 +189,66 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     public void onResponse(JSONObject response) {
 
         JSONArray json=response.optJSONArray("usuario");
+        JSONObject jsonObject=null;
 
+        try{
+            jsonObject=json.getJSONObject(0);
+            idEncuesta=jsonObject.optString("id");
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
 
         progreso.hide();
-        Toast.makeText(this, "Encuesta" + json.toString(), Toast.LENGTH_SHORT).show();
-        fragmentManager=getSupportFragmentManager();
-        fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container,new Identificacion_geografica());
-        fragmentTransaction.commit();
+        Toast.makeText(this, "Encuesta" + idEncuesta, Toast.LENGTH_SHORT).show();
+        Bundle bundle = new Bundle();
+
+        bundle.putString("idEncuesta", idEncuesta );
+        Identificacion_geografica identificacion_geografica = new Identificacion_geografica();
+        identificacion_geografica.setArguments(bundle);
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, identificacion_geografica).addToBackStack(null).commit();
+    }
+
+
+
+
+    @Override
+    public void enviarEncuesta2(String idEncuesta) {
+        dp_nombre_completo=new dp_nombre_completo();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        dp_nombre_completo.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, dp_nombre_completo).addToBackStack(null).commit();
+    }
+
+
+    public void enviarEncuesta(String idEncuesta){
+        identificacion_geografica=new Identificacion_geografica();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        identificacion_geografica.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, identificacion_geografica).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta3(String idEncuesta){
+        dp_genero=new dp_genero();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        dp_genero.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, dp_genero).addToBackStack(null).commit();
     }
 }

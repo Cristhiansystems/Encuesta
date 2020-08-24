@@ -7,6 +7,13 @@
     tools:context=".dp_genero">
 
     <TextView
+        android:id="@+id/idGenero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="I. DATOS PERSONALES"
