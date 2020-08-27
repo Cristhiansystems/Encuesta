@@ -41,7 +41,7 @@ import java.util.Date;
  * Use the {@link documento#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class documento extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class documento extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -156,7 +156,83 @@ public class documento extends Fragment implements Response.Listener<JSONObject>
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json=response.optJSONArray("usuario");
+            JSONObject jsonObject=null;
+
+            try{
+                jsonObject=json.getJSONObject(0);
+                idEncuesta=jsonObject.optString("encuesta_emt");
+                numCI=jsonObject.optString("numero_ci");
+                numRun=jsonObject.optString("numero_run");
+                CI=jsonObject.optInt("ci");
+                Run=jsonObject.optInt("run");
+                cn=jsonObject.optInt("certificado_nacimiento");
+                lsm=jsonObject.optInt("libreta_militar");
+                otro=jsonObject.optInt("documento_otro");
+                ninguno=jsonObject.optInt("documento_ninguno");
+                nomOtro=jsonObject.optString("documento_otro_nombre");
+
+
+                txtnumCi.setText(numCI.toString());
+                txtRun.setText(numRun.toString());
+                txtOtro.setText(nomOtro.toString());
+
+
+                if(CI==1){
+                    rdSiCI.setChecked(true);
+                }else if(CI==2){
+                    rdNoCI.setChecked(true);
+                }
+
+
+
+                if(Run==1){
+                    rdSiRun.setChecked(true);
+                }else if(Run==2){
+                    rdNoRun.setChecked(true);
+                }
+
+
+
+                if(cn==1){
+                    rdSiCn.setChecked(true);
+                }else if(cn==2){
+                    rdNoCn.setChecked(true);
+                }
+
+
+                if(lsm==1){
+                    rdSilibreta.setChecked(true);
+                }else if(lsm==2){
+                    rdNolibreta.setChecked(true);
+                }
+
+
+
+                if(otro==1){
+                    rdSiOtro.setChecked(true);
+                }else if(otro==2){
+                    rdNoOtro.setChecked(true);
+                }
+
+
+                if(ninguno==1){
+                    rdSiNinguno.setChecked(true);
+                }else if(ninguno==2){
+                    rdNoNinguno.setChecked(true);
+                }
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -189,84 +265,6 @@ public class documento extends Fragment implements Response.Listener<JSONObject>
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json=response.optJSONArray("usuario");
-        JSONObject jsonObject=null;
-
-        try{
-            jsonObject=json.getJSONObject(0);
-            idEncuesta=jsonObject.optString("encuesta_emt");
-            numCI=jsonObject.optString("numero_ci");
-            numRun=jsonObject.optString("numero_run");
-            CI=jsonObject.optInt("ci");
-            Run=jsonObject.optInt("run");
-            cn=jsonObject.optInt("certificado_nacimiento");
-            lsm=jsonObject.optInt("libreta_militar");
-            otro=jsonObject.optInt("documento_otro");
-            ninguno=jsonObject.optInt("documento_ninguno");
-            nomOtro=jsonObject.optString("documento_otro_nombre");
-
-
-            txtnumCi.setText(numCI.toString());
-            txtRun.setText(numRun.toString());
-            txtOtro.setText(nomOtro.toString());
-
-
-            if(CI==1){
-                rdSiCI.setChecked(true);
-            }else if(CI==2){
-                rdNoCI.setChecked(true);
-            }
-
-
-
-            if(Run==1){
-                rdSiRun.setChecked(true);
-            }else if(Run==2){
-                rdNoRun.setChecked(true);
-            }
-
-
-
-            if(cn==1){
-                rdSiCn.setChecked(true);
-            }else if(cn==2){
-                rdNoCn.setChecked(true);
-            }
-
-
-            if(lsm==1){
-                rdSilibreta.setChecked(true);
-            }else if(lsm==2){
-                rdNolibreta.setChecked(true);
-            }
-
-
-
-            if(otro==1){
-                rdSiOtro.setChecked(true);
-            }else if(otro==2){
-                rdNoOtro.setChecked(true);
-            }
-
-
-            if(ninguno==1){
-                rdSiNinguno.setChecked(true);
-            }else if(ninguno==2){
-                rdNoNinguno.setChecked(true);
-            }
-
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link sb_lugar_vives#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class sb_lugar_vives extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class sb_lugar_vives extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -142,7 +142,42 @@ public class sb_lugar_vives extends Fragment implements Response.Listener<JSONOb
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json=response.optJSONArray("usuario");
+            JSONObject jsonObject=null;
+
+            try{
+                jsonObject=json.getJSONObject(0);
+                idEncuesta=jsonObject.optString("encuesta_emt");
+                lugar_vives=jsonObject.optInt("lugar_vivienda");
+                nomOtro=jsonObject.optString("lugar_vivienda_otro");
+
+                if(lugar_vives==1){
+                    rdPropia.setChecked(true);
+                }else if(lugar_vives==2){
+                    rdAlquilada.setChecked(true);
+                }else if(lugar_vives==3){
+                    rdAnticretico.setChecked(true);
+                }else if(lugar_vives==4){
+                    rdCedida.setChecked(true);
+                }else if(lugar_vives==88){
+                    rdOtro.setChecked(true);
+                }
+
+                txtnomOtro.setText(nomOtro.toString());
+
+
+
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -175,44 +210,7 @@ public class sb_lugar_vives extends Fragment implements Response.Listener<JSONOb
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
 
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json=response.optJSONArray("usuario");
-        JSONObject jsonObject=null;
-
-        try{
-            jsonObject=json.getJSONObject(0);
-            idEncuesta=jsonObject.optString("encuesta_emt");
-            lugar_vives=jsonObject.optInt("lugar_vivienda");
-            nomOtro=jsonObject.optString("lugar_vivienda_otro");
-
-            if(lugar_vives==1){
-                rdPropia.setChecked(true);
-            }else if(lugar_vives==2){
-                rdAlquilada.setChecked(true);
-            }else if(lugar_vives==3){
-                rdAnticretico.setChecked(true);
-            }else if(lugar_vives==4){
-                rdCedida.setChecked(true);
-            }else if(lugar_vives==88){
-                rdOtro.setChecked(true);
-            }
-
-            txtnomOtro.setText(nomOtro.toString());
-
-
-
-
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

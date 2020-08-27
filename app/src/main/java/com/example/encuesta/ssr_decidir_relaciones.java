@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link ssr_decidir_relaciones#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssr_decidir_relaciones extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class ssr_decidir_relaciones extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -154,7 +154,64 @@ public class ssr_decidir_relaciones extends Fragment implements Response.Listene
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                UsarAnticonceptivo = jsonObject.optInt("usar_anticonceptivo");
+                SinProteccion = jsonObject.optInt("sin_proteccion");
+                NegociarPareja= jsonObject.optInt("negociar_relacion");
+                ForzarPareja= jsonObject.optInt("forzar_sin_proteccion");
+                Otro= jsonObject.optInt("otro_decidir_relacion");
+
+                respuesta = jsonObject.optString("respuesta_decidir_relaciones");
+                otroDecidirRelacion = jsonObject.optString("otro_decidir_relacion_nombre");
+
+                if (UsarAnticonceptivo == 1) {
+                    rdUsarAnticonceptivoSi.setChecked(true);
+                } else if (UsarAnticonceptivo == 2) {
+                    rdUsarAnticonceptivoNo.setChecked(true);
+                }
+
+                if (SinProteccion == 1) {
+                    rdSinProteccionSi.setChecked(true);
+                } else if (SinProteccion == 2) {
+                    rdSinProteccionNo.setChecked(true);
+                }
+
+                if (NegociarPareja == 1) {
+                    rdNegociarParejaSi.setChecked(true);
+                } else if (NegociarPareja == 2) {
+                    rdNegociarParejaNo.setChecked(true);
+                }
+
+                if (ForzarPareja == 1) {
+                    rdForzarParejaSi.setChecked(true);
+                } else if (ForzarPareja == 2) {
+                    rdForzarParejaNo.setChecked(true);
+                }
+
+                if (Otro == 1) {
+                    rdOtroSi.setChecked(true);
+                } else if (Otro == 2) {
+                    rdOtroNo.setChecked(true);
+                }
+
+                txtRespuesta.setText(respuesta.toString());
+                txtOtroDecidirRelacion.setText(otroDecidirRelacion.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -187,66 +244,6 @@ public class ssr_decidir_relaciones extends Fragment implements Response.Listene
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("usuario");
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = json.getJSONObject(0);
-            idEncuesta = jsonObject.optString("encuesta_emt");
-            UsarAnticonceptivo = jsonObject.optInt("usar_anticonceptivo");
-            SinProteccion = jsonObject.optInt("sin_proteccion");
-            NegociarPareja= jsonObject.optInt("negociar_relacion");
-            ForzarPareja= jsonObject.optInt("forzar_sin_proteccion");
-            Otro= jsonObject.optInt("otro_decidir_relacion");
-
-            respuesta = jsonObject.optString("respuesta_decidir_relaciones");
-            otroDecidirRelacion = jsonObject.optString("otro_decidir_relacion_nombre");
-
-            if (UsarAnticonceptivo == 1) {
-                rdUsarAnticonceptivoSi.setChecked(true);
-            } else if (UsarAnticonceptivo == 2) {
-                rdUsarAnticonceptivoNo.setChecked(true);
-            }
-
-            if (SinProteccion == 1) {
-                rdSinProteccionSi.setChecked(true);
-            } else if (SinProteccion == 2) {
-                rdSinProteccionNo.setChecked(true);
-            }
-
-            if (NegociarPareja == 1) {
-                rdNegociarParejaSi.setChecked(true);
-            } else if (NegociarPareja == 2) {
-                rdNegociarParejaNo.setChecked(true);
-            }
-
-            if (ForzarPareja == 1) {
-                rdForzarParejaSi.setChecked(true);
-            } else if (ForzarPareja == 2) {
-                rdForzarParejaNo.setChecked(true);
-            }
-
-            if (Otro == 1) {
-                rdOtroSi.setChecked(true);
-            } else if (Otro == 2) {
-                rdOtroNo.setChecked(true);
-            }
-
-            txtRespuesta.setText(respuesta.toString());
-            txtOtroDecidirRelacion.setText(otroDecidirRelacion.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

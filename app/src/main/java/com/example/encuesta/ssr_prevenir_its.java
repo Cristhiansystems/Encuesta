@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link ssr_prevenir_its#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssr_prevenir_its extends Fragment  implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class ssr_prevenir_its extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -146,7 +146,46 @@ public class ssr_prevenir_its extends Fragment  implements Response.Listener<JSO
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                prevenirIts = jsonObject.optInt("prevenir_its");
+                otro = jsonObject.optString("prevenir_its_otro");
+                respuesta = jsonObject.optString("respuesta_prevenir_its");
+
+
+                if(prevenirIts==1){
+                    rdUsoCondon.setChecked(true);
+                }else if(prevenirIts==2){
+                    rdNoRelaciones.setChecked(true);
+                }else if(prevenirIts==3){
+                    rdFidelidad.setChecked(true);
+                }else if(prevenirIts==4){
+                    rdNoSabe.setChecked(true);
+                }else if(prevenirIts==5){
+                    rdOtro.setChecked(true);
+                }
+
+
+                txtOtro.setText(otro.toString());
+                txtrespuesta.setText(respuesta.toString());
+
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -177,49 +216,6 @@ public class ssr_prevenir_its extends Fragment  implements Response.Listener<JSO
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("usuario");
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = json.getJSONObject(0);
-            idEncuesta = jsonObject.optString("encuesta_emt");
-            prevenirIts = jsonObject.optInt("prevenir_its");
-            otro = jsonObject.optString("prevenir_its_otro");
-            respuesta = jsonObject.optString("respuesta_prevenir_its");
-
-
-            if(prevenirIts==1){
-                rdUsoCondon.setChecked(true);
-            }else if(prevenirIts==2){
-                rdNoRelaciones.setChecked(true);
-            }else if(prevenirIts==3){
-                rdFidelidad.setChecked(true);
-            }else if(prevenirIts==4){
-                rdNoSabe.setChecked(true);
-            }else if(prevenirIts==5){
-                rdOtro.setChecked(true);
-            }
-
-
-            txtOtro.setText(otro.toString());
-            txtrespuesta.setText(respuesta.toString());
-
-
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

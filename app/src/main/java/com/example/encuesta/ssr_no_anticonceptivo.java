@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link ssr_no_anticonceptivo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssr_no_anticonceptivo extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class ssr_no_anticonceptivo extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -153,7 +153,70 @@ public class ssr_no_anticonceptivo extends Fragment implements Response.Listener
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                economico = jsonObject.optInt("costo_economico");
+                deseoHijos = jsonObject.optInt("tener_hijo");
+                causanDanoMujer = jsonObject.optInt("causan_dano_mujer");
+                condonNoMismo = jsonObject.optInt("condon_no_mismo");
+                noceUsan = jsonObject.optInt("noce_usar");
+                otro = jsonObject.optInt("otro_no_anticonceptivo");
+                otroNoAnticonceptivoNombre = jsonObject.optString("otro_no_anticonceptivo_nombre");
+                respuesta = jsonObject.optString("respuesta_no_anticonceptivo");
+
+
+                if (economico == 1) {
+                    rdEconomicoSi.setChecked(true);
+                } else if (economico == 2) {
+                    rdEconomicoNo.setChecked(true);
+                }
+
+                if (deseoHijos == 1) {
+                    rdDeseoHijoSi.setChecked(true);
+                } else if (deseoHijos == 2) {
+                    rdDeseoHijoNo.setChecked(true);
+                }
+
+                if (causanDanoMujer == 1) {
+                    rdCausaDanoMujerSi.setChecked(true);
+                } else if (causanDanoMujer == 2) {
+                    rdCausaDanoMujerNo.setChecked(true);
+                }
+
+                if (condonNoMismo == 1) {
+                    rdCondonNoMismoSi.setChecked(true);
+                } else if (condonNoMismo == 2) {
+                    rdCondonNoMismoNo.setChecked(true);
+                }
+
+                if (noceUsan == 1) {
+                    rdNoceUsanSi.setChecked(true);
+                } else if (noceUsan == 2) {
+                    rdNoceUsanNo.setChecked(true);
+                }
+
+                if (otro == 1) {
+                    rdOtroSi.setChecked(true);
+                } else if (otro == 2) {
+                    rdOtroSi.setChecked(true);
+                }
+
+                txtOtro.setText(otroNoAnticonceptivoNombre.toString());
+                txtRespuesta.setText(respuesta.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -186,73 +249,6 @@ public class ssr_no_anticonceptivo extends Fragment implements Response.Listener
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("usuario");
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = json.getJSONObject(0);
-            idEncuesta = jsonObject.optString("encuesta_emt");
-            economico = jsonObject.optInt("costo_economico");
-            deseoHijos = jsonObject.optInt("tener_hijo");
-            causanDanoMujer = jsonObject.optInt("causan_dano_mujer");
-            condonNoMismo = jsonObject.optInt("condon_no_mismo");
-            noceUsan = jsonObject.optInt("noce_usar");
-            otro = jsonObject.optInt("otro_no_anticonceptivo");
-            otroNoAnticonceptivoNombre = jsonObject.optString("otro_no_anticonceptivo_nombre");
-            respuesta = jsonObject.optString("respuesta_no_anticonceptivo");
-
-
-            if (economico == 1) {
-                rdEconomicoSi.setChecked(true);
-            } else if (economico == 2) {
-                rdEconomicoNo.setChecked(true);
-            }
-
-            if (deseoHijos == 1) {
-                rdDeseoHijoSi.setChecked(true);
-            } else if (deseoHijos == 2) {
-                rdDeseoHijoNo.setChecked(true);
-            }
-
-            if (causanDanoMujer == 1) {
-                rdCausaDanoMujerSi.setChecked(true);
-            } else if (causanDanoMujer == 2) {
-                rdCausaDanoMujerNo.setChecked(true);
-            }
-
-            if (condonNoMismo == 1) {
-                rdCondonNoMismoSi.setChecked(true);
-            } else if (condonNoMismo == 2) {
-                rdCondonNoMismoNo.setChecked(true);
-            }
-
-            if (noceUsan == 1) {
-                rdNoceUsanSi.setChecked(true);
-            } else if (noceUsan == 2) {
-                rdNoceUsanNo.setChecked(true);
-            }
-
-            if (otro == 1) {
-                rdOtroSi.setChecked(true);
-            } else if (otro == 2) {
-                rdOtroSi.setChecked(true);
-            }
-
-            txtOtro.setText(otroNoAnticonceptivoNombre.toString());
-            txtRespuesta.setText(respuesta.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

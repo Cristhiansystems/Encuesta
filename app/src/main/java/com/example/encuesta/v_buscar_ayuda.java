@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link v_buscar_ayuda#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class v_buscar_ayuda extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class v_buscar_ayuda extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -155,7 +155,72 @@ public class v_buscar_ayuda extends Fragment implements Response.Listener<JSONOb
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                ayuda= jsonObject.optInt("buscaste_ayuda");
+                miedo= jsonObject.optInt("no_buscar_ayuda_miedo");
+                creencias= jsonObject.optInt("no_buscar_ayuda_creencias");
+                represalias= jsonObject.optInt("no_buscar_ayuda_represalias");
+                otro= jsonObject.optInt("no_buscar_ayuda_otro");
+                noSabe= jsonObject.optInt("no_buscar_ayuda_nosabe");
+
+                otroBuscarAyuda= jsonObject.optString("no_buscar_ayuda_otro_nombre");
+                MencionarOrganizacion= jsonObject.optString("conoces_organizacion");
+                dondeBuscasteAyuda= jsonObject.optString("donde_buscaste_ayuda");
+
+
+                if(ayuda==1){
+                    rdAyudaSi.setChecked(true);
+                }else if(ayuda==2){
+                    rdAyudaNo.setChecked(true);
+                }
+
+                if(miedo==1){
+                    rdMiedoSi.setChecked(true);
+                }else if(miedo==2){
+                    rdMiedoNo.setChecked(true);
+                }
+
+                if(creencias==1){
+                    rdCreenciasSi.setChecked(true);
+                }else if(creencias==2){
+                    rdCreenciasNo.setChecked(true);
+                }
+
+                if(represalias==1){
+                    rdRepresaliasSi.setChecked(true);
+                }else if(represalias==2){
+                    rdRepresaliasNo.setChecked(true);
+                }
+
+                if(noSabe==1){
+                    rdNoSabeSi.setChecked(true);
+                }else if(noSabe==2){
+                    rdNoSabeNO.setChecked(true);
+                }
+
+
+                if(otro==1){
+                    rdotroSi.setChecked(true);
+                }else if(otro==2){
+                    rdOtroNo.setChecked(true);
+                }
+                txtOtro.setText(otroBuscarAyuda.toString());
+                txtDondeBuscasteAyuda.setText(dondeBuscasteAyuda.toString());
+                txtMencionaOrganizacion.setText(MencionarOrganizacion.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -188,76 +253,7 @@ public class v_buscar_ayuda extends Fragment implements Response.Listener<JSONOb
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("usuario");
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = json.getJSONObject(0);
-            idEncuesta = jsonObject.optString("encuesta_emt");
-            ayuda= jsonObject.optInt("buscaste_ayuda");
-            miedo= jsonObject.optInt("no_buscar_ayuda_miedo");
-            creencias= jsonObject.optInt("no_buscar_ayuda_creencias");
-            represalias= jsonObject.optInt("no_buscar_ayuda_represalias");
-            otro= jsonObject.optInt("no_buscar_ayuda_otro");
-            noSabe= jsonObject.optInt("no_buscar_ayuda_nosabe");
-
-            otroBuscarAyuda= jsonObject.optString("no_buscar_ayuda_otro_nombre");
-            MencionarOrganizacion= jsonObject.optString("conoces_organizacion");
-            dondeBuscasteAyuda= jsonObject.optString("donde_buscaste_ayuda");
-
-
-            if(ayuda==1){
-                rdAyudaSi.setChecked(true);
-            }else if(ayuda==2){
-                rdAyudaNo.setChecked(true);
-            }
-
-            if(miedo==1){
-                rdMiedoSi.setChecked(true);
-            }else if(miedo==2){
-                rdMiedoNo.setChecked(true);
-            }
-
-            if(creencias==1){
-                rdCreenciasSi.setChecked(true);
-            }else if(creencias==2){
-                rdCreenciasNo.setChecked(true);
-            }
-
-            if(represalias==1){
-                rdRepresaliasSi.setChecked(true);
-            }else if(represalias==2){
-                rdRepresaliasNo.setChecked(true);
-            }
-
-            if(noSabe==1){
-                rdNoSabeSi.setChecked(true);
-            }else if(noSabe==2){
-                rdNoSabeNO.setChecked(true);
-            }
-
-
-            if(otro==1){
-                rdotroSi.setChecked(true);
-            }else if(otro==2){
-                rdOtroNo.setChecked(true);
-            }
-            txtOtro.setText(otroBuscarAyuda.toString());
-            txtDondeBuscasteAyuda.setText(dondeBuscasteAyuda.toString());
-            txtMencionaOrganizacion.setText(MencionarOrganizacion.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+   
 
     /**
      * This interface must be implemented by activities that contain this

@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link ssr_metodos_anticonceptivos#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssr_metodos_anticonceptivos extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class ssr_metodos_anticonceptivos extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -175,7 +175,136 @@ public class ssr_metodos_anticonceptivos extends Fragment implements Response.Li
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                abstinencia = jsonObject.optInt("abstinencia");
+                ligaduras = jsonObject.optInt("ligadura_trompas");
+                vasectomia = jsonObject.optInt("vasectomia");
+                pildoras = jsonObject.optInt("pildoras");
+                diu = jsonObject.optInt("diu");
+                inyecciones = jsonObject.optInt("inyecciones");
+                implantes = jsonObject.optInt("implantes");
+                condonMasculino = jsonObject.optInt("condon_masculino");
+                condonFemenino = jsonObject.optInt("condon_femenino");
+                tabletas = jsonObject.optInt("tabletas");
+                lactancia = jsonObject.optInt("metodo_lactancia");
+                ritmo = jsonObject.optInt("metodo_ritmo");
+                collar = jsonObject.optInt("metodo_collar");
+                emergencia = jsonObject.optInt("pildora_emergencia");
+                otro = jsonObject.optInt("otro_anticonceptivo");
+                otroNombre = jsonObject.optString("otro_anticonceptivo_nombre");
+                repuesta = jsonObject.optString("respuesta_metodo_anticonceptivo");
+
+                if (abstinencia == 1) {
+                    rdAbstinenciaSi.setChecked(true);
+                } else if (abstinencia == 2) {
+                    rdAbstinenciaNo.setChecked(true);
+                }
+
+                if (ligaduras == 1) {
+                    rdLigadurasSi.setChecked(true);
+                } else if (ligaduras == 2) {
+                    rdLigadurasNo.setChecked(true);
+                }
+
+                if (vasectomia == 1) {
+                    rdVasectomiaSi.setChecked(true);
+                } else if (vasectomia == 2) {
+                    rdVasectomiaNo.setChecked(true);
+                }
+
+                if (pildoras == 1) {
+                    rdPildorasSi.setChecked(true);
+                } else if (pildoras == 2) {
+                    rdPildorasNo.setChecked(true);
+                }
+
+                if (diu == 1) {
+                    rdDiuSi.setChecked(true);
+                } else if (diu == 2) {
+                    rdDiuNo.setChecked(true);
+                }
+
+                if (inyecciones == 1) {
+                    rdInyeccionSi.setChecked(true);
+                } else if (inyecciones == 2) {
+                    rdInyecionNo.setChecked(true);
+                }
+
+                if (implantes == 1) {
+                    rdImpantesSi.setChecked(true);
+                } else if (implantes == 2) {
+                    rdImplantesNo.setChecked(true);
+                }
+
+                if (condonMasculino == 1) {
+                    rdConconMasculinoSi.setChecked(true);
+                } else if (condonMasculino == 2) {
+                    rdConconMasculinoNo.setChecked(true);
+                }
+
+                if (condonFemenino == 1) {
+                    rdConconFemeninoSi.setChecked(true);
+                } else if (condonFemenino == 2) {
+                    rdConconFemeninoNo.setChecked(true);
+                }
+
+                if (tabletas == 1) {
+                    rdTabletasSi.setChecked(true);
+                } else if (tabletas == 2) {
+                    rdTabletasNo.setChecked(true);
+                }
+
+
+                if (lactancia == 1) {
+                    rdLactanciaSi.setChecked(true);
+                } else if (lactancia == 2) {
+                    rdLactanciaNo.setChecked(true);
+                }
+
+
+                if (collar == 1) {
+                    rdCollarSi.setChecked(true);
+                } else if (collar == 2) {
+                    rdCollarNo.setChecked(true);
+                }
+
+                if (emergencia == 1) {
+                    rdEmergenciaSi.setChecked(true);
+                } else if (emergencia == 2) {
+                    rdEmergenciaNo.setChecked(true);
+                }
+
+
+                if (ritmo == 1) {
+                    rdRitmoSi.setChecked(true);
+                } else if (ritmo == 2) {
+                    rdRitmoNo.setChecked(true);
+                }
+
+
+                if (otro == 1) {
+                    rdOtroSi.setChecked(true);
+                } else if (otro == 2) {
+                    rdOtrono.setChecked(true);
+                }
+
+                txtOtroNombre.setText(otroNombre.toString());
+                txtrespuesta.setText(repuesta.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -208,138 +337,6 @@ public class ssr_metodos_anticonceptivos extends Fragment implements Response.Li
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("usuario");
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = json.getJSONObject(0);
-            idEncuesta = jsonObject.optString("encuesta_emt");
-            abstinencia = jsonObject.optInt("abstinencia");
-            ligaduras = jsonObject.optInt("ligadura_trompas");
-            vasectomia = jsonObject.optInt("vasectomia");
-            pildoras = jsonObject.optInt("pildoras");
-            diu = jsonObject.optInt("diu");
-            inyecciones = jsonObject.optInt("inyecciones");
-            implantes = jsonObject.optInt("implantes");
-            condonMasculino = jsonObject.optInt("condon_masculino");
-            condonFemenino = jsonObject.optInt("condon_femenino");
-            tabletas = jsonObject.optInt("tabletas");
-            lactancia = jsonObject.optInt("metodo_lactancia");
-            ritmo = jsonObject.optInt("metodo_ritmo");
-            collar = jsonObject.optInt("metodo_collar");
-            emergencia = jsonObject.optInt("pildora_emergencia");
-            otro = jsonObject.optInt("otro_anticonceptivo");
-            otroNombre = jsonObject.optString("otro_anticonceptivo_nombre");
-            repuesta = jsonObject.optString("respuesta_metodo_anticonceptivo");
-
-            if (abstinencia == 1) {
-                rdAbstinenciaSi.setChecked(true);
-            } else if (abstinencia == 2) {
-                rdAbstinenciaNo.setChecked(true);
-            }
-
-            if (ligaduras == 1) {
-                rdLigadurasSi.setChecked(true);
-            } else if (ligaduras == 2) {
-                rdLigadurasNo.setChecked(true);
-            }
-
-            if (vasectomia == 1) {
-                rdVasectomiaSi.setChecked(true);
-            } else if (vasectomia == 2) {
-                rdVasectomiaNo.setChecked(true);
-            }
-
-            if (pildoras == 1) {
-                rdPildorasSi.setChecked(true);
-            } else if (pildoras == 2) {
-                rdPildorasNo.setChecked(true);
-            }
-
-            if (diu == 1) {
-                rdDiuSi.setChecked(true);
-            } else if (diu == 2) {
-                rdDiuNo.setChecked(true);
-            }
-
-            if (inyecciones == 1) {
-                rdInyeccionSi.setChecked(true);
-            } else if (inyecciones == 2) {
-                rdInyecionNo.setChecked(true);
-            }
-
-            if (implantes == 1) {
-                rdImpantesSi.setChecked(true);
-            } else if (implantes == 2) {
-                rdImplantesNo.setChecked(true);
-            }
-
-            if (condonMasculino == 1) {
-                rdConconMasculinoSi.setChecked(true);
-            } else if (condonMasculino == 2) {
-                rdConconMasculinoNo.setChecked(true);
-            }
-
-            if (condonFemenino == 1) {
-                rdConconFemeninoSi.setChecked(true);
-            } else if (condonFemenino == 2) {
-                rdConconFemeninoNo.setChecked(true);
-            }
-
-            if (tabletas == 1) {
-                rdTabletasSi.setChecked(true);
-            } else if (tabletas == 2) {
-                rdTabletasNo.setChecked(true);
-            }
-
-
-            if (lactancia == 1) {
-                rdLactanciaSi.setChecked(true);
-            } else if (lactancia == 2) {
-                rdLactanciaNo.setChecked(true);
-            }
-
-
-            if (collar == 1) {
-                rdCollarSi.setChecked(true);
-            } else if (collar == 2) {
-                rdCollarNo.setChecked(true);
-            }
-
-            if (emergencia == 1) {
-                rdEmergenciaSi.setChecked(true);
-            } else if (emergencia == 2) {
-                rdEmergenciaNo.setChecked(true);
-            }
-
-
-            if (ritmo == 1) {
-                rdRitmoSi.setChecked(true);
-            } else if (ritmo == 2) {
-                rdRitmoNo.setChecked(true);
-            }
-
-
-            if (otro == 1) {
-                rdOtroSi.setChecked(true);
-            } else if (otro == 2) {
-                rdOtrono.setChecked(true);
-            }
-
-            txtOtroNombre.setText(otroNombre.toString());
-            txtrespuesta.setText(repuesta.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

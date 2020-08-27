@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link v_violencia_pareja_actual#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class v_violencia_pareja_actual extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
+public class v_violencia_pareja_actual extends Fragment  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -165,7 +165,96 @@ public class v_violencia_pareja_actual extends Fragment implements Response.List
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                empujado= jsonObject.optInt("empujado");
+                golpeado= jsonObject.optInt("golpeado");
+                golpeadoObjeto= jsonObject.optInt("golpeado_objeto");
+                golpeadoMarcas= jsonObject.optInt("golpeado_marcas");
+                forzarRelaciones= jsonObject.optInt("forzar_relaciones");
+                otro= jsonObject.optInt("violencia_pareja_recientemente_otro");
+
+                otroViolenciaParejaActual= jsonObject.optString("otro_violencia_pareja_nombre");
+
+
+                if(empujado==1){
+                    rdempujadoMM.setChecked(true);
+                }else if(empujado==2){
+                    rdempujadoAV.setChecked(true);
+                }else if(empujado==3){
+                    rdempujadoN.setChecked(true);
+                }else if(empujado==4){
+                    rdempujadoNC.setChecked(true);
+                }
+
+                if(golpeado==1){
+                    rdgolpeadoMM.setChecked(true);
+                }else if(golpeado==2){
+                    rdgolpeadoAV.setChecked(true);
+                }else if(golpeado==3){
+                    rdgolpeadoN.setChecked(true);
+                }else if(golpeado==4){
+                    rdgolpeadoNC.setChecked(true);
+                }
+
+
+                if(golpeadoObjeto==1){
+                    rdgolpeadoObjetoMM.setChecked(true);
+                }else if(golpeadoObjeto==2){
+                    rdgolpeadoObjetoAV.setChecked(true);
+                }else if(golpeadoObjeto==3){
+                    rdgolpeadoObjetoN.setChecked(true);
+                }else if(golpeadoObjeto==4){
+                    rdgolpeadoObjetoNC.setChecked(true);
+                }
+
+                if(golpeadoMarcas==1){
+                    rdGolpeadoMarcasMM.setChecked(true);
+                }else if(golpeadoMarcas==2){
+                    rdgolpeadoMarcasAV.setChecked(true);
+                }else if(golpeadoMarcas==3){
+                    rdgolpeadoMarcasN.setChecked(true);
+                }else if(golpeadoMarcas==4){
+                    rdgolpeadoMarcasNC.setChecked(true);
+                }
+
+
+                if(forzarRelaciones==1){
+                    rdForzarrelacionesMM.setChecked(true);
+                }else if(forzarRelaciones==2){
+                    rdforzarRelacionesAV.setChecked(true);
+                }else if(forzarRelaciones==3){
+                    rdforzarRelacionesN.setChecked(true);
+                }else if(forzarRelaciones==4){
+                    rdforzarRelacionesNC.setChecked(true);
+                }
+
+
+                if(otro==1){
+                    rdotroMM.setChecked(true);
+                }else if(otro==2){
+                    rdotroAV.setChecked(true);
+                }else if(otro==3){
+                    rdotroN.setChecked(true);
+                }else if(otro==4){
+                    rdotroNC.setChecked(true);
+                }
+                txtOtro.setText(otroViolenciaParejaActual.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -198,103 +287,6 @@ public class v_violencia_pareja_actual extends Fragment implements Response.List
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("usuario");
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = json.getJSONObject(0);
-            idEncuesta = jsonObject.optString("encuesta_emt");
-            empujado= jsonObject.optInt("empujado");
-            golpeado= jsonObject.optInt("golpeado");
-            golpeadoObjeto= jsonObject.optInt("golpeado_objeto");
-            golpeadoMarcas= jsonObject.optInt("golpeado_marcas");
-            forzarRelaciones= jsonObject.optInt("forzar_relaciones");
-            otro= jsonObject.optInt("violencia_pareja_recientemente_otro");
-
-            otroViolenciaParejaActual= jsonObject.optString("otro_violencia_pareja_nombre");
-
-
-            if(empujado==1){
-                rdempujadoMM.setChecked(true);
-            }else if(empujado==2){
-                rdempujadoAV.setChecked(true);
-            }else if(empujado==3){
-                rdempujadoN.setChecked(true);
-            }else if(empujado==4){
-                rdempujadoNC.setChecked(true);
-            }
-
-            if(golpeado==1){
-                rdgolpeadoMM.setChecked(true);
-            }else if(golpeado==2){
-                rdgolpeadoAV.setChecked(true);
-            }else if(golpeado==3){
-                rdgolpeadoN.setChecked(true);
-            }else if(golpeado==4){
-                rdgolpeadoNC.setChecked(true);
-            }
-
-
-            if(golpeadoObjeto==1){
-                rdgolpeadoObjetoMM.setChecked(true);
-            }else if(golpeadoObjeto==2){
-                rdgolpeadoObjetoAV.setChecked(true);
-            }else if(golpeadoObjeto==3){
-                rdgolpeadoObjetoN.setChecked(true);
-            }else if(golpeadoObjeto==4){
-                rdgolpeadoObjetoNC.setChecked(true);
-            }
-
-            if(golpeadoMarcas==1){
-                rdGolpeadoMarcasMM.setChecked(true);
-            }else if(golpeadoMarcas==2){
-                rdgolpeadoMarcasAV.setChecked(true);
-            }else if(golpeadoMarcas==3){
-                rdgolpeadoMarcasN.setChecked(true);
-            }else if(golpeadoMarcas==4){
-                rdgolpeadoMarcasNC.setChecked(true);
-            }
-
-
-            if(forzarRelaciones==1){
-                rdForzarrelacionesMM.setChecked(true);
-            }else if(forzarRelaciones==2){
-                rdforzarRelacionesAV.setChecked(true);
-            }else if(forzarRelaciones==3){
-                rdforzarRelacionesN.setChecked(true);
-            }else if(forzarRelaciones==4){
-                rdforzarRelacionesNC.setChecked(true);
-            }
-
-
-
-
-
-
-
-            if(otro==1){
-                rdotroMM.setChecked(true);
-            }else if(otro==2){
-                rdotroAV.setChecked(true);
-            }else if(otro==3){
-                rdotroN.setChecked(true);
-            }else if(otro==4){
-                rdotroNC.setChecked(true);
-            }
-            txtOtro.setText(otroViolenciaParejaActual.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

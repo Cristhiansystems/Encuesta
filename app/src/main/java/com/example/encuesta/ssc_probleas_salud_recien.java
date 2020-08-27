@@ -41,7 +41,7 @@ import java.util.ArrayList;
  * Use the {@link ssc_probleas_salud_recien#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssc_probleas_salud_recien extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class ssc_probleas_salud_recien extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -182,7 +182,370 @@ public class ssc_probleas_salud_recien extends Fragment implements Response.List
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                dolorCabeza = jsonObject.optInt("dolor_cabeza");
+                dolorCabezaFrec = jsonObject.optInt("dolor_cabeza_frecuencia");
+                digestivas = jsonObject.optInt("digestivas");
+                digestivasFrec = jsonObject.optInt("digestivas_frecuencia");
+                respiratorias = jsonObject.optInt("respiratorias");
+                respiratoriasFrec = jsonObject.optInt("respiratorias_frecuencia");
+                molestiasGenitales = jsonObject.optInt("molestias_genitales");
+                molestiasGenitalesFrec = jsonObject.optInt("molestias_genitales_frecuencia");
+                cortes = jsonObject.optInt("cortes");
+                cortesFrec = jsonObject.optInt("cortes_frecuencia");
+                problemasPiel = jsonObject.optInt("problemas_piel");
+                problemasPielFrec = jsonObject.optInt("problemas_piel_frecuencia");
+                fracturas = jsonObject.optInt("fracturas");
+                fracturasFrec = jsonObject.optInt("fracturas_frecuencia");
+                desmayos = jsonObject.optInt("desmayos");
+                desmayosFrec = jsonObject.optInt("desmayos_frecuencia");
+                its = jsonObject.optInt("its");
+                itsFrec = jsonObject.optInt("its_frecuencia");
+                otro = jsonObject.optInt("problema_salud_otro");
+                otroFrec = jsonObject.optInt("problema_salud_otro_frecuencia");
+
+                otroProblemaSaludRecien = jsonObject.optString("problema_salud_otro_nombre");
+                respuesta = jsonObject.optString("respuesta_salud_recien");
+                //LLenar spinner frecuencia dolor de cabeza
+                String frecuenciaDC;
+                if(dolorCabezaFrec==1){
+                    frecuenciaDC="A diario";
+                }else if(dolorCabezaFrec==2){
+                    frecuenciaDC="Una vez a la semana";
+                }else if(dolorCabezaFrec==3){
+                    frecuenciaDC="2 veces al mes";
+                }else if(dolorCabezaFrec==4){
+                    frecuenciaDC="Rara vez";
+                }else{
+                    frecuenciaDC="";
+                }
+
+                ArrayList<String> frecDolorCabeza= new ArrayList<String>();
+                frecDolorCabeza.add(frecuenciaDC);
+                frecDolorCabeza.add("A diario");
+                frecDolorCabeza.add("Una vez a la semana");
+                frecDolorCabeza.add("2 veces al mes");
+                frecDolorCabeza.add("Rara vez");
+
+                ArrayAdapter<CharSequence> adaptadorDolorCabeza=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,frecDolorCabeza);
+                spindolorCabeza.setAdapter(adaptadorDolorCabeza);
+
+
+                //LLenar spinner frecuencia digestivas
+                String frecuenciaD;
+                if(digestivasFrec==1){
+                    frecuenciaD="A diario";
+                }else if(digestivasFrec==2){
+                    frecuenciaD="Una vez a la semana";
+                }else if(digestivasFrec==3){
+                    frecuenciaD="2 veces al mes";
+                }else if(digestivasFrec==4){
+                    frecuenciaD="Rara vez";
+                }else{
+                    frecuenciaD="";
+                }
+
+                ArrayList<String> frecDigestivas= new ArrayList<String>();
+                frecDigestivas.add(frecuenciaD);
+                frecDigestivas.add("A diario");
+                frecDigestivas.add("Una vez a la semana");
+                frecDigestivas.add("2 veces al mes");
+                frecDigestivas.add("Rara vez");
+
+                ArrayAdapter<CharSequence> adaptadorDigestivas=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,frecDigestivas);
+                spindigestivas.setAdapter(adaptadorDigestivas);
+
+
+                //LLenar spinner frecuencia respiratorias
+                String frecuenciaR;
+                if(respiratoriasFrec==1){
+                    frecuenciaR="A diario";
+                }else if(respiratoriasFrec==2){
+                    frecuenciaR="Una vez a la semana";
+                }else if(respiratoriasFrec==3){
+                    frecuenciaR="2 veces al mes";
+                }else if(respiratoriasFrec==4){
+                    frecuenciaR="Rara vez";
+                }else{
+                    frecuenciaR="";
+                }
+
+                ArrayList<String> frecRespiratorias= new ArrayList<String>();
+                frecRespiratorias.add(frecuenciaR);
+                frecRespiratorias.add("A diario");
+                frecRespiratorias.add("Una vez a la semana");
+                frecRespiratorias.add("2 veces al mes");
+                frecRespiratorias.add("Rara vez");
+
+                ArrayAdapter<CharSequence> adaptadorRespiratorias=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,frecRespiratorias);
+                spinrespiratorias.setAdapter(adaptadorRespiratorias);
+
+
+                //LLenar spinner frecuencia molestias genitales
+                String frecuenciaMG;
+                if(molestiasGenitalesFrec==1){
+                    frecuenciaMG="A diario";
+                }else if(molestiasGenitalesFrec==2){
+                    frecuenciaMG="Una vez a la semana";
+                }else if(molestiasGenitalesFrec==3){
+                    frecuenciaMG="2 veces al mes";
+                }else if(molestiasGenitalesFrec==4){
+                    frecuenciaMG="Rara vez";
+                }else{
+                    frecuenciaMG="";
+                }
+
+                ArrayList<String> frecMolestiasGenitales= new ArrayList<String>();
+                frecMolestiasGenitales.add(frecuenciaMG);
+                frecMolestiasGenitales.add("A diario");
+                frecMolestiasGenitales.add("Una vez a la semana");
+                frecMolestiasGenitales.add("2 veces al mes");
+                frecMolestiasGenitales.add("Rara vez");
+
+                ArrayAdapter<CharSequence> adaptadorMolestiasGenitales=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,frecMolestiasGenitales);
+                spinmolestiasGenitales.setAdapter(adaptadorMolestiasGenitales);
+
+
+                //LLenar spinner frecuencia cortes
+                String frecuenciaC;
+                if(cortesFrec==1){
+                    frecuenciaC="A diario";
+                }else if(cortesFrec==2){
+                    frecuenciaC="Una vez a la semana";
+                }else if(cortesFrec==3){
+                    frecuenciaC="2 veces al mes";
+                }else if(cortesFrec==4){
+                    frecuenciaC="Rara vez";
+                }else{
+                    frecuenciaC="";
+                }
+
+                ArrayList<String> frecCortes= new ArrayList<String>();
+                frecCortes.add(frecuenciaC);
+                frecCortes.add("A diario");
+                frecCortes.add("Una vez a la semana");
+                frecCortes.add("2 veces al mes");
+                frecCortes.add("Rara vez");
+
+                ArrayAdapter<CharSequence> adaptadorCortes=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,frecCortes);
+                spincortes.setAdapter(adaptadorCortes);
+
+
+                //LLenar spinner frecuencia problemas piel
+                String frecuenciaPP;
+                if(problemasPielFrec==1){
+                    frecuenciaPP="A diario";
+                }else if(problemasPielFrec==2){
+                    frecuenciaPP="Una vez a la semana";
+                }else if(problemasPielFrec==3){
+                    frecuenciaPP="2 veces al mes";
+                }else if(problemasPielFrec==4){
+                    frecuenciaPP="Rara vez";
+                }else{
+                    frecuenciaPP="";
+                }
+
+                ArrayList<String> frecProblemasPiel= new ArrayList<String>();
+                frecProblemasPiel.add(frecuenciaPP);
+                frecProblemasPiel.add("A diario");
+                frecProblemasPiel.add("Una vez a la semana");
+                frecProblemasPiel.add("2 veces al mes");
+                frecProblemasPiel.add("Rara vez");
+
+                ArrayAdapter<CharSequence> adaptadorProblemasPiel=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,frecProblemasPiel);
+                spinproblemasPiel.setAdapter(adaptadorProblemasPiel);
+
+                //LLenar spinner frecuencia fracturas
+                String frecuenciaF;
+                if(fracturasFrec==1){
+                    frecuenciaF="A diario";
+                }else if(fracturasFrec==2){
+                    frecuenciaF="Una vez a la semana";
+                }else if(fracturasFrec==3){
+                    frecuenciaF="2 veces al mes";
+                }else if(fracturasFrec==4){
+                    frecuenciaF="Rara vez";
+                }else{
+                    frecuenciaF="";
+                }
+
+                ArrayList<String> frecFracturas= new ArrayList<String>();
+                frecFracturas.add(frecuenciaF);
+                frecFracturas.add("A diario");
+                frecFracturas.add("Una vez a la semana");
+                frecFracturas.add("2 veces al mes");
+                frecFracturas.add("Rara vez");
+
+                ArrayAdapter<CharSequence> adaptadorFracturas=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,frecProblemasPiel);
+                spinfracturas.setAdapter(adaptadorFracturas);
+
+
+                //LLenar spinner frecuencia desmayos
+                String frecuenciaDE;
+                if(desmayosFrec==1){
+                    frecuenciaDE="A diario";
+                }else if(desmayosFrec==2){
+                    frecuenciaDE="Una vez a la semana";
+                }else if(desmayosFrec==3){
+                    frecuenciaDE="2 veces al mes";
+                }else if(desmayosFrec==4){
+                    frecuenciaDE="Rara vez";
+                }else{
+                    frecuenciaDE="";
+                }
+
+                ArrayList<String> frecDesmayos= new ArrayList<String>();
+                frecDesmayos.add(frecuenciaDE);
+                frecDesmayos.add("A diario");
+                frecDesmayos.add("Una vez a la semana");
+                frecDesmayos.add("2 veces al mes");
+                frecDesmayos.add("Rara vez");
+
+                ArrayAdapter<CharSequence> adaptadorDesmayos=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,frecDesmayos);
+                spindesmayos.setAdapter(adaptadorDesmayos);
+
+
+                //LLenar spinner frecuencia its
+                String frecuenciaI;
+                if(itsFrec==1){
+                    frecuenciaI="A diario";
+                }else if(itsFrec==2){
+                    frecuenciaI="Una vez a la semana";
+                }else if(itsFrec==3){
+                    frecuenciaI="2 veces al mes";
+                }else if(itsFrec==4){
+                    frecuenciaI="Rara vez";
+                }else{
+                    frecuenciaI="";
+                }
+
+                ArrayList<String> frecIts= new ArrayList<String>();
+                frecIts.add(frecuenciaI);
+                frecIts.add("A diario");
+                frecIts.add("Una vez a la semana");
+                frecIts.add("2 veces al mes");
+                frecIts.add("Rara vez");
+
+                ArrayAdapter<CharSequence> adaptadorIts=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,frecIts);
+                spinits.setAdapter(adaptadorIts);
+
+
+                //LLenar spinner frecuencia otro
+                String frecuenciaO;
+                if(otroFrec==1){
+                    frecuenciaO="A diario";
+                }else if(otroFrec==2){
+                    frecuenciaO="Una vez a la semana";
+                }else if(otroFrec==3){
+                    frecuenciaO="2 veces al mes";
+                }else if(otroFrec==4){
+                    frecuenciaO="Rara vez";
+                }else{
+                    frecuenciaO="";
+                }
+
+                ArrayList<String> frecOtro= new ArrayList<String>();
+                frecOtro.add(frecuenciaO);
+                frecOtro.add("A diario");
+                frecOtro.add("Una vez a la semana");
+                frecOtro.add("2 veces al mes");
+                frecOtro.add("Rara vez");
+
+                ArrayAdapter<CharSequence> adaptadorOtro=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,frecOtro);
+                spinotro.setAdapter(adaptadorOtro);
+
+
+                if (dolorCabeza == 1) {
+                    rdDolorCabezaSi.setChecked(true);
+                } else if (dolorCabeza == 2) {
+                    rdDolorCabezaNo.setChecked(true);
+                }
+
+                if (digestivas == 1) {
+                    rdDigestivasSi.setChecked(true);
+                } else if (digestivas == 2) {
+                    rdDigestivasNo.setChecked(true);
+                }
+
+                if (respiratorias == 1) {
+                    rdRespiratoriasSi.setChecked(true);
+                } else if (respiratorias == 2) {
+                    rdRespiratoriasNo.setChecked(true);
+                }
+
+                if (molestiasGenitales == 1) {
+                    rdMolestiasGenitalesSi.setChecked(true);
+                } else if (molestiasGenitales == 2) {
+                    rdMolestiasGenitalesNo.setChecked(true);
+                }
+
+                if (cortes == 1) {
+                    rdCortesSi.setChecked(true);
+                } else if (cortes == 2) {
+                    rdCortesNo.setChecked(true);
+                }
+
+                if (problemasPiel == 1) {
+                    rdProblemasPielSi.setChecked(true);
+                } else if (problemasPiel == 2) {
+                    rdProblemasPielNo.setChecked(true);
+                }
+
+                if (fracturas == 1) {
+                    rdFracturasSi.setChecked(true);
+                } else if (fracturas == 2) {
+                    rdFracturasNo.setChecked(true);
+                }
+
+
+                if (desmayos == 1) {
+                    rdDesmayosSi.setChecked(true);
+                } else if (desmayos == 2) {
+                    rdDesmayosNo.setChecked(true);
+                }
+
+
+                if (its == 1) {
+                    rdItsSi.setChecked(true);
+                } else if (its == 2) {
+                    rdItsNo.setChecked(true);
+                }
+
+
+                if (otro == 1) {
+                    rdOtroSi.setChecked(true);
+                } else if (otro == 2) {
+                    rdOtroNo.setChecked(true);
+                }
+
+                txtOtroProblemaSaludRecien.setText(otroProblemaSaludRecien.toString());
+                txtRespuesta.setText(respuesta.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -215,372 +578,6 @@ public class ssc_probleas_salud_recien extends Fragment implements Response.List
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("usuario");
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = json.getJSONObject(0);
-            idEncuesta = jsonObject.optString("encuesta_emt");
-            dolorCabeza = jsonObject.optInt("dolor_cabeza");
-            dolorCabezaFrec = jsonObject.optInt("dolor_cabeza_frecuencia");
-            digestivas = jsonObject.optInt("digestivas");
-            digestivasFrec = jsonObject.optInt("digestivas_frecuencia");
-            respiratorias = jsonObject.optInt("respiratorias");
-            respiratoriasFrec = jsonObject.optInt("respiratorias_frecuencia");
-            molestiasGenitales = jsonObject.optInt("molestias_genitales");
-            molestiasGenitalesFrec = jsonObject.optInt("molestias_genitales_frecuencia");
-            cortes = jsonObject.optInt("cortes");
-            cortesFrec = jsonObject.optInt("cortes_frecuencia");
-            problemasPiel = jsonObject.optInt("problemas_piel");
-            problemasPielFrec = jsonObject.optInt("problemas_piel_frecuencia");
-            fracturas = jsonObject.optInt("fracturas");
-            fracturasFrec = jsonObject.optInt("fracturas_frecuencia");
-            desmayos = jsonObject.optInt("desmayos");
-            desmayosFrec = jsonObject.optInt("desmayos_frecuencia");
-            its = jsonObject.optInt("its");
-            itsFrec = jsonObject.optInt("its_frecuencia");
-            otro = jsonObject.optInt("problema_salud_otro");
-            otroFrec = jsonObject.optInt("problema_salud_otro_frecuencia");
-
-            otroProblemaSaludRecien = jsonObject.optString("problema_salud_otro_nombre");
-            respuesta = jsonObject.optString("respuesta_salud_recien");
-            //LLenar spinner frecuencia dolor de cabeza
-            String frecuenciaDC;
-            if(dolorCabezaFrec==1){
-                frecuenciaDC="A diario";
-            }else if(dolorCabezaFrec==2){
-                frecuenciaDC="Una vez a la semana";
-            }else if(dolorCabezaFrec==3){
-                frecuenciaDC="2 veces al mes";
-            }else if(dolorCabezaFrec==4){
-                frecuenciaDC="Rara vez";
-            }else{
-                frecuenciaDC="";
-            }
-
-            ArrayList<String> frecDolorCabeza= new ArrayList<String>();
-            frecDolorCabeza.add(frecuenciaDC);
-            frecDolorCabeza.add("A diario");
-            frecDolorCabeza.add("Una vez a la semana");
-            frecDolorCabeza.add("2 veces al mes");
-            frecDolorCabeza.add("Rara vez");
-
-            ArrayAdapter<CharSequence> adaptadorDolorCabeza=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,frecDolorCabeza);
-            spindolorCabeza.setAdapter(adaptadorDolorCabeza);
-
-
-            //LLenar spinner frecuencia digestivas
-            String frecuenciaD;
-            if(digestivasFrec==1){
-                frecuenciaD="A diario";
-            }else if(digestivasFrec==2){
-                frecuenciaD="Una vez a la semana";
-            }else if(digestivasFrec==3){
-                frecuenciaD="2 veces al mes";
-            }else if(digestivasFrec==4){
-                frecuenciaD="Rara vez";
-            }else{
-                frecuenciaD="";
-            }
-
-            ArrayList<String> frecDigestivas= new ArrayList<String>();
-            frecDigestivas.add(frecuenciaD);
-            frecDigestivas.add("A diario");
-            frecDigestivas.add("Una vez a la semana");
-            frecDigestivas.add("2 veces al mes");
-            frecDigestivas.add("Rara vez");
-
-            ArrayAdapter<CharSequence> adaptadorDigestivas=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,frecDigestivas);
-            spindigestivas.setAdapter(adaptadorDigestivas);
-
-
-            //LLenar spinner frecuencia respiratorias
-            String frecuenciaR;
-            if(respiratoriasFrec==1){
-                frecuenciaR="A diario";
-            }else if(respiratoriasFrec==2){
-                frecuenciaR="Una vez a la semana";
-            }else if(respiratoriasFrec==3){
-                frecuenciaR="2 veces al mes";
-            }else if(respiratoriasFrec==4){
-                frecuenciaR="Rara vez";
-            }else{
-                frecuenciaR="";
-            }
-
-            ArrayList<String> frecRespiratorias= new ArrayList<String>();
-            frecRespiratorias.add(frecuenciaR);
-            frecRespiratorias.add("A diario");
-            frecRespiratorias.add("Una vez a la semana");
-            frecRespiratorias.add("2 veces al mes");
-            frecRespiratorias.add("Rara vez");
-
-            ArrayAdapter<CharSequence> adaptadorRespiratorias=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,frecRespiratorias);
-            spinrespiratorias.setAdapter(adaptadorRespiratorias);
-
-
-            //LLenar spinner frecuencia molestias genitales
-            String frecuenciaMG;
-            if(molestiasGenitalesFrec==1){
-                frecuenciaMG="A diario";
-            }else if(molestiasGenitalesFrec==2){
-                frecuenciaMG="Una vez a la semana";
-            }else if(molestiasGenitalesFrec==3){
-                frecuenciaMG="2 veces al mes";
-            }else if(molestiasGenitalesFrec==4){
-                frecuenciaMG="Rara vez";
-            }else{
-                frecuenciaMG="";
-            }
-
-            ArrayList<String> frecMolestiasGenitales= new ArrayList<String>();
-            frecMolestiasGenitales.add(frecuenciaMG);
-            frecMolestiasGenitales.add("A diario");
-            frecMolestiasGenitales.add("Una vez a la semana");
-            frecMolestiasGenitales.add("2 veces al mes");
-            frecMolestiasGenitales.add("Rara vez");
-
-            ArrayAdapter<CharSequence> adaptadorMolestiasGenitales=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,frecMolestiasGenitales);
-            spinmolestiasGenitales.setAdapter(adaptadorMolestiasGenitales);
-
-
-            //LLenar spinner frecuencia cortes
-            String frecuenciaC;
-            if(cortesFrec==1){
-                frecuenciaC="A diario";
-            }else if(cortesFrec==2){
-                frecuenciaC="Una vez a la semana";
-            }else if(cortesFrec==3){
-                frecuenciaC="2 veces al mes";
-            }else if(cortesFrec==4){
-                frecuenciaC="Rara vez";
-            }else{
-                frecuenciaC="";
-            }
-
-            ArrayList<String> frecCortes= new ArrayList<String>();
-            frecCortes.add(frecuenciaC);
-            frecCortes.add("A diario");
-            frecCortes.add("Una vez a la semana");
-            frecCortes.add("2 veces al mes");
-            frecCortes.add("Rara vez");
-
-            ArrayAdapter<CharSequence> adaptadorCortes=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,frecCortes);
-            spincortes.setAdapter(adaptadorCortes);
-
-
-            //LLenar spinner frecuencia problemas piel
-            String frecuenciaPP;
-            if(problemasPielFrec==1){
-                frecuenciaPP="A diario";
-            }else if(problemasPielFrec==2){
-                frecuenciaPP="Una vez a la semana";
-            }else if(problemasPielFrec==3){
-                frecuenciaPP="2 veces al mes";
-            }else if(problemasPielFrec==4){
-                frecuenciaPP="Rara vez";
-            }else{
-                frecuenciaPP="";
-            }
-
-            ArrayList<String> frecProblemasPiel= new ArrayList<String>();
-            frecProblemasPiel.add(frecuenciaPP);
-            frecProblemasPiel.add("A diario");
-            frecProblemasPiel.add("Una vez a la semana");
-            frecProblemasPiel.add("2 veces al mes");
-            frecProblemasPiel.add("Rara vez");
-
-            ArrayAdapter<CharSequence> adaptadorProblemasPiel=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,frecProblemasPiel);
-            spinproblemasPiel.setAdapter(adaptadorProblemasPiel);
-
-            //LLenar spinner frecuencia fracturas
-            String frecuenciaF;
-            if(fracturasFrec==1){
-                frecuenciaF="A diario";
-            }else if(fracturasFrec==2){
-                frecuenciaF="Una vez a la semana";
-            }else if(fracturasFrec==3){
-                frecuenciaF="2 veces al mes";
-            }else if(fracturasFrec==4){
-                frecuenciaF="Rara vez";
-            }else{
-                frecuenciaF="";
-            }
-
-            ArrayList<String> frecFracturas= new ArrayList<String>();
-            frecFracturas.add(frecuenciaF);
-            frecFracturas.add("A diario");
-            frecFracturas.add("Una vez a la semana");
-            frecFracturas.add("2 veces al mes");
-            frecFracturas.add("Rara vez");
-
-            ArrayAdapter<CharSequence> adaptadorFracturas=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,frecProblemasPiel);
-            spinfracturas.setAdapter(adaptadorFracturas);
-
-
-            //LLenar spinner frecuencia desmayos
-            String frecuenciaDE;
-            if(desmayosFrec==1){
-                frecuenciaDE="A diario";
-            }else if(desmayosFrec==2){
-                frecuenciaDE="Una vez a la semana";
-            }else if(desmayosFrec==3){
-                frecuenciaDE="2 veces al mes";
-            }else if(desmayosFrec==4){
-                frecuenciaDE="Rara vez";
-            }else{
-                frecuenciaDE="";
-            }
-
-            ArrayList<String> frecDesmayos= new ArrayList<String>();
-            frecDesmayos.add(frecuenciaDE);
-            frecDesmayos.add("A diario");
-            frecDesmayos.add("Una vez a la semana");
-            frecDesmayos.add("2 veces al mes");
-            frecDesmayos.add("Rara vez");
-
-            ArrayAdapter<CharSequence> adaptadorDesmayos=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,frecDesmayos);
-            spindesmayos.setAdapter(adaptadorDesmayos);
-
-
-            //LLenar spinner frecuencia its
-            String frecuenciaI;
-            if(itsFrec==1){
-                frecuenciaI="A diario";
-            }else if(itsFrec==2){
-                frecuenciaI="Una vez a la semana";
-            }else if(itsFrec==3){
-                frecuenciaI="2 veces al mes";
-            }else if(itsFrec==4){
-                frecuenciaI="Rara vez";
-            }else{
-                frecuenciaI="";
-            }
-
-            ArrayList<String> frecIts= new ArrayList<String>();
-            frecIts.add(frecuenciaI);
-            frecIts.add("A diario");
-            frecIts.add("Una vez a la semana");
-            frecIts.add("2 veces al mes");
-            frecIts.add("Rara vez");
-
-            ArrayAdapter<CharSequence> adaptadorIts=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,frecIts);
-            spinits.setAdapter(adaptadorIts);
-
-
-            //LLenar spinner frecuencia otro
-            String frecuenciaO;
-            if(otroFrec==1){
-                frecuenciaO="A diario";
-            }else if(otroFrec==2){
-                frecuenciaO="Una vez a la semana";
-            }else if(otroFrec==3){
-                frecuenciaO="2 veces al mes";
-            }else if(otroFrec==4){
-                frecuenciaO="Rara vez";
-            }else{
-                frecuenciaO="";
-            }
-
-            ArrayList<String> frecOtro= new ArrayList<String>();
-            frecOtro.add(frecuenciaO);
-            frecOtro.add("A diario");
-            frecOtro.add("Una vez a la semana");
-            frecOtro.add("2 veces al mes");
-            frecOtro.add("Rara vez");
-
-            ArrayAdapter<CharSequence> adaptadorOtro=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,frecOtro);
-            spinotro.setAdapter(adaptadorOtro);
-
-
-            if (dolorCabeza == 1) {
-                rdDolorCabezaSi.setChecked(true);
-            } else if (dolorCabeza == 2) {
-                rdDolorCabezaNo.setChecked(true);
-            }
-
-            if (digestivas == 1) {
-                rdDigestivasSi.setChecked(true);
-            } else if (digestivas == 2) {
-                rdDigestivasNo.setChecked(true);
-            }
-
-            if (respiratorias == 1) {
-                rdRespiratoriasSi.setChecked(true);
-            } else if (respiratorias == 2) {
-                rdRespiratoriasNo.setChecked(true);
-            }
-
-            if (molestiasGenitales == 1) {
-                rdMolestiasGenitalesSi.setChecked(true);
-            } else if (molestiasGenitales == 2) {
-                rdMolestiasGenitalesNo.setChecked(true);
-            }
-
-            if (cortes == 1) {
-                rdCortesSi.setChecked(true);
-            } else if (cortes == 2) {
-                rdCortesNo.setChecked(true);
-            }
-
-            if (problemasPiel == 1) {
-                rdProblemasPielSi.setChecked(true);
-            } else if (problemasPiel == 2) {
-                rdProblemasPielNo.setChecked(true);
-            }
-
-            if (fracturas == 1) {
-                rdFracturasSi.setChecked(true);
-            } else if (fracturas == 2) {
-                rdFracturasNo.setChecked(true);
-            }
-
-
-            if (desmayos == 1) {
-                rdDesmayosSi.setChecked(true);
-            } else if (desmayos == 2) {
-                rdDesmayosNo.setChecked(true);
-            }
-
-
-            if (its == 1) {
-                rdItsSi.setChecked(true);
-            } else if (its == 2) {
-                rdItsNo.setChecked(true);
-            }
-
-
-            if (otro == 1) {
-                rdOtroSi.setChecked(true);
-            } else if (otro == 2) {
-                rdOtroNo.setChecked(true);
-            }
-
-            txtOtroProblemaSaludRecien.setText(otroProblemaSaludRecien.toString());
-            txtRespuesta.setText(respuesta.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

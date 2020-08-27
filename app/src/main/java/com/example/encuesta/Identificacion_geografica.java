@@ -21,6 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -36,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link Identificacion_geografica#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Identificacion_geografica extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class Identificacion_geografica extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -58,7 +59,7 @@ public class Identificacion_geografica extends Fragment implements Response.List
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
-
+    StringRequest stringRequest;
 
     //navegar pantallas
     Activity actividad;
@@ -136,7 +137,32 @@ public class Identificacion_geografica extends Fragment implements Response.List
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json=response.optJSONArray("usuario");
+            JSONObject jsonObject=null;
+
+            try{
+                jsonObject=json.getJSONObject(0);
+                idEncuesta=jsonObject.optString("encuesta_emt");
+                Municipio=jsonObject.optString("municipio");
+                Instituto=jsonObject.optString("instituto");
+                Departamento=jsonObject.optString("departamento");
+                Sci=jsonObject.optString("sci");
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+            txtMunicipio.setText(Municipio.toString());
+            txtdepartamento.setText(Departamento.toString());
+            txtInstituto.setText(Instituto.toString());
+            txtSci.setText(Sci.toString());
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
 
@@ -171,37 +197,7 @@ public class Identificacion_geografica extends Fragment implements Response.List
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
 
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-
-        JSONArray json=response.optJSONArray("usuario");
-        JSONObject jsonObject=null;
-
-        try{
-            jsonObject=json.getJSONObject(0);
-            idEncuesta=jsonObject.optString("encuesta_emt");
-            Municipio=jsonObject.optString("municipio");
-            Instituto=jsonObject.optString("instituto");
-            Departamento=jsonObject.optString("departamento");
-            Sci=jsonObject.optString("sci");
-
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-        txtMunicipio.setText(Municipio.toString());
-        txtdepartamento.setText(Departamento.toString());
-        txtInstituto.setText(Instituto.toString());
-        txtSci.setText(Sci.toString());
-
-
-    }
 
     /**
      * This interface must be implemented by activities that contain this

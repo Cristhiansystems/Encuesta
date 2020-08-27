@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link sb_cuartos#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class sb_cuartos extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class sb_cuartos extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -142,7 +142,38 @@ public class sb_cuartos extends Fragment implements Response.Listener<JSONObject
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json=response.optJSONArray("usuario");
+            JSONObject jsonObject=null;
+
+            try{
+                jsonObject=json.getJSONObject(0);
+                idEncuesta=jsonObject.optString("encuesta_emt");
+                cuarto=jsonObject.optInt("cuarto_solo");
+                cuartoVivienda=jsonObject.optString("cuartos_vivienda");
+                cuartoDormir=jsonObject.optString("cuartos_dormir");
+
+                if(cuarto==1){
+                    rdSiCuarto.setChecked(true);
+                }else if(cuarto==2){
+                    rdNoCuarto.setChecked(true);
+                }
+
+                txtCuartosVivienda.setText(cuartoVivienda.toString());
+                txtCuartoDormir.setText(cuartoDormir.toString());
+
+
+
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
 
@@ -174,41 +205,6 @@ public class sb_cuartos extends Fragment implements Response.Listener<JSONObject
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json=response.optJSONArray("usuario");
-        JSONObject jsonObject=null;
-
-        try{
-            jsonObject=json.getJSONObject(0);
-            idEncuesta=jsonObject.optString("encuesta_emt");
-            cuarto=jsonObject.optInt("cuarto_solo");
-            cuartoVivienda=jsonObject.optString("cuartos_vivienda");
-            cuartoDormir=jsonObject.optString("cuartos_dormir");
-
-            if(cuarto==1){
-                rdSiCuarto.setChecked(true);
-            }else if(cuarto==2){
-                rdNoCuarto.setChecked(true);
-            }
-
-            txtCuartosVivienda.setText(cuartoVivienda.toString());
-            txtCuartoDormir.setText(cuartoDormir.toString());
-
-
-
-
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
     }
 
     /**

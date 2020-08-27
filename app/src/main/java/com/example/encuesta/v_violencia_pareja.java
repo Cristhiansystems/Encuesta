@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link v_violencia_pareja#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class v_violencia_pareja extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class v_violencia_pareja extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -182,7 +182,141 @@ public class v_violencia_pareja extends Fragment implements Response.Listener<JS
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                infiel= jsonObject.optInt("acusaba_infiel");
+                celos= jsonObject.optInt("celaba_amigo");
+                revisarCelular= jsonObject.optInt("revisa_celular");
+                limitarFamilia= jsonObject.optInt("limitar_familia");
+                insultarPublico= jsonObject.optInt("insulta_publico");
+                amenazaAbandonarte= jsonObject.optInt("amenaza_abandono");
+                quitarHijos= jsonObject.optInt("amenaza_hijos");
+                amenazaEconomico= jsonObject.optInt("amenaza_economico");
+                rompeObjetos= jsonObject.optInt("rompe_objetos");
+                otro= jsonObject.optInt("otro_violencia_pareja");
+
+                otroViolenciaPareja= jsonObject.optString("otro_violencia_pareja_nombre");
+
+
+                if(infiel==1){
+                    rdinfielMM.setChecked(true);
+                }else if(infiel==2){
+                    rdinfielAV.setChecked(true);
+                }else if(infiel==3){
+                    rdinfielN.setChecked(true);
+                }else if(infiel==4){
+                    rdinfielNC.setChecked(true);
+                }
+
+                if(celos==1){
+                    rdcelosMM.setChecked(true);
+                }else if(celos==2){
+                    rdcelosAV.setChecked(true);
+                }else if(celos==3){
+                    rdcelosN.setChecked(true);
+                }else if(celos==4){
+                    rdcelosNC.setChecked(true);
+                }
+
+
+                if(revisarCelular==1){
+                    rdrevisarCelularMM.setChecked(true);
+                }else if(revisarCelular==2){
+                    rdrevisarCelularAV.setChecked(true);
+                }else if(revisarCelular==3){
+                    rdrevisarCelularN.setChecked(true);
+                }else if(revisarCelular==4){
+                    rdrevisarCelularNC.setChecked(true);
+                }
+
+                if(limitarFamilia==1){
+                    rdlimitarFamiliaMM.setChecked(true);
+                }else if(limitarFamilia==2){
+                    rdlimitarFamiliaAV.setChecked(true);
+                }else if(limitarFamilia==3){
+                    rdlimitarFamiliaN.setChecked(true);
+                }else if(limitarFamilia==4){
+                    rdlimitarFamiliaNC.setChecked(true);
+                }
+
+
+                if(insultarPublico==1){
+                    rdinsultarPublicoMM.setChecked(true);
+                }else if(insultarPublico==2){
+                    rdinsultarPublicoAV.setChecked(true);
+                }else if(insultarPublico==3){
+                    rdinsultarPublicoN.setChecked(true);
+                }else if(insultarPublico==4){
+                    rdinsultarPublicoNC.setChecked(true);
+                }
+
+
+
+                if(amenazaAbandonarte==1){
+                    rdamenazaAbandonarteMM.setChecked(true);
+                }else if(amenazaAbandonarte==2){
+                    rdamenazaAbandonarteAV.setChecked(true);
+                }else if(amenazaAbandonarte==3){
+                    rdamenazaAbandonarteN.setChecked(true);
+                }else if(amenazaAbandonarte==4){
+                    rdamenazaAbandonarteNC.setChecked(true);
+                }
+
+
+                if(quitarHijos==1){
+                    rdquitarHijosMM.setChecked(true);
+                }else if(quitarHijos==2){
+                    rdquitarHijosAV.setChecked(true);
+                }else if(quitarHijos==3){
+                    rdquitarHijosN.setChecked(true);
+                }else if(quitarHijos==4){
+                    rdquitarHijosNC.setChecked(true);
+                }
+
+                if(amenazaEconomico==1){
+                    rdamenazaEconomicaMM.setChecked(true);
+                }else if(amenazaEconomico==2){
+                    rdamenazaEconomicaAV.setChecked(true);
+                }else if(amenazaEconomico==3){
+                    rdamenazaEconomicaN.setChecked(true);
+                }else if(amenazaEconomico==4){
+                    rdamenazaEconomicaNC.setChecked(true);
+                }
+
+                if(rompeObjetos==1){
+                    rdrompeObjetosMM.setChecked(true);
+                }else if(rompeObjetos==2){
+                    rdrompeObjetosAV.setChecked(true);
+                }else if(rompeObjetos==3){
+                    rdrompeObjetosN.setChecked(true);
+                }else if(rompeObjetos==4){
+                    rdrompreObjetosNC.setChecked(true);
+                }
+
+                if(otro==1){
+                    rdotroMM.setChecked(true);
+                }else if(otro==2){
+                    rdotroAV.setChecked(true);
+                }else if(otro==3){
+                    rdotroN.setChecked(true);
+                }else if(otro==4){
+                    rdotroNC.setChecked(true);
+                }
+                txtOtro.setText(otroViolenciaPareja.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -215,144 +349,7 @@ public class v_violencia_pareja extends Fragment implements Response.Listener<JS
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
 
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("usuario");
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = json.getJSONObject(0);
-            idEncuesta = jsonObject.optString("encuesta_emt");
-            infiel= jsonObject.optInt("acusaba_infiel");
-            celos= jsonObject.optInt("celaba_amigo");
-            revisarCelular= jsonObject.optInt("revisa_celular");
-            limitarFamilia= jsonObject.optInt("limitar_familia");
-            insultarPublico= jsonObject.optInt("insulta_publico");
-            amenazaAbandonarte= jsonObject.optInt("amenaza_abandono");
-            quitarHijos= jsonObject.optInt("amenaza_hijos");
-            amenazaEconomico= jsonObject.optInt("amenaza_economico");
-            rompeObjetos= jsonObject.optInt("rompe_objetos");
-            otro= jsonObject.optInt("otro_violencia_pareja");
-
-            otroViolenciaPareja= jsonObject.optString("otro_violencia_pareja_nombre");
-
-
-            if(infiel==1){
-                rdinfielMM.setChecked(true);
-            }else if(infiel==2){
-                rdinfielAV.setChecked(true);
-            }else if(infiel==3){
-                rdinfielN.setChecked(true);
-            }else if(infiel==4){
-                rdinfielNC.setChecked(true);
-            }
-
-            if(celos==1){
-                rdcelosMM.setChecked(true);
-            }else if(celos==2){
-                rdcelosAV.setChecked(true);
-            }else if(celos==3){
-                rdcelosN.setChecked(true);
-            }else if(celos==4){
-                rdcelosNC.setChecked(true);
-            }
-
-
-            if(revisarCelular==1){
-                rdrevisarCelularMM.setChecked(true);
-            }else if(revisarCelular==2){
-                rdrevisarCelularAV.setChecked(true);
-            }else if(revisarCelular==3){
-                rdrevisarCelularN.setChecked(true);
-            }else if(revisarCelular==4){
-                rdrevisarCelularNC.setChecked(true);
-            }
-
-            if(limitarFamilia==1){
-                rdlimitarFamiliaMM.setChecked(true);
-            }else if(limitarFamilia==2){
-                rdlimitarFamiliaAV.setChecked(true);
-            }else if(limitarFamilia==3){
-                rdlimitarFamiliaN.setChecked(true);
-            }else if(limitarFamilia==4){
-                rdlimitarFamiliaNC.setChecked(true);
-            }
-
-
-            if(insultarPublico==1){
-                rdinsultarPublicoMM.setChecked(true);
-            }else if(insultarPublico==2){
-                rdinsultarPublicoAV.setChecked(true);
-            }else if(insultarPublico==3){
-                rdinsultarPublicoN.setChecked(true);
-            }else if(insultarPublico==4){
-                rdinsultarPublicoNC.setChecked(true);
-            }
-
-
-
-            if(amenazaAbandonarte==1){
-                rdamenazaAbandonarteMM.setChecked(true);
-            }else if(amenazaAbandonarte==2){
-                rdamenazaAbandonarteAV.setChecked(true);
-            }else if(amenazaAbandonarte==3){
-                rdamenazaAbandonarteN.setChecked(true);
-            }else if(amenazaAbandonarte==4){
-                rdamenazaAbandonarteNC.setChecked(true);
-            }
-
-
-            if(quitarHijos==1){
-                rdquitarHijosMM.setChecked(true);
-            }else if(quitarHijos==2){
-                rdquitarHijosAV.setChecked(true);
-            }else if(quitarHijos==3){
-                rdquitarHijosN.setChecked(true);
-            }else if(quitarHijos==4){
-                rdquitarHijosNC.setChecked(true);
-            }
-
-            if(amenazaEconomico==1){
-                rdamenazaEconomicaMM.setChecked(true);
-            }else if(amenazaEconomico==2){
-                rdamenazaEconomicaAV.setChecked(true);
-            }else if(amenazaEconomico==3){
-                rdamenazaEconomicaN.setChecked(true);
-            }else if(amenazaEconomico==4){
-                rdamenazaEconomicaNC.setChecked(true);
-            }
-
-            if(rompeObjetos==1){
-                rdrompeObjetosMM.setChecked(true);
-            }else if(rompeObjetos==2){
-                rdrompeObjetosAV.setChecked(true);
-            }else if(rompeObjetos==3){
-                rdrompeObjetosN.setChecked(true);
-            }else if(rompeObjetos==4){
-                rdrompreObjetosNC.setChecked(true);
-            }
-
-            if(otro==1){
-                rdotroMM.setChecked(true);
-            }else if(otro==2){
-                rdotroAV.setChecked(true);
-            }else if(otro==3){
-                rdotroN.setChecked(true);
-            }else if(otro==4){
-                rdotroNC.setChecked(true);
-            }
-            txtOtro.setText(otroViolenciaPareja.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

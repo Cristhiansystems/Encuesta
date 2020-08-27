@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link pl_causa_detenido#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class pl_causa_detenido extends Fragment  implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class pl_causa_detenido extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -154,7 +154,71 @@ public class pl_causa_detenido extends Fragment  implements Response.Listener<JS
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                peleas= jsonObject.optInt("peleas");
+                robo= jsonObject.optInt("robo");
+                hurto= jsonObject.optInt("hurto");
+                homicidio= jsonObject.optInt("intencion_homicidio");
+                drogas= jsonObject.optInt("drogas");
+                otro= jsonObject.optInt("otro_detenido");
+                respuesta= jsonObject.optString("respuesta_causa_detenido");
+                otroCausaDetenido= jsonObject.optString("otro_detenido_nombre");
+
+
+
+
+                if(peleas==1){
+                    rdPelasSi.setChecked(true);
+                }else if(peleas==2){
+                    rdPeleasNo.setChecked(true);
+                }
+
+                if(robo==1){
+                    rdRoboSi.setChecked(true);
+                }else if(robo==2){
+                    rdRoboNo.setChecked(true);
+                }
+
+                if(hurto==1){
+                    rdHurtoSi.setChecked(true);
+                }else if(hurto==2){
+                    rdHurtoNo.setChecked(true);
+                }
+
+                if(homicidio==1){
+                    rdHomicidioSi.setChecked(true);
+                }else if(homicidio==2){
+                    rdHomicidioNo.setChecked(true);
+                }
+
+                if(drogas==1){
+                    rdDrogasSi.setChecked(true);
+                }else if(drogas==2){
+                    rdDrogasNo.setChecked(true);
+                }
+
+                if(otro==1){
+                    rdOtroSi.setChecked(true);
+                }else if(otro==2){
+                    rdOtroNo.setChecked(true);
+                }
+                txtrespuesta.setText(respuesta.toString());
+                txtOtro.setText(otroCausaDetenido.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -187,74 +251,6 @@ public class pl_causa_detenido extends Fragment  implements Response.Listener<JS
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("usuario");
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = json.getJSONObject(0);
-            idEncuesta = jsonObject.optString("encuesta_emt");
-            peleas= jsonObject.optInt("peleas");
-            robo= jsonObject.optInt("robo");
-            hurto= jsonObject.optInt("hurto");
-            homicidio= jsonObject.optInt("intencion_homicidio");
-            drogas= jsonObject.optInt("drogas");
-            otro= jsonObject.optInt("otro_detenido");
-            respuesta= jsonObject.optString("respuesta_causa_detenido");
-            otroCausaDetenido= jsonObject.optString("otro_detenido_nombre");
-
-
-
-
-            if(peleas==1){
-                rdPelasSi.setChecked(true);
-            }else if(peleas==2){
-                rdPeleasNo.setChecked(true);
-            }
-
-            if(robo==1){
-                rdRoboSi.setChecked(true);
-            }else if(robo==2){
-                rdRoboNo.setChecked(true);
-            }
-
-            if(hurto==1){
-                rdHurtoSi.setChecked(true);
-            }else if(hurto==2){
-                rdHurtoNo.setChecked(true);
-            }
-
-            if(homicidio==1){
-                rdHomicidioSi.setChecked(true);
-            }else if(homicidio==2){
-                rdHomicidioNo.setChecked(true);
-            }
-
-            if(drogas==1){
-                rdDrogasSi.setChecked(true);
-            }else if(drogas==2){
-                rdDrogasNo.setChecked(true);
-            }
-
-            if(otro==1){
-                rdOtroSi.setChecked(true);
-            }else if(otro==2){
-                rdOtroNo.setChecked(true);
-            }
-            txtrespuesta.setText(respuesta.toString());
-            txtOtro.setText(otroCausaDetenido.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

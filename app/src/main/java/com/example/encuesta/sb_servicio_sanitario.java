@@ -39,7 +39,7 @@ import java.io.Serializable;
  * Use the {@link sb_servicio_sanitario#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class sb_servicio_sanitario extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class sb_servicio_sanitario extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -146,7 +146,48 @@ public class sb_servicio_sanitario extends Fragment implements Response.Listener
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json=response.optJSONArray("usuario");
+            JSONObject jsonObject=null;
+
+            try{
+                jsonObject=json.getJSONObject(0);
+                idEncuesta=jsonObject.optString("encuesta_emt");
+                ServSan =jsonObject.optInt("servicio_sanitario");
+                Ener=jsonObject.optInt("posee_energia_electrica");
+                otroEner=jsonObject.optString("posee_energia_electrica_otro");
+
+                if(ServSan==1){
+                    rdServSanSiPriv.setChecked(true);
+                }else if(ServSan==2){
+                    rdServSanSiCom.setChecked(true);
+                }else if(ServSan==3){
+                    rdSerSanSiFuera.setChecked(true);
+                }else if(ServSan==4){
+                    rdServSanNo.setChecked(true);
+                }
+
+                if(Ener==1){
+                    rdEnerSi.setChecked(true);
+                }else if(Ener==2){
+                    rdEnerNo.setChecked(true);
+                }else if(Ener==3){
+                    rdEnerOtro.setChecked(true);
+                }
+
+                txtOtroEner.setText(otroEner.toString());
+
+
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -180,50 +221,7 @@ public class sb_servicio_sanitario extends Fragment implements Response.Listener
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
 
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json=response.optJSONArray("usuario");
-        JSONObject jsonObject=null;
-
-        try{
-            jsonObject=json.getJSONObject(0);
-            idEncuesta=jsonObject.optString("encuesta_emt");
-            ServSan =jsonObject.optInt("servicio_sanitario");
-            Ener=jsonObject.optInt("posee_energia_electrica");
-            otroEner=jsonObject.optString("posee_energia_electrica_otro");
-
-            if(ServSan==1){
-                rdServSanSiPriv.setChecked(true);
-            }else if(ServSan==2){
-                rdServSanSiCom.setChecked(true);
-            }else if(ServSan==3){
-                rdSerSanSiFuera.setChecked(true);
-            }else if(ServSan==4){
-                rdServSanNo.setChecked(true);
-            }
-
-            if(Ener==1){
-                rdEnerSi.setChecked(true);
-            }else if(Ener==2){
-                rdEnerNo.setChecked(true);
-            }else if(Ener==3){
-                rdEnerOtro.setChecked(true);
-            }
-
-            txtOtroEner.setText(otroEner.toString());
-
-
-
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

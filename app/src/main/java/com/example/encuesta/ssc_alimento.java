@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link ssc_alimento#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssc_alimento extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class ssc_alimento extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -153,7 +153,77 @@ public class ssc_alimento extends Fragment implements Response.Listener<JSONObje
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                pagoCuenta = jsonObject.optInt("pago_por_mi_cuenta");
+                comedores = jsonObject.optInt("comedores");
+                paganOtro = jsonObject.optInt("pagan_otros");
+                pagaFamilia = jsonObject.optInt("paga_familia");
+                regalan = jsonObject.optInt("regalan");
+                insumos = jsonObject.optInt("insumos");
+                otro = jsonObject.optInt("otro_alimento");
+                otroAlimento = jsonObject.optString("otro_alimento_nombre");
+                numeroVeces = jsonObject.optString("comida_al _dia");
+
+                if (pagoCuenta == 1) {
+                    rdPagoCuentaSi.setChecked(true);
+                } else if (pagoCuenta == 2) {
+                    rdPagoCuentaNo.setChecked(true);
+                }
+
+                if (comedores == 1) {
+                    rdComedoresSi.setChecked(true);
+                } else if (comedores == 2) {
+                    rdComedoresNo.setChecked(true);
+                }
+
+                if (paganOtro == 1) {
+                    rdPaganOtroSi.setChecked(true);
+                } else if (paganOtro == 2) {
+                    rdPaganOtroNo.setChecked(true);
+                }
+
+                if (pagaFamilia == 1) {
+                    rdPagaFamiliaSi.setChecked(true);
+                } else if (pagaFamilia == 2) {
+                    rdPagaFamiliaNo.setChecked(true);
+                }
+
+                if (regalan == 1) {
+                    rdRegalanSi.setChecked(true);
+                } else if (regalan == 2) {
+                    rdRegalanNo.setChecked(true);
+                }
+
+                if (insumos == 1) {
+                    rdInsumosSi.setChecked(true);
+                } else if (insumos == 2) {
+                    rdInsumosSi.setChecked(true);
+                }
+
+                if (otro == 1) {
+                    rdOtroSi.setChecked(true);
+                } else if (otro == 2) {
+                    rdOtroNo.setChecked(true);
+                }
+
+                txtOtroAlimento.setText(otroAlimento.toString());
+                txtNumeroVeces.setText(numeroVeces.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -186,79 +256,7 @@ public class ssc_alimento extends Fragment implements Response.Listener<JSONObje
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
 
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("usuario");
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = json.getJSONObject(0);
-            idEncuesta = jsonObject.optString("encuesta_emt");
-            pagoCuenta = jsonObject.optInt("pago_por_mi_cuenta");
-            comedores = jsonObject.optInt("comedores");
-            paganOtro = jsonObject.optInt("pagan_otros");
-            pagaFamilia = jsonObject.optInt("paga_familia");
-            regalan = jsonObject.optInt("regalan");
-            insumos = jsonObject.optInt("insumos");
-            otro = jsonObject.optInt("otro_alimento");
-            otroAlimento = jsonObject.optString("otro_alimento_nombre");
-            numeroVeces = jsonObject.optString("comida_al _dia");
-
-            if (pagoCuenta == 1) {
-                rdPagoCuentaSi.setChecked(true);
-            } else if (pagoCuenta == 2) {
-                rdPagoCuentaNo.setChecked(true);
-            }
-
-            if (comedores == 1) {
-                rdComedoresSi.setChecked(true);
-            } else if (comedores == 2) {
-                rdComedoresNo.setChecked(true);
-            }
-
-            if (paganOtro == 1) {
-                rdPaganOtroSi.setChecked(true);
-            } else if (paganOtro == 2) {
-                rdPaganOtroNo.setChecked(true);
-            }
-
-            if (pagaFamilia == 1) {
-                rdPagaFamiliaSi.setChecked(true);
-            } else if (pagaFamilia == 2) {
-                rdPagaFamiliaNo.setChecked(true);
-            }
-
-            if (regalan == 1) {
-                rdRegalanSi.setChecked(true);
-            } else if (regalan == 2) {
-                rdRegalanNo.setChecked(true);
-            }
-
-            if (insumos == 1) {
-                rdInsumosSi.setChecked(true);
-            } else if (insumos == 2) {
-                rdInsumosSi.setChecked(true);
-            }
-
-            if (otro == 1) {
-                rdOtroSi.setChecked(true);
-            } else if (otro == 2) {
-                rdOtroNo.setChecked(true);
-            }
-
-            txtOtroAlimento.setText(otroAlimento.toString());
-            txtNumeroVeces.setText(numeroVeces.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

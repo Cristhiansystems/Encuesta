@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link db_combustible#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class db_combustible extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class db_combustible extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -150,7 +150,69 @@ public class db_combustible extends Fragment implements Response.Listener<JSONOb
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                Energia = jsonObject.optInt("energia");
+                GasDom = jsonObject.optInt("gas_domiciliario");
+                GasLic = jsonObject.optInt("gas_licuado");
+                Carbon = jsonObject.optInt("carbon");
+                Lena = jsonObject.optInt("lena");
+                Otro = jsonObject.optInt("otro_combustible");
+                otroCombustible = jsonObject.optString("otro_combustible_nombre");
+
+                if (Energia == 1) {
+                    rdEnergiaSi.setChecked(true);
+                } else if (Energia == 2) {
+                    rdEnergiaNo.setChecked(true);
+                }
+
+                if (GasDom == 1) {
+                    rdGasDomSi.setChecked(true);
+                } else if (GasDom == 2) {
+                    rdGasDomNo.setChecked(true);
+                }
+
+                if (GasLic == 1) {
+                    rdGasLicSi.setChecked(true);
+                } else if (GasLic == 2) {
+                    rdGasLicNo.setChecked(true);
+                }
+
+                if (Carbon == 1) {
+                    rdCarbonSi.setChecked(true);
+                } else if (Carbon == 2) {
+                    rdCarbonNo.setChecked(true);
+                }
+
+                if (Lena == 1) {
+                    rdLenaSi.setChecked(true);
+                } else if (Lena == 2) {
+                    rdLenaNo.setChecked(true);
+                }
+
+
+                if (Otro == 1) {
+                    rdOtroSi.setChecked(true);
+                } else if (Otro == 2) {
+                    rdOtroNo.setChecked(true);
+                }
+
+                txtOtroCombustible.setText(otroCombustible.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -183,71 +245,7 @@ public class db_combustible extends Fragment implements Response.Listener<JSONOb
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
 
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("usuario");
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = json.getJSONObject(0);
-            idEncuesta = jsonObject.optString("encuesta_emt");
-            Energia = jsonObject.optInt("energia");
-            GasDom = jsonObject.optInt("gas_domiciliario");
-            GasLic = jsonObject.optInt("gas_licuado");
-            Carbon = jsonObject.optInt("carbon");
-            Lena = jsonObject.optInt("lena");
-            Otro = jsonObject.optInt("otro_combustible");
-            otroCombustible = jsonObject.optString("otro_combustible_nombre");
-
-            if (Energia == 1) {
-                rdEnergiaSi.setChecked(true);
-            } else if (Energia == 2) {
-                rdEnergiaNo.setChecked(true);
-            }
-
-            if (GasDom == 1) {
-                rdGasDomSi.setChecked(true);
-            } else if (GasDom == 2) {
-                rdGasDomNo.setChecked(true);
-            }
-
-            if (GasLic == 1) {
-                rdGasLicSi.setChecked(true);
-            } else if (GasLic == 2) {
-                rdGasLicNo.setChecked(true);
-            }
-
-            if (Carbon == 1) {
-                rdCarbonSi.setChecked(true);
-            } else if (Carbon == 2) {
-                rdCarbonNo.setChecked(true);
-            }
-
-            if (Lena == 1) {
-                rdLenaSi.setChecked(true);
-            } else if (Lena == 2) {
-                rdLenaNo.setChecked(true);
-            }
-
-
-            if (Otro == 1) {
-                rdOtroSi.setChecked(true);
-            } else if (Otro == 2) {
-                rdOtroNo.setChecked(true);
-            }
-
-            txtOtroCombustible.setText(otroCombustible.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
         /**
      * This interface must be implemented by activities that contain this

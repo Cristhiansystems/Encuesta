@@ -43,7 +43,7 @@ import java.util.Locale;
  * Use the {@link dp_genero#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class dp_genero extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class dp_genero extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -148,7 +148,48 @@ public class dp_genero extends Fragment implements Response.Listener<JSONObject>
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json=response.optJSONArray("usuario");
+            JSONObject jsonObject=null;
+
+            try{
+                jsonObject=json.getJSONObject(0);
+                idEncuesta=jsonObject.optString("encuesta_emt");
+                genero=jsonObject.optInt("genero");
+                Edad=jsonObject.optString("edad");
+                FechaNac=jsonObject.optString("fecha_nacimiento");
+                String dateString = FechaNac;
+
+                // convert string to date
+                SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = f.parse(dateString);
+
+                // change the date format
+                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                String result = df.format(date);
+
+                txtFecNac.setText(result);
+                txtedad.setText(Edad.toString());
+
+
+                if(genero==1){
+                    radHombre.setChecked(true);
+                }else if(genero==2){
+                    radMujer.setChecked(true);
+                }
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
 
@@ -185,50 +226,8 @@ public class dp_genero extends Fragment implements Response.Listener<JSONObject>
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json=response.optJSONArray("usuario");
-        JSONObject jsonObject=null;
-
-        try{
-            jsonObject=json.getJSONObject(0);
-            idEncuesta=jsonObject.optString("encuesta_emt");
-            genero=jsonObject.optInt("genero");
-            Edad=jsonObject.optString("edad");
-            FechaNac=jsonObject.optString("fecha_nacimiento");
-            String dateString = FechaNac;
-
-            // convert string to date
-            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = f.parse(dateString);
-
-            // change the date format
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            String result = df.format(date);
-
-            txtFecNac.setText(result);
-            txtedad.setText(Edad.toString());
 
 
-            if(genero==1){
-                radHombre.setChecked(true);
-            }else if(genero==2){
-                radMujer.setChecked(true);
-            }
-
-        }catch (JSONException e){
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     /**
      * This interface must be implemented by activities that contain this

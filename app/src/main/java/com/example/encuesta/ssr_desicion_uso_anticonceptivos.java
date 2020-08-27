@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link ssr_desicion_uso_anticonceptivos#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssr_desicion_uso_anticonceptivos extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class ssr_desicion_uso_anticonceptivos extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -144,7 +144,45 @@ public class ssr_desicion_uso_anticonceptivos extends Fragment implements Respon
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                desicionAnticonceptivo = jsonObject.optInt("desicion_uso_anticonceptivo");
+                embarazada = jsonObject.optInt("embarazo");
+
+
+
+                if (desicionAnticonceptivo == 1) {
+                    rdTuya.setChecked(true);
+                } else if (desicionAnticonceptivo == 2) {
+                    rdTuPareja.setChecked(true);
+                }else if (desicionAnticonceptivo == 3) {
+                    rdDesicionConjunta.setChecked(true);
+                }
+
+                if (embarazada == 1) {
+                    rdEmbarazadaSi.setChecked(true);
+                } else if (embarazada == 2) {
+                    rdEmbarazadaNo.setChecked(true);
+                }else if (embarazada == 3) {
+                    rdEmbazadaNoSabe.setChecked(true);
+                }
+
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -177,50 +215,7 @@ public class ssr_desicion_uso_anticonceptivos extends Fragment implements Respon
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
 
-    @Override
-    public void onResponse(JSONObject response) {
-
-
-        JSONArray json = response.optJSONArray("usuario");
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = json.getJSONObject(0);
-            idEncuesta = jsonObject.optString("encuesta_emt");
-            desicionAnticonceptivo = jsonObject.optInt("desicion_uso_anticonceptivo");
-            embarazada = jsonObject.optInt("embarazo");
-
-
-
-            if (desicionAnticonceptivo == 1) {
-                rdTuya.setChecked(true);
-            } else if (desicionAnticonceptivo == 2) {
-                rdTuPareja.setChecked(true);
-            }else if (desicionAnticonceptivo == 3) {
-                rdDesicionConjunta.setChecked(true);
-            }
-
-            if (embarazada == 1) {
-                rdEmbarazadaSi.setChecked(true);
-            } else if (embarazada == 2) {
-                rdEmbarazadaNo.setChecked(true);
-            }else if (embarazada == 3) {
-                rdEmbazadaNoSabe.setChecked(true);
-            }
-
-
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

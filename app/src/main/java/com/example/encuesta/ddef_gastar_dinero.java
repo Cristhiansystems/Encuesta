@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.encuesta.Adapter.FamiliaAdapter;
 import com.example.encuesta.entidades.Familia;
 
 import org.json.JSONArray;
@@ -42,7 +43,7 @@ import java.util.ArrayList;
  * Use the {@link ddef_gastar_dinero#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ddef_gastar_dinero extends Fragment  implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class ddef_gastar_dinero extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -171,7 +172,211 @@ public class ddef_gastar_dinero extends Fragment  implements Response.Listener<J
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json=response.optJSONArray("usuario");
+            JSONObject jsonObject=null;
+
+            try{
+                jsonObject=json.getJSONObject(0);
+                idEncuesta=jsonObject.optString("encuesta_emt");
+                strorAlquiler=jsonObject.optString("alquiler_orden");
+                strorAlimentacion=jsonObject.optString("alimentacion_orden");
+                strorEstudios=jsonObject.optString("estudios_orden");
+                strorVestimenta=jsonObject.optString("vestimenta_orden");
+                strorServicios=jsonObject.optString("servicios_basicos_orden");
+                strorViajes=jsonObject.optString("viajes_orden");
+                strorRecreacion=jsonObject.optString("recreacion_orden");
+                strorOtro=jsonObject.optString("otro_orden");
+                strorNosabe=jsonObject.optString("gasto_dinero_no_sabe_orden");
+
+
+                strAlquiler=jsonObject.optString("alquiler_porc");
+                strAlimentacion=jsonObject.optString("alimentacion_porc");
+                strEstudios=jsonObject.optString("estudios_porc");
+                strVestimenta=jsonObject.optString("vestimenta_porc");
+                strServicios=jsonObject.optString("servicios_basicos_porc");
+                strViajes=jsonObject.optString("viajes_porc");
+                strRecreacion=jsonObject.optString("recreacion_porc");
+                strOtro=jsonObject.optString("otro_porc");
+                strNosabe=jsonObject.optString("gasto_dinero_no_sabe_porc");
+
+
+                strPoyecto=jsonObject.optString("enteraste_proyecto");
+                strnomOtro=jsonObject.optString("gasto_dinero_otro_especificar");
+
+
+                ArrayList<String> ordenGastoAlquiler= new ArrayList<String>();
+                ordenGastoAlquiler.add(strorAlquiler);
+                ordenGastoAlquiler.add("1");
+                ordenGastoAlquiler.add("2");
+                ordenGastoAlquiler.add("3");
+                ordenGastoAlquiler.add("4");
+                ordenGastoAlquiler.add("5");
+                ordenGastoAlquiler.add("6");
+                ordenGastoAlquiler.add("7");
+                ordenGastoAlquiler.add("8");
+                ordenGastoAlquiler.add("9");
+
+                ArrayAdapter<CharSequence> adaptadorAlquiler=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastoAlquiler);
+                orAlquiler.setAdapter(adaptadorAlquiler);
+
+
+                ArrayList<String> ordenGastoAlimentacion= new ArrayList<String>();
+                ordenGastoAlimentacion.add(strorAlimentacion);
+                ordenGastoAlimentacion.add("1");
+                ordenGastoAlimentacion.add("2");
+                ordenGastoAlimentacion.add("3");
+                ordenGastoAlimentacion.add("4");
+                ordenGastoAlimentacion.add("5");
+                ordenGastoAlimentacion.add("6");
+                ordenGastoAlimentacion.add("7");
+                ordenGastoAlimentacion.add("8");
+                ordenGastoAlimentacion.add("9");
+
+                ArrayAdapter<CharSequence> adaptadorAlimentacion=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastoAlimentacion);
+                orAlimentacion.setAdapter(adaptadorAlimentacion);
+
+
+                ArrayList<String> ordenGastoEstudios= new ArrayList<String>();
+                ordenGastoEstudios.add(strorEstudios);
+                ordenGastoEstudios.add("1");
+                ordenGastoEstudios.add("2");
+                ordenGastoEstudios.add("3");
+                ordenGastoEstudios.add("4");
+                ordenGastoEstudios.add("5");
+                ordenGastoEstudios.add("6");
+                ordenGastoEstudios.add("7");
+                ordenGastoEstudios.add("8");
+                ordenGastoEstudios.add("9");
+
+                ArrayAdapter<CharSequence> adaptadorEstudios=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastoEstudios);
+                orEstudios.setAdapter(adaptadorEstudios);
+
+                ArrayList<String> ordenGastoVestimenta= new ArrayList<String>();
+                ordenGastoVestimenta.add(strorVestimenta);
+                ordenGastoVestimenta.add("1");
+                ordenGastoVestimenta.add("2");
+                ordenGastoVestimenta.add("3");
+                ordenGastoVestimenta.add("4");
+                ordenGastoVestimenta.add("5");
+                ordenGastoVestimenta.add("6");
+                ordenGastoVestimenta.add("7");
+                ordenGastoVestimenta.add("8");
+                ordenGastoVestimenta.add("9");
+
+                ArrayAdapter<CharSequence> adaptadorVestimenta=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastoVestimenta);
+                orVestimenta.setAdapter(adaptadorVestimenta);
+
+                ArrayList<String> ordenGastoServicios= new ArrayList<String>();
+                ordenGastoServicios.add(strorServicios);
+                ordenGastoServicios.add("1");
+                ordenGastoServicios.add("2");
+                ordenGastoServicios.add("3");
+                ordenGastoServicios.add("4");
+                ordenGastoServicios.add("5");
+                ordenGastoServicios.add("6");
+                ordenGastoServicios.add("7");
+                ordenGastoServicios.add("8");
+                ordenGastoServicios.add("9");
+
+                ArrayAdapter<CharSequence> adaptadorServicios=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastoServicios);
+                orServicios.setAdapter(adaptadorServicios);
+
+
+                ArrayList<String> ordenGastoViajes= new ArrayList<String>();
+                ordenGastoViajes.add(strorViajes);
+                ordenGastoViajes.add("1");
+                ordenGastoViajes.add("2");
+                ordenGastoViajes.add("3");
+                ordenGastoViajes.add("4");
+                ordenGastoViajes.add("5");
+                ordenGastoViajes.add("6");
+                ordenGastoViajes.add("7");
+                ordenGastoViajes.add("8");
+                ordenGastoViajes.add("9");
+
+                ArrayAdapter<CharSequence> adaptadorViaje=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastoViajes);
+                orViajes.setAdapter(adaptadorViaje);
+
+                ArrayList<String> ordenGastRecreacion= new ArrayList<String>();
+                ordenGastRecreacion.add(strorRecreacion);
+                ordenGastRecreacion.add("1");
+                ordenGastRecreacion.add("2");
+                ordenGastRecreacion.add("3");
+                ordenGastRecreacion.add("4");
+                ordenGastRecreacion.add("5");
+                ordenGastRecreacion.add("6");
+                ordenGastRecreacion.add("7");
+                ordenGastRecreacion.add("8");
+                ordenGastRecreacion.add("9");
+
+                ArrayAdapter<CharSequence> adaptadorRecreacion=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastRecreacion);
+                orRecreacion.setAdapter(adaptadorRecreacion);
+
+                ArrayList<String> ordenGastOtro= new ArrayList<String>();
+                ordenGastOtro.add(strorOtro);
+                ordenGastOtro.add("1");
+                ordenGastOtro.add("2");
+                ordenGastOtro.add("3");
+                ordenGastOtro.add("4");
+                ordenGastOtro.add("5");
+                ordenGastOtro.add("6");
+                ordenGastOtro.add("7");
+                ordenGastOtro.add("8");
+                ordenGastOtro.add("9");
+
+                ArrayAdapter<CharSequence> adaptadorOtro=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastOtro);
+                orOtro.setAdapter(adaptadorOtro);
+
+                ArrayList<String> ordenGastNosabe= new ArrayList<String>();
+                ordenGastNosabe.add(strorNosabe);
+                ordenGastNosabe.add("1");
+                ordenGastNosabe.add("2");
+                ordenGastNosabe.add("3");
+                ordenGastNosabe.add("4");
+                ordenGastNosabe.add("5");
+                ordenGastNosabe.add("6");
+                ordenGastNosabe.add("7");
+                ordenGastNosabe.add("8");
+                ordenGastNosabe.add("9");
+
+                ArrayAdapter<CharSequence> adaptadorNosabe=new ArrayAdapter
+                        (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastNosabe);
+                orNosabe.setAdapter(adaptadorNosabe);
+
+
+                porAlquiler.setText(strAlquiler.toString());
+                porAlimentacion.setText(strAlimentacion.toString());
+                porEstudios.setText(strEstudios.toString());
+                porVestimenta.setText(strVestimenta.toString());
+                porServicios.setText(strServicios.toString());
+                porViajes.setText(strViajes.toString());
+                porRecreacion.setText(strRecreacion.toString());
+                porOtro.setText(strOtro.toString());
+                porNosabe.setText(strNosabe.toString());
+
+                nomOtro.setText(strnomOtro.toString());
+                Proyecto.setText(strPoyecto.toString());
+
+
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
 
@@ -205,213 +410,7 @@ public class ddef_gastar_dinero extends Fragment  implements Response.Listener<J
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
 
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json=response.optJSONArray("usuario");
-        JSONObject jsonObject=null;
-
-        try{
-            jsonObject=json.getJSONObject(0);
-            idEncuesta=jsonObject.optString("encuesta_emt");
-            strorAlquiler=jsonObject.optString("alquiler_orden");
-            strorAlimentacion=jsonObject.optString("alimentacion_orden");
-            strorEstudios=jsonObject.optString("estudios_orden");
-            strorVestimenta=jsonObject.optString("vestimenta_orden");
-            strorServicios=jsonObject.optString("servicios_basicos_orden");
-            strorViajes=jsonObject.optString("viajes_orden");
-            strorRecreacion=jsonObject.optString("recreacion_orden");
-            strorOtro=jsonObject.optString("otro_orden");
-            strorNosabe=jsonObject.optString("gasto_dinero_no_sabe_orden");
-
-
-            strAlquiler=jsonObject.optString("alquiler_porc");
-            strAlimentacion=jsonObject.optString("alimentacion_porc");
-            strEstudios=jsonObject.optString("estudios_porc");
-            strVestimenta=jsonObject.optString("vestimenta_porc");
-            strServicios=jsonObject.optString("servicios_basicos_porc");
-            strViajes=jsonObject.optString("viajes_porc");
-            strRecreacion=jsonObject.optString("recreacion_porc");
-            strOtro=jsonObject.optString("otro_porc");
-            strNosabe=jsonObject.optString("gasto_dinero_no_sabe_porc");
-
-
-            strPoyecto=jsonObject.optString("enteraste_proyecto");
-            strnomOtro=jsonObject.optString("gasto_dinero_otro_especificar");
-
-
-            ArrayList<String> ordenGastoAlquiler= new ArrayList<String>();
-            ordenGastoAlquiler.add(strorAlquiler);
-            ordenGastoAlquiler.add("1");
-            ordenGastoAlquiler.add("2");
-            ordenGastoAlquiler.add("3");
-            ordenGastoAlquiler.add("4");
-            ordenGastoAlquiler.add("5");
-            ordenGastoAlquiler.add("6");
-            ordenGastoAlquiler.add("7");
-            ordenGastoAlquiler.add("8");
-            ordenGastoAlquiler.add("9");
-
-            ArrayAdapter<CharSequence> adaptadorAlquiler=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastoAlquiler);
-            orAlquiler.setAdapter(adaptadorAlquiler);
-
-
-            ArrayList<String> ordenGastoAlimentacion= new ArrayList<String>();
-            ordenGastoAlimentacion.add(strorAlimentacion);
-            ordenGastoAlimentacion.add("1");
-            ordenGastoAlimentacion.add("2");
-            ordenGastoAlimentacion.add("3");
-            ordenGastoAlimentacion.add("4");
-            ordenGastoAlimentacion.add("5");
-            ordenGastoAlimentacion.add("6");
-            ordenGastoAlimentacion.add("7");
-            ordenGastoAlimentacion.add("8");
-            ordenGastoAlimentacion.add("9");
-
-            ArrayAdapter<CharSequence> adaptadorAlimentacion=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastoAlimentacion);
-            orAlimentacion.setAdapter(adaptadorAlimentacion);
-
-
-            ArrayList<String> ordenGastoEstudios= new ArrayList<String>();
-            ordenGastoEstudios.add(strorEstudios);
-            ordenGastoEstudios.add("1");
-            ordenGastoEstudios.add("2");
-            ordenGastoEstudios.add("3");
-            ordenGastoEstudios.add("4");
-            ordenGastoEstudios.add("5");
-            ordenGastoEstudios.add("6");
-            ordenGastoEstudios.add("7");
-            ordenGastoEstudios.add("8");
-            ordenGastoEstudios.add("9");
-
-            ArrayAdapter<CharSequence> adaptadorEstudios=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastoEstudios);
-            orEstudios.setAdapter(adaptadorEstudios);
-
-            ArrayList<String> ordenGastoVestimenta= new ArrayList<String>();
-            ordenGastoVestimenta.add(strorVestimenta);
-            ordenGastoVestimenta.add("1");
-            ordenGastoVestimenta.add("2");
-            ordenGastoVestimenta.add("3");
-            ordenGastoVestimenta.add("4");
-            ordenGastoVestimenta.add("5");
-            ordenGastoVestimenta.add("6");
-            ordenGastoVestimenta.add("7");
-            ordenGastoVestimenta.add("8");
-            ordenGastoVestimenta.add("9");
-
-            ArrayAdapter<CharSequence> adaptadorVestimenta=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastoVestimenta);
-            orVestimenta.setAdapter(adaptadorVestimenta);
-
-            ArrayList<String> ordenGastoServicios= new ArrayList<String>();
-            ordenGastoServicios.add(strorServicios);
-            ordenGastoServicios.add("1");
-            ordenGastoServicios.add("2");
-            ordenGastoServicios.add("3");
-            ordenGastoServicios.add("4");
-            ordenGastoServicios.add("5");
-            ordenGastoServicios.add("6");
-            ordenGastoServicios.add("7");
-            ordenGastoServicios.add("8");
-            ordenGastoServicios.add("9");
-
-            ArrayAdapter<CharSequence> adaptadorServicios=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastoServicios);
-            orServicios.setAdapter(adaptadorServicios);
-
-
-            ArrayList<String> ordenGastoViajes= new ArrayList<String>();
-            ordenGastoViajes.add(strorViajes);
-            ordenGastoViajes.add("1");
-            ordenGastoViajes.add("2");
-            ordenGastoViajes.add("3");
-            ordenGastoViajes.add("4");
-            ordenGastoViajes.add("5");
-            ordenGastoViajes.add("6");
-            ordenGastoViajes.add("7");
-            ordenGastoViajes.add("8");
-            ordenGastoViajes.add("9");
-
-            ArrayAdapter<CharSequence> adaptadorViaje=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastoViajes);
-            orViajes.setAdapter(adaptadorViaje);
-
-            ArrayList<String> ordenGastRecreacion= new ArrayList<String>();
-            ordenGastRecreacion.add(strorRecreacion);
-            ordenGastRecreacion.add("1");
-            ordenGastRecreacion.add("2");
-            ordenGastRecreacion.add("3");
-            ordenGastRecreacion.add("4");
-            ordenGastRecreacion.add("5");
-            ordenGastRecreacion.add("6");
-            ordenGastRecreacion.add("7");
-            ordenGastRecreacion.add("8");
-            ordenGastRecreacion.add("9");
-
-            ArrayAdapter<CharSequence> adaptadorRecreacion=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastRecreacion);
-            orRecreacion.setAdapter(adaptadorRecreacion);
-
-            ArrayList<String> ordenGastOtro= new ArrayList<String>();
-            ordenGastOtro.add(strorOtro);
-            ordenGastOtro.add("1");
-            ordenGastOtro.add("2");
-            ordenGastOtro.add("3");
-            ordenGastOtro.add("4");
-            ordenGastOtro.add("5");
-            ordenGastOtro.add("6");
-            ordenGastOtro.add("7");
-            ordenGastOtro.add("8");
-            ordenGastOtro.add("9");
-
-            ArrayAdapter<CharSequence> adaptadorOtro=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastOtro);
-            orOtro.setAdapter(adaptadorOtro);
-
-            ArrayList<String> ordenGastNosabe= new ArrayList<String>();
-            ordenGastNosabe.add(strorNosabe);
-            ordenGastNosabe.add("1");
-            ordenGastNosabe.add("2");
-            ordenGastNosabe.add("3");
-            ordenGastNosabe.add("4");
-            ordenGastNosabe.add("5");
-            ordenGastNosabe.add("6");
-            ordenGastNosabe.add("7");
-            ordenGastNosabe.add("8");
-            ordenGastNosabe.add("9");
-
-            ArrayAdapter<CharSequence> adaptadorNosabe=new ArrayAdapter
-                    (this.getActivity(),android.R.layout.simple_spinner_item,ordenGastNosabe);
-            orNosabe.setAdapter(adaptadorNosabe);
-
-
-            porAlquiler.setText(strAlquiler.toString());
-            porAlimentacion.setText(strAlimentacion.toString());
-            porEstudios.setText(strEstudios.toString());
-            porVestimenta.setText(strVestimenta.toString());
-            porServicios.setText(strServicios.toString());
-            porViajes.setText(strViajes.toString());
-            porRecreacion.setText(strRecreacion.toString());
-            porOtro.setText(strOtro.toString());
-            porNosabe.setText(strNosabe.toString());
-
-            nomOtro.setText(strnomOtro.toString());
-            Proyecto.setText(strPoyecto.toString());
-
-
-
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

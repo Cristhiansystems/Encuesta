@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link ssc_problemas_salud_actual#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssc_problemas_salud_actual extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class ssc_problemas_salud_actual extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -153,7 +153,76 @@ public class ssc_problemas_salud_actual extends Fragment implements Response.Lis
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                centroPublica = jsonObject.optInt("centro_salud_publica");
+                centroPrivado = jsonObject.optInt("centro_salud_privado");
+                farmacia = jsonObject.optInt("farmacia");
+                institucion = jsonObject.optInt("institucion");
+                naturista = jsonObject.optInt("naturista");
+                curoSolo = jsonObject.optInt("curo_solo");
+                otro = jsonObject.optInt("otro_salud");
+                otroProblemaSaludActual = jsonObject.optString("otro_salud_nombre");
+
+
+                if (centroPublica == 1) {
+                    rdCentroPublicaSi.setChecked(true);
+                } else if (centroPublica == 2) {
+                    rdCentroPublicaSi.setChecked(true);
+                }
+
+                if (centroPrivado == 1) {
+                    rdCentroPrivadoSi.setChecked(true);
+                } else if (centroPrivado == 2) {
+                    rdCentroPrivadoNo.setChecked(true);
+                }
+
+                if (farmacia == 1) {
+                    rdFarmaciaSi.setChecked(true);
+                } else if (farmacia == 2) {
+                    rdFarmaciaNo.setChecked(true);
+                }
+
+                if (institucion == 1) {
+                    rdInstitucionSi.setChecked(true);
+                } else if (institucion == 2) {
+                    rdInstitucionNo.setChecked(true);
+                }
+
+                if (naturista == 1) {
+                    rdNaturistaSi.setChecked(true);
+                } else if (naturista == 2) {
+                    rdNaturistaSi.setChecked(true);
+                }
+
+                if (curoSolo == 1) {
+                    rdCuroSoloSi.setChecked(true);
+                } else if (curoSolo == 2) {
+                    rdCuroSoloNo.setChecked(true);
+                }
+
+                if (otro == 1) {
+                    rdOtroSi.setChecked(true);
+                } else if (otro == 2) {
+                    rdOtroNo.setChecked(true);
+                }
+
+                txtOtroProblemaSaludActual.setText(otroProblemaSaludActual.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -186,78 +255,7 @@ public class ssc_problemas_salud_actual extends Fragment implements Response.Lis
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
 
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("usuario");
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = json.getJSONObject(0);
-            idEncuesta = jsonObject.optString("encuesta_emt");
-            centroPublica = jsonObject.optInt("centro_salud_publica");
-            centroPrivado = jsonObject.optInt("centro_salud_privado");
-            farmacia = jsonObject.optInt("farmacia");
-            institucion = jsonObject.optInt("institucion");
-            naturista = jsonObject.optInt("naturista");
-            curoSolo = jsonObject.optInt("curo_solo");
-            otro = jsonObject.optInt("otro_salud");
-            otroProblemaSaludActual = jsonObject.optString("otro_salud_nombre");
-
-
-            if (centroPublica == 1) {
-                rdCentroPublicaSi.setChecked(true);
-            } else if (centroPublica == 2) {
-                rdCentroPublicaSi.setChecked(true);
-            }
-
-            if (centroPrivado == 1) {
-                rdCentroPrivadoSi.setChecked(true);
-            } else if (centroPrivado == 2) {
-                rdCentroPrivadoNo.setChecked(true);
-            }
-
-            if (farmacia == 1) {
-                rdFarmaciaSi.setChecked(true);
-            } else if (farmacia == 2) {
-                rdFarmaciaNo.setChecked(true);
-            }
-
-            if (institucion == 1) {
-                rdInstitucionSi.setChecked(true);
-            } else if (institucion == 2) {
-                rdInstitucionNo.setChecked(true);
-            }
-
-            if (naturista == 1) {
-                rdNaturistaSi.setChecked(true);
-            } else if (naturista == 2) {
-                rdNaturistaSi.setChecked(true);
-            }
-
-            if (curoSolo == 1) {
-                rdCuroSoloSi.setChecked(true);
-            } else if (curoSolo == 2) {
-                rdCuroSoloNo.setChecked(true);
-            }
-
-            if (otro == 1) {
-                rdOtroSi.setChecked(true);
-            } else if (otro == 2) {
-                rdOtroNo.setChecked(true);
-            }
-
-            txtOtroProblemaSaludActual.setText(otroProblemaSaludActual.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

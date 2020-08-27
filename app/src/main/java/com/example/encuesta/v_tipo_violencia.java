@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link v_tipo_violencia#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class v_tipo_violencia extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class v_tipo_violencia extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -150,7 +150,60 @@ public class v_tipo_violencia extends Fragment implements Response.Listener<JSON
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                violenciaFisica= jsonObject.optInt("fisica");
+                violenciaPsicologica= jsonObject.optInt("psicologica");
+                violenciaSexual= jsonObject.optInt("sexual");
+                otro= jsonObject.optInt("otro_violencia");
+                noSabe= jsonObject.optInt("violencia_no_sabe");
+
+                otroTipoViolencia= jsonObject.optString("otro_violencia_nombre");
+
+
+                if(violenciaFisica==1){
+                    rdViolenciaFisicaSi.setChecked(true);
+                }else if(violenciaFisica==2){
+                    rdViolenciaFisicaNo.setChecked(true);
+                }
+
+                if(violenciaPsicologica==1){
+                    rdViolenciaPsicologicaSi.setChecked(true);
+                }else if(violenciaPsicologica==2){
+                    rdViolenciaPsicologicaNo.setChecked(true);
+                }
+
+                if(violenciaSexual==1){
+                    rdViolenciaSexualSi.setChecked(true);
+                }else if(violenciaSexual==2){
+                    rdViolenciaSexualNo.setChecked(true);
+                }
+
+                if(otro==1){
+                    rdOtroSi.setChecked(true);
+                }else if(otro==2){
+                    rdOtroNo.setChecked(true);
+                }
+
+                if(noSabe==1){
+                    rdNosabeSi.setChecked(true);
+                }else if(noSabe==2){
+                    rdNosabeNo.setChecked(true);
+                }
+                txtOtro.setText(otroTipoViolencia.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -183,63 +236,6 @@ public class v_tipo_violencia extends Fragment implements Response.Listener<JSON
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("usuario");
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = json.getJSONObject(0);
-            idEncuesta = jsonObject.optString("encuesta_emt");
-            violenciaFisica= jsonObject.optInt("fisica");
-            violenciaPsicologica= jsonObject.optInt("psicologica");
-            violenciaSexual= jsonObject.optInt("sexual");
-            otro= jsonObject.optInt("otro_violencia");
-            noSabe= jsonObject.optInt("violencia_no_sabe");
-
-            otroTipoViolencia= jsonObject.optString("otro_violencia_nombre");
-
-
-            if(violenciaFisica==1){
-                rdViolenciaFisicaSi.setChecked(true);
-            }else if(violenciaFisica==2){
-                rdViolenciaFisicaNo.setChecked(true);
-            }
-
-            if(violenciaPsicologica==1){
-                rdViolenciaPsicologicaSi.setChecked(true);
-            }else if(violenciaPsicologica==2){
-                rdViolenciaPsicologicaNo.setChecked(true);
-            }
-
-            if(violenciaSexual==1){
-                rdViolenciaSexualSi.setChecked(true);
-            }else if(violenciaSexual==2){
-                rdViolenciaSexualNo.setChecked(true);
-            }
-
-            if(otro==1){
-                rdOtroSi.setChecked(true);
-            }else if(otro==2){
-                rdOtroNo.setChecked(true);
-            }
-
-            if(noSabe==1){
-                rdNosabeSi.setChecked(true);
-            }else if(noSabe==2){
-                rdNosabeNo.setChecked(true);
-            }
-            txtOtro.setText(otroTipoViolencia.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

@@ -41,7 +41,7 @@ import java.util.ArrayList;
  * Use the {@link ddef_familia#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ddef_familia extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class ddef_familia extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -145,7 +145,46 @@ public class ddef_familia extends Fragment implements Response.Listener<JSONObje
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuestaLista.php?id_encuesta="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            Familia familia=null;
+
+            JSONArray json=response.optJSONArray("usuario");
+            try {
+
+                for (int i=0;i<json.length();i++){
+                    familia=new Familia();
+                    JSONObject jsonObject=null;
+                    jsonObject=json.getJSONObject(i);
+                    familia.setId(jsonObject.optInt("id_familia_encuestado"));
+                    familia.setNombre(jsonObject.optString("nombre"));
+                    familia.setApellidos(jsonObject.optString("apellidos"));
+                    familia.setGenero(jsonObject.optInt("genero"));
+                    familia.setParentesco(jsonObject.optInt("parentesco"));
+                    familia.setReferencia(jsonObject.optString("referencia"));
+                    familia.setTelefono(jsonObject.optString("telefono"));
+                    familia.setActividad_laboral(jsonObject.optString("actividad_laboral"));
+                    familia.setIngreso_mensual(jsonObject.optString("ingreso_mensual"));
+
+                    listaFamilia.add(familia);
+                }
+
+                FamiliaAdapter adapter=new FamiliaAdapter(listaFamilia);
+                recyclerFamilia.setAdapter(adapter);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(getContext(), "No se ha podido establecer conexión con el servidor" +
+                        " "+response, Toast.LENGTH_LONG).show();
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -180,47 +219,6 @@ public class ddef_familia extends Fragment implements Response.Listener<JSONObje
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        Familia familia=null;
-
-        JSONArray json=response.optJSONArray("usuario");
-        try {
-
-            for (int i=0;i<json.length();i++){
-                familia=new Familia();
-                JSONObject jsonObject=null;
-                jsonObject=json.getJSONObject(i);
-                familia.setId(jsonObject.optInt("id_familia_encuestado"));
-                familia.setNombre(jsonObject.optString("nombre"));
-                familia.setApellidos(jsonObject.optString("apellidos"));
-                familia.setGenero(jsonObject.optInt("genero"));
-                familia.setParentesco(jsonObject.optInt("parentesco"));
-                familia.setReferencia(jsonObject.optString("referencia"));
-                familia.setTelefono(jsonObject.optString("telefono"));
-                familia.setActividad_laboral(jsonObject.optString("actividad_laboral"));
-                familia.setIngreso_mensual(jsonObject.optString("ingreso_mensual"));
-
-                listaFamilia.add(familia);
-            }
-
-            FamiliaAdapter adapter=new FamiliaAdapter(listaFamilia);
-            recyclerFamilia.setAdapter(adapter);
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "No se ha podido establecer conexión con el servidor" +
-                    " "+response, Toast.LENGTH_LONG).show();
-
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this
