@@ -8,6 +8,14 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idViolenciaPareja"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="VII. VIOLENCIA"
@@ -69,17 +77,17 @@
                 android:layout_marginTop="30dp"
                 android:orientation="horizontal"
                 android:background="#FF0000"
-                android:layout_marginHorizontal="10dp"
+
 
                 >
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="15"
+                    android:layout_weight="1"
                     android:text="" />
 
                 <TextView
-                    android:layout_width="35dp"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="MM"
@@ -87,7 +95,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:layout_width="35dp"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="AV"
@@ -95,7 +103,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:layout_width="35dp"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="N"
@@ -103,7 +111,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:layout_width="35dp"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="NC"
@@ -116,11 +124,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:text="¿Tu enamorado/a te acusa(ba) de serle infiel?" />
 
@@ -133,27 +140,27 @@
 
                     <RadioButton
                         android:id="@+id/mmInfiel"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avInfiel"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nInfiel"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncInfiel"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
@@ -165,11 +172,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:text="¿Tu enamorado/a te celaba(ba) con algún amigo(a) que tiene o te hizo sentir mal?" />
 
@@ -182,27 +188,27 @@
 
                     <RadioButton
                         android:id="@+id/mmCelos"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avCelos"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nCelos"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncCelos"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
@@ -214,11 +220,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:text="¿Tu enamorado/a revisa constantemente tu celular o Facebook?" />
 
@@ -231,27 +236,27 @@
 
                     <RadioButton
                         android:id="@+id/mmRevisarCelular"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avRevisarCelular"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nRevisarCelular"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncRevisarCelular"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
@@ -263,11 +268,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:text="¿Tu enamorado/a trata(trataba) de limitarte los contactos con tu familia con el objeto de hacerte sentir mal?" />
 
@@ -280,27 +284,27 @@
 
                     <RadioButton
                         android:id="@+id/mmLimitarFamilia"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avLimitarFamilia"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nLimitarFamilia"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncLimitarFamilia"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
@@ -312,11 +316,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:text="¿Tu enamorado/a te humilla o insulta delante otras personas, expresándose en términos como por ejemplo 'no sirves para nada', 'nunca haces nada', 'eres una bruta', 'mi mama me hacia mejor las cosas'?" />
 
@@ -329,27 +332,27 @@
 
                     <RadioButton
                         android:id="@+id/mmInsultarPublico"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avInsultarPublico"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nInsultarPublico"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncInsultarPublico"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
@@ -361,11 +364,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:text="¿Tu enamorado/a amenaza con abandonarte?" />
 
@@ -378,27 +380,27 @@
 
                     <RadioButton
                         android:id="@+id/mmAmenazaAbandonarte"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avAmenazaAbandonarte"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nAmenazaAbandonarte"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncAmenazaAbandonarte"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
@@ -410,11 +412,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:text="¿Tu enamorado/a te amenaza con quitarte a tus hijos?" />
 
@@ -427,27 +428,27 @@
 
                     <RadioButton
                         android:id="@+id/mmQuitarHijos"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avQuitarHijos"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nQuitarHijos"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncQuitarHijos"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
@@ -459,11 +460,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
+
                 >
 
                 <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:text="¿Tu enamorado/a amenaza con no cumplir con su responsabilidad economica?" />
 
@@ -476,27 +477,27 @@
 
                     <RadioButton
                         android:id="@+id/mmAmenazaEconomico"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avAmenazaEconomico"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nAmenazaEconomico"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncAmenazaEconomico"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
@@ -508,11 +509,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:text="¿Tu pareja al enojarse rompe objetos en el hogar como forma de amenaza?" />
 
@@ -525,27 +525,27 @@
 
                     <RadioButton
                         android:id="@+id/mmRompeObjetos"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avRompeObjetos"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nRompeObjetos"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncRompeObjetos"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
@@ -557,19 +557,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="90dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+
                     android:text="Otro (Especificar)" />
 
                 <EditText
                     android:id="@+id/txtotroViolenciaPareja"
-                    android:layout_weight="1"
-                    android:layout_width="115dp"
+
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     />
 
@@ -582,27 +581,27 @@
 
                     <RadioButton
                         android:id="@+id/mmOtroViolenciaPareja"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avOtroViolenciaPareja"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nOtroViolenciaPareja"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncOtroViolenciaPareja"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />

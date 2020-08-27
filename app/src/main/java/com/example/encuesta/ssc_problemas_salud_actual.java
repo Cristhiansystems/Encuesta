@@ -1,14 +1,32 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -19,7 +37,7 @@ import android.widget.Button;
  * Use the {@link ssc_problemas_salud_actual#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssc_problemas_salud_actual extends Fragment {
+public class ssc_problemas_salud_actual extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,6 +50,22 @@ public class ssc_problemas_salud_actual extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+
+    TextView idFragment;
+    RadioButton rdCentroPublicaSi, rdCentroPublicaNo, rdCentroPrivadoSi, rdCentroPrivadoNo, rdFarmaciaSi, rdFarmaciaNo, rdInstitucionSi, rdInstitucionNo, rdNaturistaSi, rdNaturistaNo, rdCuroSoloSi, rdCuroSoloNo, rdOtroSi, rdOtroNo;
+    EditText txtOtroProblemaSaludActual;
+    String otroProblemaSaludActual, idEncuesta;
+    Integer centroPublica, centroPrivado, farmacia, institucion, naturista, curoSolo, otro;
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     private OnFragmentInteractionListener mListener;
 
     public ssc_problemas_salud_actual() {
@@ -72,29 +106,56 @@ public class ssc_problemas_salud_actual extends Fragment {
         vista=inflater.inflate(R.layout.fragment_ssc_problemas_salud_actual, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente160);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras160);
+        idFragment= (TextView) vista.findViewById(R.id.idProblemaSaludActual);
+        rdCentroPublicaSi=(RadioButton) vista.findViewById(R.id.centroPublicaSi);
+        rdCentroPublicaNo=(RadioButton) vista.findViewById(R.id.centroPublicaNo);
+        rdCentroPrivadoSi=(RadioButton) vista.findViewById(R.id.centroPirvadoSi);
+        rdCentroPrivadoNo=(RadioButton) vista.findViewById(R.id.centroPrivadoNo);
+        rdFarmaciaSi=(RadioButton) vista.findViewById(R.id.farmaciaSi);
+        rdFarmaciaNo=(RadioButton) vista.findViewById(R.id.farmaciaNo);
+        rdInstitucionSi=(RadioButton) vista.findViewById(R.id.institucionSi);
+        rdInstitucionNo=(RadioButton) vista.findViewById(R.id.institucionNo);
+        rdNaturistaSi=(RadioButton) vista.findViewById(R.id.naturistaSi);
+        rdNaturistaNo=(RadioButton) vista.findViewById(R.id.naturistaNo);
+        rdCuroSoloSi=(RadioButton) vista.findViewById(R.id.curoSoloSi);
+        rdCuroSoloNo=(RadioButton) vista.findViewById(R.id.curoSoloNo);
+        rdOtroSi=(RadioButton) vista.findViewById(R.id.otroProblemaSaludActualSi);
+        rdOtroNo=(RadioButton) vista.findViewById(R.id.otroProblemaSaludActualNo);
 
+        txtOtroProblemaSaludActual= (EditText) vista.findViewById(R.id.txtotroProblemasSaludActual);
+
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ssc_probleas_salud_recien();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta18(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ssc_alimento();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta16(idFragment.getText().toString());
         });
         return vista;
     }
+    private void cargarWebServices() {
 
+        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -104,6 +165,12 @@ public class ssc_problemas_salud_actual extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -117,6 +184,79 @@ public class ssc_problemas_salud_actual extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+        Log.i("ERROR: ", error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        JSONArray json = response.optJSONArray("usuario");
+        JSONObject jsonObject = null;
+
+        try {
+            jsonObject = json.getJSONObject(0);
+            idEncuesta = jsonObject.optString("encuesta_emt");
+            centroPublica = jsonObject.optInt("centro_salud_publica");
+            centroPrivado = jsonObject.optInt("centro_salud_privado");
+            farmacia = jsonObject.optInt("farmacia");
+            institucion = jsonObject.optInt("institucion");
+            naturista = jsonObject.optInt("naturista");
+            curoSolo = jsonObject.optInt("curo_solo");
+            otro = jsonObject.optInt("otro_salud");
+            otroProblemaSaludActual = jsonObject.optString("otro_salud_nombre");
+
+
+            if (centroPublica == 1) {
+                rdCentroPublicaSi.setChecked(true);
+            } else if (centroPublica == 2) {
+                rdCentroPublicaSi.setChecked(true);
+            }
+
+            if (centroPrivado == 1) {
+                rdCentroPrivadoSi.setChecked(true);
+            } else if (centroPrivado == 2) {
+                rdCentroPrivadoNo.setChecked(true);
+            }
+
+            if (farmacia == 1) {
+                rdFarmaciaSi.setChecked(true);
+            } else if (farmacia == 2) {
+                rdFarmaciaNo.setChecked(true);
+            }
+
+            if (institucion == 1) {
+                rdInstitucionSi.setChecked(true);
+            } else if (institucion == 2) {
+                rdInstitucionNo.setChecked(true);
+            }
+
+            if (naturista == 1) {
+                rdNaturistaSi.setChecked(true);
+            } else if (naturista == 2) {
+                rdNaturistaSi.setChecked(true);
+            }
+
+            if (curoSolo == 1) {
+                rdCuroSoloSi.setChecked(true);
+            } else if (curoSolo == 2) {
+                rdCuroSoloNo.setChecked(true);
+            }
+
+            if (otro == 1) {
+                rdOtroSi.setChecked(true);
+            } else if (otro == 2) {
+                rdOtroNo.setChecked(true);
+            }
+
+            txtOtroProblemaSaludActual.setText(otroProblemaSaludActual.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

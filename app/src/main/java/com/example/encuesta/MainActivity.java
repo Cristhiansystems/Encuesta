@@ -106,6 +106,39 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
     dp_telefono dp_telefono;
     dp_estado_civil dp_estado_civil;
     dp_direccion dp_direccion;
+    ddef_familia ddef_familia;
+    ddef_gastar_dinero ddef_gastar_dinero;
+    sb_lugar_vives sb_lugar_vives;
+    sb_tipo_vivienda sb_tipo_vivienda;
+    sb_cuartos sb_cuartos;
+    sb_servicio_sanitario sb_servicio_sanitario;
+    sb_agua sb_agua;
+    db_combustible db_combustible;
+    ssc_alimento ssc_alimento;
+    ssc_problemas_salud_actual ssc_problemas_salud_actual;
+    ssc_probleas_salud_recien ssc_probleas_salud_recien;
+    ssc_consumir_subtancias ssc_consumir_subtancias;
+    ssr_oir_anticonceptivo ssr_oir_anticonceptivo;
+    ssr_metodos_anticonceptivos ssr_metodos_anticonceptivos;
+    ssr_enamorado ssr_enamorado;
+    ssr_decidir_relaciones ssr_decidir_relaciones;
+    ssr_usar_anticonceptivo_actualmente ssr_usar_anticonceptivo_actualmente;
+    ssr_no_anticonceptivo ssr_no_anticonceptivo;
+    ssr_desicion_uso_anticonceptivos ssr_desicion_uso_anticonceptivos;
+    ssr_decidir_embarazo ssr_decidir_embarazo;
+    ssr_edad_quisieras_hijos ssr_edad_quisieras_hijos;
+    ssr_situacion_violencia ssr_situacion_violencia;
+    ssr_prevenir_its ssr_prevenir_its;
+    ssr_embarazo_plan_vida ssr_embarazo_plan_vida;
+    pl_apresado pl_apresado;
+    pl_causa_detenido pl_causa_detenido;
+    pl_problemas_defensoria pl_problemas_defensoria;
+    v_tipo_violencia v_tipo_violencia;
+    v_sufrir_violencia v_sufrir_violencia;
+    v_violencia_pareja v_violencia_pareja;
+    v_violencia_pareja_actual v_violencia_pareja_actual;
+    v_buscar_ayuda v_buscar_ayuda;
+    emp_pers_8_0_1 emp_pers_8_0_1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -304,5 +337,407 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
         getSupportFragmentManager().
                 beginTransaction().
                 replace(R.id.container, dp_direccion).addToBackStack(null).commit();
+    }
+
+
+    public void enviarEncuesta8(String idEncuesta){
+        ddef_familia=new ddef_familia();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ddef_familia.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ddef_familia).addToBackStack(null).commit();
+    }
+
+
+    public void enviarEncuesta9(String idEncuesta){
+        ddef_gastar_dinero=new ddef_gastar_dinero();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ddef_gastar_dinero.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ddef_gastar_dinero).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta10(String idEncuesta){
+        sb_lugar_vives=new sb_lugar_vives();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        sb_lugar_vives.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, sb_lugar_vives).addToBackStack(null).commit();
+    }
+
+
+    public void enviarEncuesta11(String idEncuesta){
+        sb_tipo_vivienda=new sb_tipo_vivienda();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        sb_tipo_vivienda.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, sb_tipo_vivienda).addToBackStack(null).commit();
+    }
+
+
+    public void enviarEncuesta12(String idEncuesta){
+        sb_cuartos=new sb_cuartos();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        sb_cuartos.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, sb_cuartos).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta13(String idEncuesta){
+        sb_servicio_sanitario=new sb_servicio_sanitario();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        sb_servicio_sanitario.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, sb_servicio_sanitario).addToBackStack(null).commit();
+    }
+
+
+    public void enviarEncuesta14(String idEncuesta){
+        sb_agua=new sb_agua();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        sb_agua.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, sb_agua).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta15(String idEncuesta){
+        db_combustible=new db_combustible();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        db_combustible.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, db_combustible).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta16(String idEncuesta){
+        ssc_alimento=new ssc_alimento();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssc_alimento.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssc_alimento).addToBackStack(null).commit();
+    }
+
+
+    public void enviarEncuesta17(String idEncuesta){
+        ssc_problemas_salud_actual=new ssc_problemas_salud_actual();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssc_problemas_salud_actual.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssc_problemas_salud_actual).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta18(String idEncuesta){
+        ssc_probleas_salud_recien=new ssc_probleas_salud_recien();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssc_probleas_salud_recien.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssc_probleas_salud_recien).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta19(String idEncuesta){
+        ssc_consumir_subtancias=new ssc_consumir_subtancias();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssc_consumir_subtancias.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssc_consumir_subtancias).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta20(String idEncuesta){
+        ssr_oir_anticonceptivo=new ssr_oir_anticonceptivo();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssr_oir_anticonceptivo.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssr_oir_anticonceptivo).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta21(String idEncuesta){
+        ssr_metodos_anticonceptivos=new ssr_metodos_anticonceptivos();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssr_metodos_anticonceptivos.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssr_metodos_anticonceptivos).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta22(String idEncuesta){
+        ssr_enamorado=new ssr_enamorado();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssr_enamorado.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssr_enamorado).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta23(String idEncuesta){
+        ssr_decidir_relaciones=new ssr_decidir_relaciones();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssr_decidir_relaciones.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssr_decidir_relaciones).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta24(String idEncuesta){
+        ssr_usar_anticonceptivo_actualmente=new ssr_usar_anticonceptivo_actualmente();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssr_usar_anticonceptivo_actualmente.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssr_usar_anticonceptivo_actualmente).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta25(String idEncuesta){
+        ssr_no_anticonceptivo=new ssr_no_anticonceptivo();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssr_no_anticonceptivo.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssr_no_anticonceptivo).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta26(String idEncuesta){
+        ssr_desicion_uso_anticonceptivos=new ssr_desicion_uso_anticonceptivos();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssr_desicion_uso_anticonceptivos.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssr_desicion_uso_anticonceptivos).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta27(String idEncuesta){
+        ssr_decidir_embarazo=new ssr_decidir_embarazo();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssr_decidir_embarazo.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssr_decidir_embarazo).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta28(String idEncuesta){
+        ssr_edad_quisieras_hijos=new ssr_edad_quisieras_hijos();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssr_edad_quisieras_hijos.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssr_edad_quisieras_hijos).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta29(String idEncuesta){
+        ssr_situacion_violencia=new ssr_situacion_violencia();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssr_situacion_violencia.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssr_situacion_violencia).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta30(String idEncuesta){
+        ssr_prevenir_its=new ssr_prevenir_its();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssr_prevenir_its.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssr_prevenir_its).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta31(String idEncuesta){
+        ssr_embarazo_plan_vida=new ssr_embarazo_plan_vida();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        ssr_embarazo_plan_vida.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, ssr_embarazo_plan_vida).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta32(String idEncuesta){
+        pl_apresado=new pl_apresado();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        pl_apresado.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, pl_apresado).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta33(String idEncuesta){
+        pl_causa_detenido=new pl_causa_detenido();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        pl_causa_detenido.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, pl_causa_detenido).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta34(String idEncuesta){
+        pl_problemas_defensoria=new pl_problemas_defensoria();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        pl_problemas_defensoria.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, pl_problemas_defensoria).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta35(String idEncuesta){
+        v_tipo_violencia=new v_tipo_violencia();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        v_tipo_violencia.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, v_tipo_violencia).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta36(String idEncuesta){
+        v_sufrir_violencia=new v_sufrir_violencia();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        v_sufrir_violencia.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, v_sufrir_violencia).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta37(String idEncuesta){
+        v_violencia_pareja=new v_violencia_pareja();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        v_violencia_pareja.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, v_violencia_pareja).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta38(String idEncuesta){
+        v_violencia_pareja_actual=new v_violencia_pareja_actual();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        v_violencia_pareja_actual.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, v_violencia_pareja_actual).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta39(String idEncuesta){
+        v_buscar_ayuda=new v_buscar_ayuda();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        v_buscar_ayuda.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, v_buscar_ayuda).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta40(String idEncuesta){
+        emp_pers_8_0_1=new emp_pers_8_0_1();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_pers_8_0_1.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_pers_8_0_1).addToBackStack(null).commit();
     }
 }

@@ -8,6 +8,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idSufrirViolencia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="VII. VIOLENCIA"
@@ -36,7 +43,6 @@
         android:layout_marginTop="30dp"
         android:orientation="horizontal"
         android:background="#FF0000"
-        android:layout_marginHorizontal="10dp"
 
         >
         <TextView
@@ -83,7 +89,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
@@ -101,7 +106,7 @@
 
             <RadioButton
                 android:id="@+id/mmPadre"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
 
                  />
@@ -135,7 +140,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
@@ -153,7 +157,7 @@
 
             <RadioButton
                 android:id="@+id/mmMadre"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
 
                 />
@@ -186,7 +190,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
@@ -204,7 +207,7 @@
 
             <RadioButton
                 android:id="@+id/mmHermano"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
 
                 />
@@ -237,7 +240,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="10dp"
+
         >
 
         <TextView
@@ -255,7 +258,7 @@
 
             <RadioButton
                 android:id="@+id/mmPariente"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
 
                 />
@@ -288,7 +291,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
@@ -306,7 +308,7 @@
 
             <RadioButton
                 android:id="@+id/mmAmigo"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
 
                 />
@@ -340,7 +342,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
@@ -358,7 +359,7 @@
 
             <RadioButton
                 android:id="@+id/mmPareja"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
 
                 />
@@ -391,7 +392,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
@@ -409,7 +409,7 @@
 
             <RadioButton
                 android:id="@+id/mmEducador"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
 
                 />
@@ -442,7 +442,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="10dp"
         >
 
         <TextView
@@ -460,7 +459,7 @@
 
             <RadioButton
                 android:id="@+id/mmProfesor"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
 
                 />
@@ -494,7 +493,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="10dp"
+
         >
 
         <TextView
@@ -519,7 +518,7 @@
 
             <RadioButton
                 android:id="@+id/mmOtroSufrirViolencia"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
 
                 />
@@ -552,7 +551,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:orientation="horizontal"
-
         android:layout_marginBottom="15dp">
         >
         <Button

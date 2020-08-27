@@ -1,14 +1,32 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -19,7 +37,7 @@ import android.widget.Button;
  * Use the {@link ssr_usar_anticonceptivo_actualmente#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssr_usar_anticonceptivo_actualmente extends Fragment {
+public class ssr_usar_anticonceptivo_actualmente extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,6 +50,23 @@ public class ssr_usar_anticonceptivo_actualmente extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+
+    TextView idFragment;
+    RadioButton rdSi, rdNo, rdSinProteccionSi, rdNoSabe;
+    String idEncuesta;
+
+    Integer UsarAnticonceptivoActual;
+
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     private OnFragmentInteractionListener mListener;
 
     public ssr_usar_anticonceptivo_actualmente() {
@@ -72,30 +107,44 @@ public class ssr_usar_anticonceptivo_actualmente extends Fragment {
         vista=inflater.inflate(R.layout.fragment_ssr_usar_anticonceptivo_actualmente, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente22);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras22);
+        idFragment= (TextView) vista.findViewById(R.id.idUsarAnticonceptivosActualmente);
 
+        //Radio Butons
+        rdSi=(RadioButton) vista.findViewById(R.id.usarAnticonceptivoActualSi);
+        rdNo=(RadioButton) vista.findViewById(R.id.usarAnticonceptivoActualNo);
+        rdNoSabe=(RadioButton) vista.findViewById(R.id.usarAnticonceptivoActualNosabe);
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ssr_no_anticonceptivo();
-
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta25(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ssr_decidir_relaciones();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta23(idFragment.getText().toString());
         });
         return vista;
     }
+    private void cargarWebServices() {
 
+        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -105,6 +154,12 @@ public class ssr_usar_anticonceptivo_actualmente extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -118,6 +173,41 @@ public class ssr_usar_anticonceptivo_actualmente extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+        Log.i("ERROR: ", error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        JSONArray json = response.optJSONArray("usuario");
+        JSONObject jsonObject = null;
+
+        try {
+            jsonObject = json.getJSONObject(0);
+            idEncuesta = jsonObject.optString("encuesta_emt");
+            UsarAnticonceptivoActual = jsonObject.optInt("usa_anticonceptivo_actualmente");
+
+
+            if (UsarAnticonceptivoActual == 1) {
+                rdSi.setChecked(true);
+            } else if (UsarAnticonceptivoActual == 2) {
+                rdNo.setChecked(true);
+            }else if (UsarAnticonceptivoActual == 3) {
+                rdNoSabe.setChecked(true);
+            }
+
+
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

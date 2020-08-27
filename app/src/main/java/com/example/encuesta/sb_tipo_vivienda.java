@@ -1,14 +1,32 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -19,7 +37,7 @@ import android.widget.Button;
  * Use the {@link sb_tipo_vivienda#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class sb_tipo_vivienda extends Fragment {
+public class sb_tipo_vivienda extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,6 +50,21 @@ public class sb_tipo_vivienda extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+    TextView idFragment;
+    RadioButton rdDepartamento, rdIndependiente, rdVecindad, rdPrecaria, rdImporvisada,  rdOtro;
+    EditText txtnomOtro;
+    String nomOtro, idEncuesta;
+    Integer tipo_vivienda;
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     private OnFragmentInteractionListener mListener;
 
     public sb_tipo_vivienda() {
@@ -72,29 +105,47 @@ public class sb_tipo_vivienda extends Fragment {
         vista=inflater.inflate(R.layout.fragment_sb_tipo_vivienda, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente11);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras11);
+        idFragment= (TextView) vista.findViewById(R.id.idTipoVivienda);
+        rdDepartamento=(RadioButton) vista.findViewById(R.id.tipoVDepartamento);
+        rdIndependiente=(RadioButton) vista.findViewById(R.id.tipoVIndependiente);
+        rdVecindad=(RadioButton) vista.findViewById(R.id.tipoVVecindad);
+        rdPrecaria=(RadioButton) vista.findViewById(R.id.tipoVPrecaria);
+        rdImporvisada=(RadioButton) vista.findViewById(R.id.tipoVImprovisada);
+        rdOtro=(RadioButton) vista.findViewById(R.id.tipoVOtro);
+        txtnomOtro=(EditText) vista.findViewById(R.id.txtTipoVOtro);
 
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new sb_cuartos();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta12(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new sb_lugar_vives();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta10(idFragment.getText().toString());
         });
         return vista;
     }
+    private void cargarWebServices() {
 
+        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -104,6 +155,12 @@ public class sb_tipo_vivienda extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -117,6 +174,47 @@ public class sb_tipo_vivienda extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+        Log.i("ERROR: ", error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        JSONArray json=response.optJSONArray("usuario");
+        JSONObject jsonObject=null;
+
+        try{
+            jsonObject=json.getJSONObject(0);
+            idEncuesta=jsonObject.optString("encuesta_emt");
+            tipo_vivienda=jsonObject.optInt("tipo_lugar_vivienda");
+            nomOtro=jsonObject.optString("tipo_lugar_vivienda_otro");
+
+            if(tipo_vivienda==1){
+                rdDepartamento.setChecked(true);
+            }else if(tipo_vivienda==2){
+                rdIndependiente.setChecked(true);
+            }else if(tipo_vivienda==3){
+                rdVecindad.setChecked(true);
+            }else if(tipo_vivienda==4){
+                rdPrecaria.setChecked(true);
+            }else if(tipo_vivienda==5){
+                rdImporvisada.setChecked(true);
+            }else if(tipo_vivienda==88){
+                rdOtro.setChecked(true);
+            }
+
+            txtnomOtro.setText(nomOtro.toString());
+
+
+
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
     }
 
     /**

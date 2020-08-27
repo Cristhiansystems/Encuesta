@@ -136,7 +136,7 @@ public class dp_direccion extends Fragment implements Response.Listener<JSONObje
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            interfaceComunicaFragments.enviarEncuesta6(idFragment.getText().toString());
+            interfaceComunicaFragments.enviarEncuesta8(idFragment.getText().toString());
         });
 
 

@@ -1,14 +1,32 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -19,7 +37,7 @@ import android.widget.Button;
  * Use the {@link ssr_enamorado#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssr_enamorado extends Fragment {
+public class ssr_enamorado extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,6 +50,24 @@ public class ssr_enamorado extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+
+    TextView idFragment;
+    RadioButton rdTuvisteEnamoradoSi, rdTuvisteEnamoradoNo, rdRelacionesRecienSi, rdRelacionesRecienNo, rdEdadRelacionNoTuvo, rdEdadRelacionNosabe;
+    EditText txtedadPrimeraRelacion;
+    String idEncuesta, edadPrimeraRelacion;
+
+    Integer tuvisteEnamorado, relacionesRecien, edadRelacion;
+
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     private OnFragmentInteractionListener mListener;
 
     public ssr_enamorado() {
@@ -72,29 +108,49 @@ public class ssr_enamorado extends Fragment {
         vista=inflater.inflate(R.layout.fragment_ssr_enamorado, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente20);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras20);
+        idFragment= (TextView) vista.findViewById(R.id.idEnamorado);
 
+        //Radio Butons
+        rdTuvisteEnamoradoSi=(RadioButton) vista.findViewById(R.id.tuvisteEnamoradoSi);
+        rdTuvisteEnamoradoNo=(RadioButton) vista.findViewById(R.id.tuvisteEnamoradoNo);
+        rdRelacionesRecienSi=(RadioButton) vista.findViewById(R.id.relacionesrecienSi);
+        rdRelacionesRecienNo=(RadioButton) vista.findViewById(R.id.relacionesrecienNo);
+        rdEdadRelacionNosabe=(RadioButton) vista.findViewById(R.id.edadrelacionSexualNoSabe);
+        rdEdadRelacionNoTuvo=(RadioButton) vista.findViewById(R.id.edadrelacionSexualNoTuvo);
+
+        txtedadPrimeraRelacion=(EditText) vista.findViewById(R.id.txtedadPrimeraRelacion);
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ssr_decidir_relaciones();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta23(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ssr_metodos_anticonceptivos();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta21(idFragment.getText().toString());
         });
         return vista;
     }
+    private void cargarWebServices() {
 
+        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -104,6 +160,12 @@ public class ssr_enamorado extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -117,6 +179,53 @@ public class ssr_enamorado extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+        Log.i("ERROR: ", error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        JSONArray json = response.optJSONArray("usuario");
+        JSONObject jsonObject = null;
+
+        try {
+            jsonObject = json.getJSONObject(0);
+            idEncuesta = jsonObject.optString("encuesta_emt");
+            tuvisteEnamorado = jsonObject.optInt("tuviste_enamorado");
+            relacionesRecien = jsonObject.optInt("relaciones_sexuales_recien");
+            edadRelacion = jsonObject.optInt("tuviste_relaciones_sexuales");
+
+            edadPrimeraRelacion = jsonObject.optString("edad_relacion_sexual");
+
+            if (tuvisteEnamorado == 1) {
+                rdTuvisteEnamoradoSi.setChecked(true);
+            } else if (tuvisteEnamorado == 2) {
+                rdTuvisteEnamoradoNo.setChecked(true);
+            }
+
+            if (relacionesRecien == 1) {
+                rdRelacionesRecienSi.setChecked(true);
+            } else if (relacionesRecien == 2) {
+                rdRelacionesRecienNo.setChecked(true);
+            }
+
+            if (edadRelacion == 1) {
+                rdEdadRelacionNoTuvo.setChecked(true);
+            } else if (edadRelacion == 2) {
+                rdEdadRelacionNosabe.setChecked(true);
+            }
+
+
+
+            txtedadPrimeraRelacion.setText(edadPrimeraRelacion.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

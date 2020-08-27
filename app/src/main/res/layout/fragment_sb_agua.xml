@@ -8,6 +8,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idAgua"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="III. SERVICIOS BÁSICOS"
@@ -43,7 +50,7 @@
             android:id="@+id/aguaDentroCañeria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Por cañeria dentri de la vivienda"/>
+            android:text="Por cañeria dentro de la vivienda"/>
 
         <RadioButton
             android:id="@+id/aguaAfueraCañeria"

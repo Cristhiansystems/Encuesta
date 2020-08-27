@@ -1,5 +1,6 @@
 package com.example.encuesta;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,6 +47,11 @@ public class emp_pers_8_0_1 extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+    TextView idFragment;
+
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     // TODO: Rename and change types and number of parameters
     public static emp_pers_8_0_1 newInstance(String param1, String param2) {
         emp_pers_8_0_1 fragment = new emp_pers_8_0_1();
@@ -71,7 +78,16 @@ public class emp_pers_8_0_1 extends Fragment {
         vista=inflater.inflate(R.layout.fragment_emp_pers_8_0_1, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente37);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras37);
+        idFragment=(TextView) vista.findViewById(R.id.idemppers801);
+        Bundle data=getArguments();
 
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
         btnSiguiente.setOnClickListener(v -> {
 
             Fragment miFragment=null;
@@ -85,12 +101,7 @@ public class emp_pers_8_0_1 extends Fragment {
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new v_buscar_ayuda();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta39(idFragment.getText().toString());
         });
         return vista;
 
@@ -107,6 +118,14 @@ public class emp_pers_8_0_1 extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
+
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;

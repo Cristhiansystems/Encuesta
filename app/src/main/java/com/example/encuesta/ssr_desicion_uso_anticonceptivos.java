@@ -1,14 +1,32 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -19,7 +37,7 @@ import android.widget.Button;
  * Use the {@link ssr_desicion_uso_anticonceptivos#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssr_desicion_uso_anticonceptivos extends Fragment {
+public class ssr_desicion_uso_anticonceptivos extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,6 +50,22 @@ public class ssr_desicion_uso_anticonceptivos extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+
+    TextView idFragment;
+    RadioButton rdTuya, rdTuPareja, rdDesicionConjunta, rdEmbarazadaSi, rdEmbarazadaNo, rdEmbazadaNoSabe;
+    String idEncuesta;
+    Integer desicionAnticonceptivo, embarazada;
+
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     private OnFragmentInteractionListener mListener;
 
     public ssr_desicion_uso_anticonceptivos() {
@@ -72,30 +106,47 @@ public class ssr_desicion_uso_anticonceptivos extends Fragment {
         vista=inflater.inflate(R.layout.fragment_ssr_desicion_uso_anticonceptivos, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente24);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras24);
+        idFragment= (TextView) vista.findViewById(R.id.idDesicionUsoAnticonceptivo);
 
+        //Radio Butons
+        rdTuya=(RadioButton) vista.findViewById(R.id.usoAnticonceptivoTuya);
+        rdTuPareja=(RadioButton) vista.findViewById(R.id.usoAnticonceptivoPareja);
+        rdDesicionConjunta=(RadioButton) vista.findViewById(R.id.usoAnticonceptivoConjunta);
+        rdEmbarazadaSi=(RadioButton) vista.findViewById(R.id.embarazoSi);
+        rdEmbarazadaNo=(RadioButton) vista.findViewById(R.id.embarazoNo);
+        rdEmbazadaNoSabe=(RadioButton) vista.findViewById(R.id.embarazoNosabe);
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ssr_decidir_embarazo();
-
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta27(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ssr_no_anticonceptivo();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta25(idFragment.getText().toString());
         });
         return vista;
     }
+    private void cargarWebServices() {
 
+        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -105,6 +156,12 @@ public class ssr_desicion_uso_anticonceptivos extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -118,6 +175,51 @@ public class ssr_desicion_uso_anticonceptivos extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+        Log.i("ERROR: ", error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+
+
+        JSONArray json = response.optJSONArray("usuario");
+        JSONObject jsonObject = null;
+
+        try {
+            jsonObject = json.getJSONObject(0);
+            idEncuesta = jsonObject.optString("encuesta_emt");
+            desicionAnticonceptivo = jsonObject.optInt("desicion_uso_anticonceptivo");
+            embarazada = jsonObject.optInt("embarazo");
+
+
+
+            if (desicionAnticonceptivo == 1) {
+                rdTuya.setChecked(true);
+            } else if (desicionAnticonceptivo == 2) {
+                rdTuPareja.setChecked(true);
+            }else if (desicionAnticonceptivo == 3) {
+                rdDesicionConjunta.setChecked(true);
+            }
+
+            if (embarazada == 1) {
+                rdEmbarazadaSi.setChecked(true);
+            } else if (embarazada == 2) {
+                rdEmbarazadaNo.setChecked(true);
+            }else if (embarazada == 3) {
+                rdEmbazadaNoSabe.setChecked(true);
+            }
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

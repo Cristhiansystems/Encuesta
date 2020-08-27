@@ -1,14 +1,32 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -19,7 +37,7 @@ import android.widget.Button;
  * Use the {@link db_combustible#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class db_combustible extends Fragment {
+public class db_combustible extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,6 +50,22 @@ public class db_combustible extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+
+    TextView idFragment;
+    RadioButton rdEnergiaSi, rdEnergiaNo, rdGasDomSi, rdGasDomNo, rdGasLicSi, rdGasLicNo, rdCarbonSi, rdCarbonNo, rdLenaSi, rdLenaNo, rdOtroSi, rdOtroNo;
+    EditText txtOtroCombustible;
+    String otroCombustible, idEncuesta;
+    Integer Energia, GasDom, GasLic, Carbon, Lena, Otro;
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     private OnFragmentInteractionListener mListener;
 
     public db_combustible() {
@@ -72,29 +106,53 @@ public class db_combustible extends Fragment {
         vista=inflater.inflate(R.layout.fragment_db_combustible, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente15);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras15);
+        idFragment= (TextView) vista.findViewById(R.id.idCombustible);
+        rdEnergiaSi= (RadioButton) vista.findViewById(R.id.combusEnergiaSi);
+        rdEnergiaNo= (RadioButton) vista.findViewById(R.id.combusEnergiaNo);
+        rdGasDomSi= (RadioButton) vista.findViewById(R.id.gasDomiciliarioSi);
+        rdGasDomNo= (RadioButton) vista.findViewById(R.id.gasDomiciliarioNo);
+        rdGasLicSi= (RadioButton) vista.findViewById(R.id.gasLicuadoSi);
+        rdGasLicNo= (RadioButton) vista.findViewById(R.id.gasLicuadoNo);
+        rdCarbonSi= (RadioButton) vista.findViewById(R.id.carbonSi);
+        rdCarbonNo= (RadioButton) vista.findViewById(R.id.carbonNo);
+        rdLenaSi= (RadioButton) vista.findViewById(R.id.lenaSi);
+        rdLenaNo= (RadioButton) vista.findViewById(R.id.lenaNo);
+        rdOtroSi= (RadioButton) vista.findViewById(R.id.otroCombustibleSi);
+        rdOtroNo= (RadioButton) vista.findViewById(R.id.otroCombustibleNo);
+        txtOtroCombustible= (EditText) vista.findViewById(R.id.txtotronomCombustible);
 
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ssc_alimento();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta16(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new sb_agua();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta14(idFragment.getText().toString());
+
         });
         return vista;
     }
+    private void cargarWebServices() {
 
+        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -104,6 +162,12 @@ public class db_combustible extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -119,7 +183,73 @@ public class db_combustible extends Fragment {
         mListener = null;
     }
 
-    /**
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+        Log.i("ERROR: ", error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        JSONArray json = response.optJSONArray("usuario");
+        JSONObject jsonObject = null;
+
+        try {
+            jsonObject = json.getJSONObject(0);
+            idEncuesta = jsonObject.optString("encuesta_emt");
+            Energia = jsonObject.optInt("energia");
+            GasDom = jsonObject.optInt("gas_domiciliario");
+            GasLic = jsonObject.optInt("gas_licuado");
+            Carbon = jsonObject.optInt("carbon");
+            Lena = jsonObject.optInt("lena");
+            Otro = jsonObject.optInt("otro_combustible");
+            otroCombustible = jsonObject.optString("otro_combustible_nombre");
+
+            if (Energia == 1) {
+                rdEnergiaSi.setChecked(true);
+            } else if (Energia == 2) {
+                rdEnergiaNo.setChecked(true);
+            }
+
+            if (GasDom == 1) {
+                rdGasDomSi.setChecked(true);
+            } else if (GasDom == 2) {
+                rdGasDomNo.setChecked(true);
+            }
+
+            if (GasLic == 1) {
+                rdGasLicSi.setChecked(true);
+            } else if (GasLic == 2) {
+                rdGasLicNo.setChecked(true);
+            }
+
+            if (Carbon == 1) {
+                rdCarbonSi.setChecked(true);
+            } else if (Carbon == 2) {
+                rdCarbonNo.setChecked(true);
+            }
+
+            if (Lena == 1) {
+                rdLenaSi.setChecked(true);
+            } else if (Lena == 2) {
+                rdLenaNo.setChecked(true);
+            }
+
+
+            if (Otro == 1) {
+                rdOtroSi.setChecked(true);
+            } else if (Otro == 2) {
+                rdOtroNo.setChecked(true);
+            }
+
+            txtOtroCombustible.setText(otroCombustible.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+        /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that

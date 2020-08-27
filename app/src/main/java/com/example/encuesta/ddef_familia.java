@@ -1,14 +1,36 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.encuesta.Adapter.FamiliaAdapter;
+import com.example.encuesta.entidades.Familia;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 /**
@@ -19,7 +41,7 @@ import android.widget.Button;
  * Use the {@link ddef_familia#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ddef_familia extends Fragment {
+public class ddef_familia extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,6 +54,21 @@ public class ddef_familia extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+    TextView idFragment;
+    RecyclerView recyclerFamilia;
+    ArrayList<Familia> listaFamilia;
+
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
+
     private OnFragmentInteractionListener mListener;
 
     public ddef_familia() {
@@ -72,29 +109,45 @@ public class ddef_familia extends Fragment {
         vista=inflater.inflate(R.layout.fragment_ddef_familia, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente8);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras8);
+        idFragment= (TextView) vista.findViewById(R.id.idFamilia);
+        listaFamilia=new ArrayList<>();
+
+        recyclerFamilia=(RecyclerView) vista.findViewById(R.id.idRecyclerFamilia);
+        recyclerFamilia.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        recyclerFamilia.setHasFixedSize(true);
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
 
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ddef_gastar_dinero();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta9(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new dp_direccion();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta7(idFragment.getText().toString());
         });
         return vista;
     }
+    private void cargarWebServices() {
 
+        String url="http://192.168.0.13/encuestasWS/consultaEncuestaLista.php?id_encuesta="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -104,6 +157,14 @@ public class ddef_familia extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
+
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -117,6 +178,48 @@ public class ddef_familia extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+        Log.i("ERROR: ", error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        Familia familia=null;
+
+        JSONArray json=response.optJSONArray("usuario");
+        try {
+
+            for (int i=0;i<json.length();i++){
+                familia=new Familia();
+                JSONObject jsonObject=null;
+                jsonObject=json.getJSONObject(i);
+                familia.setId(jsonObject.optInt("id_familia_encuestado"));
+                familia.setNombre(jsonObject.optString("nombre"));
+                familia.setApellidos(jsonObject.optString("apellidos"));
+                familia.setGenero(jsonObject.optInt("genero"));
+                familia.setParentesco(jsonObject.optInt("parentesco"));
+                familia.setReferencia(jsonObject.optString("referencia"));
+                familia.setTelefono(jsonObject.optString("telefono"));
+                familia.setActividad_laboral(jsonObject.optString("actividad_laboral"));
+                familia.setIngreso_mensual(jsonObject.optString("ingreso_mensual"));
+
+                listaFamilia.add(familia);
+            }
+
+            FamiliaAdapter adapter=new FamiliaAdapter(listaFamilia);
+            recyclerFamilia.setAdapter(adapter);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "No se ha podido establecer conexión con el servidor" +
+                    " "+response, Toast.LENGTH_LONG).show();
+
+        }
     }
 
     /**
