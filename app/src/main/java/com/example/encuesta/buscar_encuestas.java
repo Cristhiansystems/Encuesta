@@ -167,7 +167,7 @@ public void abrirCalendario(){
         progreso=new ProgressDialog(getContext());
         progreso.setMessage("Consultando....");
         progreso.show();
-      
+
         String url="http://192.168.1.8:8080/encuestasWS/consultaListaEncuesta.php?id="+NroEncuesta.getText().toString()+"&fecha="+Fecha.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
