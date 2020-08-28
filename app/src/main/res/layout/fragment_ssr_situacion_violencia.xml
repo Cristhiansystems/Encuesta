@@ -8,9 +8,16 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idSituacionViolencia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="V. SALUD SEXUAL Y REPORDUCTIVA"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="V. SALUD SEXUAL Y REPRODUCTIVA"
         android:textColor="@color/colorLetra"
         android:background="@color/colorRojo"/>
 
@@ -81,7 +88,7 @@
             android:id="@+id/situacionViolenciaNada"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="no haria nada" />
+            android:text="No haria nada" />
 
         <RadioButton
             android:id="@+id/situacionViolenciaIndiferente"

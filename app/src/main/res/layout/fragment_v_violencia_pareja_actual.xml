@@ -8,6 +8,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idViolenciaParejaActual"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="VII. VIOLENCIA"
@@ -62,17 +69,16 @@
                 android:layout_marginTop="30dp"
                 android:orientation="horizontal"
                 android:background="#FF0000"
-                android:layout_marginHorizontal="10dp"
 
                 >
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="15"
+                    android:layout_weight="1"
                     android:text="" />
 
                 <TextView
-                    android:layout_width="35dp"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="MM"
@@ -80,7 +86,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:layout_width="35dp"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="AV"
@@ -88,7 +94,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:layout_width="35dp"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="N"
@@ -96,7 +102,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:layout_width="35dp"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="NC"
@@ -110,11 +116,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:text="¿Te ha empujado o jaloneado?" />
 
@@ -127,20 +132,20 @@
 
                     <RadioButton
                         android:id="@+id/mmEmpujado"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avEmpujado"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nEmpujado"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
@@ -159,11 +164,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:text="¿Te ha golpeado con la mano o con el pie?" />
 
@@ -176,27 +180,27 @@
 
                     <RadioButton
                         android:id="@+id/mmGolpeado"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avGolpeado"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nGolpeado"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncGolpeado"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
@@ -208,11 +212,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:text="¿Te ha golpeado con un objeto?" />
 
@@ -225,27 +228,27 @@
 
                     <RadioButton
                         android:id="@+id/mmGolpeadoObjeto"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avGolpeadoObjeto"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nGolpeadoObjeto"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncGolpeadoObjeto"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
@@ -257,11 +260,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:text="¿Tu pareja te ha golpeado fuertemente quedando marcas en el cuerpo?" />
 
@@ -274,27 +276,27 @@
 
                     <RadioButton
                         android:id="@+id/mmGolpeadoMarcas"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avGolpeadoMarcas"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nGolpeadoMarcas"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncGolpeadoMarcas"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
@@ -306,11 +308,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:text="¿Te ha forzado a tener relaciones sexuales que no querías?" />
 
@@ -323,27 +324,27 @@
 
                     <RadioButton
                         android:id="@+id/mmForzarRelaciones"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avForzarRelaciones"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nForzarRelaciones"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncForzarRelaciones"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
@@ -355,19 +356,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginHorizontal="10dp"
                 >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="90dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+
                     android:text="Otro (Especificar)" />
 
                 <EditText
                     android:id="@+id/txtotroViolenciaParejaActual"
-                    android:layout_weight="1"
-                    android:layout_width="115dp"
+
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     />
 
@@ -380,27 +380,27 @@
 
                     <RadioButton
                         android:id="@+id/mmViolenciaParejaActua"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         />
 
                     <RadioButton
                         android:id="@+id/avViolenciaParejaActua"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/nViolenciaParejaActua"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />
 
                     <RadioButton
                         android:id="@+id/ncViolenciaParejaActua"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
 
                         />

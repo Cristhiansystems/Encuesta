@@ -1,14 +1,32 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -32,6 +50,24 @@ public class v_violencia_pareja extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+
+    TextView idFragment;
+    RadioButton rdinfielMM, rdinfielAV, rdinfielNC, rdinfielN, rdcelosMM, rdcelosAV, rdcelosNC, rdcelosN, rdrevisarCelularMM, rdrevisarCelularAV, rdrevisarCelularNC, rdrevisarCelularN, rdlimitarFamiliaMM, rdlimitarFamiliaAV, rdlimitarFamiliaNC, rdlimitarFamiliaN, rdinsultarPublicoMM, rdinsultarPublicoAV, rdinsultarPublicoNC, rdinsultarPublicoN, rdamenazaAbandonarteMM, rdamenazaAbandonarteAV, rdamenazaAbandonarteNC, rdamenazaAbandonarteN, rdquitarHijosMM, rdquitarHijosAV, rdquitarHijosNC, rdquitarHijosN, rdamenazaEconomicaMM, rdamenazaEconomicaAV, rdamenazaEconomicaNC, rdamenazaEconomicaN, rdotroMM, rdotroAV, rdotroNC, rdotroN, rdrompeObjetosMM, rdrompeObjetosAV, rdrompreObjetosNC, rdrompeObjetosN;
+    String idEncuesta, otroViolenciaPareja;
+    EditText txtOtro;
+    Integer infiel, celos, revisarCelular, limitarFamilia,insultarPublico, amenazaAbandonarte, quitarHijos, amenazaEconomico, rompeObjetos, otro;
+
+
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     private OnFragmentInteractionListener mListener;
 
     public v_violencia_pareja() {
@@ -72,30 +108,217 @@ public class v_violencia_pareja extends Fragment {
         vista=inflater.inflate(R.layout.fragment_v_violencia_pareja, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente34);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras34);
+        idFragment= (TextView) vista.findViewById(R.id.idViolenciaPareja);
+        rdinfielMM=(RadioButton) vista.findViewById(R.id.mmInfiel);
+        rdinfielAV=(RadioButton) vista.findViewById(R.id.avInfiel);
+        rdinfielN=(RadioButton) vista.findViewById(R.id.nInfiel);
+        rdinfielNC=(RadioButton) vista.findViewById(R.id.ncInfiel);
+        rdcelosMM=(RadioButton) vista.findViewById(R.id.mmCelos);
+        rdcelosAV=(RadioButton) vista.findViewById(R.id.avCelos);
+        rdcelosN=(RadioButton) vista.findViewById(R.id.nCelos);
+        rdcelosNC=(RadioButton) vista.findViewById(R.id.ncCelos);
+        rdrevisarCelularMM=(RadioButton) vista.findViewById(R.id.mmRevisarCelular);
+        rdrevisarCelularAV=(RadioButton) vista.findViewById(R.id.avRevisarCelular);
+        rdrevisarCelularN=(RadioButton) vista.findViewById(R.id.nRevisarCelular);
+        rdrevisarCelularNC=(RadioButton) vista.findViewById(R.id.ncRevisarCelular);
+        rdlimitarFamiliaMM=(RadioButton) vista.findViewById(R.id.mmLimitarFamilia);
+        rdlimitarFamiliaAV=(RadioButton) vista.findViewById(R.id.avLimitarFamilia);
+        rdlimitarFamiliaN=(RadioButton) vista.findViewById(R.id.nLimitarFamilia);
+        rdlimitarFamiliaNC=(RadioButton) vista.findViewById(R.id.ncLimitarFamilia);
+        rdinsultarPublicoMM=(RadioButton) vista.findViewById(R.id.mmInsultarPublico);
+        rdinsultarPublicoAV=(RadioButton) vista.findViewById(R.id.avInsultarPublico);
+        rdinsultarPublicoN=(RadioButton) vista.findViewById(R.id.nInsultarPublico);
+        rdinsultarPublicoNC=(RadioButton) vista.findViewById(R.id.ncInsultarPublico);
+        rdamenazaAbandonarteMM=(RadioButton) vista.findViewById(R.id.mmAmenazaAbandonarte);
+        rdamenazaAbandonarteAV=(RadioButton) vista.findViewById(R.id.avAmenazaAbandonarte);
+        rdamenazaAbandonarteN=(RadioButton) vista.findViewById(R.id.nAmenazaAbandonarte);
+        rdamenazaAbandonarteNC=(RadioButton) vista.findViewById(R.id.ncAmenazaAbandonarte);
+        rdquitarHijosMM=(RadioButton) vista.findViewById(R.id.mmQuitarHijos);
+        rdquitarHijosAV=(RadioButton) vista.findViewById(R.id.avQuitarHijos);
+        rdquitarHijosN=(RadioButton) vista.findViewById(R.id.nQuitarHijos);
+        rdquitarHijosNC=(RadioButton) vista.findViewById(R.id.ncQuitarHijos);
+        rdamenazaEconomicaMM=(RadioButton) vista.findViewById(R.id.mmAmenazaEconomico);
+        rdamenazaEconomicaAV=(RadioButton) vista.findViewById(R.id.avAmenazaEconomico);
+        rdamenazaEconomicaN=(RadioButton) vista.findViewById(R.id.nAmenazaEconomico);
+        rdamenazaEconomicaNC=(RadioButton) vista.findViewById(R.id.ncAmenazaEconomico);
+        rdrompeObjetosMM=(RadioButton) vista.findViewById(R.id.mmRompeObjetos);
+        rdrompeObjetosAV=(RadioButton) vista.findViewById(R.id.avRompeObjetos);
+        rdrompeObjetosN=(RadioButton) vista.findViewById(R.id.nRompeObjetos);
+        rdrompreObjetosNC=(RadioButton) vista.findViewById(R.id.ncRompeObjetos);
+        rdotroMM=(RadioButton) vista.findViewById(R.id.mmOtroViolenciaPareja);
+        rdotroAV=(RadioButton) vista.findViewById(R.id.avOtroViolenciaPareja);
+        rdotroN=(RadioButton) vista.findViewById(R.id.nOtroViolenciaPareja);
+        rdotroNC=(RadioButton) vista.findViewById(R.id.ncOtroViolenciaPareja);
 
+
+        txtOtro=(EditText) vista.findViewById(R.id.txtotroViolenciaPareja);
+
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new v_violencia_pareja_actual();
-
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta38(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new v_sufrir_violencia();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta36(idFragment.getText().toString());
         });
         return vista;
     }
+    private void cargarWebServices() {
 
+        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                infiel= jsonObject.optInt("acusaba_infiel");
+                celos= jsonObject.optInt("celaba_amigo");
+                revisarCelular= jsonObject.optInt("revisa_celular");
+                limitarFamilia= jsonObject.optInt("limitar_familia");
+                insultarPublico= jsonObject.optInt("insulta_publico");
+                amenazaAbandonarte= jsonObject.optInt("amenaza_abandono");
+                quitarHijos= jsonObject.optInt("amenaza_hijos");
+                amenazaEconomico= jsonObject.optInt("amenaza_economico");
+                rompeObjetos= jsonObject.optInt("rompe_objetos");
+                otro= jsonObject.optInt("otro_violencia_pareja");
+
+                otroViolenciaPareja= jsonObject.optString("otro_violencia_pareja_nombre");
+
+
+                if(infiel==1){
+                    rdinfielMM.setChecked(true);
+                }else if(infiel==2){
+                    rdinfielAV.setChecked(true);
+                }else if(infiel==3){
+                    rdinfielN.setChecked(true);
+                }else if(infiel==4){
+                    rdinfielNC.setChecked(true);
+                }
+
+                if(celos==1){
+                    rdcelosMM.setChecked(true);
+                }else if(celos==2){
+                    rdcelosAV.setChecked(true);
+                }else if(celos==3){
+                    rdcelosN.setChecked(true);
+                }else if(celos==4){
+                    rdcelosNC.setChecked(true);
+                }
+
+
+                if(revisarCelular==1){
+                    rdrevisarCelularMM.setChecked(true);
+                }else if(revisarCelular==2){
+                    rdrevisarCelularAV.setChecked(true);
+                }else if(revisarCelular==3){
+                    rdrevisarCelularN.setChecked(true);
+                }else if(revisarCelular==4){
+                    rdrevisarCelularNC.setChecked(true);
+                }
+
+                if(limitarFamilia==1){
+                    rdlimitarFamiliaMM.setChecked(true);
+                }else if(limitarFamilia==2){
+                    rdlimitarFamiliaAV.setChecked(true);
+                }else if(limitarFamilia==3){
+                    rdlimitarFamiliaN.setChecked(true);
+                }else if(limitarFamilia==4){
+                    rdlimitarFamiliaNC.setChecked(true);
+                }
+
+
+                if(insultarPublico==1){
+                    rdinsultarPublicoMM.setChecked(true);
+                }else if(insultarPublico==2){
+                    rdinsultarPublicoAV.setChecked(true);
+                }else if(insultarPublico==3){
+                    rdinsultarPublicoN.setChecked(true);
+                }else if(insultarPublico==4){
+                    rdinsultarPublicoNC.setChecked(true);
+                }
+
+
+
+                if(amenazaAbandonarte==1){
+                    rdamenazaAbandonarteMM.setChecked(true);
+                }else if(amenazaAbandonarte==2){
+                    rdamenazaAbandonarteAV.setChecked(true);
+                }else if(amenazaAbandonarte==3){
+                    rdamenazaAbandonarteN.setChecked(true);
+                }else if(amenazaAbandonarte==4){
+                    rdamenazaAbandonarteNC.setChecked(true);
+                }
+
+
+                if(quitarHijos==1){
+                    rdquitarHijosMM.setChecked(true);
+                }else if(quitarHijos==2){
+                    rdquitarHijosAV.setChecked(true);
+                }else if(quitarHijos==3){
+                    rdquitarHijosN.setChecked(true);
+                }else if(quitarHijos==4){
+                    rdquitarHijosNC.setChecked(true);
+                }
+
+                if(amenazaEconomico==1){
+                    rdamenazaEconomicaMM.setChecked(true);
+                }else if(amenazaEconomico==2){
+                    rdamenazaEconomicaAV.setChecked(true);
+                }else if(amenazaEconomico==3){
+                    rdamenazaEconomicaN.setChecked(true);
+                }else if(amenazaEconomico==4){
+                    rdamenazaEconomicaNC.setChecked(true);
+                }
+
+                if(rompeObjetos==1){
+                    rdrompeObjetosMM.setChecked(true);
+                }else if(rompeObjetos==2){
+                    rdrompeObjetosAV.setChecked(true);
+                }else if(rompeObjetos==3){
+                    rdrompeObjetosN.setChecked(true);
+                }else if(rompeObjetos==4){
+                    rdrompreObjetosNC.setChecked(true);
+                }
+
+                if(otro==1){
+                    rdotroMM.setChecked(true);
+                }else if(otro==2){
+                    rdotroAV.setChecked(true);
+                }else if(otro==3){
+                    rdotroN.setChecked(true);
+                }else if(otro==4){
+                    rdotroNC.setChecked(true);
+                }
+                txtOtro.setText(otroViolenciaPareja.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
+        request.add(jsonObjectRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -105,6 +328,12 @@ public class v_violencia_pareja extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -119,6 +348,8 @@ public class v_violencia_pareja extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

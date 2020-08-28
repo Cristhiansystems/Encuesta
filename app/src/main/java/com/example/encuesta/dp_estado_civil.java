@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link dp_estado_civil#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class dp_estado_civil extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class dp_estado_civil extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -145,7 +145,48 @@ public class dp_estado_civil extends Fragment implements Response.Listener<JSONO
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json=response.optJSONArray("usuario");
+            JSONObject jsonObject=null;
+
+            try{
+                jsonObject=json.getJSONObject(0);
+                idEncuesta=jsonObject.optString("encuesta_emt");
+                estado_civil=jsonObject.optInt("estado_civil");
+
+
+
+                if(estado_civil==1){
+                    rdSoltero.setChecked(true);
+                }else if(estado_civil==2){
+                    rdCasada.setChecked(true);
+                }else if(estado_civil==3){
+                    rdConcubino.setChecked(true);
+                }else if(estado_civil==4){
+                    rdDivorcada.setChecked(true);
+                }else if(estado_civil==5){
+                    rdViuda.setChecked(true);
+                }else if(estado_civil==6){
+                    rdSeparada.setChecked(true);
+                }else if(estado_civil==7){
+                    rdPadreSoltero.setChecked(true);
+                }else if(estado_civil==8){
+                    rdMadreSoltera.setChecked(true);
+                }else if(estado_civil==88){
+                    rdotro.setChecked(true);
+                }
+
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -181,49 +222,6 @@ public class dp_estado_civil extends Fragment implements Response.Listener<JSONO
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json=response.optJSONArray("usuario");
-        JSONObject jsonObject=null;
-
-        try{
-            jsonObject=json.getJSONObject(0);
-            idEncuesta=jsonObject.optString("encuesta_emt");
-            estado_civil=jsonObject.optInt("estado_civil");
-
-
-
-            if(estado_civil==1){
-                rdSoltero.setChecked(true);
-            }else if(estado_civil==2){
-                rdCasada.setChecked(true);
-            }else if(estado_civil==3){
-                rdConcubino.setChecked(true);
-            }else if(estado_civil==4){
-                rdDivorcada.setChecked(true);
-            }else if(estado_civil==5){
-                rdViuda.setChecked(true);
-            }else if(estado_civil==6){
-                rdSeparada.setChecked(true);
-            }else if(estado_civil==7){
-                rdPadreSoltero.setChecked(true);
-            }else if(estado_civil==8){
-                rdMadreSoltera.setChecked(true);
-            }else if(estado_civil==88){
-                rdotro.setChecked(true);
-            }
-
-
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

@@ -1,14 +1,32 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -19,7 +37,7 @@ import android.widget.Button;
  * Use the {@link sb_cuartos#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class sb_cuartos extends Fragment {
+public class sb_cuartos extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,6 +50,22 @@ public class sb_cuartos extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+
+    TextView idFragment;
+    RadioButton rdSiCuarto, rdNoCuarto;
+    EditText txtCuartosVivienda, txtCuartoDormir;
+    String cuartoVivienda, idEncuesta, cuartoDormir;
+    Integer cuarto;
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     private OnFragmentInteractionListener mListener;
 
     public sb_cuartos() {
@@ -72,27 +106,75 @@ public class sb_cuartos extends Fragment {
         vista=inflater.inflate(R.layout.fragment_sb_cuartos, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente12);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras12);
+        idFragment= (TextView) vista.findViewById(R.id.idCuartos);
+        rdSiCuarto=(RadioButton) vista.findViewById(R.id.cuartoCocinarSi);
+        rdNoCuarto=(RadioButton) vista.findViewById(R.id.cuartoCocinarNo);
+        txtCuartosVivienda=(EditText) vista.findViewById(R.id.txtCuartosVivienda);
+        txtCuartoDormir=(EditText) vista.findViewById(R.id.txtCuartosDormir);
+
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
 
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new sb_servicio_sanitario();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta13(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new sb_tipo_vivienda();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta11(idFragment.getText().toString());
         });
         return vista;
+    }
+    private void cargarWebServices() {
+
+        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json=response.optJSONArray("usuario");
+            JSONObject jsonObject=null;
+
+            try{
+                jsonObject=json.getJSONObject(0);
+                idEncuesta=jsonObject.optString("encuesta_emt");
+                cuarto=jsonObject.optInt("cuarto_solo");
+                cuartoVivienda=jsonObject.optString("cuartos_vivienda");
+                cuartoDormir=jsonObject.optString("cuartos_dormir");
+
+                if(cuarto==1){
+                    rdSiCuarto.setChecked(true);
+                }else if(cuarto==2){
+                    rdNoCuarto.setChecked(true);
+                }
+
+                txtCuartosVivienda.setText(cuartoVivienda.toString());
+                txtCuartoDormir.setText(cuartoDormir.toString());
+
+
+
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
+        request.add(jsonObjectRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -104,6 +186,12 @@ public class sb_cuartos extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;

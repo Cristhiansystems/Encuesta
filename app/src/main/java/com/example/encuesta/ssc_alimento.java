@@ -1,14 +1,32 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -19,7 +37,7 @@ import android.widget.Button;
  * Use the {@link ssc_alimento#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssc_alimento extends Fragment {
+public class ssc_alimento extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,6 +50,22 @@ public class ssc_alimento extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+
+    TextView idFragment;
+    RadioButton rdPagoCuentaSi, rdPagoCuentaNo, rdComedoresSi, rdComedoresNo, rdPaganOtroSi, rdPaganOtroNo, rdPagaFamiliaSi, rdPagaFamiliaNo, rdRegalanSi, rdRegalanNo, rdInsumosSi, rdInsumosNo, rdOtroSi, rdOtroNo;
+    EditText txtOtroAlimento, txtNumeroVeces;
+    String otroAlimento,numeroVeces, idEncuesta;
+    Integer pagoCuenta, comedores, paganOtro, pagaFamilia, regalan, insumos, otro;
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     private OnFragmentInteractionListener mListener;
 
     public ssc_alimento() {
@@ -72,29 +106,126 @@ public class ssc_alimento extends Fragment {
         vista=inflater.inflate(R.layout.fragment_ssc_alimento, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente16);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras16);
+        idFragment= (TextView) vista.findViewById(R.id.idAlimento);
+        rdPagoCuentaSi=(RadioButton) vista.findViewById(R.id.pagoCuentaSi);
+        rdPagoCuentaNo=(RadioButton) vista.findViewById(R.id.pagoCuentaNo);
+        rdComedoresSi=(RadioButton) vista.findViewById(R.id.comedoresSi);
+        rdComedoresNo=(RadioButton) vista.findViewById(R.id.comedoresNo);
+        rdPaganOtroSi=(RadioButton) vista.findViewById(R.id.paganOtrosSi);
+        rdPaganOtroNo=(RadioButton) vista.findViewById(R.id.paganOtrosNo);
+        rdPagaFamiliaSi=(RadioButton) vista.findViewById(R.id.pagaFamiliaSi);
+        rdPagaFamiliaNo=(RadioButton) vista.findViewById(R.id.pagaFamiliaNo);
+        rdRegalanSi=(RadioButton) vista.findViewById(R.id.regalanSi);
+        rdRegalanNo=(RadioButton) vista.findViewById(R.id.regalanNo);
+        rdInsumosSi=(RadioButton) vista.findViewById(R.id.insumosSi);
+        rdInsumosNo=(RadioButton) vista.findViewById(R.id.insumosNo);
+        rdOtroSi=(RadioButton) vista.findViewById(R.id.otroAlimentoSi);
+        rdOtroNo=(RadioButton) vista.findViewById(R.id.otroAlimentoSi);
 
+        txtOtroAlimento= (EditText) vista.findViewById(R.id.txtotronomAlimento);
+        txtNumeroVeces= (EditText) vista.findViewById(R.id.txtNrolimentos);
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ssc_problemas_salud_actual();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta17(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new db_combustible();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta15(idFragment.getText().toString());
         });
         return vista;
     }
+    private void cargarWebServices() {
 
+        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                pagoCuenta = jsonObject.optInt("pago_por_mi_cuenta");
+                comedores = jsonObject.optInt("comedores");
+                paganOtro = jsonObject.optInt("pagan_otros");
+                pagaFamilia = jsonObject.optInt("paga_familia");
+                regalan = jsonObject.optInt("regalan");
+                insumos = jsonObject.optInt("insumos");
+                otro = jsonObject.optInt("otro_alimento");
+                otroAlimento = jsonObject.optString("otro_alimento_nombre");
+                numeroVeces = jsonObject.optString("comida_al _dia");
+
+                if (pagoCuenta == 1) {
+                    rdPagoCuentaSi.setChecked(true);
+                } else if (pagoCuenta == 2) {
+                    rdPagoCuentaNo.setChecked(true);
+                }
+
+                if (comedores == 1) {
+                    rdComedoresSi.setChecked(true);
+                } else if (comedores == 2) {
+                    rdComedoresNo.setChecked(true);
+                }
+
+                if (paganOtro == 1) {
+                    rdPaganOtroSi.setChecked(true);
+                } else if (paganOtro == 2) {
+                    rdPaganOtroNo.setChecked(true);
+                }
+
+                if (pagaFamilia == 1) {
+                    rdPagaFamiliaSi.setChecked(true);
+                } else if (pagaFamilia == 2) {
+                    rdPagaFamiliaNo.setChecked(true);
+                }
+
+                if (regalan == 1) {
+                    rdRegalanSi.setChecked(true);
+                } else if (regalan == 2) {
+                    rdRegalanNo.setChecked(true);
+                }
+
+                if (insumos == 1) {
+                    rdInsumosSi.setChecked(true);
+                } else if (insumos == 2) {
+                    rdInsumosSi.setChecked(true);
+                }
+
+                if (otro == 1) {
+                    rdOtroSi.setChecked(true);
+                } else if (otro == 2) {
+                    rdOtroNo.setChecked(true);
+                }
+
+                txtOtroAlimento.setText(otroAlimento.toString());
+                txtNumeroVeces.setText(numeroVeces.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
+        request.add(jsonObjectRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -104,6 +235,12 @@ public class ssc_alimento extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -118,6 +255,8 @@ public class ssc_alimento extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

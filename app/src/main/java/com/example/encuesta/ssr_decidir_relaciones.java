@@ -1,14 +1,32 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -19,7 +37,7 @@ import android.widget.Button;
  * Use the {@link ssr_decidir_relaciones#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssr_decidir_relaciones extends Fragment {
+public class ssr_decidir_relaciones extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,6 +50,24 @@ public class ssr_decidir_relaciones extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+
+    TextView idFragment;
+    RadioButton rdUsarAnticonceptivoSi, rdUsarAnticonceptivoNo, rdSinProteccionSi, rdSinProteccionNo, rdNegociarParejaSi, rdNegociarParejaNo, rdForzarParejaSi, rdForzarParejaNo, rdOtroSi, rdOtroNo;
+    EditText txtRespuesta, txtOtroDecidirRelacion;
+    String idEncuesta, respuesta, otroDecidirRelacion;
+
+    Integer UsarAnticonceptivo, SinProteccion, NegociarPareja, ForzarPareja, Otro;
+
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     private OnFragmentInteractionListener mListener;
 
     public ssr_decidir_relaciones() {
@@ -73,28 +109,111 @@ public class ssr_decidir_relaciones extends Fragment {
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente21);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras21);
 
+        idFragment= (TextView) vista.findViewById(R.id.idDecidirrelaciones);
+
+        //Radio Butons
+        rdUsarAnticonceptivoSi=(RadioButton) vista.findViewById(R.id.usarAnticonceptivoSi);
+        rdUsarAnticonceptivoNo=(RadioButton) vista.findViewById(R.id.tuvisteEnamoradoNo);
+        rdSinProteccionSi=(RadioButton) vista.findViewById(R.id.relacionesSinProteccionSi);
+        rdSinProteccionNo=(RadioButton) vista.findViewById(R.id.relacionesSinproteccionNo);
+        rdNegociarParejaSi=(RadioButton) vista.findViewById(R.id.negociarParejaSi);
+        rdNegociarParejaNo=(RadioButton) vista.findViewById(R.id.negociasParejaNo);
+        rdForzarParejaSi=(RadioButton) vista.findViewById(R.id.forzarParejaSi);
+        rdForzarParejaNo=(RadioButton) vista.findViewById(R.id.forzarParejaNo);
+        rdOtroSi=(RadioButton) vista.findViewById(R.id.otroDecidirRelacionesSi);
+        rdOtroNo=(RadioButton) vista.findViewById(R.id.otroDecidirrelacionesNo);
+
+        txtRespuesta=(EditText) vista.findViewById(R.id.txtrespuestaDecidirRelaciones);
+        txtOtroDecidirRelacion=(EditText) vista.findViewById(R.id.txtotroDecidirRelaciones);
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ssr_usar_anticonceptivo_actualmente();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta24(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ssr_enamorado();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta22(idFragment.getText().toString());
         });
         return vista;
     }
+    private void cargarWebServices() {
 
+        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                UsarAnticonceptivo = jsonObject.optInt("usar_anticonceptivo");
+                SinProteccion = jsonObject.optInt("sin_proteccion");
+                NegociarPareja= jsonObject.optInt("negociar_relacion");
+                ForzarPareja= jsonObject.optInt("forzar_sin_proteccion");
+                Otro= jsonObject.optInt("otro_decidir_relacion");
+
+                respuesta = jsonObject.optString("respuesta_decidir_relaciones");
+                otroDecidirRelacion = jsonObject.optString("otro_decidir_relacion_nombre");
+
+                if (UsarAnticonceptivo == 1) {
+                    rdUsarAnticonceptivoSi.setChecked(true);
+                } else if (UsarAnticonceptivo == 2) {
+                    rdUsarAnticonceptivoNo.setChecked(true);
+                }
+
+                if (SinProteccion == 1) {
+                    rdSinProteccionSi.setChecked(true);
+                } else if (SinProteccion == 2) {
+                    rdSinProteccionNo.setChecked(true);
+                }
+
+                if (NegociarPareja == 1) {
+                    rdNegociarParejaSi.setChecked(true);
+                } else if (NegociarPareja == 2) {
+                    rdNegociarParejaNo.setChecked(true);
+                }
+
+                if (ForzarPareja == 1) {
+                    rdForzarParejaSi.setChecked(true);
+                } else if (ForzarPareja == 2) {
+                    rdForzarParejaNo.setChecked(true);
+                }
+
+                if (Otro == 1) {
+                    rdOtroSi.setChecked(true);
+                } else if (Otro == 2) {
+                    rdOtroNo.setChecked(true);
+                }
+
+                txtRespuesta.setText(respuesta.toString());
+                txtOtroDecidirRelacion.setText(otroDecidirRelacion.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
+        request.add(jsonObjectRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -104,6 +223,12 @@ public class ssr_decidir_relaciones extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -118,6 +243,7 @@ public class ssr_decidir_relaciones extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

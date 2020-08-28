@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Use the {@link dp_direccion#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class dp_direccion extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
+public class dp_direccion extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -136,7 +136,7 @@ public class dp_direccion extends Fragment implements Response.Listener<JSONObje
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            interfaceComunicaFragments.enviarEncuesta6(idFragment.getText().toString());
+            interfaceComunicaFragments.enviarEncuesta8(idFragment.getText().toString());
         });
 
 
@@ -150,7 +150,52 @@ public class dp_direccion extends Fragment implements Response.Listener<JSONObje
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json=response.optJSONArray("usuario");
+            JSONObject jsonObject=null;
+
+            try{
+                jsonObject=json.getJSONObject(0);
+                idEncuesta=jsonObject.optString("encuesta_emt");
+                tipoVivienda=jsonObject.optInt("tipo_vivienda");
+                Respuesta=jsonObject.optString("direccion");
+                otroDireccion=jsonObject.optString("tipo_vivienda_otro");
+
+
+                txtRespuesta.setText(Respuesta.toString());
+                txtotro.setText(otroDireccion.toString());
+
+                if(tipoVivienda==1){
+                    rdcasa.setChecked(true);
+                }else if(tipoVivienda==2){
+                    rdalquiler.setChecked(true);
+                }else if(tipoVivienda==3){
+                    rdalojamiento.setChecked(true);
+                }else if(tipoVivienda==4){
+                    rdalbergue.setChecked(true);
+                }else if(tipoVivienda==5){
+                    rdcentro.setChecked(true);
+                }else if(tipoVivienda==6){
+                    rdhogar.setChecked(true);
+                }else if(tipoVivienda==7){
+                    rdcalle.setChecked(true);
+                }else if(tipoVivienda==8){
+                    rdTrabajo.setChecked(true);
+                }else if(tipoVivienda==88){
+                    rdotro.setChecked(true);
+                }
+
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -182,54 +227,6 @@ public class dp_direccion extends Fragment implements Response.Listener<JSONObje
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json=response.optJSONArray("usuario");
-        JSONObject jsonObject=null;
-
-        try{
-            jsonObject=json.getJSONObject(0);
-            idEncuesta=jsonObject.optString("encuesta_emt");
-            tipoVivienda=jsonObject.optInt("tipo_vivienda");
-            Respuesta=jsonObject.optString("direccion");
-            otroDireccion=jsonObject.optString("tipo_vivienda_otro");
-
-
-            txtRespuesta.setText(Respuesta.toString());
-            txtotro.setText(otroDireccion.toString());
-
-            if(tipoVivienda==1){
-                rdcasa.setChecked(true);
-            }else if(tipoVivienda==2){
-                rdalquiler.setChecked(true);
-            }else if(tipoVivienda==3){
-                rdalojamiento.setChecked(true);
-            }else if(tipoVivienda==4){
-                rdalbergue.setChecked(true);
-            }else if(tipoVivienda==5){
-                rdcentro.setChecked(true);
-            }else if(tipoVivienda==6){
-                rdhogar.setChecked(true);
-            }else if(tipoVivienda==7){
-                rdcalle.setChecked(true);
-            }else if(tipoVivienda==8){
-                rdTrabajo.setChecked(true);
-            }else if(tipoVivienda==88){
-                rdotro.setChecked(true);
-            }
-
-
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
     }
 
     /**

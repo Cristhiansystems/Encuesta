@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".v_buscar_ayuda">
 
     <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/idBuscarAyuda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="VII. VIOLENCIA"
         android:textColor="@color/colorLetra"
         android:background="@color/colorRojo"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,7 +67,7 @@
 
 
         <EditText
-            android:id="@+id/txtrespuestaDondeAyuda"
+            android:id="@+id/txtDondeAyuda"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:inputType="text|textMultiLine"
@@ -339,4 +349,4 @@
     </LinearLayout>
     </ScrollView>
 
-</FrameLayout>
+</LinearLayout>

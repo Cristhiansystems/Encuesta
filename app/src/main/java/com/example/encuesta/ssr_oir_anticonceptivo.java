@@ -1,14 +1,36 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 /**
@@ -19,7 +41,7 @@ import android.widget.Button;
  * Use the {@link ssr_oir_anticonceptivo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ssr_oir_anticonceptivo extends Fragment {
+public class ssr_oir_anticonceptivo extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,6 +54,21 @@ public class ssr_oir_anticonceptivo extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+    TextView idFragment;
+    RadioButton rdSi, rdNo, rdNoSabe;
+    String idEncuesta;
+    Integer oirAnticonceptivo;
+
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     private OnFragmentInteractionListener mListener;
 
     public ssr_oir_anticonceptivo() {
@@ -72,29 +109,78 @@ public class ssr_oir_anticonceptivo extends Fragment {
         vista=inflater.inflate(R.layout.fragment_ssr_oir_anticonceptivo, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente19);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras19);
+        idFragment= (TextView) vista.findViewById(R.id.idOirAnticonceptivo);
 
+        //Radio Butons
+        rdSi=(RadioButton) vista.findViewById(R.id.oirAnticonceptivoSi);
+        rdNo=(RadioButton) vista.findViewById(R.id.oirAnticonceptivoNo);
+        rdNoSabe=(RadioButton) vista.findViewById(R.id.oirAnticonceptivoNoSabe);
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ssr_metodos_anticonceptivos();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta21(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new ssc_consumir_subtancias();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta19(idFragment.getText().toString());
         });
         return vista;
     }
+    private void cargarWebServices() {
 
+        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                oirAnticonceptivo = jsonObject.optInt("conoces_medio_anticonceptivo");
+
+
+
+
+
+
+                if (oirAnticonceptivo == 1) {
+                    rdSi.setChecked(true);
+                } else if (oirAnticonceptivo == 2) {
+                    rdNo.setChecked(true);
+                } else if (oirAnticonceptivo == 8) {
+                    rdNoSabe.setChecked(true);
+                }
+
+
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
+        request.add(jsonObjectRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -104,6 +190,12 @@ public class ssr_oir_anticonceptivo extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -118,6 +210,7 @@ public class ssr_oir_anticonceptivo extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

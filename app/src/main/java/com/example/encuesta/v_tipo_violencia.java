@@ -1,14 +1,32 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -19,7 +37,7 @@ import android.widget.Button;
  * Use the {@link v_tipo_violencia#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class v_tipo_violencia extends Fragment {
+public class v_tipo_violencia extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,6 +50,24 @@ public class v_tipo_violencia extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+
+    TextView idFragment;
+    RadioButton rdViolenciaFisicaSi, rdViolenciaFisicaNo, rdViolenciaPsicologicaSi, rdViolenciaPsicologicaNo, rdViolenciaSexualSi, rdViolenciaSexualNo, rdOtroSi, rdOtroNo, rdNosabeSi, rdNosabeNo;
+    String idEncuesta, otroTipoViolencia;
+    EditText txtOtro;
+    Integer violenciaFisica, violenciaPsicologica, violenciaSexual, otro, noSabe;
+
+
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     private OnFragmentInteractionListener mListener;
 
     public v_tipo_violencia() {
@@ -72,30 +108,104 @@ public class v_tipo_violencia extends Fragment {
         vista=inflater.inflate(R.layout.fragment_v_tipo_violencia, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente320);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras320);
+        idFragment= (TextView) vista.findViewById(R.id.idTipoViolencia);
+        rdViolenciaFisicaSi=(RadioButton) vista.findViewById(R.id.violenciaFisicaSi);
+        rdViolenciaFisicaNo=(RadioButton) vista.findViewById(R.id.violenciaFisicaNo);
+        rdViolenciaPsicologicaSi=(RadioButton) vista.findViewById(R.id.violenciaPsicologicaSi);
+        rdViolenciaPsicologicaNo=(RadioButton) vista.findViewById(R.id.violenciaPsicologicaNo);
+        rdViolenciaSexualSi=(RadioButton) vista.findViewById(R.id.violenciaSexualSi);
+        rdViolenciaSexualNo=(RadioButton) vista.findViewById(R.id.violenciaSexualNo);
+        rdOtroSi=(RadioButton) vista.findViewById(R.id.otroTipoViolenciaSi);
+        rdOtroNo=(RadioButton) vista.findViewById(R.id.otroTipoViolenciaNo);
+        rdNosabeSi=(RadioButton) vista.findViewById(R.id.noSabeTipoViolenciaSi);
+        rdNosabeNo=(RadioButton) vista.findViewById(R.id.noSabeTipoViolenciaNo);
 
+        txtOtro=(EditText) vista.findViewById(R.id.txtotroTipoViolencia);
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new v_sufrir_violencia();
-
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta36(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new pl_problemas_defensoria();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            interfaceComunicaFragments.enviarEncuesta34(idFragment.getText().toString());
         });
         return vista;
     }
+    private void cargarWebServices() {
 
+        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                violenciaFisica= jsonObject.optInt("fisica");
+                violenciaPsicologica= jsonObject.optInt("psicologica");
+                violenciaSexual= jsonObject.optInt("sexual");
+                otro= jsonObject.optInt("otro_violencia");
+                noSabe= jsonObject.optInt("violencia_no_sabe");
+
+                otroTipoViolencia= jsonObject.optString("otro_violencia_nombre");
+
+
+                if(violenciaFisica==1){
+                    rdViolenciaFisicaSi.setChecked(true);
+                }else if(violenciaFisica==2){
+                    rdViolenciaFisicaNo.setChecked(true);
+                }
+
+                if(violenciaPsicologica==1){
+                    rdViolenciaPsicologicaSi.setChecked(true);
+                }else if(violenciaPsicologica==2){
+                    rdViolenciaPsicologicaNo.setChecked(true);
+                }
+
+                if(violenciaSexual==1){
+                    rdViolenciaSexualSi.setChecked(true);
+                }else if(violenciaSexual==2){
+                    rdViolenciaSexualNo.setChecked(true);
+                }
+
+                if(otro==1){
+                    rdOtroSi.setChecked(true);
+                }else if(otro==2){
+                    rdOtroNo.setChecked(true);
+                }
+
+                if(noSabe==1){
+                    rdNosabeSi.setChecked(true);
+                }else if(noSabe==2){
+                    rdNosabeNo.setChecked(true);
+                }
+                txtOtro.setText(otroTipoViolencia.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
+        request.add(jsonObjectRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -105,6 +215,12 @@ public class v_tipo_violencia extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -119,6 +235,7 @@ public class v_tipo_violencia extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

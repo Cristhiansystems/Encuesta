@@ -36,7 +36,7 @@ import org.json.JSONObject;
  * Use the {@link dp_nombre_completo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class dp_nombre_completo extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class dp_nombre_completo extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -139,7 +139,33 @@ public class dp_nombre_completo extends Fragment implements Response.Listener<JS
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json=response.optJSONArray("usuario");
+            JSONObject jsonObject=null;
+
+            try{
+                jsonObject=json.getJSONObject(0);
+                idEncuesta=jsonObject.optString("encuesta_emt");
+                Nombre=jsonObject.optString("nombre");
+                ApellidoPaterno=jsonObject.optString("apellido_paterno");
+                ApellidoMaterno=jsonObject.optString("apellido_materno");
+                Apodo=jsonObject.optString("apodo");
+
+                txtNombre.setText(Nombre.toString());
+                txtApellidoPaterno.setText(ApellidoPaterno.toString());
+                txtApellidoMaterno.setText(ApellidoMaterno.toString());
+                txtApodo.setText(Apodo.toString());
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
         request.add(jsonObjectRequest);
     }
 
@@ -173,34 +199,7 @@ public class dp_nombre_completo extends Fragment implements Response.Listener<JS
         mListener = null;
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("ERROR: ", error.toString());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-
-        JSONArray json=response.optJSONArray("usuario");
-        JSONObject jsonObject=null;
-
-        try{
-            jsonObject=json.getJSONObject(0);
-            idEncuesta=jsonObject.optString("encuesta_emt");
-            Nombre=jsonObject.optString("nombre");
-            ApellidoPaterno=jsonObject.optString("apellido_paterno");
-            ApellidoMaterno=jsonObject.optString("apellido_materno");
-            Apodo=jsonObject.optString("apodo");
-
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-        txtNombre.setText(Nombre.toString());
-        txtApellidoPaterno.setText(ApellidoPaterno.toString());
-        txtApellidoMaterno.setText(ApellidoMaterno.toString());
-        txtApodo.setText(Apodo.toString());
-    }
+   
 
     /**
      * This interface must be implemented by activities that contain this
