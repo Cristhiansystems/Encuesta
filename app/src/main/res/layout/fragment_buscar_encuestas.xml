@@ -39,6 +39,7 @@
         android:layout_marginLeft="30dp"
         android:text="N° Encuesta:"/>
     <EditText
+        android:id="@+id/txtNroEncuesta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -58,12 +59,14 @@
             android:layout_marginLeft="70dp"
             android:text="Fecha:"/>
         <EditText
+            android:id="@+id/txtFecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Escriba el N° de Encuesta"/>
+            android:hint="Escriba la fecha"/>
     </LinearLayout>
     <Button
+        android:id="@+id/btnBuscarEncuesta"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -71,6 +74,12 @@
         android:textColor="@color/colorLetra"
         android:textStyle="bold"
         android:text="Buscar"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ListaEncuestados"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

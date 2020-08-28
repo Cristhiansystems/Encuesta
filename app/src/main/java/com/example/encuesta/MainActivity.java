@@ -5,8 +5,10 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -131,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         actionBarDrawerToggle.syncState();
         request= Volley.newRequestQueue(this);
+
         fragmentManager=getSupportFragmentManager();
         fragmentTransaction=fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.container,new principal());
@@ -175,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
         progreso=new ProgressDialog(this);
         progreso.setMessage("cargando...");
         progreso.show();
-        String url="http://192.168.0.13/encuestasWS/registroEncuesta.php";
+        String url="http://192.168.1.8:8080/encuestasWS/registroEncuesta.php";
         url=url.replace(" ", "%20");
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);

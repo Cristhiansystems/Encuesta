@@ -52,7 +52,7 @@ public class Identificacion_geografica extends Fragment implements Response.List
     TextView idFragment;
     EditText txtInstituto, txtdepartamento, txtSci, txtMunicipio;
     String idEncuesta, Municipio, Departamento, Sci, Instituto;
-
+    String TipoConsulta;
 
     //volley
     ProgressDialog progreso;
@@ -120,6 +120,7 @@ public class Identificacion_geografica extends Fragment implements Response.List
 
 
         }
+
         //Aqui empieza el volley
         request= Volley.newRequestQueue(getContext());
         //aqui se llama al web services
@@ -133,7 +134,7 @@ public class Identificacion_geografica extends Fragment implements Response.List
 
     private void cargarWebServices() {
 
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+        String url="http://192.168.1.8:8080/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
 
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
@@ -180,6 +181,10 @@ public class Identificacion_geografica extends Fragment implements Response.List
 
     @Override
     public void onResponse(JSONObject response) {
+
+
+
+
 
         JSONArray json=response.optJSONArray("usuario");
         JSONObject jsonObject=null;
