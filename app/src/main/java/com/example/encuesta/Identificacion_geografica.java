@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,6 +28,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -126,10 +130,67 @@ public class Identificacion_geografica extends Fragment{
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+                String pantalla="Siguiente";
+                actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta2(idFragment.getText().toString());
         });
         return vista;
+    }
+    private void actualizar(String pantalla) {
+
+
+        //String ip=getString(R.string.ip);
+
+        String url="http://192.168.0.13/encuestasWS/actualizarIdentificacionGeografica.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+                    interfaceComunicaFragments.enviarEncuesta2(idFragment.getText().toString());
+                }
+
+
+
+
+            } else {
+
+                    Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+
+
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id=idFragment.getText().toString();
+                String departamento=txtdepartamento.getText().toString();
+                String municipio=txtMunicipio.getText().toString();
+                String institucion=txtInstituto.getText().toString();
+                String sci=txtSci.getText().toString();
+
+
+
+                Map<String,String> parametros=new HashMap<>();
+                parametros.put("id",id);
+                parametros.put("municipio",municipio);
+                parametros.put("departamento",departamento);
+                parametros.put("sci",sci);
+                parametros.put("institucion",institucion);
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+
+
     }
 
     private void cargarWebServices() {

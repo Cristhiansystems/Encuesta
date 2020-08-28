@@ -17,16 +17,21 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -59,6 +64,7 @@ public class dp_estado_civil extends Fragment{
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -110,6 +116,7 @@ public class dp_estado_civil extends Fragment{
         rdCasada=(RadioButton) vista.findViewById(R.id.casada);
         rdConcubino=(RadioButton) vista.findViewById(R.id.concubinato);
         rdDivorcada=(RadioButton) vista.findViewById(R.id.divorciada);
+        rdViuda=(RadioButton) vista.findViewById(R.id.viuda);
         rdSeparada=(RadioButton) vista.findViewById(R.id.separada);
         rdPadreSoltero=(RadioButton) vista.findViewById(R.id.padreSoltero);
         rdMadreSoltera=(RadioButton) vista.findViewById(R.id.madreSoltera);
@@ -130,15 +137,77 @@ public class dp_estado_civil extends Fragment{
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta7(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta5(idFragment.getText().toString());
         });
         return vista;
+    }
+
+    private void actualizar(String pantalla) {
+        String url="http://192.168.0.13/encuestasWS/actualizarEstadoCivil.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+
+                    interfaceComunicaFragments.enviarEncuesta7(idFragment.getText().toString());
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta5(idFragment.getText().toString());
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id=idFragment.getText().toString();
+                String estadoCivil="0";
+                if(rdSoltero.isChecked()){
+                    estadoCivil="1";
+                }else if(rdCasada.isChecked()){
+                    estadoCivil="2";
+                }else if(rdConcubino.isChecked()){
+                    estadoCivil="3";
+                }else if(rdDivorcada.isChecked()){
+                    estadoCivil="4";
+                }else if(rdViuda.isChecked()){
+                    estadoCivil="5";
+                }else if(rdSeparada.isChecked()){
+                    estadoCivil="6";
+                }else if(rdPadreSoltero.isChecked()){
+                    estadoCivil="7";
+                }else if(rdMadreSoltera.isChecked()){
+                    estadoCivil="8";
+                }else if(rdotro.isChecked()){
+                    estadoCivil="88";
+                }
+
+                Map<String,String> parametros=new HashMap<>();
+                parametros.put("id",id);
+                parametros.put("estadoCivil",estadoCivil);
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
     }
 
     private void cargarWebServices() {
