@@ -171,6 +171,7 @@ public class ddef_familia extends Fragment{
                 }
 
                 FamiliaAdapter adapter=new FamiliaAdapter(listaFamilia);
+
                 recyclerFamilia.setAdapter(adapter);
 
 

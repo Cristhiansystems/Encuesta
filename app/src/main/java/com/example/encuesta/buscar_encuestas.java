@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -108,9 +109,11 @@ public class buscar_encuestas extends Fragment implements Response.Listener<JSON
             ListaUsuarios=new ArrayList<>();
 
             recyclerEncuestados=(RecyclerView)vista.findViewById(R.id.ListaEncuestados);
+
+
             recyclerEncuestados.setLayoutManager(new LinearLayoutManager(this.getContext()));
             recyclerEncuestados.setHasFixedSize(true);
-
+           // recyclerEncuestados.setAdapter(adapter);
         NroEncuesta=(EditText)vista.findViewById(R.id.txtNroEncuesta);
         Fecha=(EditText)vista.findViewById(R.id.txtFecha);
         btnBuscE=(Button)vista.findViewById(R.id.btnBuscarEncuesta);
@@ -164,7 +167,7 @@ public void abrirCalendario(){
         progreso=new ProgressDialog(getContext());
         progreso.setMessage("Consultando....");
         progreso.show();
-        Toast.makeText(getContext(),Fecha.getText().toString(),Toast.LENGTH_SHORT).show();
+      
         String url="http://192.168.1.8:8080/encuestasWS/consultaListaEncuesta.php?id="+NroEncuesta.getText().toString()+"&fecha="+Fecha.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
@@ -212,6 +215,7 @@ public void abrirCalendario(){
     @Override
     public void onResponse(JSONObject response) {
        // recyclerEncuestados.removeAllViewsInLayout();
+        ListaUsuarios.clear();
         Usuario usuario=null;
         JSONArray json=response.optJSONArray("usuario");
 
@@ -226,12 +230,17 @@ public void abrirCalendario(){
                    String Nombre=jsonObject.optString("nombre")+" "+jsonObject.optString("apellido_paterno")+" "+jsonObject.optString("apellido_materno");
                    usuario.setNombre(Nombre);
                    usuario.setFecha(jsonObject.optString("fecha"));
+                  // adapter.updateData(ListaUsuarios);
+
                    ListaUsuarios.add(usuario);
                }
                progreso.hide();
 
-                adapter=new EncuestadosAdapter(ListaUsuarios);
+               adapter=new EncuestadosAdapter(ListaUsuarios);
 
+               recyclerEncuestados.setAdapter(adapter);
+               DividerItemDecoration dividerItemDecoration=new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
+               recyclerEncuestados.addItemDecoration(dividerItemDecoration);
                adapter.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View v) {
@@ -241,7 +250,7 @@ public void abrirCalendario(){
                });
 
               // adapter.refreshList();
-               recyclerEncuestados.setAdapter(adapter);
+
 
 
            } catch (JSONException e) {
