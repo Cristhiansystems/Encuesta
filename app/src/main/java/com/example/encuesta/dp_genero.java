@@ -17,11 +17,13 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -32,7 +34,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 
 /**
@@ -67,6 +71,7 @@ public class dp_genero extends Fragment{
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -133,15 +138,80 @@ public class dp_genero extends Fragment{
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
-
-            interfaceComunicaFragments.enviarEncuesta4(idFragment.getText().toString());
+            String pantalla="Siguiente";
+            actualizar(pantalla);
+            //
         });
 
         btnAtras.setOnClickListener(v -> {
-
-            interfaceComunicaFragments.enviarEncuesta2(idFragment.getText().toString());
+            String pantalla="Atras";
+            actualizar(pantalla);
+            //
         });
         return vista;
+    }
+
+    private void actualizar(String pantalla) {
+        String url="http://192.168.0.13/encuestasWS/actualizarNombreGenero.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+
+                    interfaceComunicaFragments.enviarEncuesta4(idFragment.getText().toString());
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta2(idFragment.getText().toString());
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id=idFragment.getText().toString();
+                String genero="0";
+                if(radHombre.isChecked()){
+                    genero="1";
+                }else if(radMujer.isChecked()){
+                    genero="2";
+                }
+
+                String edad=txtedad.getText().toString();
+                String fecha_nacimiento=txtFecNac.getText().toString();
+                String dateString = fecha_nacimiento;
+
+                // convert string to date
+                SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = null;
+                try {
+                    date = f.parse(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                String result = df.format(date);
+
+                Map<String,String> parametros=new HashMap<>();
+                parametros.put("id",id);
+                parametros.put("genero",genero);
+                parametros.put("edad",edad);
+                parametros.put("fecha_nacimiento",result);
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
     }
 
     private void cargarWebServices() {

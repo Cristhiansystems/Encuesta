@@ -17,11 +17,13 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -31,6 +33,8 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -64,6 +68,7 @@ public class documento extends Fragment{
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -142,16 +147,117 @@ public class documento extends Fragment{
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta5(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta3(idFragment.getText().toString());
         });
         return vista;
     }
+
+    private void actualizar(String pantalla) {
+        String url="http://192.168.0.13/encuestasWS/actualizarDocumento.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+
+                    interfaceComunicaFragments.enviarEncuesta5(idFragment.getText().toString());
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta3(idFragment.getText().toString());
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id=idFragment.getText().toString();
+                String ci="0";
+                if(rdSiCI.isChecked()){
+                    ci="1";
+                }else if(rdNoCI.isChecked()){
+                    ci="2";
+                }
+
+                String run="0";
+                if(rdSiRun.isChecked()){
+                    run="1";
+                }else if(rdNoRun.isChecked()){
+                    run="2";
+                }
+
+
+                String cn="0";
+                if(rdSiCn.isChecked()){
+                    cn="1";
+                }else if(rdNoCn.isChecked()){
+                    cn="2";
+                }
+
+                String lsb="0";
+                if(rdSilibreta.isChecked()){
+                    lsb="1";
+                }else if(rdNolibreta.isChecked()){
+                    lsb="2";
+                }
+
+                String otro="0";
+                if(rdSiOtro.isChecked()){
+                    otro="1";
+                }else if(rdNoOtro.isChecked()){
+                    otro="2";
+                }
+
+
+                String ninguno="0";
+                if(rdSiNinguno.isChecked()){
+                    ninguno="1";
+                }else if(rdNoNinguno.isChecked()){
+                    ninguno="2";
+                }
+
+                String numCi=txtnumCi.getText().toString();
+                String numRude=txtRun.getText().toString();
+                String otroDocumento= txtOtro.getText().toString();
+
+
+
+                Map<String,String> parametros=new HashMap<>();
+                parametros.put("ci",ci);
+                parametros.put("id",id);
+                parametros.put("run",run);
+                parametros.put("cn",cn);
+                parametros.put("lsb",lsb);
+                parametros.put("otro",otro);
+                parametros.put("ninguno",ninguno);
+                parametros.put("numCi",numCi);
+                parametros.put("numRun",numRude);
+                parametros.put("otroDocumento",otroDocumento);
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+    }
+
+
     private void cargarWebServices() {
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
