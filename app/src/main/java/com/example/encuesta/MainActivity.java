@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
 
 
 
-
         actionBarDrawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
@@ -211,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
         progreso=new ProgressDialog(this);
         progreso.setMessage("cargando...");
         progreso.show();
-        String url="http://192.168.1.8:8080/encuestasWS/registroEncuesta.php";
+        String url="http://192.168.0.13/encuestasWS/registroEncuesta.php";
         url=url.replace(" ", "%20");
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);

@@ -19,11 +19,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -31,6 +33,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -66,6 +70,7 @@ public class ssc_consumir_subtancias extends Fragment {
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -162,16 +167,267 @@ public class ssc_consumir_subtancias extends Fragment {
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta20(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta18(idFragment.getText().toString());
         });
         return vista;
     }
+
+    private void actualizar(String pantalla) {
+        String url="http://192.168.0.13/encuestasWS/actualizaConsumirSubtancia.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+
+                    interfaceComunicaFragments.enviarEncuesta20(idFragment.getText().toString());
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta18(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id=idFragment.getText().toString();
+                String alcohol="0";
+                if(rdAlcoholSi.isChecked()){
+                    alcohol="1";
+                }else if(rdAlcoholNo.isChecked()){
+                    alcohol="2";
+                }
+
+                String tabaco="0";
+                if(rdTabacoSi.isChecked()){
+                    tabaco="1";
+                }else if(rdTabacoNo.isChecked()){
+                    tabaco="2";
+                }
+
+                String tranquilizante="0";
+                if(rdTranquilizantesSi.isChecked()){
+                    tranquilizante="1";
+                }else if(rdTranqulizantesNo.isChecked()){
+                    tranquilizante="2";
+                }
+
+                String inhalante="0";
+                if(rdInhalantesSi.isChecked()){
+                    inhalante="1";
+                }else if(rdInhalantesNo.isChecked()){
+                    inhalante="2";
+                }
+
+
+                String marihuana="0";
+                if(rdMarihuanaSi.isChecked()){
+                    marihuana="1";
+                }else if(rdMarihuanaNo.isChecked()){
+                    marihuana="2";
+                }
+
+                String pastaBase="0";
+                if(rdPastaBaseSi.isChecked()){
+                    pastaBase="1";
+                }else if(rdPastaBaseNo.isChecked()){
+                    pastaBase="2";
+                }
+
+                String cocaina="0";
+                if(rdCocainaSi.isChecked()){
+                    cocaina="1";
+                }else if(rdCocainaNo.isChecked()){
+                    cocaina="2";
+                }
+
+
+                String otro="0";
+                if(rdOtroSi.isChecked()){
+                    otro="1";
+                }else if(rdOtroNo.isChecked()){
+                    otro="2";
+                }
+
+                String frecAlcohol="0";
+                if(spinalcohol.getSelectedItem().toString()=="Una sola vez"){
+                    frecAlcohol="1";
+                }else if(spinalcohol.getSelectedItem().toString()=="Algunas veces durante los últimos 12 meses"){
+                    frecAlcohol="2";
+                }else if(spinalcohol.getSelectedItem().toString()=="Algunas veces mensualmente"){
+                    frecAlcohol="3";
+                }else if(spinalcohol.getSelectedItem().toString()=="Algunas veces semanalmente"){
+                    frecAlcohol="4";
+                }else if(spinalcohol.getSelectedItem().toString()=="Diariamente"){
+                    frecAlcohol="5";
+                }else if(spinalcohol.getSelectedItem().toString()=="No contesta"){
+                    frecAlcohol="6";
+                }
+
+                String frecTabaco="0";
+                if(spintabaco.getSelectedItem().toString()=="Una sola vez"){
+                    frecTabaco="1";
+                }else if(spintabaco.getSelectedItem().toString()=="Algunas veces durante los últimos 12 meses"){
+                    frecTabaco="2";
+                }else if(spintabaco.getSelectedItem().toString()=="Algunas veces mensualmente"){
+                    frecTabaco="3";
+                }else if(spintabaco.getSelectedItem().toString()=="Algunas veces semanalmente"){
+                    frecTabaco="4";
+                }else if(spintabaco.getSelectedItem().toString()=="Diariamente"){
+                    frecTabaco="5";
+                }else if(spintabaco.getSelectedItem().toString()=="No contesta"){
+                    frecTabaco="6";
+                }
+
+                String frecTranquilizante="0";
+                if(spintranquilizante.getSelectedItem().toString()=="Una sola vez"){
+                    frecTranquilizante="1";
+                }else if(spintranquilizante.getSelectedItem().toString()=="Algunas veces durante los últimos 12 meses"){
+                    frecTranquilizante="2";
+                }else if(spintranquilizante.getSelectedItem().toString()=="Algunas veces mensualmente"){
+                    frecTranquilizante="3";
+                }else if(spintranquilizante.getSelectedItem().toString()=="Algunas veces semanalmente"){
+                    frecTranquilizante="4";
+                }else if(spintranquilizante.getSelectedItem().toString()=="Diariamente"){
+                    frecTranquilizante="5";
+                }else if(spintranquilizante.getSelectedItem().toString()=="No contesta"){
+                    frecTranquilizante="6";
+                }
+
+
+                String frecInhalante="0";
+                if(spininhalantes.getSelectedItem().toString()=="Una sola vez"){
+                    frecInhalante="1";
+                }else if(spininhalantes.getSelectedItem().toString()=="Algunas veces durante los últimos 12 meses"){
+                    frecInhalante="2";
+                }else if(spininhalantes.getSelectedItem().toString()=="Algunas veces mensualmente"){
+                    frecInhalante="3";
+                }else if(spininhalantes.getSelectedItem().toString()=="Algunas veces semanalmente"){
+                    frecInhalante="4";
+                }else if(spininhalantes.getSelectedItem().toString()=="Diariamente"){
+                    frecInhalante="5";
+                }else if(spininhalantes.getSelectedItem().toString()=="No contesta"){
+                    frecInhalante="6";
+                }
+
+                String frecMarihuana="0";
+                if(spinmarihuana.getSelectedItem().toString()=="Una sola vez"){
+                    frecMarihuana="1";
+                }else if(spinmarihuana.getSelectedItem().toString()=="Algunas veces durante los últimos 12 meses"){
+                    frecMarihuana="2";
+                }else if(spinmarihuana.getSelectedItem().toString()=="Algunas veces mensualmente"){
+                    frecMarihuana="3";
+                }else if(spinmarihuana.getSelectedItem().toString()=="Algunas veces semanalmente"){
+                    frecMarihuana="4";
+                }else if(spinmarihuana.getSelectedItem().toString()=="Diariamente"){
+                    frecMarihuana="5";
+                }else if(spinmarihuana.getSelectedItem().toString()=="No contesta"){
+                    frecMarihuana="6";
+                }
+
+                String frecPastaBase="0";
+                if(spinpastaBase.getSelectedItem().toString()=="Una sola vez"){
+                    frecPastaBase="1";
+                }else if(spinpastaBase.getSelectedItem().toString()=="Algunas veces durante los últimos 12 meses"){
+                    frecPastaBase="2";
+                }else if(spinpastaBase.getSelectedItem().toString()=="Algunas veces mensualmente"){
+                    frecPastaBase="3";
+                }else if(spinpastaBase.getSelectedItem().toString()=="Algunas veces semanalmente"){
+                    frecPastaBase="4";
+                }else if(spinpastaBase.getSelectedItem().toString()=="Diariamente"){
+                    frecPastaBase="5";
+                }else if(spinpastaBase.getSelectedItem().toString()=="No contesta"){
+                    frecPastaBase="6";
+                }
+
+
+                String frecCocaina="0";
+                if(spincocoaina.getSelectedItem().toString()=="Una sola vez"){
+                    frecCocaina="1";
+                }else if(spincocoaina.getSelectedItem().toString()=="Algunas veces durante los últimos 12 meses"){
+                    frecCocaina="2";
+                }else if(spincocoaina.getSelectedItem().toString()=="Algunas veces mensualmente"){
+                    frecCocaina="3";
+                }else if(spincocoaina.getSelectedItem().toString()=="Algunas veces semanalmente"){
+                    frecCocaina="4";
+                }else if(spincocoaina.getSelectedItem().toString()=="Diariamente"){
+                    frecCocaina="5";
+                }else if(spincocoaina.getSelectedItem().toString()=="No contesta"){
+                    frecCocaina="6";
+                }
+
+
+                String frecOtro="0";
+                if(spinotro.getSelectedItem().toString()=="Una sola vez"){
+                    frecOtro="1";
+                }else if(spinotro.getSelectedItem().toString()=="Algunas veces durante los últimos 12 meses"){
+                    frecOtro="2";
+                }else if(spinotro.getSelectedItem().toString()=="Algunas veces mensualmente"){
+                    frecOtro="3";
+                }else if(spinotro.getSelectedItem().toString()=="Algunas veces semanalmente"){
+                    frecOtro="4";
+                }else if(spinotro.getSelectedItem().toString()=="Diariamente"){
+                    frecOtro="5";
+                }else if(spinotro.getSelectedItem().toString()=="No contesta"){
+                    frecOtro="6";
+                }
+
+
+
+                String otroConsumirSubstancia=txtOtroConsumirSubstancia.getText().toString();
+
+
+
+
+
+                Map<String,String> parametros=new HashMap<>();
+                parametros.put("id",id);
+                parametros.put("alcohol",alcohol);
+                parametros.put("tabaco",tabaco);
+                parametros.put("tranquilizante",tranquilizante);
+                parametros.put("inhalante",inhalante);
+                parametros.put("marihuana",marihuana);
+                parametros.put("pastaBase",pastaBase);
+                parametros.put("cocaina",cocaina);
+                parametros.put("otro",otro);
+
+
+                parametros.put("frecAlcohol",frecAlcohol);
+                parametros.put("frecTabaco",frecTabaco);
+                parametros.put("frecTranquilizante",frecTranquilizante);
+                parametros.put("frecInhalante",frecInhalante);
+                parametros.put("frecMarihuana",frecMarihuana);
+                parametros.put("frecPastaBase",frecPastaBase);
+                parametros.put("frecCocaina",frecCocaina);
+                parametros.put("frecOtro",frecOtro);
+
+                parametros.put("otroConsumirSubstancia",otroConsumirSubstancia);
+
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+    }
+
     private void cargarWebServices() {
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();

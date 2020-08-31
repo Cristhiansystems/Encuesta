@@ -17,16 +17,21 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -52,7 +57,7 @@ public class ssr_usar_anticonceptivo_actualmente extends Fragment{
     View vista;
 
     TextView idFragment;
-    RadioButton rdSi, rdNo, rdSinProteccionSi, rdNoSabe;
+    RadioButton rdSi, rdNo, rdNoSabe;
     String idEncuesta;
 
     Integer UsarAnticonceptivoActual;
@@ -62,6 +67,7 @@ public class ssr_usar_anticonceptivo_actualmente extends Fragment{
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -128,16 +134,74 @@ public class ssr_usar_anticonceptivo_actualmente extends Fragment{
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta25(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta23(idFragment.getText().toString());
         });
         return vista;
     }
+
+    private void actualizar(String pantalla) {
+        String url="http://192.168.0.13/encuestasWS/actualizaUsarAnticonceptivoActual.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+
+                    interfaceComunicaFragments.enviarEncuesta25(idFragment.getText().toString());
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta23(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id = idFragment.getText().toString();
+                String usarAnticonceptivoActual = "0";
+                if (rdSi.isChecked()) {
+                    usarAnticonceptivoActual = "1";
+                } else if (rdNo.isChecked()) {
+                    usarAnticonceptivoActual = "2";
+                }else if (rdNoSabe.isChecked()) {
+                    usarAnticonceptivoActual = "3";
+                }
+
+
+
+
+
+
+
+
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", id);
+                parametros.put("usarAnticonceptivoActual", usarAnticonceptivoActual);
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+    }
+
     private void cargarWebServices() {
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();

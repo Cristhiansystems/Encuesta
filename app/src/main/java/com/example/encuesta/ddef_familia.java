@@ -13,15 +13,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.encuesta.Adapter.FamiliaAdapter;
 import com.example.encuesta.entidades.Familia;
@@ -31,6 +37,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -52,7 +60,7 @@ public class ddef_familia extends Fragment{
     private String mParam2;
     FragmentTransaction transaction;
     Button btnSiguiente;
-    Button btnAtras;
+    Button btnAtras, btnregistrarFamilia;
     View vista;
     TextView idFragment;
     RecyclerView recyclerFamilia;
@@ -63,6 +71,11 @@ public class ddef_familia extends Fragment{
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
+    EditText txtnombre, txtapellidos,txtreferencia, txttelefono, txtactividadLaboral, txtingresoEconomico;
+    RadioButton rdHombre, rdMujer;
+    Spinner parentesco;
+
     //
     //
     //navegar pantallas
@@ -109,7 +122,32 @@ public class ddef_familia extends Fragment{
         vista=inflater.inflate(R.layout.fragment_ddef_familia, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente8);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras8);
+        btnregistrarFamilia= (Button) vista.findViewById(R.id.btnNuevaFamilia);
         idFragment= (TextView) vista.findViewById(R.id.idFamilia);
+        rdHombre=(RadioButton) vista.findViewById(R.id.radHombreFamilia);
+        rdMujer=(RadioButton) vista.findViewById(R.id.radMujerFamilia);
+        txtnombre=(EditText) vista.findViewById(R.id.txtNombreFamilia);
+        txtapellidos=(EditText) vista.findViewById(R.id.txtApellidoFamilia);
+        txtreferencia=(EditText) vista.findViewById(R.id.txtReferenciaFamilia);
+        txttelefono=(EditText) vista.findViewById(R.id.txtFijoFamilia);
+        txtactividadLaboral=(EditText) vista.findViewById(R.id.txtActividadLaboral);
+        txtingresoEconomico=(EditText) vista.findViewById(R.id.txtIngresoMensual);
+        parentesco=(Spinner) vista.findViewById(R.id.Familiaparentesco);
+
+        ArrayList<String> arParentesco= new ArrayList<String>();
+        arParentesco.add("Madre");
+        arParentesco.add("Padre");
+        arParentesco.add("Hermanos");
+        arParentesco.add("Abuelos");
+        arParentesco.add("Pareja");
+        arParentesco.add("Hijos");
+        arParentesco.add("Otros parientes");
+        arParentesco.add("Otros no parientes");
+
+
+        ArrayAdapter<CharSequence> adaptadorParentesco=new ArrayAdapter
+                (this.getActivity(),android.R.layout.simple_spinner_item,arParentesco);
+        parentesco.setAdapter(adaptadorParentesco);
         listaFamilia=new ArrayList<>();
 
         recyclerFamilia=(RecyclerView) vista.findViewById(R.id.idRecyclerFamilia);
@@ -131,23 +169,76 @@ public class ddef_familia extends Fragment{
         cargarWebServices();
 
         btnSiguiente.setOnClickListener(v -> {
-
             interfaceComunicaFragments.enviarEncuesta9(idFragment.getText().toString());
+
         });
 
         btnAtras.setOnClickListener(v -> {
-
             interfaceComunicaFragments.enviarEncuesta7(idFragment.getText().toString());
+
+        });
+
+        btnregistrarFamilia.setOnClickListener(v -> {
+            actualizar();
+
         });
         return vista;
     }
+
+    private void actualizar() {
+        String genero="0";
+        String strparentesco="0";
+        if(rdHombre.isChecked()){
+            genero="1";
+        }else if(rdMujer.isChecked()){
+            genero="2";
+        }
+        if(parentesco.getSelectedItem().toString()=="Madre"){
+            strparentesco="1";
+        }else if(parentesco.getSelectedItem().toString()=="Padre"){
+            strparentesco="2";
+        }else if(parentesco.getSelectedItem().toString()=="Hermanos"){
+            strparentesco="3";
+        }if(parentesco.getSelectedItem().toString()=="Abuelos"){
+            strparentesco="4";
+        }else if(parentesco.getSelectedItem().toString()=="Pareja"){
+            strparentesco="5";
+        }else if(parentesco.getSelectedItem().toString()=="Hijos"){
+            strparentesco="6";
+        }else if(parentesco.getSelectedItem().toString()=="Otros parientes"){
+            strparentesco="7";
+        }else if(parentesco.getSelectedItem().toString()=="Otros no parientes"){
+            strparentesco="8";
+        }
+
+        String url="http://192.168.0.13/encuestasWS/registroFamilia.php?id="+idFragment.getText().toString()+"&nombre="+txtnombre.getText().toString()+"&apellido="+txtapellidos.getText().toString()+"&genero="+genero.toString()+"&parentesco="+strparentesco+"&referencia="+txtreferencia.getText().toString()+"&telefono="+txttelefono.getText().toString()+"&actividad="+txtactividadLaboral.getText().toString()+"&ingreso="+txtingresoEconomico.getText().toString();
+        url=url.replace(" ", "%20");
+        stringRequest=new StringRequest(Request.Method.GET, url, response -> {
+           cargarWebServices();
+            txtnombre.setText("");
+            txtapellidos.setText("");
+            txtingresoEconomico.setText("");
+            txtactividadLaboral.setText("");
+            txttelefono.setText("");
+            txtreferencia.setText("");
+            rdMujer.setChecked(false);
+            rdHombre.setChecked(false);
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
+        request.add(stringRequest);
+    }
+
+
     private void cargarWebServices() {
 
-        String url="http://192.168.0.13/encuestasWS/consultaEncuestaLista.php?id_encuesta="+idFragment.getText().toString();
+        String url="http://192.168.0.13/encuestasWS/consultaFamiliaLista.php?id_encuesta="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
-
+            listaFamilia.clear();
             Familia familia=null;
 
             JSONArray json=response.optJSONArray("usuario");
@@ -177,7 +268,7 @@ public class ddef_familia extends Fragment{
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(getContext(), "No se ha podido establecer conexiÃ³n con el servidor" +
+                Toast.makeText(getContext(), "No se ha podido establecer conexión con el servidor" +
                         " "+response, Toast.LENGTH_LONG).show();
 
             }

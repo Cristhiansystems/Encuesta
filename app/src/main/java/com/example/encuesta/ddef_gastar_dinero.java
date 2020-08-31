@@ -19,11 +19,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.encuesta.Adapter.FamiliaAdapter;
 import com.example.encuesta.entidades.Familia;
@@ -33,6 +35,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -69,6 +73,7 @@ public class ddef_gastar_dinero extends Fragment{
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -157,15 +162,103 @@ public class ddef_gastar_dinero extends Fragment{
 
 
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta10(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta8(idFragment.getText().toString());
         });
         return vista;
+    }
+
+    private void actualizar(String pantalla) {
+        String url="http://192.168.0.13/encuestasWS/actualizarGastarDinero.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+
+                    interfaceComunicaFragments.enviarEncuesta10(idFragment.getText().toString());
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta8(idFragment.getText().toString());
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id=idFragment.getText().toString();
+                String ordAlquiler=orAlquiler.getSelectedItem().toString();
+                String ordAlimentacion=orAlimentacion.getSelectedItem().toString();
+                String ordEstudios=orEstudios.getSelectedItem().toString();
+                String ordVestimenta=orVestimenta.getSelectedItem().toString();
+                String ordServiciosBasicos=orServicios.getSelectedItem().toString();
+                String ordViajes=orViajes.getSelectedItem().toString();
+                String ordActividades=orRecreacion.getSelectedItem().toString();
+                String ordOtro=orOtro.getSelectedItem().toString();
+                String ordNoSabe=orNosabe.getSelectedItem().toString();
+
+
+                String pordAlquiler=porAlquiler.getText().toString();
+                String pordAlimentacion=porAlimentacion.getText().toString();
+                String pordEstudios=porEstudios.getText().toString();
+                String pordVestimenta=porVestimenta.getText().toString();
+                String pordServiciosBasicos=porServicios.getText().toString();
+                String pordViajes=porViajes.getText().toString();
+                String pordActividades=porRecreacion.getText().toString();
+                String pordOtro=porOtro.getText().toString();
+                String pordNoSabe=porNosabe.getText().toString();
+
+                String proyecto=Proyecto.getText().toString();
+                String otro=nomOtro.getText().toString();
+
+                Map<String,String> parametros=new HashMap<>();
+                parametros.put("id",id);
+                parametros.put("ordAlquiler",ordAlquiler);
+                parametros.put("ordAlimentacion",ordAlimentacion);
+                parametros.put("ordEstudios",ordEstudios);
+                parametros.put("ordVestimenta",ordVestimenta);
+                parametros.put("ordServiciosBasicos",ordServiciosBasicos);
+                parametros.put("ordViajes",ordViajes);
+                parametros.put("ordActividades",ordActividades);
+                parametros.put("ordOtro",ordOtro);
+                parametros.put("ordNoSabe",ordNoSabe);
+
+
+                parametros.put("pordAlquiler",pordAlquiler);
+                parametros.put("pordAlimentacion",pordAlimentacion);
+                parametros.put("pordEstudios",pordEstudios);
+                parametros.put("pordVestimenta",pordVestimenta);
+                parametros.put("pordServiciosBasicos",pordServiciosBasicos);
+                parametros.put("pordViajes",pordViajes);
+                parametros.put("pordActividades",pordActividades);
+                parametros.put("pordOtro",pordOtro);
+                parametros.put("pordNoSabe",pordNoSabe);
+
+
+                parametros.put("otro",otro);
+                parametros.put("proyecto",proyecto);
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
     }
 
     private void cargarWebServices() {

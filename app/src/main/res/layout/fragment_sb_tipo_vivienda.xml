@@ -95,12 +95,7 @@
                 android:layout_height="wrap_content"
                 android:text="Vivienda improvisada" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
 
-                android:orientation="horizontal"
-                >
 
                 <RadioButton
                     android:id="@+id/tipoVOtro"
@@ -109,14 +104,15 @@
 
                     android:text="Otro (Especifique)" />
 
-                <EditText
-                    android:id="@+id/txtTipoVOtro"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
 
-                    android:inputType="text" />
-            </LinearLayout>
+
         </RadioGroup>
+        <EditText
+            android:id="@+id/txtTipoVOtro"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="Otro (Especificar)"
+            android:inputType="text" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

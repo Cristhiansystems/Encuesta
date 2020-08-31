@@ -71,11 +71,7 @@
             android:text="Pozo en el hogar" />
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+
 
             <RadioButton
                 android:id="@+id/aguaOtro"
@@ -84,14 +80,15 @@
 
                 android:text="Otro (Especifique)" />
 
+
+
+    </RadioGroup>
             <EditText
                 android:id="@+id/txtAguaOtro"
-                android:layout_width="150dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-
+                android:hint="Otro (Especificar)"
                 android:inputType="text" />
-        </LinearLayout>
-    </RadioGroup>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

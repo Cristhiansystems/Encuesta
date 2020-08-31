@@ -29,65 +29,65 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="6.01 ¿Has sido detenido o apresado alguna vez?" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="6.01 ¿Has sido detenido o apresado alguna vez?" />
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="30dp"
-        >
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="30dp"
+                >
 
-        <RadioButton
-            android:id="@+id/apresadoSi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Si" />
+                <RadioButton
+                    android:id="@+id/apresadoSi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Si" />
 
-        <RadioButton
-            android:id="@+id/apresadoNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No" />
+                <RadioButton
+                    android:id="@+id/apresadoNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
 
 
-    </RadioGroup>
+            </RadioGroup>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
 
-        android:layout_marginBottom="15dp">
-        >
-        <Button
-            android:id="@+id/btnAtras30"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="30dp"
-            android:layout_weight="1"
-            android:background="@color/colorAccent"
-            android:text="ATRAS"
-            android:textColor="@color/colorLetra" />
+                android:layout_marginBottom="15dp">
+                >
+                <Button
+                    android:id="@+id/btnAtras30"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:text="ATRAS"
+                    android:textColor="@color/colorLetra" />
 
-        <Button
-            android:id="@+id/btnSiguiente30"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="30dp"
-            android:background="@color/botonSig"
-            android:layout_weight="1"
-            android:text="SIGUIENTE"
-            android:textColor="@color/colorLetra" />
-    </LinearLayout>
+                <Button
+                    android:id="@+id/btnSiguiente30"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/botonSig"
+                    android:layout_weight="1"
+                    android:text="SIGUIENTE"
+                    android:textColor="@color/colorLetra" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

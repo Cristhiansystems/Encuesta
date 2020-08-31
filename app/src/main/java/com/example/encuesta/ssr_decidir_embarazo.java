@@ -17,16 +17,21 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -62,6 +67,7 @@ public class ssr_decidir_embarazo extends Fragment {
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -131,16 +137,73 @@ public class ssr_decidir_embarazo extends Fragment {
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta28(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta26(idFragment.getText().toString());
         });
         return vista;
     }
+
+    private void actualizar(String pantalla) {
+        String url="http://192.168.0.13/encuestasWS/actualizaDecidirEmbarazo.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+
+                    interfaceComunicaFragments.enviarEncuesta28(idFragment.getText().toString());
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta26(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id = idFragment.getText().toString();
+                String embarazo = "0";
+                if (rdPlanificarEmbarazo.isChecked()) {
+                    embarazo = "1";
+                } else if (rdMasTiempo.isChecked()) {
+                    embarazo = "2";
+                }else if (rdNoHijos.isChecked()) {
+                    embarazo = "3";
+                }else if (rdOtro.isChecked()) {
+                    embarazo = "4";
+                }
+
+
+                String otroEmbarazo= txtOtro.getText().toString();
+
+
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", id);
+                parametros.put("embarazo", embarazo);
+                parametros.put("otroEmbarazo", otroEmbarazo);
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+    }
+
     private void cargarWebServices() {
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();

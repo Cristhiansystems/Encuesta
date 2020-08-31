@@ -95,12 +95,7 @@
             android:text="No" />
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
 
-            android:orientation="horizontal"
-            >
 
             <RadioButton
                 android:id="@+id/energiaElecOtro"
@@ -109,15 +104,16 @@
 
                 android:text="Especificar si existe otro tipo" />
 
-            <EditText
-                android:id="@+id/txtenrgiaElecOtro"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
 
-                android:inputType="text" />
-        </LinearLayout>
+
     </RadioGroup>
-
+        <EditText
+            android:id="@+id/txtenrgiaElecOtro"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:hint="Otro (Especificar)"
+            android:inputType="text" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -17,16 +17,21 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -61,6 +66,7 @@ public class ssr_no_anticonceptivo extends Fragment {
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -139,16 +145,111 @@ public class ssr_no_anticonceptivo extends Fragment {
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta26(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta24(idFragment.getText().toString());
         });
         return vista;
     }
+
+    private void actualizar(String pantalla) {
+        String url="http://192.168.0.13/encuestasWS/actualizaNoAnticonceptivo.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+
+                    interfaceComunicaFragments.enviarEncuesta26(idFragment.getText().toString());
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta24(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id = idFragment.getText().toString();
+                String economico = "0";
+                if (rdEconomicoSi.isChecked()) {
+                    economico = "1";
+                } else if (rdEconomicoNo.isChecked()) {
+                    economico = "2";
+                }
+
+                String quieroHijos = "0";
+                if (rdDeseoHijoSi.isChecked()) {
+                    quieroHijos = "1";
+                } else if (rdDeseoHijoNo.isChecked()) {
+                    quieroHijos = "2";
+                }
+
+                String causanDanoMujer = "0";
+                if (rdCausaDanoMujerSi.isChecked()) {
+                    causanDanoMujer = "1";
+                } else if (rdCausaDanoMujerNo.isChecked()) {
+                    causanDanoMujer = "2";
+                }
+
+
+                String noCondon = "0";
+                if (rdCondonNoMismoSi.isChecked()) {
+                    noCondon = "1";
+                } else if (rdCondonNoMismoNo.isChecked()) {
+                    noCondon = "2";
+                }
+
+                String noceUsan = "0";
+                if (rdNoceUsanSi.isChecked()) {
+                    noceUsan = "1";
+                } else if (rdNoceUsanNo.isChecked()) {
+                    noceUsan = "2";
+                }
+
+                String otro = "0";
+                if (rdOtroSi.isChecked()) {
+                    otro = "1";
+                } else if (rdOtroNo.isChecked()) {
+                    otro = "2";
+                }
+
+                String otroNoAnticonceptivo=txtOtro.getText().toString();
+                String respuesta=txtRespuesta.getText().toString();
+
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", id);
+                parametros.put("economico", economico);
+                parametros.put("quieroHijos", quieroHijos);
+                parametros.put("causanDanoMujer", causanDanoMujer);
+                parametros.put("noCondon", noCondon);
+                parametros.put("noceUsan", noceUsan);
+                parametros.put("otro", otro);
+                parametros.put("otroNoAnticonceptivo", otroNoAnticonceptivo);
+                parametros.put("respuesta", respuesta);
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+    }
+
     private void cargarWebServices() {
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
@@ -204,7 +305,7 @@ public class ssr_no_anticonceptivo extends Fragment {
                 if (otro == 1) {
                     rdOtroSi.setChecked(true);
                 } else if (otro == 2) {
-                    rdOtroSi.setChecked(true);
+                    rdOtroNo.setChecked(true);
                 }
 
                 txtOtro.setText(otroNoAnticonceptivoNombre.toString());

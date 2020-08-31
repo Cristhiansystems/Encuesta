@@ -86,11 +86,7 @@
                 android:layout_height="wrap_content"
                 android:text="Cedida por parentesco" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+
 
                 <RadioButton
                     android:id="@+id/lugarVivesOtro"
@@ -99,14 +95,15 @@
 
                     android:text="Otro (Especifique)" />
 
-                <EditText
-                    android:id="@+id/txtLugarVivesOtroNombre"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
 
-                    android:inputType="text" />
-            </LinearLayout>
         </RadioGroup>
+        <EditText
+            android:id="@+id/txtLugarVivesOtroNombre"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="Otro (Especificar)"
+            android:inputType="text" />
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

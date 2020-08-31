@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="A PARTIR DE ESTA PREGUNTA APLICAR SOLO EN EVALUACION DE MEDIO TERMINO Y FINAL ---> PASE A 11.01"
+        android:text="X EMPRENDEDURISIMO ECONOMICO"
         android:textColor="@color/colorLetra"
         android:background="@color/botonSig"/>
 

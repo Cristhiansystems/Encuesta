@@ -31,106 +31,106 @@
             android:orientation="vertical">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="13.7 ¿Un embarazo adolescente afecta al cumplimiento de tu Plan de Vida?" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="13.7 ¿Un embarazo adolescente afecta al cumplimiento de tu Plan de Vida?" />
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="30dp"
-        >
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="30dp"
+                >
 
-        <RadioButton
-            android:id="@+id/planVidaDeacuerdo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Estoy de Acuerdo" />
+                <RadioButton
+                    android:id="@+id/planVidaDeacuerdo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estoy de Acuerdo" />
 
-        <RadioButton
-            android:id="@+id/planVidaNoDeacuerdo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No estoy de acuerdo" />
+                <RadioButton
+                    android:id="@+id/planVidaNoDeacuerdo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No estoy de acuerdo" />
 
-        <RadioButton
-            android:id="@+id/planVidaInseguro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Estoy inseguro -  no sabe - no responde" />
-
-
-    </RadioGroup>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="13.8 ¿La personas con VIH tiene  derecho a seguir estudiando o trabajando si ser discriminando?" />
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="30dp"
-        >
-
-        <RadioButton
-            android:id="@+id/VIHDeacuerdo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Estoy de Acuerdo" />
-
-        <RadioButton
-            android:id="@+id/VIHNoDeacuerdo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No estoy de acuerdo" />
-
-        <RadioButton
-            android:id="@+id/VIHInseguro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Estoy inseguro -  no sabe - no responde" />
+                <RadioButton
+                    android:id="@+id/planVidaInseguro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estoy inseguro -  no sabe - no responde" />
 
 
-    </RadioGroup>
+            </RadioGroup>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="13.8 ¿La personas con VIH tiene  derecho a seguir estudiando o trabajando si ser discriminando?" />
 
-        android:layout_marginBottom="15dp">
-        >
-        <Button
-            android:id="@+id/btnAtras29"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="30dp"
-            android:layout_weight="1"
-            android:background="@color/colorAccent"
-            android:text="ATRAS"
-            android:textColor="@color/colorLetra" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="30dp"
+                >
 
-        <Button
-            android:id="@+id/btnSiguiente29"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="30dp"
-            android:background="@color/botonSig"
-            android:layout_weight="1"
-            android:text="SIGUIENTE"
-            android:textColor="@color/colorLetra" />
-    </LinearLayout>
+                <RadioButton
+                    android:id="@+id/VIHDeacuerdo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estoy de Acuerdo" />
+
+                <RadioButton
+                    android:id="@+id/VIHNoDeacuerdo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No estoy de acuerdo" />
+
+                <RadioButton
+                    android:id="@+id/VIHInseguro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estoy inseguro -  no sabe - no responde" />
+
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+
+                android:layout_marginBottom="15dp">
+                >
+                <Button
+                    android:id="@+id/btnAtras29"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:text="ATRAS"
+                    android:textColor="@color/colorLetra" />
+
+                <Button
+                    android:id="@+id/btnSiguiente29"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/botonSig"
+                    android:layout_weight="1"
+                    android:text="SIGUIENTE"
+                    android:textColor="@color/colorLetra" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -17,16 +17,21 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -61,6 +66,7 @@ public class ssc_alimento extends Fragment{
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -120,7 +126,7 @@ public class ssc_alimento extends Fragment{
         rdInsumosSi=(RadioButton) vista.findViewById(R.id.insumosSi);
         rdInsumosNo=(RadioButton) vista.findViewById(R.id.insumosNo);
         rdOtroSi=(RadioButton) vista.findViewById(R.id.otroAlimentoSi);
-        rdOtroNo=(RadioButton) vista.findViewById(R.id.otroAlimentoSi);
+        rdOtroNo=(RadioButton) vista.findViewById(R.id.otroAlimentoNo);
 
         txtOtroAlimento= (EditText) vista.findViewById(R.id.txtotronomAlimento);
         txtNumeroVeces= (EditText) vista.findViewById(R.id.txtNrolimentos);
@@ -139,16 +145,120 @@ public class ssc_alimento extends Fragment{
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta17(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta15(idFragment.getText().toString());
         });
         return vista;
     }
+
+    private void actualizar(String pantalla) {
+        String url="http://192.168.0.13/encuestasWS/actualizaAlimento.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+
+                    interfaceComunicaFragments.enviarEncuesta17(idFragment.getText().toString());
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta15(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id=idFragment.getText().toString();
+                String pagoCuenta="0";
+                if(rdPagoCuentaSi.isChecked()){
+                    pagoCuenta="1";
+                }else if(rdPagoCuentaNo.isChecked()){
+                    pagoCuenta="2";
+                }
+
+                String comedores="0";
+                if(rdComedoresSi.isChecked()){
+                    comedores="1";
+                }else if(rdComedoresNo.isChecked()){
+                    comedores="2";
+                }
+
+                String pagaOtros="0";
+                if(rdPaganOtroSi.isChecked()){
+                    pagaOtros="1";
+                }else if(rdPaganOtroNo.isChecked()){
+                    pagaOtros="2";
+                }
+
+                String pagaFamilia="0";
+                if(rdPagaFamiliaSi.isChecked()){
+                    pagaFamilia="1";
+                }else if(rdPagaFamiliaNo.isChecked()){
+                    pagaFamilia="2";
+                }
+
+
+                String regalan="0";
+                if(rdRegalanSi.isChecked()){
+                    regalan="1";
+                }else if(rdRegalanNo.isChecked()){
+                    regalan="2";
+                }
+
+                String insumos="0";
+                if(rdInsumosSi.isChecked()){
+                    insumos="1";
+                }else if(rdInsumosNo.isChecked()){
+                    insumos="2";
+                }
+
+                String otro="0";
+                if(rdOtroSi.isChecked()){
+                    otro="1";
+                }else if(rdOtroNo.isChecked()){
+                    otro="2";
+                }
+
+                String otroAlimento=txtOtroAlimento.getText().toString();
+                String nVeces=txtNumeroVeces.getText().toString();
+
+
+                Map<String,String> parametros=new HashMap<>();
+                parametros.put("id",id);
+                parametros.put("pagoCuenta",pagoCuenta);
+                parametros.put("comedores",comedores);
+                parametros.put("pagaOtros",pagaOtros);
+                parametros.put("pagaFamilia",pagaFamilia);
+                parametros.put("regalan",regalan);
+                parametros.put("insumos",insumos);
+                parametros.put("otro",otro);
+                parametros.put("otroAlimento",otroAlimento);
+                parametros.put("nVeces",nVeces);
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+    }
+
     private void cargarWebServices() {
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
@@ -170,7 +280,7 @@ public class ssc_alimento extends Fragment{
                 insumos = jsonObject.optInt("insumos");
                 otro = jsonObject.optInt("otro_alimento");
                 otroAlimento = jsonObject.optString("otro_alimento_nombre");
-                numeroVeces = jsonObject.optString("comida_al _dia");
+                numeroVeces = jsonObject.optString("comida_al_dia");
 
                 if (pagoCuenta == 1) {
                     rdPagoCuentaSi.setChecked(true);
@@ -205,7 +315,7 @@ public class ssc_alimento extends Fragment{
                 if (insumos == 1) {
                     rdInsumosSi.setChecked(true);
                 } else if (insumos == 2) {
-                    rdInsumosSi.setChecked(true);
+                    rdInsumosNo.setChecked(true);
                 }
 
                 if (otro == 1) {

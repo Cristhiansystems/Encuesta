@@ -30,92 +30,89 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="5.11 ¿Cuando quedaste embarazado/a como lo decidieron?" />
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="50dp"
-        >
-
-        <RadioButton
-            android:id="@+id/decidirEmbarazoPlanificamos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="Planificamos el embarazo" />
-
-        <RadioButton
-            android:id="@+id/decidirEmbarazoMasTiempo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Queríamos esperar más tiempo" />
-
-        <RadioButton
-            android:id="@+id/decidirEmbarazoNoHijos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No queríamos tener (más) hijos" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <RadioButton
-                android:id="@+id/decidirEmbarazoOtro"
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Otro (Especificar)" />
+                android:layout_marginTop="30dp"
+                android:text="5.11 ¿Cuando quedaste embarazado/a como lo decidieron?" />
 
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="50dp"
+                >
+
+                <RadioButton
+                    android:id="@+id/decidirEmbarazoPlanificamos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Planificamos el embarazo" />
+
+                <RadioButton
+                    android:id="@+id/decidirEmbarazoMasTiempo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Queríamos esperar más tiempo" />
+
+                <RadioButton
+                    android:id="@+id/decidirEmbarazoNoHijos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No queríamos tener (más) hijos" />
+
+
+
+                    <RadioButton
+                        android:id="@+id/decidirEmbarazoOtro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Otro (Especificar)" />
+
+
+
+
+            </RadioGroup>
             <EditText
                 android:id="@+id/txtotroDecidirEmbarazo"
-                android:layout_weight="2"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:hint="Otro (Especificar)"
                 />
 
 
-        </LinearLayout>
-    </RadioGroup>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
 
+                android:layout_marginBottom="15dp">
+                >
+                <Button
+                    android:id="@+id/btnAtras25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:text="ATRAS"
+                    android:textColor="@color/colorLetra" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal"
-
-        android:layout_marginBottom="15dp">
-        >
-        <Button
-            android:id="@+id/btnAtras25"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="30dp"
-            android:layout_weight="1"
-            android:background="@color/colorAccent"
-            android:text="ATRAS"
-            android:textColor="@color/colorLetra" />
-
-        <Button
-            android:id="@+id/btnSiguiente25"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="30dp"
-            android:background="@color/botonSig"
-            android:layout_weight="1"
-            android:text="SIGUIENTE"
-            android:textColor="@color/colorLetra" />
-    </LinearLayout>
+                <Button
+                    android:id="@+id/btnSiguiente25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/botonSig"
+                    android:layout_weight="1"
+                    android:text="SIGUIENTE"
+                    android:textColor="@color/colorLetra" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

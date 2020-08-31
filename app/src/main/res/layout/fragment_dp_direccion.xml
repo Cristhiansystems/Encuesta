@@ -126,12 +126,7 @@
                 android:layout_height="wrap_content"
                 android:text="Trabajo" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
 
-                android:orientation="horizontal"
-                >
 
             <RadioButton
                 android:id="@+id/otroDireccion"
@@ -140,14 +135,16 @@
 
                 android:text="Otro (Especifique)" />
 
-            <EditText
-                android:id="@+id/txtNombreDireccion"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
 
-                />
-            </LinearLayout>
         </RadioGroup>
+
+        <EditText
+            android:id="@+id/txtNombreDireccion"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="Otro (Especificar)"
+
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

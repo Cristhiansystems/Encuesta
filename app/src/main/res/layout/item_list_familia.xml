@@ -61,5 +61,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""
-     />
+        />
+
+    <TextView
+        android:id="@+id/familiaListReferencia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        />
+
+    <TextView
+        android:id="@+id/familiaListIngreso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        />
 </LinearLayout>
+       

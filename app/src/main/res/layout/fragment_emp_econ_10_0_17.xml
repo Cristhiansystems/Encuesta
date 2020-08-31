@@ -7,6 +7,12 @@
     tools:context=".emp_econ_10_0_17">
 
     <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="X EMPRENDEDURISIMO ECONOMICO"
+        android:textColor="@color/colorLetra"
+        android:background="@color/botonSig"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

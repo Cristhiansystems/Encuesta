@@ -17,16 +17,21 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -63,6 +68,7 @@ public class ssr_enamorado extends Fragment{
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -134,16 +140,86 @@ public class ssr_enamorado extends Fragment{
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta23(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta21(idFragment.getText().toString());
         });
         return vista;
     }
+
+    private void actualizar(String pantalla) {
+        String url="http://192.168.0.13/encuestasWS/actualizaEnamorado.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+
+                    interfaceComunicaFragments.enviarEncuesta23(idFragment.getText().toString());
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta21(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id = idFragment.getText().toString();
+                String enamorado = "0";
+                if (rdTuvisteEnamoradoSi.isChecked()) {
+                    enamorado = "1";
+                } else if (rdTuvisteEnamoradoNo.isChecked()) {
+                    enamorado = "2";
+                }
+
+                String relacionesSexuales = "0";
+                if (rdRelacionesRecienSi.isChecked()) {
+                    relacionesSexuales = "1";
+                } else if (rdRelacionesRecienNo.isChecked()) {
+                    relacionesSexuales = "2";
+                }
+
+
+                String relacionEdad = "0";
+                if (rdEdadRelacionNoTuvo.isChecked()) {
+                    relacionEdad = "1";
+                } else if (rdEdadRelacionNosabe.isChecked()) {
+                    relacionEdad = "2";
+                }
+
+
+                String strEdadRelacion = txtedadPrimeraRelacion.getText().toString();
+
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", id);
+                parametros.put("enamorado", enamorado);
+                parametros.put("relacionesSexuales", relacionesSexuales);
+                parametros.put("relacionEdad", relacionEdad);
+                parametros.put("strEdadRelacion", strEdadRelacion);
+
+                return parametros;
+            }
+            };
+        request.add(stringRequest);
+
+    }
+
     private void cargarWebServices() {
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();

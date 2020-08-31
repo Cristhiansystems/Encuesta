@@ -19,11 +19,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -31,6 +33,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -67,6 +71,7 @@ public class ssc_probleas_salud_recien extends Fragment{
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -168,16 +173,271 @@ public class ssc_probleas_salud_recien extends Fragment{
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta19(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta17(idFragment.getText().toString());
         });
         return vista;
     }
+
+    private void actualizar(String pantalla) {
+        String url="http://192.168.0.13/encuestasWS/actualizaProblemaSaludRecien.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+
+                    interfaceComunicaFragments.enviarEncuesta19(idFragment.getText().toString());
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta17(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id=idFragment.getText().toString();
+                String dolorCabeza="0";
+                if(rdDolorCabezaSi.isChecked()){
+                    dolorCabeza="1";
+                }else if(rdDolorCabezaNo.isChecked()){
+                    dolorCabeza="2";
+                }
+
+                String digestivas="0";
+                if(rdDigestivasSi.isChecked()){
+                    digestivas="1";
+                }else if(rdDigestivasNo.isChecked()){
+                    digestivas="2";
+                }
+
+                String respiratorias="0";
+                if(rdRespiratoriasSi.isChecked()){
+                    respiratorias="1";
+                }else if(rdRespiratoriasNo.isChecked()){
+                    respiratorias="2";
+                }
+
+                String molestiasGenitales="0";
+                if(rdMolestiasGenitalesSi.isChecked()){
+                    molestiasGenitales="1";
+                }else if(rdMolestiasGenitalesNo.isChecked()){
+                    molestiasGenitales="2";
+                }
+
+
+                String cortes="0";
+                if(rdCortesSi.isChecked()){
+                    cortes="1";
+                }else if(rdCortesNo.isChecked()){
+                    cortes="2";
+                }
+
+                String problemaPiel="0";
+                if(rdProblemasPielSi.isChecked()){
+                    problemaPiel="1";
+                }else if(rdProblemasPielNo.isChecked()){
+                    problemaPiel="2";
+                }
+
+                String fractura="0";
+                if(rdFracturasSi.isChecked()){
+                    fractura="1";
+                }else if(rdFracturasNo.isChecked()){
+                    fractura="2";
+                }
+
+                String desmayo="0";
+                if(rdDesmayosSi.isChecked()){
+                    desmayo="1";
+                }else if(rdDesmayosNo.isChecked()){
+                    desmayo="2";
+                }
+
+                String its="0";
+                if(rdItsSi.isChecked()){
+                    its="1";
+                }else if(rdItsNo.isChecked()){
+                    its="2";
+                }
+
+                String otro="0";
+                if(rdOtroSi.isChecked()){
+                    otro="1";
+                }else if(rdOtroNo.isChecked()){
+                    otro="2";
+                }
+
+                String frecDolorCabeza="0";
+                if(spindolorCabeza.getSelectedItem().toString()=="A diario"){
+                    frecDolorCabeza="1";
+                }else if(spindolorCabeza.getSelectedItem().toString()=="Una vez a la semana"){
+                    frecDolorCabeza="2";
+                }else if(spindolorCabeza.getSelectedItem().toString()=="2 veces al mes"){
+                    frecDolorCabeza="3";
+                }else if(spindolorCabeza.getSelectedItem().toString()=="Rara vez"){
+                    frecDolorCabeza="4";
+                }
+
+
+                String frecDigestiva="0";
+                if(spindigestivas.getSelectedItem().toString()=="A diario"){
+                    frecDigestiva="1";
+                }else if(spindigestivas.getSelectedItem().toString()=="Una vez a la semana"){
+                    frecDigestiva="2";
+                }else if(spindigestivas.getSelectedItem().toString()=="2 veces al mes"){
+                    frecDigestiva="3";
+                }else if(spindigestivas.getSelectedItem().toString()=="Rara vez"){
+                    frecDigestiva="4";
+                }
+
+
+                String frecRespiratorias="0";
+                if(spinrespiratorias.getSelectedItem().toString()=="A diario"){
+                    frecRespiratorias="1";
+                }else if(spinrespiratorias.getSelectedItem().toString()=="Una vez a la semana"){
+                    frecRespiratorias="2";
+                }else if(spinrespiratorias.getSelectedItem().toString()=="2 veces al mes"){
+                    frecRespiratorias="3";
+                }else if(spinrespiratorias.getSelectedItem().toString()=="Rara vez"){
+                    frecRespiratorias="4";
+                }
+
+                String frecMolestiasGenitales="0";
+                if(spinmolestiasGenitales.getSelectedItem().toString()=="A diario"){
+                    frecMolestiasGenitales="1";
+                }else if(spinmolestiasGenitales.getSelectedItem().toString()=="Una vez a la semana"){
+                    frecMolestiasGenitales="2";
+                }else if(spinmolestiasGenitales.getSelectedItem().toString()=="2 veces al mes"){
+                    frecMolestiasGenitales="3";
+                }else if(spinmolestiasGenitales.getSelectedItem().toString()=="Rara vez"){
+                    frecMolestiasGenitales="4";
+                }
+
+
+                String frecCortes="0";
+                if(spincortes.getSelectedItem().toString()=="A diario"){
+                    frecCortes="1";
+                }else if(spincortes.getSelectedItem().toString()=="Una vez a la semana"){
+                    frecCortes="2";
+                }else if(spincortes.getSelectedItem().toString()=="2 veces al mes"){
+                    frecCortes="3";
+                }else if(spincortes.getSelectedItem().toString()=="Rara vez"){
+                    frecCortes="4";
+                }
+
+                String frecProblemasPiel="0";
+                if(spinproblemasPiel.getSelectedItem().toString()=="A diario"){
+                    frecProblemasPiel="1";
+                }else if(spinproblemasPiel.getSelectedItem().toString()=="Una vez a la semana"){
+                    frecProblemasPiel="2";
+                }else if(spinproblemasPiel.getSelectedItem().toString()=="2 veces al mes"){
+                    frecProblemasPiel="3";
+                }else if(spinproblemasPiel.getSelectedItem().toString()=="Rara vez"){
+                    frecProblemasPiel="4";
+                }
+
+                String frecFracturas="0";
+                if(spinfracturas.getSelectedItem().toString()=="A diario"){
+                    frecFracturas="1";
+                }else if(spinfracturas.getSelectedItem().toString()=="Una vez a la semana"){
+                    frecFracturas="2";
+                }else if(spinfracturas.getSelectedItem().toString()=="2 veces al mes"){
+                    frecFracturas="3";
+                }else if(spinfracturas.getSelectedItem().toString()=="Rara vez"){
+                    frecFracturas="4";
+                }
+
+
+                String frecDesmayos="0";
+                if(spindesmayos.getSelectedItem().toString()=="A diario"){
+                    frecDesmayos="1";
+                }else if(spindesmayos.getSelectedItem().toString()=="Una vez a la semana"){
+                    frecDesmayos="2";
+                }else if(spindesmayos.getSelectedItem().toString()=="2 veces al mes"){
+                    frecDesmayos="3";
+                }else if(spindesmayos.getSelectedItem().toString()=="Rara vez"){
+                    frecDesmayos="4";
+                }
+
+                String frecIts="0";
+                if(spinits.getSelectedItem().toString()=="A diario"){
+                    frecIts="1";
+                }else if(spinits.getSelectedItem().toString()=="Una vez a la semana"){
+                    frecIts="2";
+                }else if(spinits.getSelectedItem().toString()=="2 veces al mes"){
+                    frecIts="3";
+                }else if(spinits.getSelectedItem().toString()=="Rara vez"){
+                    frecIts="4";
+                }
+
+                String frecOtro="0";
+                if(spinotro.getSelectedItem().toString()=="A diario"){
+                    frecOtro="1";
+                }else if(spinotro.getSelectedItem().toString()=="Una vez a la semana"){
+                    frecOtro="2";
+                }else if(spinotro.getSelectedItem().toString()=="2 veces al mes"){
+                    frecOtro="3";
+                }else if(spinotro.getSelectedItem().toString()=="Rara vez"){
+                    frecOtro="4";
+                }
+
+                String otroProblemaSalud=txtOtroProblemaSaludRecien.getText().toString();
+                String respuesta=txtRespuesta.getText().toString();
+
+
+
+
+                Map<String,String> parametros=new HashMap<>();
+                parametros.put("id",id);
+                parametros.put("dolorCabeza",dolorCabeza);
+                parametros.put("digestivas",digestivas);
+                parametros.put("respiratorias",respiratorias);
+                parametros.put("molestiasGenitales",molestiasGenitales);
+                parametros.put("cortes",cortes);
+                parametros.put("problemaPiel",problemaPiel);
+                parametros.put("fractura",fractura);
+                parametros.put("desmayo",desmayo);
+                parametros.put("its",its);
+                parametros.put("otro",otro);
+                parametros.put("frecDolorCabeza",frecDolorCabeza);
+                parametros.put("frecDigestiva",frecDigestiva);
+                parametros.put("frecRespiratorias",frecRespiratorias);
+                parametros.put("frecMolestiasGenitales",frecMolestiasGenitales);
+                parametros.put("frecCortes",frecCortes);
+                parametros.put("frecProblemasPiel",frecProblemasPiel);
+                parametros.put("frecFracturas",frecFracturas);
+                parametros.put("frecDesmayos",frecDesmayos);
+                parametros.put("frecIts",frecIts);
+                parametros.put("frecOtro",frecOtro);
+
+                parametros.put("otroProblemaSalud",otroProblemaSalud);
+                parametros.put("respuesta",respuesta);
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+    }
+
     private void cargarWebServices() {
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();

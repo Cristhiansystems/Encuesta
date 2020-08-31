@@ -1,5 +1,4 @@
-package com.example.encuesta.adapter;
-
+package com.example.encuesta.Adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +12,7 @@ import com.example.encuesta.entidades.Usuario;
 import java.util.List;
 
 public class EncuestadosAdapter extends RecyclerView.Adapter<EncuestadosAdapter.EncuestadosHolder>
-implements View.OnClickListener{
+        implements View.OnClickListener{
 
     List<Usuario> listaEncuestados;
     private View.OnClickListener listener;
@@ -24,13 +23,13 @@ implements View.OnClickListener{
 
     @Override
     public EncuestadosHolder onCreateViewHolder( ViewGroup parent, int viewType) {
-            View vista= LayoutInflater.from(parent.getContext()).inflate(R.layout.encuestados,parent,false);
-            RecyclerView.LayoutParams layoutParams=new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            vista.setLayoutParams(layoutParams);
-            vista.setOnClickListener(this);
+        View vista= LayoutInflater.from(parent.getContext()).inflate(R.layout.encuestados,parent,false);
+        RecyclerView.LayoutParams layoutParams=new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        vista.setLayoutParams(layoutParams);
+        vista.setOnClickListener(this);
 
-            return new EncuestadosHolder(vista);
+        return new EncuestadosHolder(vista);
     }
 
     public void updateData(List<Usuario>  viewModels) {
@@ -54,14 +53,14 @@ implements View.OnClickListener{
     public int getItemCount() {
         return listaEncuestados.size();
     }
- public  void setOnClickListener(View.OnClickListener Listener){
+    public  void setOnClickListener(View.OnClickListener Listener){
         this.listener=Listener;
- }
+    }
     @Override
     public void onClick(View v) {
         if (listener!=null) {
 
-        listener.onClick(v);
+            listener.onClick(v);
         }
     }
 

@@ -68,7 +68,9 @@ public class FamiliaAdapter extends RecyclerView.Adapter<FamiliaAdapter.FamiliaH
         familiaHolder.txtApellido.setText("Apellido: " + listaFamilia.get(i).getApellidos().toString());
         familiaHolder.txtSexo.setText("Sexo: " + nombreSexo);
         familiaHolder.txtTelefono.setText("Telefono: " + listaFamilia.get(i).getTelefono().toString());
-        familiaHolder.txtActividad.setText(listaFamilia.get(i).getActividad_laboral().toString());
+        familiaHolder.txtActividad.setText("Actividad Economica: "+ listaFamilia.get(i).getActividad_laboral().toString());
+        familiaHolder.txtIngreso.setText("Ingreso Mensual bs. "+listaFamilia.get(i).getIngreso_mensual().toString());
+        familiaHolder.txtReferencia.setText("Referencia: "+listaFamilia.get(i).getReferencia().toString());
     }
 
     @Override
@@ -78,7 +80,7 @@ public class FamiliaAdapter extends RecyclerView.Adapter<FamiliaAdapter.FamiliaH
 
     public class FamiliaHolder extends RecyclerView.ViewHolder {
 
-        TextView txtParentesco, txtNombre, txtApellido, txtSexo, txtTelefono, txtActividad;
+        TextView txtParentesco, txtNombre, txtApellido, txtSexo, txtTelefono, txtActividad, txtIngreso, txtReferencia;
         public FamiliaHolder(@NonNull View itemView) {
             super(itemView);
             txtParentesco=(TextView) itemView.findViewById(R.id.familiaListParentesco);
@@ -87,6 +89,8 @@ public class FamiliaAdapter extends RecyclerView.Adapter<FamiliaAdapter.FamiliaH
             txtSexo=(TextView) itemView.findViewById(R.id.familiaListSexo);
             txtTelefono=(TextView) itemView.findViewById(R.id.familiaListTelefono);
             txtActividad=(TextView) itemView.findViewById(R.id.familiaListActividad);
+            txtReferencia=(TextView) itemView.findViewById(R.id.familiaListReferencia);
+            txtIngreso=(TextView) itemView.findViewById(R.id.familiaListIngreso);
         }
     }
 }

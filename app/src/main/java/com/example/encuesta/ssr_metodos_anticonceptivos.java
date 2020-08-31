@@ -17,16 +17,21 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -63,6 +68,7 @@ public class ssr_metodos_anticonceptivos extends Fragment {
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -161,16 +167,182 @@ public class ssr_metodos_anticonceptivos extends Fragment {
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta22(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta20(idFragment.getText().toString());
         });
         return vista;
     }
+
+    private void actualizar(String pantalla) {
+        String url="http://192.168.0.13/encuestasWS/actualizaMetodoAnticonceptivo.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+
+                    interfaceComunicaFragments.enviarEncuesta22(idFragment.getText().toString());
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta20(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id=idFragment.getText().toString();
+                String abstinencia="0";
+                if(rdAbstinenciaSi.isChecked()){
+                    abstinencia="1";
+                }else if(rdAbstinenciaNo.isChecked()){
+                    abstinencia="2";
+                }
+
+                String ligaduras="0";
+                if(rdLigadurasSi.isChecked()){
+                    ligaduras="1";
+                }else if(rdLigadurasNo.isChecked()){
+                    ligaduras="2";
+                }
+
+                String vasectomia="0";
+                if(rdVasectomiaSi.isChecked()){
+                    vasectomia="1";
+                }else if(rdVasectomiaNo.isChecked()){
+                    vasectomia="2";
+                }
+
+                String pildoras="0";
+                if(rdPildorasSi.isChecked()){
+                    pildoras="1";
+                }else if(rdPildorasNo.isChecked()){
+                    pildoras="2";
+                }
+
+                String diu="0";
+                if(rdDiuSi.isChecked()){
+                    diu="1";
+                }else if(rdDiuNo.isChecked()){
+                    diu="2";
+                }
+
+                String inyecciones="0";
+                if(rdInyeccionSi.isChecked()){
+                    inyecciones="1";
+                }else if(rdInyecionNo.isChecked()){
+                    inyecciones="2";
+                }
+
+                String implantes="0";
+                if(rdImpantesSi.isChecked()){
+                    implantes="1";
+                }else if(rdImplantesNo.isChecked()){
+                    implantes="2";
+                }
+
+                String condonMasculino="0";
+                if(rdConconMasculinoSi.isChecked()){
+                    condonMasculino="1";
+                }else if(rdConconMasculinoNo.isChecked()){
+                    condonMasculino="2";
+                }
+
+                String condonFemenino="0";
+                if(rdConconFemeninoSi.isChecked()){
+                    condonFemenino="1";
+                }else if(rdConconFemeninoNo.isChecked()){
+                    condonFemenino="2";
+                }
+
+                String tabletas="0";
+                if(rdTabletasSi.isChecked()){
+                    tabletas="1";
+                }else if(rdTabletasNo.isChecked()){
+                    tabletas="2";
+                }
+
+                String lactancia="0";
+                if(rdLactanciaSi.isChecked()){
+                    lactancia="1";
+                }else if(rdLactanciaNo.isChecked()){
+                    lactancia="2";
+                }
+
+                String ritmo="0";
+                if(rdRitmoSi.isChecked()){
+                    ritmo="1";
+                }else if(rdRitmoNo.isChecked()){
+                    ritmo="2";
+                }
+
+                String collar="0";
+                if(rdCollarSi.isChecked()){
+                    collar="1";
+                }else if(rdCollarNo.isChecked()){
+                    collar="2";
+                }
+
+                String emergencia="0";
+                if(rdEmergenciaSi.isChecked()){
+                    emergencia="1";
+                }else if(rdEmergenciaNo.isChecked()){
+                    emergencia="2";
+                }
+
+
+                String otro="0";
+                if(rdOtroSi.isChecked()){
+                    otro="1";
+                }else if(rdOtrono.isChecked()){
+                    otro="2";
+                }
+                String otroAnticonceptivo= txtOtroNombre.getText().toString();
+                String respuesta= txtrespuesta.getText().toString();
+                Map<String,String> parametros=new HashMap<>();
+                parametros.put("id",id);
+                parametros.put("abstinencia",abstinencia);
+                parametros.put("ligaduras",ligaduras);
+                parametros.put("vasectomia",vasectomia);
+                parametros.put("pildoras",pildoras);
+                parametros.put("diu",diu);
+                parametros.put("inyecciones",inyecciones);
+                parametros.put("implantes",implantes);
+                parametros.put("condonMasculino",condonMasculino);
+                parametros.put("condonFemenino",condonFemenino);
+                parametros.put("tabletas",tabletas);
+                parametros.put("lactancia",lactancia);
+                parametros.put("ritmo",ritmo);
+                parametros.put("collar",collar);
+                parametros.put("emergencia",emergencia);
+                parametros.put("otro",otro);
+
+                parametros.put("otroAnticonceptivo",otroAnticonceptivo);
+                parametros.put("respuesta",respuesta);
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+    }
+
     private void cargarWebServices() {
 
         String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
