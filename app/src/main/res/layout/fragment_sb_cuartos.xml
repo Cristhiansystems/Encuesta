@@ -36,13 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="3.03 ¿En total cuantos cuartos o habitaciones tiene" />
+        android:text="3.03 ¿Cúantos cuartos o habitaciones tiene tu vivienda, incluir baño y cocina?" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:text="tu vivienda incluir baño y cocina?" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -96,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="3.04 ¿Tiene un cuarto solo para cocinar?" />
+        android:text="3.04 ¿Tienen un cuarto solo para cocinar?" />
 
     <RadioGroup
         android:layout_width="match_parent"

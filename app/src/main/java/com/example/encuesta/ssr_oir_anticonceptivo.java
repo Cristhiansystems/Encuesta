@@ -149,14 +149,21 @@ public class ssr_oir_anticonceptivo extends Fragment{
     }
 
     private void actualizar(String pantalla) {
-
-        String url="http://192.168.0.13/encuestasWS/actualizarOirAnticonceptivo.php?";
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizarOirAnticonceptivo.php?";
 
         stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             if (response.trim().equalsIgnoreCase("actualiza")) {
                 if(pantalla=="Siguiente"){
 
-                    interfaceComunicaFragments.enviarEncuesta21(idFragment.getText().toString());
+                    if(rdNo.isChecked() || rdNoSabe.isChecked()){
+                        interfaceComunicaFragments.enviarEncuesta22(idFragment.getText().toString());
+                    }else if(rdSi.isChecked()){
+                        interfaceComunicaFragments.enviarEncuesta21(idFragment.getText().toString());
+                    }else{
+                        interfaceComunicaFragments.enviarEncuesta21(idFragment.getText().toString());
+                    }
+
                 }else if(pantalla=="Atras"){
                     interfaceComunicaFragments.enviarEncuesta19(idFragment.getText().toString());
 
@@ -183,7 +190,7 @@ public class ssr_oir_anticonceptivo extends Fragment{
                 }else if(rdNo.isChecked()){
                     oirAnticonceptivo="2";
                 }else if(rdNoSabe.isChecked()){
-                    oirAnticonceptivo="3";
+                    oirAnticonceptivo="8";
                 }
 
 
@@ -198,8 +205,8 @@ public class ssr_oir_anticonceptivo extends Fragment{
     }
 
     private void cargarWebServices() {
-
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 

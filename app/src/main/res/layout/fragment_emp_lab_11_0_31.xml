@@ -8,6 +8,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers1131"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="XI EMPRENDEDURISMO LABORAL"
@@ -21,6 +28,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout1131"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,20 +43,26 @@
         android:textStyle="bold"
         android:text="11.31 Porque no te sientes satisfecho con tu trabajo"/>
     <EditText
-        android:id="@+id/txtResp.11.31"
+        android:id="@+id/txtResp1131"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:lines="2"
-        android:hint="Resp..."
+        android:lines="4"
+        android:hint="Respuesta"
         />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout1132"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:text="11.32 ¿Conoces la Normativa y/o ley laboral?
-              (Qué es un contrato, cuál es el salario mínimo, etc.)" />
+    android:text="11.32 ¿Conoces la Normativa y/o ley laboral? (Qué es un contrato, cuál es el salario mínimo, etc.)" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,7 +77,7 @@
             >
 
             <RadioButton
-                android:id="@+id/RdSiConozcoLaNormatLab"
+                android:id="@+id/RdSiLey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -64,7 +85,7 @@
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/RdNoConozcoLaNormatLab"
+                android:id="@+id/RdNoLey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -72,6 +93,13 @@
         </RadioGroup>
 
     </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout1133"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -262,14 +290,14 @@
             >
 
             <RadioButton
-                android:id="@+id/OtroSi11.33"
+                android:id="@+id/OtroSi1133"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/OtroNo11.33"
+                android:id="@+id/OtroNo1133"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -278,18 +306,19 @@
 
     </LinearLayout>
     <EditText
-        android:id="@+id/txtOtro11.33"
-        android:layout_width="match_parent"
+        android:id="@+id/txtOtro1133"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:hint="Resp..."
+        android:hint="(Especificar)"
         />
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:orientation="horizontal"
         android:layout_marginBottom="15dp">
-        >
+
         <Button
             android:id="@+id/btnAtras67"
             android:layout_width="wrap_content"

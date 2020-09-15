@@ -8,6 +8,14 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers1303"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="PREGUNTAS DE EVALUACION A MEDIO TERMINO Y FINAL"
@@ -18,45 +26,81 @@
         android:layout_height="wrap_content"
         android:scrollbars="vertical">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="13.3 ¿Actualmente estas con empleo (emprendimiento o empleo laboral)" />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-
-        <RadioGroup
+        android:orientation="vertical">
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:layout_marginTop="20dp"
+            android:text="13.3 ¿Antes de participar del programa, estabas empleado? (emprendimiento o empleo laboral)" />
 
-            <RadioButton
-                android:id="@+id/RdSiActualEstoyConEmpleo"
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+
+            <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_weight="1"
-                android:text="SI" />
+                android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/RdNoActualEstoyConEmpleo"
+                <RadioButton
+                    android:id="@+id/RdSiantesEmpleo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_weight="1"
+                    android:text="SI" />
+
+                <RadioButton
+                    android:id="@+id/RdNoantesEmpleo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="NO" />
+            </RadioGroup>
+        </LinearLayout>
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="NO" />
-        </RadioGroup>
-    </LinearLayout>
+                android:layout_marginTop="20dp"
+                android:text="13.4 ¿Actualmente estas con empleo (emprendimiento o empleo laboral)" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/RdSiActualEstoyConEmpleo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_weight="1"
+                        android:text="SI" />
+
+                    <RadioButton
+                        android:id="@+id/RdNoActualEstoyConEmpleo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="NO" />
+                </RadioGroup>
+            </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,11 +148,11 @@
         android:layout_marginLeft="20dp"
         android:orientation="horizontal">
         <EditText
-            android:id="@+id/txtResp13.10"
+            android:id="@+id/txtResp1310"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
             android:hint="Resp..."
+            android:lines="4"
             android:layout_weight="3"/>
 
 
@@ -124,8 +168,7 @@
         android:id="@+id/txtComentarios"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:lines="10"
+        android:lines="7"
         android:hint="Comentarios...."
 
         />
@@ -135,9 +178,8 @@
         android:layout_marginTop="30dp"
         android:orientation="horizontal"
 
+        >
 
-        >
-        >
 
 
         <Button

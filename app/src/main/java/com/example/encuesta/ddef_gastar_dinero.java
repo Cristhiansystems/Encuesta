@@ -176,7 +176,8 @@ public class ddef_gastar_dinero extends Fragment{
     }
 
     private void actualizar(String pantalla) {
-        String url="http://192.168.0.13/encuestasWS/actualizarGastarDinero.php?";
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizarGastarDinero.php?";
 
         stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             if (response.trim().equalsIgnoreCase("actualiza")) {
@@ -197,7 +198,7 @@ public class ddef_gastar_dinero extends Fragment{
 
 
         }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No se pudo actualizar" + error.toString(), Toast.LENGTH_SHORT).show();
             Log.i("ERROR: ", error.toString());
         }){
             @Override
@@ -262,8 +263,8 @@ public class ddef_gastar_dinero extends Fragment{
     }
 
     private void cargarWebServices() {
-
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
@@ -467,7 +468,7 @@ public class ddef_gastar_dinero extends Fragment{
                 e.printStackTrace();
             }
         }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No se pudo consultar" + error.toString(), Toast.LENGTH_SHORT).show();
             Log.i("ERROR: ", error.toString());
         });
         request.add(jsonObjectRequest);

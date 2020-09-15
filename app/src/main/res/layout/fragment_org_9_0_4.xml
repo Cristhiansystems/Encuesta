@@ -8,6 +8,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers94"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="IX ORGANIZACIONES"
@@ -21,31 +28,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
+        <LinearLayout
+            android:id="@+id/layout904"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="9.04 ¿Qué características tienes como líder?" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="NO LEA LAS OPCIONES" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/colorRojo"
-        android:text="Registre una sola respuesta" />
+
     <EditText
-        android:id="@+id/txtRegUnaSolResp9.4"
+        android:id="@+id/Resp94"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Resp..."
+        android:hint="Respuesta"
         android:lines="3"
 
         />
+    <LinearLayout
+        android:id="@+id/layout94"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -226,14 +233,14 @@
             >
 
             <RadioButton
-                android:id="@+id/OtroSi9.4"
+                android:id="@+id/OtroSi94"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/OtroNo9.4"
+                android:id="@+id/OtroNo94"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -242,13 +249,50 @@
 
     </LinearLayout>
     <EditText
-        android:id="@+id/txtOtro9.4"
+        android:id="@+id/txtOtro94"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="2"
         android:hint="Resp..."
         />
+    </LinearLayout>
+        </LinearLayout>
+      <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="9.05 ¿Conoces organizaciones, plataformas y/o redes interinstitucionales que apoyan a los adolecentes y jóvenes?" />
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/Si95"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_weight="1"
+                        android:text="SI" />
+
+                    <RadioButton
+                        android:id="@+id/No95"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="NO" />
+                </RadioGroup>
+            </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

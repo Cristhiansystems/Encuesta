@@ -61,7 +61,7 @@ public class ssr_enamorado extends Fragment{
     EditText txtedadPrimeraRelacion;
     String idEncuesta, edadPrimeraRelacion;
 
-    Integer tuvisteEnamorado, relacionesRecien, edadRelacion;
+    Integer tuvisteEnamorado, relacionesRecien, edadRelacion, oirAnticonceptivo;
 
     //volley
 
@@ -154,15 +154,28 @@ public class ssr_enamorado extends Fragment{
     }
 
     private void actualizar(String pantalla) {
-        String url="http://192.168.0.13/encuestasWS/actualizaEnamorado.php?";
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizaEnamorado.php?";
 
         stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             if (response.trim().equalsIgnoreCase("actualiza")) {
                 if(pantalla=="Siguiente"){
+                    if(rdTuvisteEnamoradoNo.isChecked()){
+                        interfaceComunicaFragments.enviarEncuesta28(idFragment.getText().toString());
+                    }else if(rdTuvisteEnamoradoSi.isChecked()){
+                        interfaceComunicaFragments.enviarEncuesta23(idFragment.getText().toString());
+                    }else{
+                        interfaceComunicaFragments.enviarEncuesta23(idFragment.getText().toString());
+                    }
 
-                    interfaceComunicaFragments.enviarEncuesta23(idFragment.getText().toString());
                 }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta21(idFragment.getText().toString());
+                    if(oirAnticonceptivo==1  || oirAnticonceptivo==0){
+                        interfaceComunicaFragments.enviarEncuesta21(idFragment.getText().toString());
+                    }else if(oirAnticonceptivo==2 || oirAnticonceptivo==8){
+
+                        interfaceComunicaFragments.enviarEncuesta20(idFragment.getText().toString());
+                    }
+
 
                 }
 
@@ -174,7 +187,7 @@ public class ssr_enamorado extends Fragment{
 
             }
 
-        }, error -> {
+        },  error -> {
             Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
             Log.i("ERROR: ", error.toString());
         }){
@@ -221,8 +234,8 @@ public class ssr_enamorado extends Fragment{
     }
 
     private void cargarWebServices() {
-
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
@@ -238,6 +251,8 @@ public class ssr_enamorado extends Fragment{
                 edadRelacion = jsonObject.optInt("tuviste_relaciones_sexuales");
 
                 edadPrimeraRelacion = jsonObject.optString("edad_relacion_sexual");
+                //otro fragment
+                oirAnticonceptivo = jsonObject.optInt("conoces_medio_anticonceptivo");
 
                 if (tuvisteEnamorado == 1) {
                     rdTuvisteEnamoradoSi.setChecked(true);

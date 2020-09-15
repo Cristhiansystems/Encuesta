@@ -1,14 +1,35 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -47,6 +68,24 @@ public class emp_econ_10_0_21 extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+
+    TextView idFragment;
+
+    EditText txtotro, txtorEstudio, txtorRopa, txtorAlimentacion, txtorDiversion, txtorPagoServicios, txtorEquipos, txtorApoyoFamilia, txtorahorro, txtorotro;
+    String otronom, idEncuesta, orEstudio, orRopa, orAlimentacion, orDiversion, orPagoServicios, orEquipos, orApoyoFamilia, orahorro, orotro;
+
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
+    //
+    //
+
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     // TODO: Rename and change types and number of parameters
     public static emp_econ_10_0_21 newInstance(String param1, String param2) {
         emp_econ_10_0_21 fragment = new emp_econ_10_0_21();
@@ -73,28 +112,157 @@ public class emp_econ_10_0_21 extends Fragment {
         vista= inflater.inflate(R.layout.fragment_emp_econ_10_0_21, container, false);
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente56);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras56);
+        idFragment=(TextView) vista.findViewById(R.id.idemppers1021);
 
+        txtotro=(EditText) vista.findViewById(R.id.txtOtro1021);
+
+
+        txtorEstudio=(EditText) vista.findViewById(R.id.txtEstudios);
+        txtorRopa=(EditText) vista.findViewById(R.id.txtRopa);
+        txtorAlimentacion=(EditText) vista.findViewById(R.id.txtAlimentacion);
+        txtorDiversion=(EditText) vista.findViewById(R.id.txtDiversion);
+        txtorPagoServicios=(EditText) vista.findViewById(R.id.txtPagoDeServicios);
+        txtorEquipos=(EditText) vista.findViewById(R.id.txtEquiposCelulares);
+        txtorApoyoFamilia=(EditText) vista.findViewById(R.id.txtApoyoALaFamilia);
+        txtorahorro=(EditText) vista.findViewById(R.id.txtAhorro);
+        txtorotro=(EditText) vista.findViewById(R.id.txtOtroOrden1021);
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+        }
+
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new emp_lab_11_0_1();
-
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            String pantalla="Siguiente";
+            actualizar(pantalla);
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new emp_econ_10_0_19();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            String pantalla="Atras";
+            actualizar(pantalla);
         });
         return vista;
+    }
+
+    private void cargarWebServices() {
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                orEstudio = jsonObject.optString("gastar_estudios_orden");
+                orRopa = jsonObject.optString("gastar_ropa_orden");
+                orAlimentacion = jsonObject.optString("gastar_alimentacion_orden");
+                orDiversion = jsonObject.optString("gastar_diversion_orden");
+                orPagoServicios = jsonObject.optString("gastar_servicios_orden");
+                orEquipos = jsonObject.optString("gastar_equipos_orden");
+                orApoyoFamilia = jsonObject.optString("gastar_familia_orden");
+                orahorro = jsonObject.optString("gastar_ahorro_orden");
+                orotro = jsonObject.optString("gastar_otro_orden");
+                otronom = jsonObject.optString("gastar_otro_orden_nombre");
+
+
+
+                txtotro.setText(otronom.toString());
+                txtorEstudio.setText(orEstudio.toString());
+                txtorRopa.setText(orRopa.toString());
+                txtorAlimentacion.setText(orAlimentacion.toString());
+                txtorDiversion.setText(orDiversion.toString());
+                txtorPagoServicios.setText(orPagoServicios.toString());
+                txtorEquipos.setText(orEquipos.toString());
+                txtorApoyoFamilia.setText(orApoyoFamilia.toString());
+                txtorahorro.setText(orahorro.toString());
+                txtorotro.setText(orotro.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void actualizar(String pantalla) {
+        String ip=getString(R.string.ip);
+        String url=ip+"actualiza1021.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+                    interfaceComunicaFragments.enviarEncuesta60(idFragment.getText().toString());
+
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta58(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id = idFragment.getText().toString();
+
+                String otronom=txtotro.getText().toString();
+                String orEstudios=txtorEstudio.getText().toString();
+                String orRopa=txtorRopa.getText().toString();
+                String orAlimentacion=txtorAlimentacion.getText().toString();
+                String orDiversion=txtorDiversion.getText().toString();
+                String orPagoServicios=txtorPagoServicios.getText().toString();
+                String orEquipos=txtorEquipos.getText().toString();
+                String orApoyoFamilia=txtorApoyoFamilia.getText().toString();
+                String orAhorro=txtorahorro.getText().toString();
+                String orOtro=txtorotro.getText().toString();
+
+
+
+
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", id);
+
+                parametros.put("otronom", otronom);
+                parametros.put("orEstudios", orEstudios);
+                parametros.put("orRopa", orRopa);
+                parametros.put("orAlimentacion", orAlimentacion);
+                parametros.put("orDiversion", orDiversion);
+                parametros.put("orPagoServicios", orPagoServicios);
+                parametros.put("orEquipos", orEquipos);
+                parametros.put("orApoyoFamilia", orApoyoFamilia);
+                parametros.put("orAhorro", orAhorro);
+                parametros.put("orOtro", orOtro);
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -106,6 +274,12 @@ public class emp_econ_10_0_21 extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;

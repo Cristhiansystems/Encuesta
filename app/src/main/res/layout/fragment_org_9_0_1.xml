@@ -8,6 +8,14 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers91"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="IX ORGANIZACIONES"
@@ -27,23 +35,25 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="9.01 ¿Formas parte de alguna agrupación o asociación, dentro tu escuela, comunidad, barrio y/o ciudad?" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="NO LEA LAS OPCIONES" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/colorRojo"
-        android:text="Registre una sola respuesta" />
-    <EditText
-        android:id="@+id/txtRegUnaSolResp9.1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
+
+    <EditText
+        android:id="@+id/txtResp91"
+        android:layout_marginHorizontal="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text|textMultiLine"
+        android:lines="4"
+        android:hint="Respuesta"
         />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/layout91"
+            >
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -206,6 +216,7 @@
                 android:text="NO" />
         </RadioGroup>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -245,18 +256,19 @@
         android:layout_height="wrap_content"
     android:hint="Resp..."
         />
+        </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="9.02 ¿Puedes mencionar el nombre de la organización de la que formas parte	?" />
+        android:text="9.02 ¿Puedes mencionar el nombre de la organización de la que formas parte?" />
 
     <EditText
-        android:id="@+id/txt9.02"
+        android:id="@+id/txt902"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Resp..."/>
+        android:hint="Respuesta"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -277,7 +289,7 @@
             >
 
             <RadioButton
-                android:id="@+id/SiOcupasCargComoRepreDeAgrupUOrganiz"
+                android:id="@+id/SiOcupasCarg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -285,7 +297,7 @@
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/NoOcupasCargComoRepreDeAgrupUOrganiz"
+                android:id="@+id/NoOcupasCarg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="1.02 Anote el sexo del entrevistado" />
+        android:text="1.02 ¿Cúal es su sexo?" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -93,7 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="1.04 ¿Puedes decirme tu fecha de nacimiento?" />
+        android:text="1.04 ¿Anota la fecha de tu nacimiento?" />
 
     <EditText
         android:id="@+id/txtFecNac"

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +7,14 @@
     tools:context=".emp_econ_10_0_19">
 
     <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/idemppers1019"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,21 +64,37 @@
                 android:text="NO" />
         </RadioGroup>
     </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout1020"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="10.20 Si la respuesta es si, cuales? - opción múltiple:" />
 
+            <EditText
+                android:id="@+id/respuesta1020"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="4"
+                android:hint="Respuesta" />
 
-    <LinearLayout
+            <LinearLayout
+                android:id="@+id/layout1020ops"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:background="@color/colorRojo"
-
-        >
+        android:background="@color/colorRojo">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -179,14 +204,14 @@
             >
 
             <RadioButton
-                android:id="@+id/OtroSi10.20"
+                android:id="@+id/OtroSi1020"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/OtroNo10.20"
+                android:id="@+id/OtroNo1020"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -195,12 +220,13 @@
 
     </LinearLayout>
     <EditText
-        android:id="@+id/txtOtro10.20"
-        android:layout_width="match_parent"
+        android:id="@+id/txtOtro1020"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:hint="Resp..."
+        android:hint="(Especificar)"
         />
-
+        </LinearLayout>
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -208,7 +234,7 @@
         android:orientation="horizontal"
 
         android:layout_marginBottom="15dp">
-        >
+
 
 
         <Button

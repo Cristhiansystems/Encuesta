@@ -147,8 +147,8 @@ public class dp_nombre_completo extends Fragment {
 
 
         //String ip=getString(R.string.ip);
-
-        String url="http://192.168.0.13/encuestasWS/actualizarNombreCompleto.php?";
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizarNombreCompleto.php?";
 
         stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             if (response.trim().equalsIgnoreCase("actualiza")) {
@@ -201,8 +201,8 @@ public class dp_nombre_completo extends Fragment {
     }
 
     private void cargarWebServices() {
-
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 

@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Años (ANOTE 00 SI NO TUVO)"
+                android:text="Años"
                 />
 
 
@@ -127,13 +127,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="No Tuvo" />
+            android:text="No Tuviste relaciones sexuales" />
 
         <RadioButton
             android:id="@+id/edadrelacionSexualNoSabe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No sabe/ No responde/ No recuerda" />
+            android:text="Prefieres no responder o no recuerdas" />
     </RadioGroup>
 
     <LinearLayout

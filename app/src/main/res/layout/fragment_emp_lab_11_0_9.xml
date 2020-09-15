@@ -8,6 +8,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers1109"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="XI EMPRENDEDURISMO LABORAL"
@@ -18,6 +25,11 @@
         android:layout_height="wrap_content"
         android:scrollbars="vertical">
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/layout1109"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -56,6 +68,13 @@
                 android:text="NO" />
         </RadioGroup>
     </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout1110"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:textStyle="bold"
         android:layout_width="match_parent"
@@ -63,11 +82,19 @@
         android:layout_marginTop="10dp"
         android:text="11.10 ¿Menciona en que rubro te gustaria capacitarte y/o tecnificarte? "/>
     <EditText
-        android:id="@+id/txtResp.11.10"
+        android:id="@+id/txtResp1110"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Resp..."
+        android:hint="Respuesta"
         android:lines="3"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout1111"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,26 +102,41 @@
         android:textStyle="bold"
         android:text="11.11 Por qué no te gustaria capacitarte y/o tecnificarte?"/>
     <EditText
-        android:id="@+id/txtResp.11.11"
+        android:id="@+id/txtResp1111"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Resp..."
+        android:hint="Respuesta"
         android:lines="3"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout1112"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textStyle="bold"
-        android:text="11.12 Sólo para las personas que respondieron SI en la
-        pregunta 11.01 ¿A qué edad empezaste a trabajar?"/>
+        android:text="11.12 ¿A qué edad empezaste a trabajar?"/>
     <EditText
-        android:id="@+id/txtResp.11.12"
+        android:id="@+id/txtResp1112"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="80dp"
-        android:lines="1"
-        android:hint="Resp..."/>
+        android:inputType="number"
+        android:hint="Edad"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout1113"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,12 +144,13 @@
         android:textStyle="bold"
         android:text="11.13 ¿Porqué empezaste  a trabajar a esta edad?"/>
     <EditText
-        android:id="@+id/txtResp.11.13"
+        android:id="@+id/txtResp1113"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="2"
-        android:hint="Resp..."/>
+        android:lines="3"
+        android:hint="Respuesta"/>
 
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -115,7 +158,7 @@
         android:orientation="horizontal"
 
         android:layout_marginBottom="15dp">
-        >
+
 
 
 

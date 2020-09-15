@@ -140,9 +140,8 @@ public class Identificacion_geografica extends Fragment implements Response.List
     private void actualizar(String pantalla) {
 
 
-        //String ip=getString(R.string.ip);
-
-        String url="http://192.168.0.13/encuestasWS/actualizarIdentificacionGeografica.php?";
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizarIdentificacionGeografica.php?";
 
         stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             if (response.trim().equalsIgnoreCase("actualiza")) {
@@ -195,8 +194,8 @@ public class Identificacion_geografica extends Fragment implements Response.List
     }
 
     private void cargarWebServices() {
-
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);

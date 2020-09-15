@@ -8,6 +8,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers811"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="XIII EMPODERAMIENTO PERSONAL"
@@ -28,7 +35,7 @@
                 android:layout_marginTop="10dp"
                 android:text="8.11 Menciona el nivel máximo alcanzado" />
             <CheckBox
-                android:id="@+id/chkPrimaria8.11"
+                android:id="@+id/chkPrimaria811"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
@@ -105,42 +112,42 @@
                         android:orientation="horizontal"
                         >
                         <RadioButton
-                            android:id="@+id/Rd1Pri8.11"
+                            android:id="@+id/Rd1Pri811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="1" />
 
                         <RadioButton
-                            android:id="@+id/Rd2Pri8.11"
+                            android:id="@+id/Rd2Pri811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="2" />
 
                         <RadioButton
-                            android:id="@+id/Rd3Pri8.11"
+                            android:id="@+id/Rd3Pri811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="3" />
 
                         <RadioButton
-                            android:id="@+id/Rd4Pri8.11"
+                            android:id="@+id/Rd4Pri811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="4" />
 
                         <RadioButton
-                            android:id="@+id/Rd5Pri8.11"
+                            android:id="@+id/Rd5Pri811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="5" />
 
                         <RadioButton
-                            android:id="@+id/Rd6Pri8.11"
+                            android:id="@+id/Rd6Pri811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -149,9 +156,9 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/txtParPri"
+                    android:id="@+id/txtParPri811"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
                     android:layout_weight="3" />
 
 
@@ -159,7 +166,7 @@
 
 
             <CheckBox
-                android:id="@+id/chkSecundaria8.11"
+                android:id="@+id/chkSecundaria811"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -235,42 +242,42 @@
                         android:orientation="horizontal"
                         >
                         <RadioButton
-                            android:id="@+id/Rd1Sec8.11"
+                            android:id="@+id/Rd1Sec811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="1" />
 
                         <RadioButton
-                            android:id="@+id/Rd2Sec8.11"
+                            android:id="@+id/Rd2Sec811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="2" />
 
                         <RadioButton
-                            android:id="@+id/Rd3Sec8.11"
+                            android:id="@+id/Rd3Sec811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="3" />
 
                         <RadioButton
-                            android:id="@+id/Rd4Sec8.11"
+                            android:id="@+id/Rd4Sec811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="4" />
 
                         <RadioButton
-                            android:id="@+id/Rd5Sec8.11"
+                            android:id="@+id/Rd5Sec811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="5" />
 
                         <RadioButton
-                            android:id="@+id/Rd6Sec8.11"
+                            android:id="@+id/Rd6Sec811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -279,16 +286,16 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/txtSec8.11"
+                    android:id="@+id/txtSec811"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
                     android:layout_weight="3" />
 
 
             </LinearLayout>
 
             <CheckBox
-                android:id="@+id/chkNormal8.11"
+                android:id="@+id/chkNormal811"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -364,28 +371,28 @@
                         android:orientation="horizontal"
                         >
                         <RadioButton
-                            android:id="@+id/Rd1NorPolMil8.11"
+                            android:id="@+id/Rd1NorPolMil811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="1" />
 
                         <RadioButton
-                            android:id="@+id/Rd2NorPolMi8.11"
+                            android:id="@+id/Rd2NorPolMi811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="2" />
 
                         <RadioButton
-                            android:id="@+id/Rd3NorPolMil8.11"
+                            android:id="@+id/Rd3NorPolMil811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="3" />
 
                         <RadioButton
-                            android:id="@+id/Rd4NorPolMil8.11"
+                            android:id="@+id/Rd4NorPolMil811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -406,15 +413,12 @@
 
                 </LinearLayout>
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3" />
+
 
 
             </LinearLayout>
             <CheckBox
-                android:id="@+id/chkUniversidad8.11"
+                android:id="@+id/chkUniversidad811"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -491,35 +495,35 @@
                         android:orientation="horizontal"
                         >
                         <RadioButton
-                            android:id="@+id/Rd1Unil8.11"
+                            android:id="@+id/Rd1Unil811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="1" />
 
                         <RadioButton
-                            android:id="@+id/Rd2Unil8.11"
+                            android:id="@+id/Rd2Unil811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="2" />
 
                         <RadioButton
-                            android:id="@+id/Rd3Unil8.11"
+                            android:id="@+id/Rd3Unil811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="3" />
 
                         <RadioButton
-                            android:id="@+id/Rd5Unil8.11"
+                            android:id="@+id/Rd5Unil811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="4" />
 
                         <RadioButton
-                            android:id="@+id/Rd4Unil8.11"
+                            android:id="@+id/Rd4Unil811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -536,10 +540,6 @@
                     </RadioGroup>
                 </LinearLayout>
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3" />
 
 
             </LinearLayout>
@@ -548,7 +548,7 @@
 
 
             <CheckBox
-                android:id="@+id/chkTecnicoUniversitario8.11"
+                android:id="@+id/chkTecnicoUniversitario811"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -624,21 +624,21 @@
                         android:orientation="horizontal"
                         >
                         <RadioButton
-                            android:id="@+id/Rd1TecUnil8.11"
+                            android:id="@+id/Rd1TecUnil811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="1" />
 
                         <RadioButton
-                            android:id="@+id/Rd2TecUnil8.11"
+                            android:id="@+id/Rd2TecUnil811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="2" />
 
                         <RadioButton
-                            android:id="@+id/Rd3TecUnil8.11"
+                            android:id="@+id/Rd3TecUnil811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -664,20 +664,11 @@
                     </RadioGroup>
                 </LinearLayout>
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3" />
-
-
-
-
-
 
             </LinearLayout>
 
             <CheckBox
-                android:id="@+id/chTecnicoMedio8.11"
+                android:id="@+id/chkTecnicoMedio811"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -753,21 +744,21 @@
                         android:orientation="horizontal"
                         >
                         <RadioButton
-                            android:id="@+id/Rd1TecMedl8.11"
+                            android:id="@+id/Rd1TecMedl811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="1" />
 
                         <RadioButton
-                            android:id="@+id/Rd2TecMedl8.11"
+                            android:id="@+id/Rd2TecMedl811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="2" />
 
                         <RadioButton
-                            android:id="@+id/Rd3TecMedl8.11"
+                            android:id="@+id/Rd3TecMedl811"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -802,12 +793,8 @@
             </LinearLayout>
 
 
-
-
-
-
             <CheckBox
-                android:id="@+id/chkOtroEspecificar8.11"
+                android:id="@+id/chkOtroEspecificar811"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -895,8 +882,6 @@
                         android:text="    "/>
 
 
-
-
                 </LinearLayout>
 
                 <TextView
@@ -908,14 +893,14 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/txtOtro8.11"
+                android:id="@+id/txtOtro811"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Resp..."
+                android:hint="Respuesta"
                 />
 
             <CheckBox
-                android:id="@+id/chkNoSabe8.11"
+                android:id="@+id/chkNoSabe811"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,7 +63,7 @@ public class ssr_decidir_relaciones extends Fragment{
     String idEncuesta, respuesta, otroDecidirRelacion;
     StringRequest stringRequest;
     Integer UsarAnticonceptivo, SinProteccion, NegociarPareja, ForzarPareja, Otro;
-
+    LinearLayout display;
     //volley
 
     ProgressDialog progreso;
@@ -127,10 +128,11 @@ public class ssr_decidir_relaciones extends Fragment{
         rdForzarParejaNo=(RadioButton) vista.findViewById(R.id.forzarParejaNo);
         rdOtroSi=(RadioButton) vista.findViewById(R.id.otroDecidirRelacionesSi);
         rdOtroNo=(RadioButton) vista.findViewById(R.id.otroDecidirrelacionesNo);
-
+        display=(LinearLayout) vista.findViewById(R.id.layoutdecidirrlaciones);
         txtRespuesta=(EditText) vista.findViewById(R.id.txtrespuestaDecidirRelaciones);
         txtOtroDecidirRelacion=(EditText) vista.findViewById(R.id.txtotroDecidirRelaciones);
-
+        display.setVisibility(View.INVISIBLE);
+        display.setVisibility(View.GONE);
         Bundle data=getArguments();
 
         if(data!=null){
@@ -159,7 +161,8 @@ public class ssr_decidir_relaciones extends Fragment{
     }
 
     private void actualizar(String pantalla) {
-        String url="http://192.168.0.13/encuestasWS/actualizaDecidirRelaciones.php?";
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizaDecidirRelaciones.php?";
 
         stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             if (response.trim().equalsIgnoreCase("actualiza")) {
@@ -243,8 +246,8 @@ public class ssr_decidir_relaciones extends Fragment{
     }
 
     private void cargarWebServices() {
-
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 

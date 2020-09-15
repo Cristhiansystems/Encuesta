@@ -8,6 +8,14 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers96"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="IX ORGANIZACIONES"
@@ -22,26 +30,44 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/layout96"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="9.06 Menciona el nombre de la organización,  plataforma o red que conoces" />
     <EditText
-        android:id="@+id/Resp9.06"
+        android:id="@+id/Resp906"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Resp..."/>
+        android:hint="Respuesta"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout97"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="9.07 Menciona cual es el objetivo de esta organización, plataforma y/o red?" />
     <EditText
-        android:id="@+id/Resp9.07"
+        android:id="@+id/Resp907"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Resp..."/>
+        android:hint="Respuesta"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout98"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,6 +103,12 @@
                 android:text="NO" />
         </RadioGroup>
     </LinearLayout>
+    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout99"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -112,6 +144,12 @@
                 android:text="NO" />
         </RadioGroup>
     </LinearLayout>
+    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout910"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -147,6 +185,12 @@
                 android:text="NO" />
         </RadioGroup>
     </LinearLayout>
+    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout911"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -183,14 +227,14 @@
                 android:text="NO" />
         </RadioGroup>
     </LinearLayout>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:orientation="horizontal"
+        >
 
-        >
-        >
 
 
         <Button

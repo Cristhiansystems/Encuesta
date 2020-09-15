@@ -8,6 +8,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers1134"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="XI EMPRENDEDURISMO LABORAL"
@@ -40,7 +47,7 @@
             >
 
             <RadioButton
-                android:id="@+id/RdSiConozcoUnaBolsaDeTrabajo"
+                android:id="@+id/RdSiBolsaDeTrabajo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -48,7 +55,7 @@
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/RdNoConozcoUnaBolsaDeTrabajo"
+                android:id="@+id/RdNoBolsaDeTrabajo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -63,13 +70,13 @@
         android:textStyle="bold"
         android:text="11.35 Puedes mencionar a alguna? "/>
     <EditText
-        android:id="@+id/txtResp.11.35"
+        android:id="@+id/txtResp1135"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:lines="2"
-        android:hint="Resp..."
+        android:hint="Respuesta"
         />
     <TextView
         android:layout_width="match_parent"
@@ -90,7 +97,7 @@
             >
 
             <RadioButton
-                android:id="@+id/RdSiSeUnPlanLaboral"
+                android:id="@+id/RdSiPlanLaboral"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -98,7 +105,7 @@
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/RdNoSeUnPlanLaboral"
+                android:id="@+id/RdNoPlanLaboral"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -148,13 +155,13 @@
         android:textStyle="bold"
         android:text="11.38 Menciona ¿cual fue el objetivo de tu Plan Laboral? "/>
     <EditText
-        android:id="@+id/txtResp.11.38"
+        android:id="@+id/txtResp1138"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:lines="3"
-        android:hint="Resp..."
+        android:hint="Respuesta"
         />
     <TextView
         android:layout_width="match_parent"
@@ -183,7 +190,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <RadioButton
-                    android:id="@+id/RdSi"
+                    android:id="@+id/RdSi1139"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -191,14 +198,14 @@
                     android:text="Si" />
 
                 <RadioButton
-                    android:id="@+id/RdNo"
+                    android:id="@+id/RdNo1139"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
 
                     android:text="No" />
                 <RadioButton
-                    android:id="@+id/RdEstoyEnProceso"
+                    android:id="@+id/RdEstoyEnProceso1139"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 

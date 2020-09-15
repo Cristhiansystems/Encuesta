@@ -210,8 +210,8 @@ public class ddef_familia extends Fragment{
         }else if(parentesco.getSelectedItem().toString()=="Otros no parientes"){
             strparentesco="8";
         }
-
-        String url="http://192.168.0.13/encuestasWS/registroFamilia.php?id="+idFragment.getText().toString()+"&nombre="+txtnombre.getText().toString()+"&apellido="+txtapellidos.getText().toString()+"&genero="+genero.toString()+"&parentesco="+strparentesco+"&referencia="+txtreferencia.getText().toString()+"&telefono="+txttelefono.getText().toString()+"&actividad="+txtactividadLaboral.getText().toString()+"&ingreso="+txtingresoEconomico.getText().toString();
+        String ip=getString(R.string.ip);
+        String url=ip+"registroFamilia.php?id="+idFragment.getText().toString()+"&nombre="+txtnombre.getText().toString()+"&apellido="+txtapellidos.getText().toString()+"&genero="+genero.toString()+"&parentesco="+strparentesco+"&referencia="+txtreferencia.getText().toString()+"&telefono="+txttelefono.getText().toString()+"&actividad="+txtactividadLaboral.getText().toString()+"&ingreso="+txtingresoEconomico.getText().toString();
         url=url.replace(" ", "%20");
         stringRequest=new StringRequest(Request.Method.GET, url, response -> {
            cargarWebServices();
@@ -225,7 +225,7 @@ public class ddef_familia extends Fragment{
             rdHombre.setChecked(false);
 
         }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No se pudo actualizar" + error.toString(), Toast.LENGTH_SHORT).show();
             Log.i("ERROR: ", error.toString());
         });
         request.add(stringRequest);
@@ -233,8 +233,8 @@ public class ddef_familia extends Fragment{
 
 
     private void cargarWebServices() {
-
-        String url="http://192.168.0.13/encuestasWS/consultaFamiliaLista.php?id_encuesta="+idFragment.getText().toString();
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaFamiliaLista.php?id_encuesta="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
@@ -268,13 +268,13 @@ public class ddef_familia extends Fragment{
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(getContext(), "No se ha podido establecer conexión con el servidor" +
+                Toast.makeText(getContext(), "No se ha podido establecer conexion con el servidor" +
                         " "+response, Toast.LENGTH_LONG).show();
 
             }
 
         }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No se pudo consultar" + error.toString(), Toast.LENGTH_SHORT).show();
             Log.i("ERROR: ", error.toString());
         });
         request.add(jsonObjectRequest);

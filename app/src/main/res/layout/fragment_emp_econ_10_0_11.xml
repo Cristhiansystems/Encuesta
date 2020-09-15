@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +7,14 @@
     tools:context=".emp_econ_10_0_11">
 
     <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/idemppers1011"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,6 +65,11 @@
                 android:text="NO" />
         </RadioGroup>
     </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout1012"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,23 +77,30 @@
         android:text="10.12 ¿Porque no vendes tus productos y/o servicios?" />
 
     <EditText
-        android:id="@+id/txtResp10.11"
+        android:id="@+id/txtResp1012"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="2"
-        android:hint="Resp..."
-
+        android:lines="3"
+        android:hint="Respuesta"
         />
+        </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="10.13 ¿Dónde vendes tus productos y/o servicios?" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="RESPUESTA MULTIPLE" />
+
+            <EditText
+                android:id="@+id/txtResp1013"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="4"
+                android:hint="Respuesta" />
+        <LinearLayout
+            android:id="@+id/layout1013ops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -109,7 +129,6 @@
             android:textColor="#FBF7F7"
             android:text="NO" />
 
-
     </LinearLayout>
 
 
@@ -133,14 +152,14 @@
             >
 
             <RadioButton
-                android:id="@+id/SiFerias"
+                android:id="@+id/SiFeria"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/NoEmpleo"
+                android:id="@+id/NoFeria"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -230,14 +249,14 @@
             >
 
             <RadioButton
-                android:id="@+id/SiConsignación"
+                android:id="@+id/SiConsignacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/NoConsignación"
+                android:id="@+id/NoConsignacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -293,14 +312,14 @@
             >
 
             <RadioButton
-                android:id="@+id/OtroSi10.13"
+                android:id="@+id/OtroSi1013"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/OtroNo10.13"
+                android:id="@+id/OtroNo1013"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -309,12 +328,13 @@
 
     </LinearLayout>
     <EditText
-        android:id="@+id/txtOtro10.13"
+        android:id="@+id/txtOtro1013"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Resp..."
+        android:hint="(Especificar)"
 
         />
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -322,7 +342,7 @@
         android:orientation="horizontal"
 
         android:layout_marginBottom="15dp">
-        >
+
 
 
         <Button

@@ -1,14 +1,36 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -47,6 +69,26 @@ public class emp_econ_10_0_19 extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+
+    TextView idFragment;
+
+    EditText txtotro, txtrespuesta;
+    String idEncuesta, otronom, respuesta;
+    Integer analisisCostos, costoDirecto, costoIndirecto, otro;
+    RadioButton rdCostoDirectoSi, rdCostoDirectoNo, rdCostoIndirectoSi, rdCostoIndirectoNo, rdotroSi, rdOtroNo, rdAnalisisSi, rdAnalisisNo;
+    LinearLayout display1020, display1020ops;
+
+    //volley
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
+    //
+    //
+
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     // TODO: Rename and change types and number of parameters
     public static emp_econ_10_0_19 newInstance(String param1, String param2) {
         emp_econ_10_0_19 fragment = new emp_econ_10_0_19();
@@ -74,27 +116,209 @@ public class emp_econ_10_0_19 extends Fragment {
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente55);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras55);
 
+        idFragment=(TextView) vista.findViewById(R.id.idemppers1019);
+
+        txtotro=(EditText) vista.findViewById(R.id.txtOtro1020);
+        txtrespuesta=(EditText) vista.findViewById(R.id.respuesta1020);
+
+
+        rdAnalisisSi=(RadioButton) vista.findViewById(R.id.SiRealizoAnalisisCostosDePrecios);
+        rdAnalisisNo=(RadioButton) vista.findViewById(R.id.NoRealizoAnalisisCostosDePrecios);
+
+        rdCostoDirectoSi=(RadioButton) vista.findViewById(R.id.SiCostoDirecto);
+        rdCostoDirectoNo=(RadioButton) vista.findViewById(R.id.NoCostoDirecto);
+
+        rdCostoIndirectoSi=(RadioButton) vista.findViewById(R.id.SiCostoIndirecto);
+        rdCostoIndirectoNo=(RadioButton) vista.findViewById(R.id.NoCostoIndirecto);
+
+        rdotroSi=(RadioButton) vista.findViewById(R.id.OtroSi1020);
+        rdOtroNo=(RadioButton) vista.findViewById(R.id.OtroNo1020);
+        display1020=(LinearLayout) vista.findViewById(R.id.layout1020);
+        display1020ops=(LinearLayout) vista.findViewById(R.id.layout1020ops);
+
+        display1020ops.setVisibility(View.INVISIBLE);
+        display1020ops.setVisibility(View.GONE);
+
+        rdAnalisisNo.setOnClickListener(v -> {
+
+            display1020.setVisibility(View.INVISIBLE);
+            display1020.setVisibility(View.GONE);
+
+
+        });
+
+        rdAnalisisSi.setOnClickListener(v -> {
+
+            display1020.setVisibility(View.VISIBLE);
+
+        });
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+        }
+
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new emp_econ_10_0_21();
-
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            String pantalla="Siguiente";
+            actualizar(pantalla);
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new emp_econ_10_0_17();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            String pantalla="Atras";
+            actualizar(pantalla);
         });
         return vista;
+    }
+
+    private void cargarWebServices() {
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                analisisCostos = jsonObject.optInt("realizas_analisis_costos");
+                costoDirecto = jsonObject.optInt("costo_directo");
+                costoIndirecto= jsonObject.optInt("costo_indirecto");
+                otro= jsonObject.optInt("analisis_costos_otro");
+                otronom = jsonObject.optString("analisis_costos_otro_nombre");
+                respuesta = jsonObject.optString("respuesta_analisis");
+
+                if(analisisCostos==2){
+
+                    display1020.setVisibility(View.INVISIBLE);
+                    display1020.setVisibility(View.GONE);
+
+                }
+
+                if(costoDirecto==1){
+                    rdCostoDirectoSi.setChecked(true);
+                }else if(costoDirecto==2){
+                    rdCostoDirectoNo.setChecked(true);
+                }
+
+                if(costoIndirecto==1){
+                    rdCostoIndirectoSi.setChecked(true);
+                }else if(costoIndirecto==2){
+                    rdCostoIndirectoNo.setChecked(true);
+                }
+
+                if(otro==1){
+                    rdotroSi.setChecked(true);
+                }else if(otro==2){
+                    rdOtroNo.setChecked(true);
+                }
+
+                if(analisisCostos==1){
+                    rdAnalisisSi.setChecked(true);
+                }else if(analisisCostos==2){
+                    rdAnalisisNo.setChecked(true);
+                }
+
+
+                txtotro.setText(otronom.toString());
+                txtrespuesta.setText(respuesta.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void actualizar(String pantalla) {
+        String ip=getString(R.string.ip);
+        String url=ip+"actualiza1019.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+                    interfaceComunicaFragments.enviarEncuesta59(idFragment.getText().toString());
+
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta57(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id = idFragment.getText().toString();
+
+                String otronom=txtotro.getText().toString();
+                String respuesta=txtrespuesta.getText().toString();
+
+
+                String analizarCostos="0";
+                if(rdAnalisisSi.isChecked()){
+                    analizarCostos="1";
+                }else if(rdAnalisisNo.isChecked()){
+                    analizarCostos="2";
+                }
+
+                String costoDirecto="0";
+                if(rdCostoDirectoSi.isChecked()){
+                    costoDirecto="1";
+                }else if(rdCostoDirectoNo.isChecked()){
+                    costoDirecto="2";
+                }
+
+                String costoIndirecto="0";
+                if(rdCostoIndirectoSi.isChecked()){
+                    costoIndirecto="1";
+                }else if(rdCostoIndirectoNo.isChecked()){
+                    costoIndirecto="2";
+                }
+
+                String otro="0";
+                if(rdotroSi.isChecked()){
+                    otro="1";
+                }else if(rdOtroNo.isChecked()){
+                    otro="2";
+                }
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", id);
+
+                parametros.put("otronom", otronom);
+                parametros.put("analizarCostos", analizarCostos);
+                parametros.put("costoDirecto", costoDirecto);
+                parametros.put("costoIndirecto", costoIndirecto);
+                parametros.put("otro", otro);
+                parametros.put("respuesta", respuesta);
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -106,6 +330,12 @@ public class emp_econ_10_0_19 extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;

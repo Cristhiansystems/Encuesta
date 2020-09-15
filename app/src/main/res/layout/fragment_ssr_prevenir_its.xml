@@ -62,6 +62,13 @@
                     android:gravity="top"/>
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/layoutprevenirits"
+                >
+
 
             <RadioGroup
                 android:layout_width="match_parent"
@@ -96,30 +103,27 @@
                     android:text="No sabe o no haría nada" />
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
-
                     <RadioButton
                         android:id="@+id/prevenirItsOtro"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Otro (Especificar)" />
 
-                    <EditText
-                        android:id="@+id/txtotroPrevenirIts"
-                        android:layout_weight="2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        />
 
 
-                </LinearLayout>
+
+
             </RadioGroup>
 
+            <EditText
+                android:id="@+id/txtotroPrevenirIts"
+                android:layout_marginHorizontal="50dp"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="Otro (Especificar)"
+                />
 
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

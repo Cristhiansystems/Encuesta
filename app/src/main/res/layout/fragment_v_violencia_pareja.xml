@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -34,13 +34,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="7.03 Ahora me gustaría conversar contigo acerca de la relación con tu ultima pareja" />
+                android:text="7.03 Ahora nos gustaría conversar contigo acerca de la relación con tu ultima pareja" />
 
             <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="por favor dime si estas situaciones se presentarion en la relación con tu PAREJA/ENAMORADO/A en los últimos 12 meses" />
+            android:text="por favor responde si estas situaciones se presentaron en la relación con tu PAREJA/ENAMORADO/A en los últimos 12 meses" />
 
             <TextView
                 android:layout_width="match_parent"

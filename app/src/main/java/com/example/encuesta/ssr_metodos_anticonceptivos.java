@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,7 +63,7 @@ public class ssr_metodos_anticonceptivos extends Fragment {
     String idEncuesta, otroNombre, repuesta;
 
     Integer abstinencia, ligaduras, vasectomia, pildoras, diu, inyecciones, implantes, condonMasculino, condonFemenino, tabletas, lactancia, ritmo, collar, emergencia, otro;
-
+    LinearLayout display;
     //volley
 
     ProgressDialog progreso;
@@ -149,10 +150,11 @@ public class ssr_metodos_anticonceptivos extends Fragment {
         rdEmergenciaNo=(RadioButton) vista.findViewById(R.id.emergenciaNo);
         rdOtroSi=(RadioButton) vista.findViewById(R.id.otrometodoAnticonceptivoSi);
         rdOtrono=(RadioButton) vista.findViewById(R.id.otrometodoAnticonceptivoNo);
-
+        display=(LinearLayout) vista.findViewById(R.id.layoutmetodoanticonceptivo);
         txtrespuesta=(EditText) vista.findViewById(R.id.txtrespuestaMetodoAnticonceptivo);
         txtOtroNombre=(EditText) vista.findViewById(R.id.txtotroMetodoAnticpnceptivo);
-
+        display.setVisibility(View.INVISIBLE);
+        display.setVisibility(View.GONE);
         Bundle data=getArguments();
 
         if(data!=null){
@@ -181,7 +183,8 @@ public class ssr_metodos_anticonceptivos extends Fragment {
     }
 
     private void actualizar(String pantalla) {
-        String url="http://192.168.0.13/encuestasWS/actualizaMetodoAnticonceptivo.php?";
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizaMetodoAnticonceptivo.php?";
 
         stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             if (response.trim().equalsIgnoreCase("actualiza")) {
@@ -344,8 +347,8 @@ public class ssr_metodos_anticonceptivos extends Fragment {
     }
 
     private void cargarWebServices() {
-
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 

@@ -141,6 +141,44 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
     v_violencia_pareja_actual v_violencia_pareja_actual;
     v_buscar_ayuda v_buscar_ayuda;
     emp_pers_8_0_1 emp_pers_8_0_1;
+    emp_pers_8_0_2 emp_pers_8_0_2;
+    emp_pers_8_0_3 emp_pers_8_0_3;
+    emp_pers_8_0_5 emp_pers_8_0_5;
+    emp_pers_8_0_7 emp_pers_8_0_7;
+    emp_pers_8_0_9 emp_pers_8_0_9;
+    emp_pers_8_0_10 emp_pers_8_0_10;
+    emp_pers_8_0_11 emp_pers_8_0_11;
+    emp_pers_8_0_12 emp_pers_8_0_12;
+    org_9_0_1 org_9_0_1;
+    org_9_0_4 org_9_0_4;
+    org_9_0_6 org_9_0_6;
+    emp_econ_10_0_1 emp_econ_10_0_1;
+    emp_econ_10_0_4 emp_econ_10_0_4;
+    emp_econ_10_0_7 emp_econ_10_0_7;
+    emp_econ_10_0_11 emp_econ_10_0_11;
+    emp_econ_10_0_14 emp_econ_10_0_14;
+    emp_econ_10_0_17 emp_econ_10_0_17;
+    emp_econ_10_0_19 emp_econ_10_0_19;
+    emp_econ_10_0_21 emp_econ_10_0_21;
+    emp_lab_11_0_1 emp_lab_11_0_1;
+    emp_lab_11_0_3 emp_lab_11_0_3;
+    emp_lab_11_0_6 emp_lab_11_0_6;
+    emp_lab_11_0_9 emp_lab_11_0_9;
+    emp_lab_11_0_14 emp_lab_11_0_14;
+    emp_lab_11_0_18 emp_lab_11_0_18;
+    emp_lab_11_0_21 emp_lab_11_0_21;
+    emp_lab_11_0_23 emp_lab_11_0_23;
+    emp_lab_11_0_27 emp_lab_11_0_27;
+    emp_lab_11_0_29 emp_lab_11_0_29;
+    emp_lab_11_0_31 emp_lab_11_0_31;
+    emp_lab_11_0_34 emp_lab_11_0_34;
+    sat_muni_12_0_1 sat_muni_12_0_1;
+    sat_muni_12_0_4 sat_muni_12_0_4;
+    sat_muni_12_0_7 sat_muni_12_0_7;
+    preg_eval_13_0_1 preg_eval_13_0_1;
+    preg_eval_13_0_3 preg_eval_13_0_3;
+    obs_encuestador obs_encuestador;
+    principal principal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -210,7 +248,8 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
         progreso=new ProgressDialog(this);
         progreso.setMessage("cargando...");
         progreso.show();
-        String url="http://192.168.0.13/encuestasWS/registroEncuesta.php";
+        String ip=getString(R.string.ip);
+        String url=ip+"registroEncuesta.php";
         url=url.replace(" ", "%20");
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
@@ -742,4 +781,461 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
                 beginTransaction().
                 replace(R.id.container, emp_pers_8_0_1).addToBackStack(null).commit();
     }
+
+    public void enviarEncuesta41(String idEncuesta){
+        emp_pers_8_0_2=new emp_pers_8_0_2();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_pers_8_0_2.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_pers_8_0_2).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta42(String idEncuesta){
+        emp_pers_8_0_3=new emp_pers_8_0_3();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_pers_8_0_3.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_pers_8_0_3).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta43(String idEncuesta){
+        emp_pers_8_0_5=new emp_pers_8_0_5();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_pers_8_0_5.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_pers_8_0_5).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta44(String idEncuesta){
+        emp_pers_8_0_7=new emp_pers_8_0_7();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_pers_8_0_7.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_pers_8_0_7).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta45(String idEncuesta){
+        emp_pers_8_0_9=new emp_pers_8_0_9();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_pers_8_0_9.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_pers_8_0_9).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta46(String idEncuesta){
+        emp_pers_8_0_10=new emp_pers_8_0_10();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_pers_8_0_10.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_pers_8_0_10).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta47(String idEncuesta){
+        emp_pers_8_0_11=new emp_pers_8_0_11();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_pers_8_0_11.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_pers_8_0_11).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta48(String idEncuesta){
+        emp_pers_8_0_12=new emp_pers_8_0_12();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_pers_8_0_12.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_pers_8_0_12).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta49(String idEncuesta){
+        org_9_0_1=new org_9_0_1();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        org_9_0_1.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, org_9_0_1).addToBackStack(null).commit();
+    }
+
+
+    public void enviarEncuesta50(String idEncuesta){
+        org_9_0_4=new org_9_0_4();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        org_9_0_4.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, org_9_0_4).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta51(String idEncuesta){
+        org_9_0_6=new org_9_0_6();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        org_9_0_6.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, org_9_0_6).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta52(String idEncuesta){
+        emp_econ_10_0_1=new emp_econ_10_0_1();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_econ_10_0_1.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_econ_10_0_1).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta53(String idEncuesta){
+        emp_econ_10_0_4=new emp_econ_10_0_4();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_econ_10_0_4.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_econ_10_0_4).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta54(String idEncuesta){
+        emp_econ_10_0_7=new emp_econ_10_0_7();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_econ_10_0_7.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_econ_10_0_7).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta55(String idEncuesta){
+        emp_econ_10_0_11=new emp_econ_10_0_11();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_econ_10_0_11.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_econ_10_0_11).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta56(String idEncuesta){
+        emp_econ_10_0_14=new emp_econ_10_0_14();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_econ_10_0_14.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_econ_10_0_14).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta57(String idEncuesta){
+        emp_econ_10_0_17=new emp_econ_10_0_17();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_econ_10_0_17.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_econ_10_0_17).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta58(String idEncuesta){
+        emp_econ_10_0_19=new emp_econ_10_0_19();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_econ_10_0_19.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_econ_10_0_19).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta59(String idEncuesta){
+        emp_econ_10_0_21=new emp_econ_10_0_21();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_econ_10_0_21.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_econ_10_0_21).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta60(String idEncuesta){
+        emp_lab_11_0_1=new emp_lab_11_0_1();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_lab_11_0_1.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_lab_11_0_1).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta61(String idEncuesta){
+        emp_lab_11_0_3=new emp_lab_11_0_3();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_lab_11_0_3.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_lab_11_0_3).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta62(String idEncuesta){
+        emp_lab_11_0_6=new emp_lab_11_0_6();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_lab_11_0_6.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_lab_11_0_6).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta63(String idEncuesta){
+        emp_lab_11_0_9=new emp_lab_11_0_9();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_lab_11_0_9.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_lab_11_0_9).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta64(String idEncuesta){
+        emp_lab_11_0_14=new emp_lab_11_0_14();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_lab_11_0_14.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_lab_11_0_14).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta65(String idEncuesta){
+        emp_lab_11_0_18=new emp_lab_11_0_18();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_lab_11_0_18.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_lab_11_0_18).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta66(String idEncuesta){
+        emp_lab_11_0_21=new emp_lab_11_0_21();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_lab_11_0_21.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_lab_11_0_21).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta67(String idEncuesta){
+        emp_lab_11_0_23=new emp_lab_11_0_23();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_lab_11_0_23.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_lab_11_0_23).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta68(String idEncuesta){
+        emp_lab_11_0_27=new emp_lab_11_0_27();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_lab_11_0_27.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_lab_11_0_27).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta69(String idEncuesta){
+        emp_lab_11_0_29=new emp_lab_11_0_29();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_lab_11_0_29.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_lab_11_0_29).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta70(String idEncuesta){
+        emp_lab_11_0_31=new emp_lab_11_0_31();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_lab_11_0_31.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_lab_11_0_31).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta71(String idEncuesta){
+        emp_lab_11_0_34=new emp_lab_11_0_34();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        emp_lab_11_0_34.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, emp_lab_11_0_34).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta72(String idEncuesta){
+        sat_muni_12_0_1=new sat_muni_12_0_1();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        sat_muni_12_0_1.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, sat_muni_12_0_1).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta73(String idEncuesta){
+        sat_muni_12_0_4=new sat_muni_12_0_4();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        sat_muni_12_0_4.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, sat_muni_12_0_4).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta74(String idEncuesta){
+        sat_muni_12_0_7=new sat_muni_12_0_7();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        sat_muni_12_0_7.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, sat_muni_12_0_7).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta75(String idEncuesta){
+        preg_eval_13_0_1=new preg_eval_13_0_1();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        preg_eval_13_0_1.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, preg_eval_13_0_1).addToBackStack(null).commit();
+    }
+    public void enviarEncuesta76(String idEncuesta){
+        preg_eval_13_0_3=new preg_eval_13_0_3();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        preg_eval_13_0_3.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, preg_eval_13_0_3).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta77(String idEncuesta){
+        obs_encuestador=new obs_encuestador();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        obs_encuestador.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, obs_encuestador).addToBackStack(null).commit();
+    }
+
+    public void enviarEncuesta78(String idEncuesta){
+        principal=new principal();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        principal.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, principal).addToBackStack(null).commit();
+    }
+
 }

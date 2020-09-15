@@ -8,6 +8,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers1123"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="XI EMPRENDEDURISMO LABORAL"
@@ -18,6 +25,12 @@
         android:layout_height="wrap_content"
         android:scrollbars="vertical">
         <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout1123"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -56,6 +69,7 @@
         </RadioGroup>
 
     </LinearLayout>
+        </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -92,7 +106,7 @@
 
                     android:text="Es un acuerdo hablado" />
                 <RadioButton
-                    android:id="@+id/RdOtro11.24"
+                    android:id="@+id/RdOtro1124"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -105,12 +119,12 @@
 
     </LinearLayout>
     <EditText
-        android:id="@+id/txtOtro11.24"
-        android:layout_width="match_parent"
+        android:id="@+id/txtOtro1124"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:hint="Resp..."
+        android:hint="Respuesta"
         />
     <TextView
         android:layout_width="match_parent"
@@ -119,12 +133,13 @@
         android:textStyle="bold"
         android:text="11.25 ¿Hasta el momento cuántos trabajos tuviste?"/>
     <EditText
-        android:id="@+id/txtResp.11.25"
+        android:id="@+id/txtResp1125"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:hint="Resp..."
+        android:inputType="number"
+        android:hint="Numero de trabajos"
         />
     <TextView
         android:layout_width="match_parent"
@@ -133,7 +148,7 @@
         android:textStyle="bold"
         android:text="11.26 Describe tus últimos dos trabajos"/>
     <EditText
-        android:id="@+id/txtTrabajo2"
+        android:id="@+id/txtTrabajo1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -141,7 +156,7 @@
         android:lines="3"
         android:hint="Trabajo 1..."/>
     <EditText
-        android:id="@+id/txtTrabajo1"
+        android:id="@+id/txtTrabajo2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"

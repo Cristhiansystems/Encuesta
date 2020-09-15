@@ -61,7 +61,7 @@
                     android:id="@+id/usarAnticonceptivoActualNosabe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No sabe/ no esta seguro(a)" />
+                    android:text="No sabes/ no estas seguro(a)" />
             </RadioGroup>
 
             <LinearLayout

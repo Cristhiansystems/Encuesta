@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="1.01 ¿Dime, cuál es tu nombre completo" />
+        android:text="1.01 ¿Cuál es tu nombre completo" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="3.05 Tienes servicio sanitario, baño, letrina" />
+        android:text="3.05 Tienen servicio sanitario, baño, letrina" />
 
     <RadioGroup
         android:layout_width="match_parent"

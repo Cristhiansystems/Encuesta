@@ -1,14 +1,36 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -47,6 +69,26 @@ public class org_9_0_4 extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+    TextView idFragment;
+
+    EditText txtrespuesta;
+    String idEncuesta, respuesta;
+    Integer organizacion, cargo;
+    RadioButton rdSi, rdNo;
+    LinearLayout display, display94;
+
+    //volley
+
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
+    //
+    //
+
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     // TODO: Rename and change types and number of parameters
     public static org_9_0_4 newInstance(String param1, String param2) {
         org_9_0_4 fragment = new org_9_0_4();
@@ -72,34 +114,142 @@ public class org_9_0_4 extends Fragment {
         // Inflate the layout for this fragment
        vista=inflater.inflate(R.layout.fragment_org_9_0_4, container, false);
 
-
-
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente47);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras47);
+        idFragment=(TextView) vista.findViewById(R.id.idemppers94);
+        txtrespuesta=(EditText) vista.findViewById(R.id.Resp94);
+        display=(LinearLayout) vista.findViewById(R.id.layout94);
+        display94=(LinearLayout) vista.findViewById(R.id.layout904);
 
+        rdSi=(RadioButton) vista.findViewById(R.id.Si95);
+        rdNo=(RadioButton) vista.findViewById(R.id.No95);
+        display.setVisibility(View.INVISIBLE);
+        display.setVisibility(View.GONE);
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+
+        }
+
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new org_9_0_6();
-
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            String pantalla="Siguiente";
+            actualizar(pantalla);
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new org_9_0_1();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            String pantalla="Atras";
+            actualizar(pantalla);
         });
         return vista;
     }
 
+    private void cargarWebServices() {
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                respuesta = jsonObject.optString("respuesta_lider");
+                organizacion = jsonObject.optInt("conoces_organizaciones_ayuda_jovenes");
+
+                //otro fragment
+                cargo = jsonObject.optInt("ocupaste_cargo_agrupacion");
+
+                if(cargo==2){
+                    display94.setVisibility(View.INVISIBLE);
+                    display94.setVisibility(View.GONE);
+                }
+
+                if(organizacion==1){
+                    rdSi.setChecked(true);
+                }else if(organizacion==2){
+                    rdNo.setChecked(true);
+                }
+
+                txtrespuesta.setText(respuesta.toString());
+
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void actualizar(String pantalla) {
+        String ip=getString(R.string.ip);
+        String url=ip+"actualiza94.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+                    interfaceComunicaFragments.enviarEncuesta51(idFragment.getText().toString());
+
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta49(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id = idFragment.getText().toString();
+
+                String respuesta=txtrespuesta.getText().toString();
+                String estudio="0";
+
+                if(rdSi.isChecked()){
+                    estudio="1";
+                }else if(rdNo.isChecked()){
+                    estudio="2";
+                }
+
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", id);
+
+                parametros.put("respuesta", respuesta);
+                parametros.put("estudio", estudio);
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -109,6 +259,12 @@ public class org_9_0_4 extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;

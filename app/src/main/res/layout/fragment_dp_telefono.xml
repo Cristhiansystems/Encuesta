@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="1.06 ¿Puedes darme tu número de teléfono?" />
+        android:text="1.06 ¿Puedes anotar tu número de teléfono?" />
 
 
     <LinearLayout
@@ -90,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="1.07 ¿Tiene Hijos?" />
+        android:text="1.07.01 ¿Tiene Hijos?" />
 
     <RadioGroup
         android:layout_width="wrap_content"
@@ -118,14 +118,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="50dp"
         >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="Numero de Hijos" />
+            android:text="1.07.02 ¿Cuantos?" />
 
 
         <EditText

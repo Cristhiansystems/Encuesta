@@ -60,7 +60,7 @@ public class ssr_decidir_embarazo extends Fragment {
     RadioButton rdPlanificarEmbarazo, rdMasTiempo, rdNoHijos, rdOtro;
     EditText txtOtro;
     String idEncuesta, otroDecidirEmbarazo;
-    Integer desicidirEmbarazo;
+    Integer desicidirEmbarazo, embarazada;
 
     //volley
 
@@ -151,13 +151,18 @@ public class ssr_decidir_embarazo extends Fragment {
     }
 
     private void actualizar(String pantalla) {
-        String url="http://192.168.0.13/encuestasWS/actualizaDecidirEmbarazo.php?";
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizaDecidirEmbarazo.php?";
 
         stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             if (response.trim().equalsIgnoreCase("actualiza")) {
                 if(pantalla=="Siguiente"){
+                    if(embarazada==1){
+                        interfaceComunicaFragments.enviarEncuesta29(idFragment.getText().toString());
+                    }else{
+                        interfaceComunicaFragments.enviarEncuesta28(idFragment.getText().toString());
+                    }
 
-                    interfaceComunicaFragments.enviarEncuesta28(idFragment.getText().toString());
                 }else if(pantalla=="Atras"){
                     interfaceComunicaFragments.enviarEncuesta26(idFragment.getText().toString());
 
@@ -205,8 +210,8 @@ public class ssr_decidir_embarazo extends Fragment {
     }
 
     private void cargarWebServices() {
-
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             JSONArray json = response.optJSONArray("usuario");
@@ -218,6 +223,7 @@ public class ssr_decidir_embarazo extends Fragment {
                 desicidirEmbarazo = jsonObject.optInt("desicion_embarazo");
                 otroDecidirEmbarazo = jsonObject.optString("otro_desicion_embarazo");
 
+                embarazada = jsonObject.optInt("embarazo");
 
 
                 if (desicidirEmbarazo == 1) {

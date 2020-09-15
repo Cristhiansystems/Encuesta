@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="2.09 ¿Puedes detallar en qué gasta el dinero principalmente" />
+        android:text="2.09 ¿Puedes detallar en qué se gasta el dinero en" />
 
     <TextView
         android:layout_width="match_parent"
@@ -328,26 +328,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="2.10 ¿Como te enteraste del proyecto?" />
+        android:text="2.10 ¿Cómo te enteraste del PROGRAMA 'ADOLECENTES PROTAGONISTAS DEL DESARROLLO'?" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="¿Cómo te enteraste del proyecto?"/>
 
         <EditText
             android:id="@+id/txtenterarProyecto"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:hint="Respuesta"
+
             />
 
 

@@ -17,16 +17,21 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -63,6 +68,7 @@ public class v_violencia_pareja extends Fragment {
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -168,19 +174,196 @@ public class v_violencia_pareja extends Fragment {
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta38(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta36(idFragment.getText().toString());
         });
         return vista;
     }
-    private void cargarWebServices() {
 
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+    private void actualizar(String pantalla) {
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizarViolenciaPareja.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+                    if(rdinfielNC.isChecked() && rdcelosNC.isChecked() && rdrevisarCelularNC.isChecked() && rdlimitarFamiliaNC.isChecked() && rdinsultarPublicoNC.isChecked() && rdamenazaAbandonarteNC.isChecked() && rdamenazaAbandonarteNC.isChecked() && rdquitarHijosNC.isChecked() && rdamenazaEconomicaNC.isChecked() && rdrompreObjetosNC.isChecked() && rdotroNC.isChecked()){
+
+                        interfaceComunicaFragments.enviarEncuesta39(idFragment.getText().toString());
+                    }else{
+                        interfaceComunicaFragments.enviarEncuesta38(idFragment.getText().toString());
+                    }
+
+
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta36(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id = idFragment.getText().toString();
+                String infiel = "0";
+                if (rdinfielMM.isChecked()) {
+                    infiel = "1";
+                } else if (rdinfielAV.isChecked()) {
+                    infiel = "2";
+                }else if (rdinfielN.isChecked()) {
+                    infiel = "3";
+                }else if (rdinfielNC.isChecked()) {
+                    infiel = "4";
+                }
+
+
+                String celos = "0";
+                if (rdcelosMM.isChecked()) {
+                    celos = "1";
+                } else if (rdcelosAV.isChecked()) {
+                    celos = "2";
+                }else if (rdcelosN.isChecked()) {
+                    celos = "3";
+                }else if (rdcelosNC.isChecked()) {
+                    celos = "4";
+                }
+
+
+                String revisaCelular = "0";
+                if (rdrevisarCelularMM.isChecked()) {
+                    revisaCelular = "1";
+                } else if (rdrevisarCelularAV.isChecked()) {
+                    revisaCelular = "2";
+                }else if (rdrevisarCelularN.isChecked()) {
+                    revisaCelular = "3";
+                }else if (rdrevisarCelularNC.isChecked()) {
+                    revisaCelular = "4";
+                }
+
+                String limitarFamilia = "0";
+                if (rdlimitarFamiliaMM.isChecked()) {
+                    limitarFamilia = "1";
+                } else if (rdlimitarFamiliaAV.isChecked()) {
+                    limitarFamilia = "2";
+                }else if (rdlimitarFamiliaN.isChecked()) {
+                    limitarFamilia = "3";
+                }else if (rdlimitarFamiliaNC.isChecked()) {
+                    limitarFamilia = "4";
+                }
+
+
+                String insultaPublico = "0";
+                if (rdinsultarPublicoMM.isChecked()) {
+                    insultaPublico = "1";
+                } else if (rdinsultarPublicoAV.isChecked()) {
+                    insultaPublico = "2";
+                }else if (rdinsultarPublicoN.isChecked()) {
+                    insultaPublico = "3";
+                }else if (rdinsultarPublicoNC.isChecked()) {
+                    insultaPublico = "4";
+                }
+
+                String amenazaAbandono = "0";
+                if (rdamenazaAbandonarteMM.isChecked()) {
+                    amenazaAbandono = "1";
+                } else if (rdamenazaAbandonarteAV.isChecked()) {
+                    amenazaAbandono = "2";
+                }else if (rdamenazaAbandonarteN.isChecked()) {
+                    amenazaAbandono = "3";
+                }else if (rdamenazaAbandonarteNC.isChecked()) {
+                    amenazaAbandono = "4";
+                }
+
+
+                String quitarHijos = "0";
+                if (rdquitarHijosMM.isChecked()) {
+                    quitarHijos = "1";
+                } else if (rdquitarHijosAV.isChecked()) {
+                    quitarHijos = "2";
+                }else if (rdquitarHijosN.isChecked()) {
+                    quitarHijos = "3";
+                }else if (rdquitarHijosNC.isChecked()) {
+                    quitarHijos = "4";
+                }
+
+                String amenazaEconomico = "0";
+                if (rdamenazaEconomicaMM.isChecked()) {
+                    amenazaEconomico = "1";
+                } else if (rdamenazaEconomicaAV.isChecked()) {
+                    amenazaEconomico = "2";
+                }else if (rdamenazaEconomicaN.isChecked()) {
+                    amenazaEconomico = "3";
+                }else if (rdamenazaEconomicaNC.isChecked()) {
+                    amenazaEconomico = "4";
+                }
+
+                String romperObjetos = "0";
+                if (rdrompeObjetosMM.isChecked()) {
+                    romperObjetos = "1";
+                } else if (rdrompeObjetosAV.isChecked()) {
+                    romperObjetos = "2";
+                }else if (rdrompeObjetosN.isChecked()) {
+                    romperObjetos = "3";
+                }else if (rdrompreObjetosNC.isChecked()) {
+                    romperObjetos = "4";
+                }
+
+                String otro = "0";
+                if (rdotroMM.isChecked()) {
+                    otro = "1";
+                } else if (rdotroAV.isChecked()) {
+                    otro = "2";
+                }else if (rdotroN.isChecked()) {
+                    otro = "3";
+                }else if (rdotroNC.isChecked()) {
+                    otro = "4";
+                }
+
+
+                String otroViolenciaPareja= txtOtro.getText().toString();
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", id);
+                parametros.put("infiel", infiel);
+                parametros.put("celos", celos);
+                parametros.put("revisaCelular", revisaCelular);
+                parametros.put("limitarFamilia", limitarFamilia);
+                parametros.put("insultaPublico", insultaPublico);
+                parametros.put("amenazaAbandono", amenazaAbandono);
+                parametros.put("quitarHijos", quitarHijos);
+                parametros.put("amenazaEconomico", amenazaEconomico);
+                parametros.put("romperObjetos", romperObjetos);
+                parametros.put("otro", otro);
+                parametros.put("otroViolenciaPareja", otroViolenciaPareja);
+
+
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+    }
+
+    private void cargarWebServices() {
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 

@@ -8,6 +8,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers1301"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="PREGUNTAS DE EVALUACION A MEDIO TERMINO Y FINAL"
@@ -33,7 +40,7 @@
         android:layout_marginLeft="20dp"
         android:orientation="horizontal">
         <EditText
-            android:id="@+id/txtResp13.01"
+            android:id="@+id/txtResp1301"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -130,7 +137,7 @@
         android:layout_marginLeft="20dp"
         android:orientation="horizontal">
         <EditText
-            android:id="@+id/txtResp13.2.2"
+            android:id="@+id/txtResp1322"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -157,7 +164,7 @@
         android:layout_marginLeft="20dp"
         android:orientation="horizontal">
         <EditText
-            android:id="@+id/txtResp13.2.3"
+            android:id="@+id/txtResp1323"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"

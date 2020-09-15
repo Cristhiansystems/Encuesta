@@ -8,6 +8,14 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers1118"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="XI EMPRENDEDURISMO LABORAL"
@@ -242,14 +250,14 @@
             >
 
             <RadioButton
-                android:id="@+id/OtroSi11.18"
+                android:id="@+id/OtroSi1118"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/OtroNo11.18"
+                android:id="@+id/OtroNo1118"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -258,10 +266,10 @@
 
     </LinearLayout>
     <EditText
-        android:id="@+id/txtOtro11.18"
-        android:layout_width="match_parent"
+        android:id="@+id/txtOtro1118"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:hint="Resp..."
+        android:hint="(Especificar)"
         />
     <TextView
         android:layout_width="match_parent"
@@ -298,6 +306,12 @@
                 android:text="NO" />
         </RadioGroup>
     </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout1120"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -305,18 +319,19 @@
         android:textStyle="bold"
         android:text="11.20 Menciona la razon por la que no realizaste algun curso qué?"/>
     <EditText
-        android:id="@+id/txtResp.11.15"
+        android:id="@+id/txtResp1120"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="2"
-        android:hint="Resp..."/>
+        android:lines="3"
+        android:hint="Respuesta"/>
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:orientation="horizontal"
         android:layout_marginBottom="15dp">
-        >
+
         <Button
             android:id="@+id/btnAtras62"
             android:layout_width="wrap_content"

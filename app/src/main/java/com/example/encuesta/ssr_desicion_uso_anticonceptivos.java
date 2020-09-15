@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,8 +60,8 @@ public class ssr_desicion_uso_anticonceptivos extends Fragment{
     TextView idFragment;
     RadioButton rdTuya, rdTuPareja, rdDesicionConjunta, rdEmbarazadaSi, rdEmbarazadaNo, rdEmbazadaNoSabe;
     String idEncuesta;
-    Integer desicionAnticonceptivo, embarazada;
-
+    Integer desicionAnticonceptivo, embarazada,UsarAnticonceptivoActual;
+    LinearLayout display;
     //volley
 
     ProgressDialog progreso;
@@ -121,7 +122,7 @@ public class ssr_desicion_uso_anticonceptivos extends Fragment{
         rdEmbarazadaSi=(RadioButton) vista.findViewById(R.id.embarazoSi);
         rdEmbarazadaNo=(RadioButton) vista.findViewById(R.id.embarazoNo);
         rdEmbazadaNoSabe=(RadioButton) vista.findViewById(R.id.embarazoNosabe);
-
+        display=(LinearLayout) vista.findViewById(R.id.layout59);
         Bundle data=getArguments();
 
         if(data!=null){
@@ -135,6 +136,7 @@ public class ssr_desicion_uso_anticonceptivos extends Fragment{
         request= Volley.newRequestQueue(getContext());
         //aqui se llama al web services
         cargarWebServices();
+
         btnSiguiente.setOnClickListener(v -> {
             String pantalla="Siguiente";
             actualizar(pantalla);
@@ -150,16 +152,24 @@ public class ssr_desicion_uso_anticonceptivos extends Fragment{
     }
 
     private void actualizar(String pantalla) {
-        String url="http://192.168.0.13/encuestasWS/actualizaDesicionUsoAnticonceptivo.php?";
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizaDesicionUsoAnticonceptivo.php?";
 
         stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             if (response.trim().equalsIgnoreCase("actualiza")) {
                 if(pantalla=="Siguiente"){
+                    if (rdEmbarazadaNo.isChecked() || rdEmbazadaNoSabe.isChecked()){
+                        interfaceComunicaFragments.enviarEncuesta28(idFragment.getText().toString());
+                    }else{
+                        interfaceComunicaFragments.enviarEncuesta27(idFragment.getText().toString());
+                    }
 
-                    interfaceComunicaFragments.enviarEncuesta27(idFragment.getText().toString());
                 }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta25(idFragment.getText().toString());
-
+                    if(UsarAnticonceptivoActual==1){
+                        interfaceComunicaFragments.enviarEncuesta24(idFragment.getText().toString());
+                    }else{
+                        interfaceComunicaFragments.enviarEncuesta25(idFragment.getText().toString());
+                    }
                 }
 
             } else {
@@ -209,8 +219,8 @@ public class ssr_desicion_uso_anticonceptivos extends Fragment{
     }
 
     private void cargarWebServices() {
-
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
@@ -223,7 +233,14 @@ public class ssr_desicion_uso_anticonceptivos extends Fragment{
                 desicionAnticonceptivo = jsonObject.optInt("desicion_uso_anticonceptivo");
                 embarazada = jsonObject.optInt("embarazo");
 
+                UsarAnticonceptivoActual = jsonObject.optInt("usa_anticonceptivo_actualmente");
 
+                if(UsarAnticonceptivoActual==2 || UsarAnticonceptivoActual==3){
+                    display.setVisibility(View.INVISIBLE);
+                    display.setVisibility(View.GONE);
+                }else{
+                    display.setVisibility(View.VISIBLE);
+                }
 
                 if (desicionAnticonceptivo == 1) {
                     rdTuya.setChecked(true);
@@ -252,6 +269,7 @@ public class ssr_desicion_uso_anticonceptivos extends Fragment{
             Log.i("ERROR: ", error.toString());
         });
         request.add(jsonObjectRequest);
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

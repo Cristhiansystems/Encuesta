@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,7 +61,7 @@ public class ssr_no_anticonceptivo extends Fragment {
     EditText txtRespuesta, txtOtro;
     String idEncuesta, respuesta, otroNoAnticonceptivoNombre;
     Integer economico, deseoHijos, causanDanoMujer, condonNoMismo, noceUsan, otro;
-
+    LinearLayout display;
     //volley
 
     ProgressDialog progreso;
@@ -130,7 +131,9 @@ public class ssr_no_anticonceptivo extends Fragment {
 
         txtOtro=(EditText) vista.findViewById(R.id.txtotroNoAnticonceptivo);
         txtRespuesta=(EditText) vista.findViewById(R.id.txtrespuestaNoAnticonceptivo);
-
+        display=(LinearLayout) vista.findViewById(R.id.layoutnoanticonceptivo);
+        display.setVisibility(View.INVISIBLE);
+        display.setVisibility(View.GONE);
         Bundle data=getArguments();
 
         if(data!=null){
@@ -159,7 +162,8 @@ public class ssr_no_anticonceptivo extends Fragment {
     }
 
     private void actualizar(String pantalla) {
-        String url="http://192.168.0.13/encuestasWS/actualizaNoAnticonceptivo.php?";
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizaNoAnticonceptivo.php?";
 
         stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             if (response.trim().equalsIgnoreCase("actualiza")) {
@@ -251,8 +255,8 @@ public class ssr_no_anticonceptivo extends Fragment {
     }
 
     private void cargarWebServices() {
-
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 

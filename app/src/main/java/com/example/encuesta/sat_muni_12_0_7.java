@@ -1,14 +1,34 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -47,6 +67,26 @@ public class sat_muni_12_0_7 extends Fragment {
     Button btnSiguiente;
     Button btnAtras;
     View vista;
+
+    TextView idFragment;
+    String idEncuesta;
+    Integer empleoJuvenil, empleoJuvenilSatisfaccion, empoderacionPersonal, empoderacionPersonalSatisfaccion, negocioJuvenil, negocioJuvenilSatisfaccion, intervencionDefensoria, intervencionDefensoriaSatisfaccion;
+    RadioButton rdempleoJuvenilSi, rdempleoJuvenilNo, rdempleoJuvenilMS, rdempleoJuvenilS, rdempleoJuvenilI, rdempleoJuvenilIn, rdempleoJuvenilMIn;
+    RadioButton rdempoderacionPersonalSi, rdempoderacionPersonalNo, rdempoderacionPersonalMS, rdempoderacionPersonalS, rdempoderacionPersonalI, rdempoderacionPersonalIn, rdempoderacionPersonalMIn;
+    RadioButton rdnegocioJuvenilSi, rdnegocioJuvenilNo, rdnegocioJuvenilMS, rdnegocioJuvenilS, rdnegocioJuvenilI, rdnegocioJuvenilIn, rdnegocioJuvenilMIn;
+    RadioButton rdintervencionDefensoriaSi, rdintervencionDefensoriaNo, rdintervencionDefensoriaMS, rdintervencionDefensoriaS, rdintervencionDefensoriaI, rdintervencionDefensoriaIn, rdintervencionDefensoriaMIn;
+
+    //volley
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
+    //
+    //
+
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
     // TODO: Rename and change types and number of parameters
     public static sat_muni_12_0_7 newInstance(String param1, String param2) {
         sat_muni_12_0_7 fragment = new sat_muni_12_0_7();
@@ -74,27 +114,314 @@ public class sat_muni_12_0_7 extends Fragment {
         btnSiguiente= (Button) vista.findViewById(R.id.btnSiguiente71);
         btnAtras= (Button) vista.findViewById(R.id.btnAtras71);
 
+        idFragment=(TextView) vista.findViewById(R.id.idemppers1207);
+
+
+        rdempleoJuvenilSi=(RadioButton) vista.findViewById(R.id.RdSiProgramasApoyoEmpleoJuvenil);
+        rdempleoJuvenilNo=(RadioButton) vista.findViewById(R.id.RdNoProgramasApoyoEmpleoJuvenil);
+        rdempleoJuvenilMS=(RadioButton) vista.findViewById(R.id.RdMuySatisfecho1207);
+        rdempleoJuvenilS=(RadioButton) vista.findViewById(R.id.RdSatisfecho1207);
+        rdempleoJuvenilI=(RadioButton) vista.findViewById(R.id.RdIndiferente1207);
+        rdempleoJuvenilIn=(RadioButton) vista.findViewById(R.id.RdInsatisfecho1207);
+        rdempleoJuvenilMIn=(RadioButton) vista.findViewById(R.id.RdMuyInsatisfecho1207);
+
+
+
+        rdempoderacionPersonalSi=(RadioButton) vista.findViewById(R.id.RdSiEmpoderamientoPersonal);
+        rdempoderacionPersonalNo=(RadioButton) vista.findViewById(R.id.RdNoEmpoderamientoPersonal);
+        rdempoderacionPersonalMS=(RadioButton) vista.findViewById(R.id.RdMuySatisfecho1208);
+        rdempoderacionPersonalS=(RadioButton) vista.findViewById(R.id.RdSatisfecho1208);
+        rdempoderacionPersonalI=(RadioButton) vista.findViewById(R.id.RdIndiferente1208);
+        rdempoderacionPersonalIn=(RadioButton) vista.findViewById(R.id.RdInsatisfecho1208);
+        rdempoderacionPersonalMIn=(RadioButton) vista.findViewById(R.id.RdMuyInsatisfecho1208);
+
+
+        rdnegocioJuvenilSi=(RadioButton) vista.findViewById(R.id.RdSiProgramasApoyoCreacionNegocios);
+        rdnegocioJuvenilNo=(RadioButton) vista.findViewById(R.id.RdNoProgramasApoyoCreacionNegocios);
+        rdnegocioJuvenilMS=(RadioButton) vista.findViewById(R.id.RdMuySatisfecho1209);
+        rdnegocioJuvenilS=(RadioButton) vista.findViewById(R.id.RdSatisfecho1209);
+        rdnegocioJuvenilI=(RadioButton) vista.findViewById(R.id.RdIndiferente1209);
+        rdnegocioJuvenilIn=(RadioButton) vista.findViewById(R.id.RdInsatisfecho1209);
+        rdnegocioJuvenilMIn=(RadioButton) vista.findViewById(R.id.RdMuyInsatisfecho1209);
+
+
+        rdintervencionDefensoriaSi=(RadioButton) vista.findViewById(R.id.RdSiIntervencionesDefensoria);
+        rdintervencionDefensoriaNo=(RadioButton) vista.findViewById(R.id.RdNoIntervencionesDefensoria);
+        rdintervencionDefensoriaMS=(RadioButton) vista.findViewById(R.id.RdMuySatisfecho1210);
+        rdintervencionDefensoriaS=(RadioButton) vista.findViewById(R.id.RdSatisfecho1210);
+        rdintervencionDefensoriaI=(RadioButton) vista.findViewById(R.id.RdIndiferente1210);
+        rdintervencionDefensoriaIn=(RadioButton) vista.findViewById(R.id.RdInsatisfecho1210);
+        rdintervencionDefensoriaMIn=(RadioButton) vista.findViewById(R.id.RdMuyInsatisfecho1210);
+
+        Bundle data=getArguments();
+
+        if(data!=null){
+
+            idFragment.setText(data.getString("idEncuesta"));
+
+
+        }
+
+        //Aqui empieza el volley
+        request= Volley.newRequestQueue(getContext());
+        //aqui se llama al web services
+        cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new preg_eval_13_0_1();
-
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            String pantalla="Siguiente";
+            actualizar(pantalla);
         });
 
         btnAtras.setOnClickListener(v -> {
 
-            Fragment miFragment=null;
-            miFragment=new sat_muni_12_0_4();
-            transaction=getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,miFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            String pantalla="Atras";
+            actualizar(pantalla);
         });
         return vista;
+    }
+
+    private void cargarWebServices() {
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json = response.optJSONArray("usuario");
+            JSONObject jsonObject = null;
+
+            try {
+                jsonObject = json.getJSONObject(0);
+                idEncuesta = jsonObject.optString("encuesta_emt");
+                empleoJuvenil = jsonObject.optInt("empleo_juvenil");
+                empleoJuvenilSatisfaccion = jsonObject.optInt("empleo_juvenil_satisfaccion");
+                empoderacionPersonal = jsonObject.optInt("empoderamiento_personal");
+                empoderacionPersonalSatisfaccion = jsonObject.optInt("empoderamiento_persona_satisfaccion");
+                negocioJuvenil = jsonObject.optInt("negocio_juvenil");
+                negocioJuvenilSatisfaccion = jsonObject.optInt("negocio_juvenil_satisfaccion");
+
+                intervencionDefensoria = jsonObject.optInt("intervencion_defensoria");
+                intervencionDefensoriaSatisfaccion = jsonObject.optInt("intervencion_defensoria_satisfaccion");
+
+
+                if(empleoJuvenil==1){
+                    rdempleoJuvenilSi.setChecked(true);
+                }else if(empleoJuvenil==2){
+                    rdempleoJuvenilNo.setChecked(true);
+                }
+
+                if(empleoJuvenilSatisfaccion==1){
+                    rdempleoJuvenilMS.setChecked(true);
+                }else if(empleoJuvenilSatisfaccion==2){
+                    rdempleoJuvenilS.setChecked(true);
+                }else if(empleoJuvenilSatisfaccion==3){
+                    rdempleoJuvenilI.setChecked(true);
+                }else if(empleoJuvenilSatisfaccion==4){
+                    rdempleoJuvenilIn.setChecked(true);
+                }else if(empleoJuvenilSatisfaccion==5){
+                    rdempleoJuvenilMIn.setChecked(true);
+                }
+
+                if(empoderacionPersonal==1){
+                    rdempoderacionPersonalSi.setChecked(true);
+                }else if(empoderacionPersonal==2){
+                    rdempoderacionPersonalNo.setChecked(true);
+                }
+
+                if(empoderacionPersonalSatisfaccion==1){
+                    rdempoderacionPersonalMS.setChecked(true);
+                }else if(empoderacionPersonalSatisfaccion==2){
+                    rdempoderacionPersonalS.setChecked(true);
+                }else if(empoderacionPersonalSatisfaccion==3){
+                    rdempoderacionPersonalI.setChecked(true);
+                }else if(empoderacionPersonalSatisfaccion==4){
+                    rdempoderacionPersonalIn.setChecked(true);
+                }else if(empoderacionPersonalSatisfaccion==5){
+                    rdempoderacionPersonalMIn.setChecked(true);
+                }
+
+                if(negocioJuvenil==1){
+                    rdnegocioJuvenilSi.setChecked(true);
+                }else if(negocioJuvenil==2){
+                    rdnegocioJuvenilNo.setChecked(true);
+                }
+
+                if(negocioJuvenilSatisfaccion==1){
+                    rdnegocioJuvenilMS.setChecked(true);
+                }else if(negocioJuvenilSatisfaccion==2){
+                    rdnegocioJuvenilS.setChecked(true);
+                }else if(negocioJuvenilSatisfaccion==3){
+                    rdnegocioJuvenilI.setChecked(true);
+                }else if(negocioJuvenilSatisfaccion==4){
+                    rdnegocioJuvenilIn.setChecked(true);
+                }else if(negocioJuvenilSatisfaccion==5){
+                    rdnegocioJuvenilMIn.setChecked(true);
+                }
+
+                if(intervencionDefensoria==1){
+                    rdintervencionDefensoriaSi.setChecked(true);
+                }else if(intervencionDefensoria==2){
+                    rdintervencionDefensoriaNo.setChecked(true);
+                }
+
+                if(intervencionDefensoriaSatisfaccion==1){
+                    rdintervencionDefensoriaMS.setChecked(true);
+                }else if(intervencionDefensoriaSatisfaccion==2){
+                    rdintervencionDefensoriaS.setChecked(true);
+                }else if(intervencionDefensoriaSatisfaccion==3){
+                    rdintervencionDefensoriaI.setChecked(true);
+                }else if(intervencionDefensoriaSatisfaccion==4){
+                    rdintervencionDefensoriaIn.setChecked(true);
+                }else if(intervencionDefensoriaSatisfaccion==5){
+                    rdintervencionDefensoriaMIn.setChecked(true);
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void actualizar(String pantalla) {
+        String ip=getString(R.string.ip);
+        String url=ip+"actualiza1207.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+
+                    interfaceComunicaFragments.enviarEncuesta75(idFragment.getText().toString());
+
+                }else if(pantalla=="Atras"){
+
+                    interfaceComunicaFragments.enviarEncuesta73(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id = idFragment.getText().toString();
+
+
+
+                String empleoJuvenil="0";
+                if(rdempleoJuvenilSi.isChecked()){
+                    empleoJuvenil="1";
+                }else if(rdempleoJuvenilNo.isChecked()){
+                    empleoJuvenil="2";
+                }
+
+
+                String empleoJuvenilSatisfaccion="0";
+                if(rdempleoJuvenilMS.isChecked()){
+                    empleoJuvenilSatisfaccion="1";
+
+                }else if(rdempleoJuvenilS.isChecked()){
+                    empleoJuvenilSatisfaccion="2";
+                }else if(rdempleoJuvenilI.isChecked()){
+                    empleoJuvenilSatisfaccion="3";
+                }else if(rdempleoJuvenilIn.isChecked()){
+                    empleoJuvenilSatisfaccion="4";
+                }else if(rdempleoJuvenilMIn.isChecked()){
+                    empleoJuvenilSatisfaccion="5";
+                }
+
+
+                String empoderamientoPersonal="0";
+                if(rdempoderacionPersonalSi.isChecked()){
+                    empoderamientoPersonal="1";
+                }else if(rdempoderacionPersonalNo.isChecked()){
+                    empoderamientoPersonal="2";
+                }
+
+                String empoderamientoPersonalSatisfaccion="0";
+                if(rdempoderacionPersonalMS.isChecked()){
+                    empoderamientoPersonalSatisfaccion="1";
+
+                }else if(rdempoderacionPersonalS.isChecked()){
+                    empoderamientoPersonalSatisfaccion="2";
+                }else if(rdempoderacionPersonalI.isChecked()){
+                    empoderamientoPersonalSatisfaccion="3";
+                }else if(rdempoderacionPersonalIn.isChecked()){
+                    empoderamientoPersonalSatisfaccion="4";
+                }else if(rdempoderacionPersonalMIn.isChecked()){
+                    empoderamientoPersonalSatisfaccion="5";
+                }
+
+                String negocioJuvenil="0";
+                if(rdnegocioJuvenilSi.isChecked()){
+                    negocioJuvenil="1";
+                }else if(rdnegocioJuvenilNo.isChecked()){
+                    negocioJuvenil="2";
+                }
+
+                String negocioJuvenilSatisfaccion="0";
+                if(rdnegocioJuvenilMS.isChecked()){
+                    negocioJuvenilSatisfaccion="1";
+
+                }else if(rdnegocioJuvenilS.isChecked()){
+                    negocioJuvenilSatisfaccion="2";
+                }else if(rdnegocioJuvenilI.isChecked()){
+                    negocioJuvenilSatisfaccion="3";
+                }else if(rdnegocioJuvenilIn.isChecked()){
+                    negocioJuvenilSatisfaccion="4";
+                }else if(rdnegocioJuvenilMIn.isChecked()){
+                    negocioJuvenilSatisfaccion="5";
+                }
+
+                String intervencionDefensoria="0";
+                if(rdintervencionDefensoriaSi.isChecked()){
+                    intervencionDefensoria="1";
+                }else if(rdintervencionDefensoriaNo.isChecked()){
+                    intervencionDefensoria="2";
+                }
+
+                String intervecionDefensoriaSatisfaccion="0";
+                if(rdintervencionDefensoriaMS.isChecked()){
+                    intervecionDefensoriaSatisfaccion="1";
+
+                }else if(rdintervencionDefensoriaS.isChecked()){
+                    intervecionDefensoriaSatisfaccion="2";
+                }else if(rdintervencionDefensoriaI.isChecked()){
+                    intervecionDefensoriaSatisfaccion="3";
+                }else if(rdintervencionDefensoriaIn.isChecked()){
+                    intervecionDefensoriaSatisfaccion="4";
+                }else if(rdintervencionDefensoriaMIn.isChecked()){
+                    intervecionDefensoriaSatisfaccion="5";
+                }
+
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", id);
+
+                parametros.put("empleoJuvenil", empleoJuvenil);
+                parametros.put("empleoJuvenilSatisfaccion", empleoJuvenilSatisfaccion);
+                parametros.put("empoderamientoPersonal", empoderamientoPersonal);
+                parametros.put("empoderamientoPersonalSatisfaccion", empoderamientoPersonalSatisfaccion);
+                parametros.put("negocioJuvenil", negocioJuvenil);
+                parametros.put("negocioJuvenilSatisfaccion", negocioJuvenilSatisfaccion);
+                parametros.put("intervencionDefensoria", intervencionDefensoria);
+                parametros.put("intervecionDefensoriaSatisfaccion", intervecionDefensoriaSatisfaccion);
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -106,6 +433,12 @@ public class sat_muni_12_0_7 extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;

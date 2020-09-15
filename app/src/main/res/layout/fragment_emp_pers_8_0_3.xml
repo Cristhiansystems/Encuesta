@@ -6,7 +6,13 @@
     android:orientation="vertical"
     tools:context=".emp_pers_8_0_3">
 
-
+    <TextView
+        android:id="@+id/idemppers803"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,57 +27,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout83"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="8.03 ¿Realizaste tu Plan de Desarrollo Personal/ Proyecto o Plan de Vida?" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:background="@color/botonSig"
-
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="12"
-            android:text="" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textColor="@color/colorLetra"
-            android:text="SI" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textColor="@color/colorLetra"
-            android:text="NO" />
 
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Hago lo que mis amigos y mi familia me dicen" />
 
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="50dp"
             >
 
             <RadioButton
@@ -87,9 +61,13 @@
                 android:layout_height="wrap_content"
                 android:text="NO" />
         </RadioGroup>
-    </LinearLayout>
 
-
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout84"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -99,15 +77,15 @@
 
 
         <EditText
-            android:id="@+id/txtOtro8.04"
+            android:id="@+id/txtOtro804"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="4"
-            android:hint="Resp..."
+            android:hint="Respuesta"
 
             />
 
-
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

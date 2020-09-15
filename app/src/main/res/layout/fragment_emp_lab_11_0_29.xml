@@ -8,6 +8,14 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers1129"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="XI EMPRENDEDURISMO LABORAL"
@@ -75,9 +83,9 @@
             android:layout_weight="1"
             android:text="Estudios"/>
         <EditText
-            android:id="@+id/txtEstudios"
+            android:id="@+id/txtEstudios29"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginLeft="60dp"
             android:layout_weight="1.5"
             />
@@ -87,7 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
@@ -96,9 +104,9 @@
             android:layout_weight="1"
             android:text="Ropa"/>
         <EditText
-            android:id="@+id/txtRopa"
+            android:id="@+id/txtRopa29"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginLeft="60dp"
             android:layout_weight="1.5"
             />
@@ -109,7 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
@@ -118,9 +126,9 @@
             android:layout_weight="1"
             android:text="Alimentación"/>
         <EditText
-            android:id="@+id/txtAlimentacion"
+            android:id="@+id/txtAlimentacion29"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginLeft="60dp"
             android:layout_weight="1.5"
             />
@@ -133,7 +141,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
@@ -142,9 +150,9 @@
             android:layout_weight="1"
             android:text="Diversion"/>
         <EditText
-            android:id="@+id/txtDiversion"
+            android:id="@+id/txtDiversion29"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginLeft="60dp"
             android:layout_weight="1.5"
             />
@@ -154,7 +162,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
@@ -163,9 +171,9 @@
             android:layout_weight="1"
             android:text="Pago de Servicios"/>
         <EditText
-            android:id="@+id/txtPagoDeServicios"
+            android:id="@+id/txtPagoDeServicios29"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginLeft="60dp"
             android:layout_weight="1.5"
             />
@@ -175,7 +183,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
@@ -184,9 +192,9 @@
             android:layout_weight="1"
             android:text="Equipos (celulares)"/>
         <EditText
-            android:id="@+id/txtEquiposCelulares"
+            android:id="@+id/txtEquiposCelulares29"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginLeft="60dp"
             android:layout_weight="1.5"
             />
@@ -196,7 +204,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
@@ -205,9 +213,9 @@
             android:layout_weight="1"
             android:text="Apoyo a la familia"/>
         <EditText
-            android:id="@+id/txtApoyoALaFamilia"
+            android:id="@+id/txtApoyoALaFamilia29"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginLeft="60dp"
             android:layout_weight="1.5"
             />
@@ -217,7 +225,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
@@ -226,9 +234,9 @@
             android:layout_weight="1"
             android:text="Ahorro"/>
         <EditText
-            android:id="@+id/txtAhorro"
+            android:id="@+id/txtAhorro29"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginLeft="60dp"
             android:layout_weight="1.5"
             />
@@ -238,7 +246,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
@@ -247,19 +255,20 @@
             android:layout_weight="1"
             android:text="Otro (especificar)"/>
         <EditText
-            android:id="@+id/txtOtro"
+            android:id="@+id/txtOtro29"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginLeft="60dp"
             android:layout_weight="1.5"
             />
 
     </LinearLayout>
     <EditText
-        android:id="@+id/txtResp.Otro"
-        android:layout_width="match_parent"
+        android:id="@+id/txtRespOtro1129"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-    android:hint="Resp..."
+        android:layout_marginLeft="10dp"
+        android:hint="(Especificar)"
 
         />
     <TextView

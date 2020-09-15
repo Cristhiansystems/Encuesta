@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +7,13 @@
     tools:context=".emp_econ_10_0_17">
 
     <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/idemppers1017"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,34 +42,35 @@
         >
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4.5"
+            android:layout_height="50dp"
+            android:layout_weight="1"
             android:layout_margin="15dp"
             android:textAlignment="center"
             android:textColor="@color/colorLetra"
             android:text="Mes"/>
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:textColor="@color/colorLetra"
-            android:layout_weight="5"
+            android:layout_weight="1"
             android:textAlignment="center"
             android:layout_margin="15dp"
             android:text="Monto (Bs.)"/>
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:textColor="@color/colorLetra"
-            android:layout_weight="6"
+            android:layout_weight="1"
             android:textAlignment="center"
-            android:layout_margin="5dp"
+            android:layout_margin="15dp"
             android:text="Ingreso al día"/>
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:textColor="@color/colorLetra"
             android:textAlignment="center"
-            android:layout_weight="6"
+            android:layout_weight="1"
+            android:layout_margin="15dp"
             android:text="Días de trabajo a la semana"/>
 
     </LinearLayout>
@@ -70,81 +78,84 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
-        <EditText
+
+        <TextView
             android:id="@+id/Mes1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="4.5"
-            android:hint="Mes 1"
-            />
+            android:layout_weight="1"
+            android:text="Mes 1"
+            android:textSize="20sp" />
         <EditText
             android:id="@+id/Mes1Monto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"
+            android:layout_weight="1"
             />
         <EditText
             android:id="@+id/Mes1IngresoDia"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="6"/>
+            android:layout_weight="1"/>
         <EditText
             android:id="@+id/Mes1DiasTrabajo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="6"/>
+            android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
-        <EditText
+        <TextView
             android:id="@+id/Mes2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="4.5"
-            android:hint="Mes 2"/>
+            android:layout_weight="1"
+            android:text="Mes 2"
+            android:textSize="20sp"/>
         <EditText
             android:id="@+id/Mes2Monto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"/>
+            android:layout_weight="1"/>
         <EditText
             android:id="@+id/Mes2IngresoDia"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="6"/>
+            android:layout_weight="1"/>
         <EditText
             android:id="@+id/Mes2DiasTrabajo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="6"/>
+            android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
-        <EditText
+        <TextView
             android:id="@+id/Mes3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="4.5"
-            android:hint="Mes 3"/>
+            android:layout_weight="1"
+            android:text="Mes 3"
+            android:textSize="20sp"/>
         <EditText
             android:id="@+id/Mes3Monto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"/>
+            android:layout_weight="1"/>
         <EditText
             android:id="@+id/Mes3IngresoDia"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="6"/>
+            android:layout_weight="1"/>
         <EditText
             android:id="@+id/Mes3DiasTrabajo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="6"/>
+            android:layout_weight="1"/>
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"

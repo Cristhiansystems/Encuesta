@@ -8,6 +8,14 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers1204"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="XII SATISFACION CON EL MUNICIPIO / GOBERNACION"
@@ -27,7 +35,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 android:textSize="11dp"
-                android:text="Menciona el nivel de satifacción que tienes sobre cada una de las acciones de apoyo que ha brindado el Municipio o la Gobernación en favor de los adolescentes y jovenes hasta el año 2015, tomando en cuenta su utilidad y calidad del servicio brindado" />
+                android:text="Menciona el nivel de satifacción que tienes sobre cada una de las acciones de apoyo que ha brindado el Municipio o la Gobernación en favor de los adolescentes y jovenes hasta el año 2019, tomando en cuenta su utilidad y calidad del servicio brindado" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorRojo"
+                android:textColor="@color/colorLetra"
+                android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:text="¿Participo o utlizo este tipo de servicio?" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,35 +61,32 @@
                     android:textStyle="bold"
                     android:text="Acciones del municipio y/o gobernación" />
 
-                <TextView
-                    android:background="@color/colorRojo"
-                    android:textColor="@color/colorLetra"
-                    android:textAlignment="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:textStyle="bold"
-                    android:text="Acciones del municipio y/o gobernación" />
 
 
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:orientation="horizontal"
-                >
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginTop="30dp"
                     android:text="12.04 Atención para la rehabilitación de adolescentes y jovenes con problemas  de consumo de substancias nocivas para la salud (alcohol, drogas y otros)" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorRojo"
+                android:textColor="@color/colorLetra"
+                android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:text="¿Participo o utlizo este tipo de servicio?" />
 
                 <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
+                    android:layout_marginHorizontal="50dp"
                     >
 
                     <RadioButton
@@ -90,7 +104,7 @@
                 </RadioGroup>
 
 
-            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -131,7 +145,7 @@
                     >
 
                     <RadioButton
-                        android:id="@+id/RdMuySatisfecho12.04"
+                        android:id="@+id/RdMuySatisfecho1204"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -141,7 +155,7 @@
                         />
 
                     <RadioButton
-                        android:id="@+id/RdSatisfecho12.04"
+                        android:id="@+id/RdSatisfecho1204"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -150,7 +164,7 @@
                         android:text="Satisfecho"
                         />
                     <RadioButton
-                        android:id="@+id/RdIndiferente12.04"
+                        android:id="@+id/RdIndiferente1204"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -159,7 +173,7 @@
                         android:text="Indiferente"
                         />
                     <RadioButton
-                        android:id="@+id/RdInsatisfecho12.04"
+                        android:id="@+id/RdInsatisfecho1204"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -168,7 +182,7 @@
                         android:text="Insatisfecho"
                         />
                     <RadioButton
-                        android:id="@+id/RdMuyInsatisfecho12.04"
+                        android:id="@+id/RdMuyInsatisfecho1204"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -179,23 +193,29 @@
                 </RadioGroup>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:orientation="horizontal"
-                >
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginTop="40dp"
                     android:text="12.05 Participación juvenil en decisiones del municipio o gobernación" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorRojo"
+                android:textColor="@color/colorLetra"
+                android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:text="¿Participo o utlizo este tipo de servicio?" />
 
                 <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
+                    android:layout_marginHorizontal="50dp"
                     >
 
                     <RadioButton
@@ -213,7 +233,6 @@
                 </RadioGroup>
 
 
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -254,7 +273,7 @@
                     >
 
                     <RadioButton
-                        android:id="@+id/RdMuySatisfecho12.05"
+                        android:id="@+id/RdMuySatisfecho1205"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -264,7 +283,7 @@
                         />
 
                     <RadioButton
-                        android:id="@+id/RdSatisfecho12.05"
+                        android:id="@+id/RdSatisfecho1205"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -273,7 +292,7 @@
                         android:text="Satisfecho"
                         />
                     <RadioButton
-                        android:id="@+id/RdIndiferente12.05"
+                        android:id="@+id/RdIndiferente1205"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -282,7 +301,7 @@
                         android:text="Indiferente"
                         />
                     <RadioButton
-                        android:id="@+id/RdInsatisfecho12.05"
+                        android:id="@+id/RdInsatisfecho1205"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -291,7 +310,7 @@
                         android:text="Insatisfecho"
                         />
                     <RadioButton
-                        android:id="@+id/RdMuyInsatisfecho12.05"
+                        android:id="@+id/RdMuyInsatisfecho1205"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -301,23 +320,28 @@
                         />
                 </RadioGroup>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:orientation="horizontal"
-                >
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginTop="40dp"
                     android:text="12.06 Educación (no infraestructura)  " />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorRojo"
+                android:textColor="@color/colorLetra"
+                android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:text="¿Participo o utlizo este tipo de servicio?" />
 
                 <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
+                    android:layout_marginHorizontal="50dp"
                     >
 
                     <RadioButton
@@ -335,7 +359,6 @@
                 </RadioGroup>
 
 
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -376,7 +399,7 @@
                     >
 
                     <RadioButton
-                        android:id="@+id/RdMuySatisfecho12.06"
+                        android:id="@+id/RdMuySatisfecho1206"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -386,7 +409,7 @@
                         />
 
                     <RadioButton
-                        android:id="@+id/RdSatisfecho12.06"
+                        android:id="@+id/RdSatisfecho1206"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -395,7 +418,7 @@
                         android:text="Satisfecho"
                         />
                     <RadioButton
-                        android:id="@+id/RdIndiferente12.06"
+                        android:id="@+id/RdIndiferente1206"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -404,7 +427,7 @@
                         android:text="Indiferente"
                         />
                     <RadioButton
-                        android:id="@+id/RdInsatisfecho12.06"
+                        android:id="@+id/RdInsatisfecho1206"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -413,7 +436,7 @@
                         android:text="Insatisfecho"
                         />
                     <RadioButton
-                        android:id="@+id/RdMuyInsatisfecho12.06"
+                        android:id="@+id/RdMuyInsatisfecho1206"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -430,8 +453,6 @@
                 android:orientation="horizontal"
 
                 android:layout_marginBottom="15dp">
-                >
-
 
 
 

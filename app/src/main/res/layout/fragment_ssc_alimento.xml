@@ -36,7 +36,11 @@
         android:layout_marginTop="30dp"
         android:text="4.01 ¿Como consigues tu alimento?" />
 
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="(PUEDES RESPONDER MARCANDO VARIAS OPCIONES)" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

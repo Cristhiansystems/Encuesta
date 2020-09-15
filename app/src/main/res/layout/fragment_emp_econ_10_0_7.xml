@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,15 +8,19 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers107"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="X EMPRENDEDURISIMO ECONOMICO"
         android:textColor="@color/colorLetra"
         android:background="@color/botonSig"/>
-
-
-
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -63,6 +67,11 @@
                 android:text="NO" />
         </RadioGroup>
     </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout108"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -219,14 +228,14 @@
             >
 
             <RadioButton
-                android:id="@+id/OtroSi10.9"
+                android:id="@+id/OtroSi109"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/OtroNo10.9"
+                android:id="@+id/OtroNo109"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />
@@ -235,11 +244,10 @@
 
     </LinearLayout>
     <EditText
-        android:id="@+id/txtOtro10.9"
+        android:id="@+id/txtOtro109"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="2"
-        android:hint="Resp..."
+        android:hint="(Especificar)"
 
         />
     <TextView
@@ -249,16 +257,16 @@
         android:text="10.10 ¿Cual es el emprendimiento?" />
 
     <EditText
-        android:id="@+id/txtResp10.10"
+        android:id="@+id/txtResp1010"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="2"
-android:hint="Resp..."
+        android:lines="3"
+android:hint="Respuesta"
         />
 
 
 
-
+        </LinearLayout>
 
 
     <LinearLayout
@@ -268,7 +276,7 @@ android:hint="Resp..."
         android:orientation="horizontal"
 
         android:layout_marginBottom="15dp">
-        >
+
 
 
         <Button

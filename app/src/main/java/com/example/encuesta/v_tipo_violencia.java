@@ -17,16 +17,21 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -63,6 +68,7 @@ public class v_tipo_violencia extends Fragment{
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -136,19 +142,104 @@ public class v_tipo_violencia extends Fragment{
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta36(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta34(idFragment.getText().toString());
         });
         return vista;
     }
-    private void cargarWebServices() {
 
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+    private void actualizar(String pantalla) {
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizarTipoViolencia.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+                    interfaceComunicaFragments.enviarEncuesta36(idFragment.getText().toString());
+
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta34(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id = idFragment.getText().toString();
+                String fisica = "0";
+                if (rdViolenciaFisicaSi.isChecked()) {
+                    fisica = "1";
+                } else if (rdViolenciaFisicaNo.isChecked()) {
+                    fisica = "2";
+                }
+
+                String psicologica = "0";
+                if (rdViolenciaPsicologicaSi.isChecked()) {
+                    psicologica = "1";
+                } else if (rdViolenciaPsicologicaNo.isChecked()) {
+                    psicologica = "2";
+                }
+
+                String sexual = "0";
+                if (rdViolenciaSexualSi.isChecked()) {
+                    sexual = "1";
+                } else if (rdViolenciaSexualNo.isChecked()) {
+                    sexual = "2";
+                }
+
+                String otro = "0";
+                if (rdOtroSi.isChecked()) {
+                    otro = "1";
+                } else if (rdOtroNo.isChecked()) {
+                    otro = "2";
+                }
+
+
+                String noSabe = "0";
+                if (rdNosabeSi.isChecked()) {
+                    noSabe = "1";
+                } else if (rdNosabeNo.isChecked()) {
+                    noSabe = "2";
+                }
+                String otroTipoViolencia= txtOtro.getText().toString();
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", id);
+                parametros.put("fisica", fisica);
+                parametros.put("psicologica", psicologica);
+                parametros.put("sexual", sexual);
+                parametros.put("otro", otro);
+                parametros.put("noSabe", noSabe);
+                parametros.put("otroTipoViolencia", otroTipoViolencia);
+
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+    }
+
+    private void cargarWebServices() {
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 

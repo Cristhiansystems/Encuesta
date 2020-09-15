@@ -8,6 +8,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     !-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/idemppers809"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -32,25 +39,21 @@
                 android:layout_marginTop="10dp"
                 android:text="8.09 ¿Qué te motiva a seguir estudiando?" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="NO LEA LAS OPCIONES" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Registre una sola respuesta"
-                android:textColor="@color/colorRojo" />
 
             <EditText
-                android:id="@+id/txtRegUnaSolResp8.9"
+                android:id="@+id/txtres809"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Resp..."
+                android:hint="Respuesta"
                 android:lines="4" />
+
+            <LinearLayout
+                android:id="@+id/layout89"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -281,13 +284,13 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/txtOtro8.9"
+                android:id="@+id/txtOtro89"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="4"
-android:hint="Resp..."
+            android:hint="Resp..."
                 />
-
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

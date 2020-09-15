@@ -13,7 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
 
-        app:srcCompat="@drawable/save_children" />
+        app:srcCompat="@drawable/logosave" />
+
+  <ImageView
+      android:id="@+id/logo1"
+      android:layout_width="match_parent"
+      android:layout_height="150dp"
+
+      app:srcCompat="@drawable/logoaacbar" />
 
 
 </LinearLayout>

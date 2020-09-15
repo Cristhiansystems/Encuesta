@@ -17,16 +17,21 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -63,6 +68,7 @@ public class v_violencia_pareja_actual extends Fragment  {
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -151,19 +157,143 @@ public class v_violencia_pareja_actual extends Fragment  {
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta39(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta37(idFragment.getText().toString());
         });
         return vista;
     }
-    private void cargarWebServices() {
 
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+    private void actualizar(String pantalla) {
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizarViolenciaParejaActual.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+                    interfaceComunicaFragments.enviarEncuesta39(idFragment.getText().toString());
+
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta37(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id = idFragment.getText().toString();
+                String empujado = "0";
+                if (rdempujadoMM.isChecked()) {
+                    empujado = "1";
+                } else if (rdempujadoAV.isChecked()) {
+                    empujado = "2";
+                }else if (rdempujadoN.isChecked()) {
+                    empujado = "3";
+                }else if (rdempujadoNC.isChecked()) {
+                    empujado = "4";
+                }
+
+
+                String golpeado = "0";
+                if (rdgolpeadoMM.isChecked()) {
+                    golpeado = "1";
+                } else if (rdgolpeadoAV.isChecked()) {
+                    golpeado = "2";
+                }else if (rdgolpeadoN.isChecked()) {
+                    golpeado = "3";
+                }else if (rdgolpeadoNC.isChecked()) {
+                    golpeado = "4";
+                }
+
+
+                String golepadoObjeto = "0";
+                if (rdgolpeadoObjetoMM.isChecked()) {
+                    golepadoObjeto = "1";
+                } else if (rdgolpeadoObjetoAV.isChecked()) {
+                    golepadoObjeto = "2";
+                }else if (rdgolpeadoObjetoN.isChecked()) {
+                    golepadoObjeto = "3";
+                }else if (rdgolpeadoObjetoNC.isChecked()) {
+                    golepadoObjeto = "4";
+                }
+
+                String golpeadoMarcas = "0";
+                if (rdGolpeadoMarcasMM.isChecked()) {
+                    golpeadoMarcas = "1";
+                } else if (rdgolpeadoMarcasAV.isChecked()) {
+                    golpeadoMarcas = "2";
+                }else if (rdgolpeadoMarcasN.isChecked()) {
+                    golpeadoMarcas = "3";
+                }else if (rdgolpeadoMarcasNC.isChecked()) {
+                    golpeadoMarcas = "4";
+                }
+
+
+                String forzarRelacion = "0";
+                if (rdForzarrelacionesMM.isChecked()) {
+                    forzarRelacion = "1";
+                } else if (rdforzarRelacionesAV.isChecked()) {
+                    forzarRelacion = "2";
+                }else if (rdforzarRelacionesN.isChecked()) {
+                    forzarRelacion = "3";
+                }else if (rdforzarRelacionesNC.isChecked()) {
+                    forzarRelacion = "4";
+                }
+
+
+                String otro = "0";
+                if (rdotroMM.isChecked()) {
+                    otro = "1";
+                } else if (rdotroAV.isChecked()) {
+                    otro = "2";
+                }else if (rdotroN.isChecked()) {
+                    otro = "3";
+                }else if (rdotroNC.isChecked()) {
+                    otro = "4";
+                }
+
+
+                String otroViolenciaParejaActual= txtOtro.getText().toString();
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", id);
+                parametros.put("empujado", empujado);
+                parametros.put("golpeado", golpeado);
+                parametros.put("golepadoObjeto", golepadoObjeto);
+                parametros.put("golpeadoMarcas", golpeadoMarcas);
+                parametros.put("forzarRelacion", forzarRelacion);
+;
+                parametros.put("otro", otro);
+                parametros.put("otroViolenciaParejaActual", otroViolenciaParejaActual);
+
+
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+    }
+
+    private void cargarWebServices() {
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
@@ -181,7 +311,7 @@ public class v_violencia_pareja_actual extends Fragment  {
                 forzarRelaciones= jsonObject.optInt("forzar_relaciones");
                 otro= jsonObject.optInt("violencia_pareja_recientemente_otro");
 
-                otroViolenciaParejaActual= jsonObject.optString("otro_violencia_pareja_nombre");
+                otroViolenciaParejaActual= jsonObject.optString("violencia_pareja_recientemente_otro_nombre");
 
 
                 if(empujado==1){

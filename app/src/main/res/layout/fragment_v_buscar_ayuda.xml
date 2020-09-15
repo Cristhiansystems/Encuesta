@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -26,10 +26,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout75"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -48,7 +55,6 @@
                 android:id="@+id/buscasteAyudaSi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:text="Si"/>
 
             <RadioButton
@@ -58,12 +64,19 @@
                 android:text="No" />
         </RadioGroup>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout76"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="7.06 ¿Donde buscate ayuda?" />
-
 
 
         <EditText
@@ -75,12 +88,37 @@
             android:hint="¿Donde buscaste ayuda?"
             android:gravity="top"/>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout77"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="7.07 ¿Por qué no buscaste ayuda?" />
 
+        <EditText
+            android:id="@+id/txtRespuestaNoayuda"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:inputType="text|textMultiLine"
+            android:layout_marginHorizontal="50dp"
+            android:hint="Respuesta"
+            android:gravity="top"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/layounoayuda"
+            >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -298,7 +336,7 @@
             </RadioGroup>
         </LinearLayout>
 
-
+        </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

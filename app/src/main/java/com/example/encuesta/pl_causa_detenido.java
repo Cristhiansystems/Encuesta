@@ -13,20 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -57,13 +63,14 @@ public class pl_causa_detenido extends Fragment{
     String idEncuesta, otroCausaDetenido, respuesta;
 
     Integer peleas, robo, hurto, homicidio, drogas, otro;
-
+    LinearLayout display;
 
     //volley
 
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
     //
     //
     //navegar pantallas
@@ -125,7 +132,9 @@ public class pl_causa_detenido extends Fragment{
 
         txtOtro=(EditText) vista.findViewById(R.id.txtotroCausaApresado);
         txtrespuesta=(EditText) vista.findViewById(R.id.txtrespuestaCausaDetenido);
-
+        display=(LinearLayout) vista.findViewById(R.id.layoutcausadetenido);
+        display.setVisibility(View.INVISIBLE);
+        display.setVisibility(View.GONE);
         Bundle data=getArguments();
 
         if(data!=null){
@@ -140,19 +149,115 @@ public class pl_causa_detenido extends Fragment{
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
+            String pantalla="Siguiente";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta34(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
+            String pantalla="Atras";
+            actualizar(pantalla);
 
-            interfaceComunicaFragments.enviarEncuesta32(idFragment.getText().toString());
         });
         return vista;
     }
-    private void cargarWebServices() {
 
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+    private void actualizar(String pantalla) {
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizarCausaDetenido.php?";
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("actualiza")) {
+                if(pantalla=="Siguiente"){
+                    interfaceComunicaFragments.enviarEncuesta34(idFragment.getText().toString());
+
+                }else if(pantalla=="Atras"){
+                    interfaceComunicaFragments.enviarEncuesta32(idFragment.getText().toString());
+
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String id = idFragment.getText().toString();
+                String peleas = "0";
+                if (rdPelasSi.isChecked()) {
+                    peleas = "1";
+                } else if (rdPeleasNo.isChecked()) {
+                    peleas = "2";
+                }
+
+                String robo = "0";
+                if (rdRoboSi.isChecked()) {
+                    robo = "1";
+                } else if (rdRoboNo.isChecked()) {
+                    robo = "2";
+                }
+
+                String hurto = "0";
+                if (rdHurtoSi.isChecked()) {
+                    hurto = "1";
+                } else if (rdHurtoNo.isChecked()) {
+                    hurto = "2";
+                }
+
+
+                String homicidio = "0";
+                if (rdHomicidioSi.isChecked()) {
+                    homicidio = "1";
+                } else if (rdHomicidioNo.isChecked()) {
+                    homicidio = "2";
+                }
+
+                String drogas = "0";
+                if (rdDrogasSi.isChecked()) {
+                    drogas = "1";
+                } else if (rdDrogasNo.isChecked()) {
+                    drogas = "2";
+                }
+
+                String otro = "0";
+                if (rdOtroSi.isChecked()) {
+                    otro = "1";
+                } else if (rdOtroNo.isChecked()) {
+                    otro = "2";
+                }
+
+                String respuesta= txtrespuesta.getText().toString();
+                String otroCausaDetenido= txtOtro.getText().toString();
+
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", id);
+                parametros.put("peleas", peleas);
+                parametros.put("robo", robo);
+                parametros.put("hurto", hurto);
+                parametros.put("homicidio", homicidio);
+                parametros.put("drogas", drogas);
+                parametros.put("otro", otro);
+                parametros.put("respuesta", respuesta);
+                parametros.put("otroCausaDetenido", otroCausaDetenido);
+
+
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+    }
+
+    private void cargarWebServices() {
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 

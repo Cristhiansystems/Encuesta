@@ -34,6 +34,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/layout59"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -67,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:text="¿Desición Conjunta?" />
             </RadioGroup>
-
+        </LinearLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -118,7 +123,7 @@
                     android:id="@+id/embarazoNosabe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No sabe/no esta seguro(a)" />
+                    android:text="No sabes/no estas seguro(a)" />
             </RadioGroup>
 
 

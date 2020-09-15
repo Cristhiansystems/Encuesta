@@ -9,6 +9,13 @@
     <!-- TODO: Update blank fragment layout -->
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppers812"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="XII EMPODERAMIENTO PERSONAL"
@@ -29,6 +36,20 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:text="8.12 ¿Cuál es la razón principal por la que dejaste de estudiar?" />
+            <EditText
+                android:id="@+id/txtRes812"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint="Respuesta"
+                android:lines="4"/>
+            <LinearLayout
+                android:id="@+id/layout812"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -79,7 +100,7 @@
 
                     android:text="Falta de recursos económicos" />
                 <RadioButton
-                    android:id="@+id/RdOtro8.12"
+                    android:id="@+id/RdOtro812"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -93,13 +114,15 @@
 
 
     <EditText
-        android:id="@+id/txtOtro8.12"
+        android:id="@+id/txtOtro812"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="10dp"
         android:hint="Resp..."
         android:lines="2"/>
+
+            </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -120,7 +143,7 @@
         >
 
         <RadioButton
-            android:id="@+id/OtroSi8.13"
+            android:id="@+id/rdSi813"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -128,7 +151,7 @@
             android:text="SI" />
 
         <RadioButton
-            android:id="@+id/OtroNo8.13"
+            android:id="@+id/rdNo813"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

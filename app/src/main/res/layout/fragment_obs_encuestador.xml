@@ -8,16 +8,24 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/idemppersobs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="OBSERVACIONES DEL/LA ENCUESTADOR/A  (olor a consumo, higiene, auto lesiones, etc. )"
         android:textColor="@color/colorLetra"
         android:background="@color/botonSig"/>
     <EditText
-        android:id="@+id/txtObservacionesEncuestador"
+        android:id="@+id/txtObservacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="25"
+        android:lines="10"
         android:hint="Observaciones......"/>
     <LinearLayout
         android:layout_width="match_parent"

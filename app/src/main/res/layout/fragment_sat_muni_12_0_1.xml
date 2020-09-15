@@ -7,7 +7,13 @@
     tools:context=".sat_muni_12_0_1">
 
     <!-- TODO: Update blank fragment layout -->
-
+    <TextView
+        android:id="@+id/idemppers1201"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorLetra"
+        android:background="@color/colorRojo"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -30,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 android:textSize="11dp"
-                android:text="Menciona el nivel de satifacción que tienes sobre cada una de las acciones de apoyo que ha brindado el Municipio o la Gobernación en favor de los adolescentes y jovenes hasta el año 2015, tomando en cuenta su utilidad y calidad del servicio brindado" />
+                android:text="Menciona el nivel de satifacción que tienes sobre cada una de las acciones de apoyo que ha brindado el Municipio o la Gobernación en favor de los adolescentes y jovenes hasta el año 2019, tomando en cuenta su utilidad y calidad del servicio brindado" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,35 +53,30 @@
                     android:textStyle="bold"
                     android:text="Acciones del municipio y/o gobernación" />
 
-                <TextView
-                    android:background="@color/colorRojo"
-                    android:textColor="@color/colorLetra"
-                    android:textAlignment="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:textStyle="bold"
-                    android:text="Acciones del municipio y/o gobernación" />
 
 
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:orientation="horizontal"
-                >
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginTop="15dp"
                     android:text="12.01 Programas recreativos y de formación artistica" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorRojo"
+                android:textColor="@color/colorLetra"
+                android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:text="¿Participo o utlizo este tipo de servicio?" />
 
                 <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
+                    android:layout_marginHorizontal="50dp"
                     >
 
                     <RadioButton
@@ -93,7 +94,6 @@
                 </RadioGroup>
 
 
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -134,7 +134,7 @@
                 >
 
                 <RadioButton
-                    android:id="@+id/RdMuySatisfecho12.01"
+                    android:id="@+id/RdMuySatisfecho1201"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -144,7 +144,7 @@
                     />
 
                 <RadioButton
-                    android:id="@+id/RdSatisfecho12.01"
+                    android:id="@+id/RdSatisfecho1201"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
 
@@ -153,7 +153,7 @@
                     android:text="Satisfecho"
                     />
                 <RadioButton
-                    android:id="@+id/RdIndiferente12.01"
+                    android:id="@+id/RdIndiferente1201"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
 
@@ -162,7 +162,7 @@
                     android:text="Indiferente"
                     />
                 <RadioButton
-                    android:id="@+id/RdInsatisfecho12.01"
+                    android:id="@+id/RdInsatisfecho1201"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
 
@@ -171,7 +171,7 @@
                     android:text="Insatisfecho"
                     />
                 <RadioButton
-                    android:id="@+id/RdMuyInsatisfecho12.01"
+                    android:id="@+id/RdMuyInsatisfecho1201"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
 
@@ -182,23 +182,25 @@
             </RadioGroup>
         </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:orientation="horizontal"
-                >
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginTop="40dp"
                     android:text="12.02 Atención en salud en las AIDAJ (Atención integral diferenciada de adolescentes y jovenes) (Prevención de embarazo adolescente y salud sexual reproductiva)" />
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorRojo"
+                    android:textColor="@color/colorLetra"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="12dp"
+                    android:text="¿Participo o utlizo este tipo de servicio?" />
                 <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
+                    android:layout_marginHorizontal="50dp"
                     >
 
                     <RadioButton
@@ -215,8 +217,6 @@
                         android:text="NO" />
                 </RadioGroup>
 
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -257,7 +257,7 @@
                     >
 
                     <RadioButton
-                        android:id="@+id/RdMuySatisfecho12.02"
+                        android:id="@+id/RdMuySatisfecho1202"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -267,7 +267,7 @@
                         />
 
                     <RadioButton
-                        android:id="@+id/RdSatisfecho12.02"
+                        android:id="@+id/RdSatisfecho1202"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -276,7 +276,7 @@
                         android:text="Satisfecho"
                         />
                     <RadioButton
-                        android:id="@+id/RdIndiferente12.02"
+                        android:id="@+id/RdIndiferente1202"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -285,7 +285,7 @@
                         android:text="Indiferente"
                         />
                     <RadioButton
-                        android:id="@+id/RdInsatisfecho12.02"
+                        android:id="@+id/RdInsatisfecho1202"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -294,7 +294,7 @@
                         android:text="Insatisfecho"
                         />
                     <RadioButton
-                        android:id="@+id/RdMuyInsatisfecho12.02"
+                        android:id="@+id/RdMuyInsatisfecho1202"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -304,23 +304,28 @@
                         />
                 </RadioGroup>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:orientation="horizontal"
-                >
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="12.03  Atención en albergues, salud a Adolescentes en situacion de calle" />
+                    android:layout_marginTop="40dp"
+                    android:text="12.03 Atención en albergues, salud a Adolescentes en situacion de calle" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorRojo"
+                android:textColor="@color/colorLetra"
+                android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:text="¿Participo o utlizo este tipo de servicio?" />
 
                 <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
+                    android:layout_marginHorizontal="50dp"
                     >
 
                     <RadioButton
@@ -338,7 +343,7 @@
                 </RadioGroup>
 
 
-            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -379,7 +384,7 @@
                     >
 
                     <RadioButton
-                        android:id="@+id/RdMuySatisfecho12.03"
+                        android:id="@+id/RdMuySatisfecho1203"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -389,7 +394,7 @@
                         />
 
                     <RadioButton
-                        android:id="@+id/RdSatisfecho12.03"
+                        android:id="@+id/RdSatisfecho1203"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -398,7 +403,7 @@
                         android:text="Satisfecho"
                         />
                     <RadioButton
-                        android:id="@+id/RdIndiferente12.03"
+                        android:id="@+id/RdIndiferente1203"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -407,7 +412,7 @@
                         android:text="Indiferente"
                         />
                     <RadioButton
-                        android:id="@+id/RdInsatisfecho12.03"
+                        android:id="@+id/RdInsatisfecho1203"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
@@ -416,7 +421,7 @@
                         android:text="Insatisfecho"
                         />
                     <RadioButton
-                        android:id="@+id/RdMuyInsatisfecho12.03"
+                        android:id="@+id/RdMuyInsatisfecho1203"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 

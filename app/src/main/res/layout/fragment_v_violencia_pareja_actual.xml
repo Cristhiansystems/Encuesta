@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="7.04 Por favor dime si en los últimos 12 meses, se presentaron las siguientes situaciones en relación con tu PAREJA/ENAMORADO/A" />
+                android:text="7.04 Por favor responde si en los últimos 12 meses, se presentaron las siguientes situaciones en relación con tu PAREJA/ENAMORADO/A" />
 
             <TextView
                 android:layout_width="match_parent"

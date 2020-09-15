@@ -1,5 +1,5 @@
 package com.example.encuesta;
-
+ 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -150,7 +150,8 @@ public class sb_agua extends Fragment{
     }
 
     private void actualizar(String pantalla) {
-        String url="http://192.168.0.13/encuestasWS/actualizarAgua.php?";
+        String ip=getString(R.string.ip);
+        String url=ip+"actualizarAgua.php?";
 
         stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             if (response.trim().equalsIgnoreCase("actualiza")) {
@@ -208,8 +209,8 @@ public class sb_agua extends Fragment{
     }
 
     private void cargarWebServices() {
-
-        String url="http://192.168.0.13/encuestasWS/consultaEncuesta.php?id="+idFragment.getText().toString();
+        String ip=getString(R.string.ip);
+        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
