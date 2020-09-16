@@ -130,6 +130,7 @@ public class emp_lab_11_0_29 extends Fragment {
 
         rdSi=(RadioButton) vista.findViewById(R.id.RdSiEstoySatisfechoConMiTrabajo);
         rdNo=(RadioButton) vista.findViewById(R.id.RdNoEstoySatisfechoConMiTrabajo);
+
         Bundle data=getArguments();
 
         if(data!=null){

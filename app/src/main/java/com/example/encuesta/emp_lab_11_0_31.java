@@ -74,7 +74,7 @@ public class emp_lab_11_0_31 extends Fragment {
 
     EditText txtotro, txtNoSatisfecho;
     String idEncuesta, otronom, noSatisfecho;
-    Integer ley, contrato, salario, horario, derechos, otro, trabajas;
+    Integer ley, contrato, salario, horario, derechos, otro, trabajas, satisfecho;
     RadioButton rdLeySi, rdLeyNo, rdContratoSi, rdContratoNo, rdSalarioSi, rdSalarioNo, rdHorarioSi, rdHorarioNo, rdDerechoSi, rdDerechoNo, rdOtroSi, rdOtroNo;
     LinearLayout display1131, display1132, display1133;
 
@@ -123,7 +123,6 @@ public class emp_lab_11_0_31 extends Fragment {
         txtNoSatisfecho=(EditText) vista.findViewById(R.id.txtResp1131);
 
 
-
         rdLeySi=(RadioButton) vista.findViewById(R.id.RdSiLey);
         rdLeyNo=(RadioButton) vista.findViewById(R.id.RdNoLey);
 
@@ -146,6 +145,22 @@ public class emp_lab_11_0_31 extends Fragment {
         display1131=(LinearLayout) vista.findViewById(R.id.layout1131);
         display1132=(LinearLayout) vista.findViewById(R.id.layout1132);
         display1133=(LinearLayout) vista.findViewById(R.id.layout1133);
+
+
+
+        rdLeyNo.setOnClickListener(v -> {
+
+            display1133.setVisibility(View.INVISIBLE);
+            display1133.setVisibility(View.GONE);
+
+        });
+
+        rdLeySi.setOnClickListener(v -> {
+
+            display1133.setVisibility(View.VISIBLE);
+
+        });
+
 
         Bundle data=getArguments();
 
@@ -198,6 +213,17 @@ public class emp_lab_11_0_31 extends Fragment {
                 otronom = jsonObject.optString("derecho_laboral_otro_nombre");
                 trabajas = jsonObject.optInt("trabajas_actualmente");
 
+                satisfecho = jsonObject.optInt("satisfecho_trabajo");
+
+                if(satisfecho==1){
+                    display1131.setVisibility(View.INVISIBLE);
+                    display1131.setVisibility(View.GONE);
+                }
+
+                if(ley==2){
+                    display1133.setVisibility(View.INVISIBLE);
+                    display1133.setVisibility(View.GONE);
+                }
 
                 txtotro.setText(otronom.toString());
                 txtNoSatisfecho.setText(noSatisfecho.toString());

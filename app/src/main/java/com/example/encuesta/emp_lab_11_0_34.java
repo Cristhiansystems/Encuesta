@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,6 +76,7 @@ public class emp_lab_11_0_34 extends Fragment {
     String idEncuesta, mencionarBolsa, objetivo;
     Integer bolsaTrabajo, planLaboral, realizaralguno, cumplir;
     RadioButton rdBolsaTrabajoSi, rdBolsaTrabajoNo, rdPlanLaboralSi, rdPlanlaboralNo, rdRealizasteAlgunoSi, rdRealizasteAlgunoNo, rdCumplirSi, rdCumplirNo, rdProceso;
+    LinearLayout display1134, display1135, display1136, display1137, display1138, display1139;
     //volley
 
     ProgressDialog progreso;
@@ -134,6 +136,68 @@ public class emp_lab_11_0_34 extends Fragment {
         rdCumplirNo=(RadioButton) vista.findViewById(R.id.RdNo1139);
         rdProceso=(RadioButton) vista.findViewById(R.id.RdEstoyEnProceso1139);
 
+        display1134=(LinearLayout) vista.findViewById(R.id.layout1134);
+        display1135=(LinearLayout) vista.findViewById(R.id.layout1135);
+        display1136=(LinearLayout) vista.findViewById(R.id.layout1136);
+        display1137=(LinearLayout) vista.findViewById(R.id.layout1137);
+        display1138=(LinearLayout) vista.findViewById(R.id.layout1138);
+        display1139=(LinearLayout) vista.findViewById(R.id.layout1139);
+
+        rdBolsaTrabajoNo.setOnClickListener(v -> {
+
+            display1135.setVisibility(View.INVISIBLE);
+            display1135.setVisibility(View.GONE);
+
+        });
+
+        rdBolsaTrabajoSi.setOnClickListener(v -> {
+
+            display1135.setVisibility(View.VISIBLE);
+
+        });
+
+
+        rdPlanlaboralNo.setOnClickListener(v -> {
+
+            display1137.setVisibility(View.INVISIBLE);
+            display1137.setVisibility(View.GONE);
+
+            display1138.setVisibility(View.INVISIBLE);
+            display1138.setVisibility(View.GONE);
+
+            display1139.setVisibility(View.INVISIBLE);
+            display1139.setVisibility(View.GONE);
+
+        });
+
+        rdPlanLaboralSi.setOnClickListener(v -> {
+
+            display1137.setVisibility(View.VISIBLE);
+            display1138.setVisibility(View.VISIBLE);
+            display1139.setVisibility(View.VISIBLE);
+
+        });
+
+
+        rdRealizasteAlgunoNo.setOnClickListener(v -> {
+
+
+
+            display1138.setVisibility(View.INVISIBLE);
+            display1138.setVisibility(View.GONE);
+
+            display1139.setVisibility(View.INVISIBLE);
+            display1139.setVisibility(View.GONE);
+
+        });
+
+        rdRealizasteAlgunoSi.setOnClickListener(v -> {
+
+
+            display1138.setVisibility(View.VISIBLE);
+            display1139.setVisibility(View.VISIBLE);
+
+        });
         Bundle data=getArguments();
 
         if(data!=null){
@@ -185,6 +249,29 @@ public class emp_lab_11_0_34 extends Fragment {
                 txtObjetivo.setText(objetivo.toString());
                 txtmencionarBolsa.setText(mencionarBolsa.toString());
 
+                if(bolsaTrabajo==2){
+                    display1135.setVisibility(View.INVISIBLE);
+                    display1135.setVisibility(View.GONE);
+                }
+
+                if(planLaboral==2){
+                    display1137.setVisibility(View.INVISIBLE);
+                    display1137.setVisibility(View.GONE);
+
+                    display1138.setVisibility(View.INVISIBLE);
+                    display1138.setVisibility(View.GONE);
+
+                    display1139.setVisibility(View.INVISIBLE);
+                    display1139.setVisibility(View.GONE);
+                }
+
+                if(realizaralguno==2){
+                    display1138.setVisibility(View.INVISIBLE);
+                    display1138.setVisibility(View.GONE);
+
+                    display1139.setVisibility(View.INVISIBLE);
+                    display1139.setVisibility(View.GONE);
+                }
                 if(bolsaTrabajo==1){
                     rdBolsaTrabajoSi.setChecked(true);
                 }else if(bolsaTrabajo==2){
