@@ -100,7 +100,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textStyle="bold"
-        android:text="11.11 Por qué no te gustaria capacitarte y/o tecnificarte?"/>
+        android:text="11.11 ¿Por qué no te gustaria capacitarte y/o tecnificarte?"/>
     <EditText
         android:id="@+id/txtResp1111"
         android:layout_width="match_parent"

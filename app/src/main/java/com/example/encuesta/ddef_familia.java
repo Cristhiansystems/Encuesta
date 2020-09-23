@@ -31,6 +31,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.encuesta.Adapter.FamiliaAdapter;
 import com.example.encuesta.entidades.Familia;
+import com.example.encuesta.entidades.volleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,7 +70,7 @@ public class ddef_familia extends Fragment{
     //volley
 
     ProgressDialog progreso;
-    RequestQueue request;
+   // RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
     StringRequest stringRequest;
     EditText txtnombre, txtapellidos,txtreferencia, txttelefono, txtactividadLaboral, txtingresoEconomico;
@@ -164,7 +165,7 @@ public class ddef_familia extends Fragment{
 
         }
         //Aqui empieza el volley
-        request= Volley.newRequestQueue(getContext());
+       // request= Volley.newRequestQueue(getContext());
         //aqui se llama al web services
         cargarWebServices();
 
@@ -228,7 +229,8 @@ public class ddef_familia extends Fragment{
             Toast.makeText(getContext(), "No se pudo actualizar" + error.toString(), Toast.LENGTH_SHORT).show();
             Log.i("ERROR: ", error.toString());
         });
-        request.add(stringRequest);
+       // request.add(stringRequest);
+        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
     }
 
 
@@ -277,7 +279,8 @@ public class ddef_familia extends Fragment{
             Toast.makeText(getContext(), "No se pudo consultar" + error.toString(), Toast.LENGTH_SHORT).show();
             Log.i("ERROR: ", error.toString());
         });
-        request.add(jsonObjectRequest);
+        //request.add(jsonObjectRequest);
+        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

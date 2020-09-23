@@ -80,4 +80,5 @@ public interface IComunicacionFragments {
     public void enviarEncuesta76(String idEncuesta);
     public void enviarEncuesta77(String idEncuesta);
     public void enviarEncuesta78(String idEncuesta);
+    public void enviarEncuesta79(String idEncuesta);
 }

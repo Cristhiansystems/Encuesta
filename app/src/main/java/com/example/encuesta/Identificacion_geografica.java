@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.encuesta.entidades.volleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,7 +62,7 @@ public class Identificacion_geografica extends Fragment implements Response.List
 
     //volley
     ProgressDialog progreso;
-    RequestQueue request;
+    //RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
     StringRequest stringRequest;
 
@@ -127,7 +128,7 @@ public class Identificacion_geografica extends Fragment implements Response.List
         }
 
         //Aqui empieza el volley
-        request= Volley.newRequestQueue(getContext());
+        //request= Volley.newRequestQueue(getContext());
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
@@ -149,18 +150,11 @@ public class Identificacion_geografica extends Fragment implements Response.List
                     interfaceComunicaFragments.enviarEncuesta2(idFragment.getText().toString());
                 }
 
-
-
-
             } else {
 
                     Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
 
-
-
             }
-
-
 
 
         }, error -> {
@@ -188,9 +182,10 @@ public class Identificacion_geografica extends Fragment implements Response.List
                 return parametros;
             }
         };
-        request.add(stringRequest);
+        //request.add(stringRequest);
+        //request.getCache().clear();
 
-
+        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
     }
 
     private void cargarWebServices() {
@@ -198,8 +193,12 @@ public class Identificacion_geografica extends Fragment implements Response.List
         String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
 
+
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
-        request.add(jsonObjectRequest);
+
+         //request.add(jsonObjectRequest);
+        //request.getCache().clear();
+        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -242,9 +241,6 @@ public class Identificacion_geografica extends Fragment implements Response.List
 
     @Override
     public void onResponse(JSONObject response) {
-
-
-
 
 
         JSONArray json=response.optJSONArray("usuario");

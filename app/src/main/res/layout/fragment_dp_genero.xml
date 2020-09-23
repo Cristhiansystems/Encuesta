@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="1.02 ¿Cúal es su sexo?" />
+        android:text="1.02 ¿Cúal es tu sexo?" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="1.03 ¿Cuantos años tienes?" />
+        android:text="1.03 ¿Cuántos años tienes?" />
 
     <LinearLayout
         android:layout_width="match_parent"

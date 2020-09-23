@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="3.02 ¿Que tipo de vivienda es?" />
+        android:text="3.02 ¿Qué tipo de vivienda es?" />
 
     <LinearLayout
         android:layout_width="match_parent"

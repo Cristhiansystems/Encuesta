@@ -85,12 +85,85 @@
             android:inputType="number" />
 
     </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="1.07 ¿Cual es tu estado civil?" />
 
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="100dp"
+                >
+
+                <RadioButton
+                    android:id="@+id/soltera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Soltera (o)" />
+
+                <RadioButton
+                    android:id="@+id/casada"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Casada (o)" />
+
+                <RadioButton
+                    android:id="@+id/concubinato"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Concubinato" />
+
+
+                <RadioButton
+                    android:id="@+id/divorciada"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Divorciada (o)" />
+
+
+                <RadioButton
+                    android:id="@+id/viuda"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Viuda (o)" />
+
+
+                <RadioButton
+                    android:id="@+id/separada"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Separada(o)" />
+
+
+                <RadioButton
+                    android:id="@+id/padreSoltero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Padre Soltero" />
+
+
+                <RadioButton
+                    android:id="@+id/madreSoltera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Madre Soltera" />
+
+
+                <RadioButton
+                    android:id="@+id/otroEstadoCivil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Otro/no sabe/no responde" />
+            </RadioGroup>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="1.07.01 ¿Tiene Hijos?" />
+        android:text="1.07.01 ¿Tiene hijos o hijas?" />
 
     <RadioGroup
         android:layout_width="wrap_content"
@@ -114,6 +187,7 @@
     </RadioGroup>
 
     <LinearLayout
+        android:id="@+id/layout1702"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -124,7 +198,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="1.07.02 ¿Cuantos?" />
+            android:text="1.07.02 ¿Cuántos?" />
 
 
         <EditText
@@ -144,7 +218,7 @@
         android:orientation="horizontal"
 
         android:layout_marginBottom="15dp">
-        >
+
 
         <Button
             android:id="@+id/btnAtras5"

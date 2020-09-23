@@ -254,7 +254,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="10.10 ¿Cual es el emprendimiento?" />
+        android:text="10.10 ¿Cuál es el emprendimiento?" />
 
     <EditText
         android:id="@+id/txtResp1010"

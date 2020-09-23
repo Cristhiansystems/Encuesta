@@ -73,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="Cédula de Identidad (Poner Numero)" />
+        android:text="Cédula de Identidad (Poner Número)" />
 
 
         <EditText
@@ -115,7 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Run (Poner Numero)" />
+            android:text="Run (Poner Número)" />
 
 
         <EditText

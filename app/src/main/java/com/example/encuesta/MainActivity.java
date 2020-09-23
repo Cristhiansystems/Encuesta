@@ -2,6 +2,8 @@ package com.example.encuesta;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -16,11 +18,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import android.view.Menu;
 
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -28,11 +34,18 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.encuesta.entidades.volleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements IComunicacionFragments, Response.Listener<JSONObject>, Response.ErrorListener,
         v_violencia_pareja_actual.OnFragmentInteractionListener,
@@ -91,12 +104,13 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
     NavigationView navigationView;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    EditText txtusuario;
 
     //volley
     ProgressDialog progreso;
-    RequestQueue request;
+   // RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
-
+    StringRequest stringRequest;
 
     //navegarFragments
     String idEncuesta;
@@ -179,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
     preg_eval_13_0_3 preg_eval_13_0_3;
     obs_encuestador obs_encuestador;
     principal principal;
+    salida salida;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -191,24 +206,68 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
         navigationView=findViewById(R.id.navigationView);
 
         navigationView.setNavigationItemSelectedListener(this);
-        Bundle parametros = this.getIntent().getExtras();
+
+        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, "encuestas", null, 2);
+
+       Bundle parametros = this.getIntent().getExtras();
 
             String tipo_usuario = parametros.getString("Usuario");
+            String usuario = parametros.getString("usu");
+
+            txtusuario=(EditText) findViewById(R.id.idusuario);
+            txtusuario.setText(usuario);
+        txtusuario.setVisibility(View.INVISIBLE);
+        txtusuario.setVisibility(View.GONE);
+
             EsconderItem(tipo_usuario);
-
-
-
         actionBarDrawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         actionBarDrawerToggle.syncState();
-        request= Volley.newRequestQueue(this);
+       //request= Volley.newRequestQueue(this);
+       // consultarEncuesta(usuario);
 
-        fragmentManager=getSupportFragmentManager();
-        fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.container,new principal());
-        fragmentTransaction.commit();
 
+
+    }
+
+    private void consultarEncuesta(String usuario) {
+        String ip=getString(R.string.ip);
+        String url=ip+"consultausuarioEncuesta.php?usuario="+ usuario.toString();
+        url=url.replace(" ", "%20");
+
+        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            if (response.trim().equalsIgnoreCase("no tiene")) {
+
+                principal principal= new principal();
+                Bundle args = new Bundle();
+                args.putString("usu", usuario);
+                principal.setArguments(args);
+                getSupportFragmentManager().
+                        beginTransaction().
+                        replace(R.id.container, principal).addToBackStack(null).commit();
+
+            } else {
+
+                buscar_encuestas buscar_encuestas= new buscar_encuestas();
+                Bundle args = new Bundle();
+                args.putString("usu", usuario);
+                buscar_encuestas.setArguments(args);
+                getSupportFragmentManager().
+                        beginTransaction().
+                        replace(R.id.container, buscar_encuestas).addToBackStack(null).commit();
+                Menu nav_Menu = navigationView.getMenu();
+                nav_Menu.findItem(R.id.nueva_encuesta).setVisible(false);
+
+            }
+
+
+        }, error -> {
+            Toast.makeText(this, "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
+
+        volleySingleton.getInstanciaVolley(this).addToRequestQueue(stringRequest);
     }
 
     @Override
@@ -220,8 +279,8 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
         
         switch (Usuario){
             case "Adolescente":
-            Menu nav_Menu = navigationView.getMenu();
-            nav_Menu.findItem(R.id.lista_encuesta).setVisible(false);
+           /*Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nueva_encuesta).setVisible(false);*/
             break;
 
         }
@@ -234,10 +293,16 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
             cargarWebservices();
 
         }   if (menuItem.getItemId()==R.id.lista_encuesta) {
-            fragmentManager=getSupportFragmentManager();
-            fragmentTransaction=fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container,new buscar_encuestas());
-            fragmentTransaction.commit();
+            buscar_encuestas buscar_encuestas= new buscar_encuestas();
+            Bundle args = new Bundle();
+            String usuario=txtusuario.getText().toString();
+            args.putString("usu", usuario);
+            buscar_encuestas.setArguments(args);
+            getSupportFragmentManager().
+                    beginTransaction().
+                    replace(R.id.container, buscar_encuestas).addToBackStack(null).commit();
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nueva_encuesta).setVisible(false);
 
         }
         return false;
@@ -245,21 +310,44 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
 
     private void cargarWebservices() {
 
-        progreso=new ProgressDialog(this);
+       /* progreso=new ProgressDialog(this);
         progreso.setMessage("cargando...");
         progreso.show();
         String ip=getString(R.string.ip);
-        String url=ip+"registroEncuesta.php";
+        String url=ip+"registroEncuesta.php?usuario="+txtusuario.getText().toString();
         url=url.replace(" ", "%20");
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
-        request.add(jsonObjectRequest);
+       // request.getCache().clear();
+        //request.add(jsonObjectRequest);
+        volleySingleton.getInstanciaVolley(this).addToRequestQueue(jsonObjectRequest);*/
+
+       ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, "encuestas", null, 2);
+        SQLiteDatabase db=conn.getWritableDatabase();
+
+        Calendar c = Calendar.getInstance();
+
+        String sDate = c.get(Calendar.YEAR) + "-"
+                + c.get(Calendar.MONTH)
+                + "-" + c.get(Calendar.DAY_OF_MONTH);
+        Toast.makeText(this, "Fecha: " + sDate, Toast.LENGTH_SHORT).show();
+        String insert="insert into encuesta_emt (id_usuario, nombre, fecha, fecha_nacimiento) VALUES ('1', '', '"+sDate+"', '"+sDate+"')";
+        db.execSQL(insert);
+        db.close();
+        Bundle bundle = new Bundle();
+
+        bundle.putString("idEncuesta", idEncuesta );
+        Identificacion_geografica identificacion_geografica = new Identificacion_geografica();
+        identificacion_geografica.setArguments(bundle);
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, identificacion_geografica).addToBackStack(null).commit();
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
         progreso.hide();
-        Toast.makeText(this, "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "No se pudo registrar 1" + error.toString(), Toast.LENGTH_SHORT).show();
         Log.i("ERROR: ", error.toString());
     }
 
@@ -1236,6 +1324,19 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
         getSupportFragmentManager().
                 beginTransaction().
                 replace(R.id.container, principal).addToBackStack(null).commit();
+    }
+
+
+    public void enviarEncuesta79(String idEncuesta){
+        salida=new salida();
+        Bundle bundleEnvio=new Bundle();
+        bundleEnvio.putString("idEncuesta", idEncuesta);
+
+        salida.setArguments(bundleEnvio);
+
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, salida).addToBackStack(null).commit();
     }
 
 }

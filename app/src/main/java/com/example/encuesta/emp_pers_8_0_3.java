@@ -24,6 +24,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.encuesta.entidades.volleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,7 +74,7 @@ public class emp_pers_8_0_3 extends Fragment {
     //volley
 
     ProgressDialog progreso;
-    RequestQueue request;
+    //RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
     StringRequest stringRequest;
     //
@@ -146,7 +147,7 @@ public class emp_pers_8_0_3 extends Fragment {
         }
 
         //Aqui empieza el volley
-        request= Volley.newRequestQueue(getContext());
+        //request= Volley.newRequestQueue(getContext());
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
@@ -199,7 +200,8 @@ public class emp_pers_8_0_3 extends Fragment {
             Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
             Log.i("ERROR: ", error.toString());
         });
-        request.add(jsonObjectRequest);
+       // request.add(jsonObjectRequest);
+        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     private void actualizar(String pantalla) {
@@ -252,7 +254,8 @@ public class emp_pers_8_0_3 extends Fragment {
                 return parametros;
             }
         };
-        request.add(stringRequest);
+        //request.add(stringRequest);
+        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

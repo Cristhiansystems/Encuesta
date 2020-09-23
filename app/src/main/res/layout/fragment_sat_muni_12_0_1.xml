@@ -18,7 +18,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="XII SATISFACION CON EL MUNICIPIO / GOBERNACION"
+        android:text="XII SATISFACCION CON EL MUNICIPIO / GOBERNACION"
         android:textColor="@color/colorLetra"
         android:background="@color/colorRojo"/>
 

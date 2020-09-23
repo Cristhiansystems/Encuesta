@@ -29,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.encuesta.Adapter.FamiliaAdapter;
 import com.example.encuesta.entidades.Familia;
+import com.example.encuesta.entidades.volleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,7 +72,7 @@ public class ddef_gastar_dinero extends Fragment{
     //volley
 
     ProgressDialog progreso;
-    RequestQueue request;
+   // RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
     StringRequest stringRequest;
     //
@@ -156,7 +157,7 @@ public class ddef_gastar_dinero extends Fragment{
 
         }
         //Aqui empieza el volley
-        request= Volley.newRequestQueue(getContext());
+        //request= Volley.newRequestQueue(getContext());
         //aqui se llama al web services
         cargarWebServices();
 
@@ -259,7 +260,8 @@ public class ddef_gastar_dinero extends Fragment{
                 return parametros;
             }
         };
-        request.add(stringRequest);
+       // request.add(stringRequest);
+        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
     }
 
     private void cargarWebServices() {
@@ -471,7 +473,8 @@ public class ddef_gastar_dinero extends Fragment{
             Toast.makeText(getContext(), "No se pudo consultar" + error.toString(), Toast.LENGTH_SHORT).show();
             Log.i("ERROR: ", error.toString());
         });
-        request.add(jsonObjectRequest);
+        //request.add(jsonObjectRequest);
+        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

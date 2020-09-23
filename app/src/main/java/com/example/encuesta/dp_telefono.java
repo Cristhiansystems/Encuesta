@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.encuesta.entidades.volleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,10 +62,14 @@ public class dp_telefono extends Fragment{
     String idEncuesta,  Fijo, Celular;
     Integer hijos, NumHijos;
     RadioButton rdSiHijos, rdNoHijos;
+
+    Integer estado_civil;
+    RadioButton rdSoltero, rdCasada, rdConcubino, rdDivorcada, rdViuda, rdSeparada, rdPadreSoltero, rdMadreSoltera, rdotro;
+    LinearLayout display1702;
     //volley
 
     ProgressDialog progreso;
-    RequestQueue request;
+  // RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
     StringRequest stringRequest;
     //
@@ -118,6 +124,39 @@ public class dp_telefono extends Fragment{
         rdSiHijos=(RadioButton) vista.findViewById(R.id.SiHijos);
         rdNoHijos=(RadioButton) vista.findViewById(R.id.NoHijos);
 
+        rdSoltero=(RadioButton) vista.findViewById(R.id.soltera);
+        rdCasada=(RadioButton) vista.findViewById(R.id.casada);
+        rdConcubino=(RadioButton) vista.findViewById(R.id.concubinato);
+        rdDivorcada=(RadioButton) vista.findViewById(R.id.divorciada);
+        rdViuda=(RadioButton) vista.findViewById(R.id.viuda);
+        rdSeparada=(RadioButton) vista.findViewById(R.id.separada);
+        rdPadreSoltero=(RadioButton) vista.findViewById(R.id.padreSoltero);
+        rdMadreSoltera=(RadioButton) vista.findViewById(R.id.madreSoltera);
+        rdotro=(RadioButton) vista.findViewById(R.id.otroEstadoCivil);
+
+        display1702=(LinearLayout) vista.findViewById(R.id.layout1702);
+
+        rdNoHijos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                display1702.setVisibility(View.INVISIBLE);
+                display1702.setVisibility(View.GONE);
+
+            }
+        });
+
+        rdSiHijos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                display1702.setVisibility(View.VISIBLE);
+
+
+
+            }
+        });
+
         Bundle data=getArguments();
 
         if(data!=null){
@@ -129,7 +168,7 @@ public class dp_telefono extends Fragment{
         }
 
         //Aqui empieza el volley
-        request= Volley.newRequestQueue(getContext());
+       // request= Volley.newRequestQueue(getContext());
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
@@ -154,7 +193,7 @@ public class dp_telefono extends Fragment{
             if (response.trim().equalsIgnoreCase("actualiza")) {
                 if(pantalla=="Siguiente"){
 
-                    interfaceComunicaFragments.enviarEncuesta6(idFragment.getText().toString());
+                    interfaceComunicaFragments.enviarEncuesta7(idFragment.getText().toString());
                 }else if(pantalla=="Atras"){
                     interfaceComunicaFragments.enviarEncuesta4(idFragment.getText().toString());
                 }
@@ -182,7 +221,26 @@ public class dp_telefono extends Fragment{
                     hijos="2";
                 }
 
-
+                String estadoCivil="0";
+                if(rdSoltero.isChecked()){
+                    estadoCivil="1";
+                }else if(rdCasada.isChecked()){
+                    estadoCivil="2";
+                }else if(rdConcubino.isChecked()){
+                    estadoCivil="3";
+                }else if(rdDivorcada.isChecked()){
+                    estadoCivil="4";
+                }else if(rdViuda.isChecked()){
+                    estadoCivil="5";
+                }else if(rdSeparada.isChecked()){
+                    estadoCivil="6";
+                }else if(rdPadreSoltero.isChecked()){
+                    estadoCivil="7";
+                }else if(rdMadreSoltera.isChecked()){
+                    estadoCivil="8";
+                }else if(rdotro.isChecked()){
+                    estadoCivil="88";
+                }
 
                 String numHijos=txtNumHijos.getText().toString();
                 String fijo=numFijo.getText().toString();
@@ -196,12 +254,14 @@ public class dp_telefono extends Fragment{
                 parametros.put("fijo",fijo);
                 parametros.put("celular",celular);
                 parametros.put("numHijos",numHijos);
+                parametros.put("estadoCivil",estadoCivil);
 
 
                 return parametros;
             }
         };
-        request.add(stringRequest);
+       // request.add(stringRequest);
+        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
     }
 
     private void cargarWebServices() {
@@ -221,6 +281,7 @@ public class dp_telefono extends Fragment{
                 Celular=jsonObject.optString("celular");
                 NumHijos=jsonObject.optInt("n_hijos");
                 hijos=jsonObject.optInt("hijos");
+                estado_civil=jsonObject.optInt("estado_civil");
 
 
 
@@ -228,11 +289,35 @@ public class dp_telefono extends Fragment{
                 numFijo.setText(Fijo.toString());
                 txtNumHijos.setText(NumHijos.toString());
 
+                if(hijos==2){
+                    display1702.setVisibility(View.INVISIBLE);
+                    display1702.setVisibility(View.GONE);
 
+                }
                 if(hijos==1){
                     rdSiHijos.setChecked(true);
                 }else if(hijos==2){
                     rdNoHijos.setChecked(true);
+                }
+
+                if(estado_civil==1){
+                    rdSoltero.setChecked(true);
+                }else if(estado_civil==2){
+                    rdCasada.setChecked(true);
+                }else if(estado_civil==3){
+                    rdConcubino.setChecked(true);
+                }else if(estado_civil==4){
+                    rdDivorcada.setChecked(true);
+                }else if(estado_civil==5){
+                    rdViuda.setChecked(true);
+                }else if(estado_civil==6){
+                    rdSeparada.setChecked(true);
+                }else if(estado_civil==7){
+                    rdPadreSoltero.setChecked(true);
+                }else if(estado_civil==8){
+                    rdMadreSoltera.setChecked(true);
+                }else if(estado_civil==88){
+                    rdotro.setChecked(true);
                 }
 
 
@@ -244,7 +329,8 @@ public class dp_telefono extends Fragment{
             Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
             Log.i("ERROR: ", error.toString());
         });
-        request.add(jsonObjectRequest);
+        //request.add(jsonObjectRequest);
+        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

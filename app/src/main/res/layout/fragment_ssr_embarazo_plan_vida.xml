@@ -70,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="13.8 ¿La personas con VIH tiene  derecho a seguir estudiando o trabajando si ser discriminando?" />
+                android:text="13.8 ¿La personas con virus de la inmunodeficiencia humana (VIH) tienen derecho a seguir estudiando o trabajando si ser discriminando?" />
 
             <RadioGroup
                 android:layout_width="match_parent"

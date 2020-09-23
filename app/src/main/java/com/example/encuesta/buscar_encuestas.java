@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,7 @@ public class buscar_encuestas extends Fragment implements Response.Listener<JSON
   RequestQueue request;
   JsonObjectRequest jsonObjectRequest;
   EditText NroEncuesta,Fecha;
+  LinearLayout display;
 
   Button btnBuscE;
   View vista;
@@ -117,6 +119,14 @@ public class buscar_encuestas extends Fragment implements Response.Listener<JSON
     NroEncuesta=(EditText)vista.findViewById(R.id.txtNroEncuesta);
     Fecha=(EditText)vista.findViewById(R.id.txtFecha);
     btnBuscE=(Button)vista.findViewById(R.id.btnBuscarEncuesta);
+  display=(LinearLayout) vista.findViewById(R.id.layoutbusqueda);
+    Bundle args = getArguments();
+    String usu = args.getString("usu", "0");
+
+    if(!usu.equals("0")){
+      display.setVisibility(View.INVISIBLE);
+      display.setVisibility(View.GONE);
+    }
     Fecha.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
@@ -128,10 +138,11 @@ public class buscar_encuestas extends Fragment implements Response.Listener<JSON
 
     request= Volley.newRequestQueue(getContext());
 
+    cargarWebServices(usu);
 
     btnBuscE.setOnClickListener(v -> {
 
-      cargarWebServices();
+      cargarWebServices(usu);
       // adapter.notifyDataSetChanged();
     });
 
@@ -139,9 +150,6 @@ public class buscar_encuestas extends Fragment implements Response.Listener<JSON
 
     return vista;
   }
-
-
-
 
 
 
@@ -162,16 +170,27 @@ public class buscar_encuestas extends Fragment implements Response.Listener<JSON
 
 
 
-  private void cargarWebServices() {
+  private void cargarWebServices(String usu) {
 
     progreso=new ProgressDialog(getContext());
     progreso.setMessage("Consultando....");
     progreso.show();
     String ip=getString(R.string.ip);
+
+    if(usu.equals("0")){
     String url=ip+"consultaListaEncuesta.php?id="+NroEncuesta.getText().toString()+"&fecha="+Fecha.getText().toString();
 
     jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
     request.add(jsonObjectRequest);
+    }else{
+
+      String url=ip+"consultaListaEncuestaUsuario.php?idusuario="+usu;
+
+      jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+      request.add(jsonObjectRequest);
+    }
+
+
   }
 
   // TODO: Rename method, update argument and hook method into UI event

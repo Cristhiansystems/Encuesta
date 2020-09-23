@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="11.34 Conoces que es una Bolsa de trabajo (o su equivalente agencia de trabajo) en tu municipio?" />
+        android:text="11.34 ¿Conoces que es una Bolsa de trabajo (o su equivalente agencia de trabajo) en tu municipio?" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textStyle="bold"
-        android:text="11.35 Puedes mencionar a alguna? "/>
+        android:text="11.35 ¿Puedes mencionar a alguna? "/>
     <EditText
         android:id="@+id/txtResp1135"
         android:layout_width="match_parent"
@@ -191,7 +191,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textStyle="bold"
-        android:text="11.38 Menciona ¿cual fue el objetivo de tu Plan Laboral? "/>
+        android:text="11.38 Menciona ¿cuál fue el objetivo de tu Plan Laboral? "/>
     <EditText
         android:id="@+id/txtResp1138"
         android:layout_width="match_parent"

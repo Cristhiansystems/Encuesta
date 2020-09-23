@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.encuesta.entidades.volleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,7 +62,7 @@ public class dp_nombre_completo extends Fragment {
      //volley
 
     ProgressDialog progreso;
-    RequestQueue request;
+   //RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
     StringRequest stringRequest;
     //
@@ -126,7 +127,7 @@ public class dp_nombre_completo extends Fragment {
         }
 
         //Aqui empieza el volley
-        request= Volley.newRequestQueue(getContext());
+        //request= Volley.newRequestQueue(getContext());
         //aqui se llama al web services
         cargarWebServices();
         btnSiguiente.setOnClickListener(v -> {
@@ -148,7 +149,7 @@ public class dp_nombre_completo extends Fragment {
 
         //String ip=getString(R.string.ip);
         String ip=getString(R.string.ip);
-        String url=ip+"actualizarNombreCompleto.php?";
+        String url=ip+"actualizarNombreCompleto.php";
 
         stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             if (response.trim().equalsIgnoreCase("actualiza")) {
@@ -163,12 +164,7 @@ public class dp_nombre_completo extends Fragment {
 
                 Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
 
-
-
             }
-
-
-
 
         }, error -> {
             Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
@@ -195,8 +191,10 @@ public class dp_nombre_completo extends Fragment {
                 return parametros;
             }
         };
-        request.add(stringRequest);
+        //request.getCache().clear();
+        //request.add(stringRequest);
 
+        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
 
     }
 
@@ -204,8 +202,7 @@ public class dp_nombre_completo extends Fragment {
         String ip=getString(R.string.ip);
         String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
-
+            jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
             JSONArray json=response.optJSONArray("usuario");
             JSONObject jsonObject=null;
@@ -224,6 +221,7 @@ public class dp_nombre_completo extends Fragment {
                 txtApodo.setText(Apodo.toString());
 
             }catch (JSONException e){
+                Toast.makeText(getContext(), " "+ e.getMessage().toString() , Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
 
@@ -231,7 +229,10 @@ public class dp_nombre_completo extends Fragment {
             Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
             Log.i("ERROR: ", error.toString());
         });
-        request.add(jsonObjectRequest);
+
+        //request.add(jsonObjectRequest);
+        //request.getCache().clear();
+        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

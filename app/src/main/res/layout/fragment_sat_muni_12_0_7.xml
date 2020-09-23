@@ -18,7 +18,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="XII SATISFACION CON EL MUNICIPIO / GOBERNACION"
+        android:text="XII SATISFACCION CON EL MUNICIPIO / GOBERNACION"
         android:textColor="@color/colorLetra"
         android:background="@color/colorRojo"/>
 
@@ -439,7 +439,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginTop="40dp"
-                    android:text="12.10 Intervenciones de la defensoria (Prevención, atención, recuperación) en todo tipo de violencia" />
+                    android:text="12.10 Intervenciones de la Defensoria de la Niñez y Adolecencia(Prevención, atención, recuperación) en todo tipo de violencia" />
 
             <TextView
                 android:layout_width="wrap_content"

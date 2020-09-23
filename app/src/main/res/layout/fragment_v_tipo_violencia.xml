@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="7.01 ¿Que tipo de violencia has sufrido?" />
+        android:text="7.01 ¿Qué tipo de violencia has sufrido?" />
 
 
     <LinearLayout

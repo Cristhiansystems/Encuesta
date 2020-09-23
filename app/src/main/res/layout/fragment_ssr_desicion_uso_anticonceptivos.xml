@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="5.09 ¿De quien fue la desición del uso de anticonceptivos?" />
+                android:text="5.09 ¿De quien fue la decisión del uso de anticonceptivos?" />
 
 
             <RadioGroup

@@ -6,7 +6,8 @@
     <string name="holaaa">hols</string>
     <string name="open">open</string>
     <string name="close">close</string>
-    <string name="title_activity_login">Encuesta Jovenes</string>
+    <string name="title_activity_login">ENCUESTA ADOLESCENTES/JÓVENES</string>
     <!-- <string name="ip">https://encuestaandroid.000webhostapp.com/encuestasWS/</string>-->
-      <string name="ip">http://192.168.0.13/encuestasWS/</string>
-</resources>
+      <string name="ip">https://aacbar.com/encuestasWS/</string>
+    <!-- <string name="ip">http://192.168.0.13/encuestasWS/</string>-->
+ </resources>

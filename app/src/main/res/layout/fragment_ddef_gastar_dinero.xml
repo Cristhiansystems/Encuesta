@@ -29,16 +29,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="2.09 ¿Puedes detallar en qué se gasta el dinero en" />
+               <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="2.09 ¿Puedes detallar en qué se gasta el dinero en tu familia a lo largo del mes?" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Marcar por orden de importancia 1,2,3.. y luego colcoar el porcentaje" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="tu familia a lo largo del mes?" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -328,7 +330,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="2.10 ¿Cómo te enteraste del PROGRAMA 'ADOLECENTES PROTAGONISTAS DEL DESARROLLO'?" />
+        android:text="2.10 ¿Cómo te enteraste del PROGRAMA 'ADOLESCENTES PROTAGONISTAS DEL DESARROLLO'?" />
 
 
     <LinearLayout

@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="1.01 ¿Cuál es tu nombre completo" />
+        android:text="1.01 ¿Cuál es tu nombre completo?" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,8 +41,6 @@
         android:layout_marginTop="30dp"
         android:orientation="horizontal"
         android:layout_marginBottom="15dp">
-        >
-
 
         <EditText
             android:id="@+id/txtnombre"
@@ -52,8 +50,6 @@
             android:layout_marginRight="20dp"
             android:layout_weight="2"
             android:hint="Nombres" />
-
-
 
 
 

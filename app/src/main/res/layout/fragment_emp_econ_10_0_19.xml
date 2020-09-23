@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="10.19 ¿Realizas el análisis de costos de precios de alguno o todos tus productos? (contratos, acuerdos, facturas y/o recibos, etc.)"/>
+        android:text="10.19 ¿Realizas el análisis de costos de precios de alguno o todos tus productos?"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="10.20 Si la respuesta es si, cuales? - opción múltiple:" />
+        android:text="10.20 Si la respuesta es si, cuáles?" />
 
             <EditText
                 android:id="@+id/respuesta1020"

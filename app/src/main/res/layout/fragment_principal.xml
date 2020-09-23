@@ -15,7 +15,7 @@
         android:layout_marginTop="30dp"
         android:gravity="center"
         android:textStyle="bold"
-        android:text="PROGRAMA 'ADOLECENTES PROTAGONISTAS DEL DESARROLLO' - EVALUACIÓN FINAL"
+        android:text="PROGRAMA 'ADOLESCENTES PROTAGONISTAS DEL DESARROLLO' - EVALUACIÓN FINAL"
         android:textSize="25sp"/>
 
     <ScrollView
@@ -25,8 +25,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
 
     <TextView
@@ -56,11 +55,52 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
         android:textColor="#1f618d"
-        android:text="Muchas gracias por participar"
+        android:text="Estas de acuerdo en participar"
         android:textSize="15sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/botonSig"
+                android:layout_weight="1"
+                android:text="NO"
+                android:textColor="@color/colorLetra" />
+
+            <Button
+                android:id="@+id/btnSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="SI"
+                android:textColor="@color/colorLetra" />
+
+
+
+
+        </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:textColor="#1f618d"
+                android:text="Si tienes alguna duda o preocupación puedes contactarte con el correo electrónico boliviasalvaguarda@savethechildren.org, o al número de celular 72005523 (Graciela Zacari)"
+                android:textSize="15sp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

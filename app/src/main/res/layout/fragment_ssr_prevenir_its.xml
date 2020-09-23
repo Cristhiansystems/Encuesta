@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="13.6 ¿Qué harías para prevenir una ITS o VIH?" />
+                android:text="13.6 ¿Cómo podrías prevenir una enfermedad de transmición sexual o el virus de la inmunodeficiencia humana (VIH)?" />
 
             <LinearLayout
                 android:layout_width="match_parent"

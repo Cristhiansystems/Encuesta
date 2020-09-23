@@ -1,12 +1,33 @@
 package com.example.encuesta;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.encuesta.entidades.volleySingleton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -26,6 +47,24 @@ public class principal extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    FragmentTransaction transaction;
+    String idEncuesta;
+    Button btnSi;
+    Button btnNo;
+    View vista;
+    TextView idFragment;
+    //volley
+
+    ProgressDialog progreso;
+    //RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
+    //
+    //
+    //navegar pantallas
+    Activity actividad;
+    IComunicacionFragments interfaceComunicaFragments;
 
     private OnFragmentInteractionListener mListener;
 
@@ -47,6 +86,8 @@ public class principal extends Fragment {
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,8 +104,68 @@ public class principal extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_principal, container, false);
+        vista=inflater.inflate(R.layout.fragment_principal, container, false);
+        btnSi= (Button) vista.findViewById(R.id.btnSi);
+        btnNo= (Button) vista.findViewById(R.id.btnNo);
+        Bundle args = getArguments();
+        String usu = args.getString("usu", "0");
+        //Aqui empieza el volley
+       //request= Volley.newRequestQueue(getContext());
+       btnNo.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+               getActivity().onBackPressed();
+
+           }
+       });
+
+        btnSi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                cargarWebServices(usu);
+
+            }
+        });
+
+        return vista;
+    }
+
+    private void cargarWebServices(String usu) {
+        progreso=new ProgressDialog(getContext());
+        progreso.setMessage("cargando...");
+        progreso.show();
+        String ip=getString(R.string.ip);
+        String url=ip+"registroEncuesta.php?usuario="+ usu.toString();
+        url=url.replace(" ", "%20");
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+
+            JSONArray json=response.optJSONArray("usuario");
+            JSONObject jsonObject=null;
+
+            try{
+                jsonObject=json.getJSONObject(0);
+                idEncuesta=jsonObject.optString("id");
+                progreso.hide();
+                Toast.makeText(getContext(), "Encuesta" + idEncuesta, Toast.LENGTH_SHORT).show();
+                interfaceComunicaFragments.enviarEncuesta(idEncuesta);
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+
+
+
+        }, error -> {
+            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("ERROR: ", error.toString());
+        });
+        //request.getCache().clear();
+       //request.add(jsonObjectRequest);
+        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -76,6 +177,14 @@ public class principal extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+
+        //navegar entre fragments
+        if(context instanceof Activity){
+            this.actividad= (Activity) context;
+            interfaceComunicaFragments= (IComunicacionFragments) this.actividad;
+        }
+        ////
+
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
