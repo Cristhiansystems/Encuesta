@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -78,6 +81,10 @@ public class emp_lab_11_0_1 extends Fragment {
     Integer trabajaste, estudios, edad, enfermedad, cuidaFamiliar, noTrabajo, noNecesito, otro, oportunidadEmprendimiento, emprendimiento, actividadActual;
     RadioButton rdTrabajasteSi, rdTrabajasteNo, rdEstudioSi, rdEstudioNo, rdEdadSi, rdEdadNo, rdEnfermedadSi, rdEnfermedadNo, rdCuidaFamiliarSi, rdCuidaFamiliarNo, rdNoTrabajoSi, rdNoTrabajoNo, rdNoNecesitoSi, rdNoNecesitoNo, rdOtroSi, rdOtrono;
     LinearLayout display1102, display1102ops;
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
+
     //volley
 
     ProgressDialog progreso;
@@ -148,8 +155,11 @@ public class emp_lab_11_0_1 extends Fragment {
         display1102=(LinearLayout) vista.findViewById(R.id.layout1102);
         display1102ops=(LinearLayout) vista.findViewById(R.id.layout1102ops);
 
+
         display1102ops.setVisibility(View.INVISIBLE);
         display1102ops.setVisibility(View.GONE);
+
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
 
         rdTrabajasteSi.setOnClickListener(v -> {
 
@@ -182,246 +192,241 @@ public class emp_lab_11_0_1 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta61(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            if(oportunidadEmprendimiento==2){
+
+                interfaceComunicaFragments.enviarEncuesta52(idFragment.getText().toString());
+            }else {
+                if (emprendimiento == 1) {
+                    interfaceComunicaFragments.enviarEncuesta53(idFragment.getText().toString());
+                } else {
+                    if(actividadActual==2){
+                        interfaceComunicaFragments.enviarEncuesta54(idFragment.getText().toString());
+                    }else{
+                        interfaceComunicaFragments.enviarEncuesta59(idFragment.getText().toString());
+                    }
+
+                }
+            }
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "alguna_vez_trabajaste"
+                ,"no_trabajo_estudios"
+                ,"no_trabajo_edad"
+                ,"no_trabajo_enfermedad"
+                ,"no_trabajo_cuidado_familiar"
+                ,"no_trabajo_encontrar"
+                ,"no_trabajo_no_necesito"
+                ,"no_trabajo_otro"
+                ,"respuesta_trabajaste"
+                ,"no_trabajo_otro_nombre"
 
-
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
-
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                trabajaste = jsonObject.optInt("alguna_vez_trabajaste");
-                estudios = jsonObject.optInt("no_trabajo_estudios");
-                edad = jsonObject.optInt("no_trabajo_edad");
-                enfermedad = jsonObject.optInt("no_trabajo_enfermedad");
-                cuidaFamiliar = jsonObject.optInt("no_trabajo_cuidado_familiar");
-                noTrabajo = jsonObject.optInt("no_trabajo_encontrar");
-                noNecesito= jsonObject.optInt("no_trabajo_no_necesito");
-                otro = jsonObject.optInt("no_trabajo_otro");
-                respuesta= jsonObject.optString("respuesta_trabajaste");
-                otronom = jsonObject.optString("no_trabajo_otro_nombre");
-
-                //otrofragment
-                emprendimiento = jsonObject.optInt("contunia_emprendimiento");
-                oportunidadEmprendimiento = jsonObject.optInt("opotunidad_realizar_emprendimiento");
-                actividadActual = jsonObject.optInt("actividad_economica");
+                ,"contunia_emprendimiento"
+                ,"opotunidad_realizar_emprendimiento"
+                ,"actividad_economica"
 
 
-                txtotro.setText(otronom.toString());
-                txtrespuesta.setText(respuesta.toString());
+        };
 
-                if(trabajaste==1){
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
-                    display1102.setVisibility(View.INVISIBLE);
-                    display1102.setVisibility(View.GONE);
+        trabajaste = Integer.parseInt( cursor.getString(0));
+        estudios =Integer.parseInt( cursor.getString(1));
+        edad = Integer.parseInt( cursor.getString(2));
+        enfermedad = Integer.parseInt( cursor.getString(3));
+        cuidaFamiliar =Integer.parseInt( cursor.getString(4));
+        noTrabajo = Integer.parseInt( cursor.getString(5));
+        noNecesito= Integer.parseInt( cursor.getString(6));
+        otro = Integer.parseInt( cursor.getString(7));
+        respuesta= cursor.getString(8);
+        otronom = cursor.getString(9);
 
-                }
+        //otrofragment
+        emprendimiento = Integer.parseInt( cursor.getString(10));
+        oportunidadEmprendimiento = Integer.parseInt( cursor.getString(11));
+        actividadActual = Integer.parseInt( cursor.getString(12));
 
-               if(trabajaste==1){
-                   rdTrabajasteSi.setChecked(true);
-               }else if(trabajaste==2){
-                   rdTrabajasteNo.setChecked(true);
-               }
 
-                if(estudios==1){
-                    rdEstudioSi.setChecked(true);
-                }else if(estudios==2){
-                    rdEstudioNo.setChecked(true);
-                }
 
-                if(edad==1){
-                    rdEdadSi.setChecked(true);
-                }else if(edad==2){
-                    rdEdadNo.setChecked(true);
-                }
+        txtotro.setText(otronom.toString());
+        txtrespuesta.setText(respuesta.toString());
 
-                if(enfermedad==1){
-                    rdEnfermedadSi.setChecked(true);
-                }else if(enfermedad==2){
-                    rdEnfermedadNo.setChecked(true);
-                }
+        if(trabajaste==1){
 
-                if(cuidaFamiliar==1){
-                    rdCuidaFamiliarSi.setChecked(true);
-                }else if(cuidaFamiliar==2){
-                    rdCuidaFamiliarNo.setChecked(true);
-                }
+            display1102.setVisibility(View.INVISIBLE);
+            display1102.setVisibility(View.GONE);
 
-                if(noTrabajo==1){
-                    rdNoTrabajoSi.setChecked(true);
-                }else if(noTrabajo==2){
-                    rdNoTrabajoNo.setChecked(true);
-                }
+        }
 
-                if(noNecesito==1){
-                    rdNoNecesitoSi.setChecked(true);
-                }else if(noNecesito==2){
-                    rdNoNecesitoNo.setChecked(true);
-                }
+        if(trabajaste==1){
+            rdTrabajasteSi.setChecked(true);
+        }else if(trabajaste==2){
+            rdTrabajasteNo.setChecked(true);
+        }
 
-                if(otro==1){
-                    rdOtroSi.setChecked(true);
-                }else if(otro==2){
-                    rdOtrono.setChecked(true);
-                }
+        if(estudios==1){
+            rdEstudioSi.setChecked(true);
+        }else if(estudios==2){
+            rdEstudioNo.setChecked(true);
+        }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-       // request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        if(edad==1){
+            rdEdadSi.setChecked(true);
+        }else if(edad==2){
+            rdEdadNo.setChecked(true);
+        }
+
+        if(enfermedad==1){
+            rdEnfermedadSi.setChecked(true);
+        }else if(enfermedad==2){
+            rdEnfermedadNo.setChecked(true);
+        }
+
+        if(cuidaFamiliar==1){
+            rdCuidaFamiliarSi.setChecked(true);
+        }else if(cuidaFamiliar==2){
+            rdCuidaFamiliarNo.setChecked(true);
+        }
+
+        if(noTrabajo==1){
+            rdNoTrabajoSi.setChecked(true);
+        }else if(noTrabajo==2){
+            rdNoTrabajoNo.setChecked(true);
+        }
+
+        if(noNecesito==1){
+            rdNoNecesitoSi.setChecked(true);
+        }else if(noNecesito==2){
+            rdNoNecesitoNo.setChecked(true);
+        }
+
+        if(otro==1){
+            rdOtroSi.setChecked(true);
+        }else if(otro==2){
+            rdOtrono.setChecked(true);
+        }
+
+        cursor.close();
+
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1101.php?";
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta61(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-                    if(oportunidadEmprendimiento==2){
-
-                        interfaceComunicaFragments.enviarEncuesta52(idFragment.getText().toString());
-                    }else {
-                        if (emprendimiento == 1) {
-                            interfaceComunicaFragments.enviarEncuesta53(idFragment.getText().toString());
-                        } else {
-                            if(actividadActual==2){
-                                interfaceComunicaFragments.enviarEncuesta54(idFragment.getText().toString());
-                            }else{
-                                interfaceComunicaFragments.enviarEncuesta59(idFragment.getText().toString());
-                            }
-
-                        }
-                    }
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+        try {
 
 
+            String otronom=txtotro.getText().toString();
+            String respuesta=txtrespuesta.getText().toString();
 
+            String trabajaste="0";
+            if(rdTrabajasteSi.isChecked()){
+                trabajaste="1";
+            }else if(rdTrabajasteNo.isChecked()){
+
+                trabajaste="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
+            String estudios="0";
+            if(rdEstudioSi.isChecked()){
+                estudios="1";
+            }else if(rdEstudioNo.isChecked()){
 
-                String otronom=txtotro.getText().toString();
-                String respuesta=txtrespuesta.getText().toString();
-
-              String trabajaste="0";
-              if(rdTrabajasteSi.isChecked()){
-                  trabajaste="1";
-              }else if(rdTrabajasteNo.isChecked()){
-
-                  trabajaste="2";
-              }
-
-                String estudios="0";
-                if(rdEstudioSi.isChecked()){
-                    estudios="1";
-                }else if(rdEstudioNo.isChecked()){
-
-                    estudios="2";
-                }
-
-                String edad="0";
-                if(rdEdadSi.isChecked()){
-                    edad="1";
-                }else if(rdEdadNo.isChecked()){
-
-                    edad="2";
-                }
-
-                String enfermedad="0";
-                if(rdEnfermedadSi.isChecked()){
-                    enfermedad="1";
-                }else if(rdEnfermedadNo.isChecked()){
-
-                    enfermedad="2";
-                }
-
-
-                String cuidaFamiliar="0";
-                if(rdCuidaFamiliarSi.isChecked()){
-                    cuidaFamiliar="1";
-                }else if(rdCuidaFamiliarNo.isChecked()){
-
-                    cuidaFamiliar="2";
-                }
-
-
-                String noTrabajo="0";
-                if(rdNoTrabajoSi.isChecked()){
-                    noTrabajo="1";
-                }else if(rdNoTrabajoNo.isChecked()){
-
-                    noTrabajo="2";
-                }
-
-                String noNecesito="0";
-                if(rdNoNecesitoSi.isChecked()){
-                    noNecesito="1";
-                }else if(rdNoNecesitoNo.isChecked()){
-
-                    noNecesito="2";
-                }
-
-                String otro="0";
-                if(rdOtroSi.isChecked()){
-                    otro="1";
-                }else if(rdOtrono.isChecked()){
-
-                    otro="2";
-                }
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("otronom", otronom);
-                parametros.put("trabajaste", trabajaste);
-                parametros.put("estudios", estudios);
-                parametros.put("edad", edad);
-                parametros.put("enfermedad", enfermedad);
-                parametros.put("cuidaFamiliar", cuidaFamiliar);
-                parametros.put("noTrabajo", noTrabajo);
-                parametros.put("noNecesito", noNecesito);
-                parametros.put("otro", otro);
-                parametros.put("respuesta", respuesta);
-
-                return parametros;
+                estudios="2";
             }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+            String edad="0";
+            if(rdEdadSi.isChecked()){
+                edad="1";
+            }else if(rdEdadNo.isChecked()){
+
+                edad="2";
+            }
+
+            String enfermedad="0";
+            if(rdEnfermedadSi.isChecked()){
+                enfermedad="1";
+            }else if(rdEnfermedadNo.isChecked()){
+
+                enfermedad="2";
+            }
+
+
+            String cuidaFamiliar="0";
+            if(rdCuidaFamiliarSi.isChecked()){
+                cuidaFamiliar="1";
+            }else if(rdCuidaFamiliarNo.isChecked()){
+
+                cuidaFamiliar="2";
+            }
+
+
+            String noTrabajo="0";
+            if(rdNoTrabajoSi.isChecked()){
+                noTrabajo="1";
+            }else if(rdNoTrabajoNo.isChecked()){
+
+                noTrabajo="2";
+            }
+
+            String noNecesito="0";
+            if(rdNoNecesitoSi.isChecked()){
+                noNecesito="1";
+            }else if(rdNoNecesitoNo.isChecked()){
+
+                noNecesito="2";
+            }
+
+            String otro="0";
+            if(rdOtroSi.isChecked()){
+                otro="1";
+            }else if(rdOtrono.isChecked()){
+
+                otro="2";
+            }
+
+
+
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put("no_trabajo_otro_nombre", otronom);
+            values.put("alguna_vez_trabajaste", trabajaste);
+            values.put("no_trabajo_estudios", estudios);
+            values.put("no_trabajo_edad", edad);
+            values.put("no_trabajo_enfermedad", enfermedad);
+            values.put("no_trabajo_cuidado_familiar", cuidaFamiliar);
+            values.put("no_trabajo_encontrar", noTrabajo);
+            values.put("no_trabajo_no_necesito", noNecesito);
+            values.put("no_trabajo_otro", otro);
+            values.put("respuesta_trabajaste", respuesta);
+            //   values.put("no_desarrollo_plan_vida", noproyecto);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

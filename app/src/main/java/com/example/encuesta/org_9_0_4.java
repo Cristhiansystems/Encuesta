@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -78,6 +81,9 @@ public class org_9_0_4 extends Fragment {
     RadioButton rdSi, rdNo;
     LinearLayout display, display94;
 
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
 
     ProgressDialog progreso;
@@ -127,6 +133,8 @@ public class org_9_0_4 extends Fragment {
         display.setVisibility(View.INVISIBLE);
         display.setVisibility(View.GONE);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         Bundle data=getArguments();
 
         if(data!=null){
@@ -145,113 +153,86 @@ public class org_9_0_4 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta51(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta49(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+        SQLiteDatabase db=conn.getReadableDatabase();
+
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={"respuesta_lider","conoces_organizaciones_ayuda_jovenes","ocupaste_cargo_agrupacion"};
+
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
+
+        respuesta =  cursor.getString(0);
+        organizacion = Integer.parseInt( cursor.getString(1));
+
+        //otro fragment
+        cargo =Integer.parseInt( cursor.getString(2));
+        if(cargo==2){
+            display94.setVisibility(View.INVISIBLE);
+            display94.setVisibility(View.GONE);
+        }
+
+        if(organizacion==1){
+            rdSi.setChecked(true);
+        }else if(organizacion==2){
+            rdNo.setChecked(true);
+        }
+
+        txtrespuesta.setText(respuesta.toString());
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
-
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                respuesta = jsonObject.optString("respuesta_lider");
-                organizacion = jsonObject.optInt("conoces_organizaciones_ayuda_jovenes");
-
-                //otro fragment
-                cargo = jsonObject.optInt("ocupaste_cargo_agrupacion");
-
-                if(cargo==2){
-                    display94.setVisibility(View.INVISIBLE);
-                    display94.setVisibility(View.GONE);
-                }
-
-                if(organizacion==1){
-                    rdSi.setChecked(true);
-                }else if(organizacion==2){
-                    rdNo.setChecked(true);
-                }
-
-                txtrespuesta.setText(respuesta.toString());
-
+        cursor.close();
 
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza94.php?";
-
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta51(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta49(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
 
 
+        try {
 
+            String respuesta=txtrespuesta.getText().toString();
+            String estudio="0";
+
+            if(rdSi.isChecked()){
+                estudio="1";
+            }else if(rdNo.isChecked()){
+                estudio="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
-
-                String respuesta=txtrespuesta.getText().toString();
-                String estudio="0";
-
-                if(rdSi.isChecked()){
-                    estudio="1";
-                }else if(rdNo.isChecked()){
-                    estudio="2";
-                }
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("respuesta", respuesta);
-                parametros.put("estudio", estudio);
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
 
 
-                return parametros;
-            }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+            values.put("respuesta_lider",respuesta);//string
+            values.put("conoces_organizaciones_ayuda_jovenes",estudio);//string
+
+
+            //   values.put("no_desarrollo_plan_vida", noproyecto);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -76,6 +79,11 @@ public class sat_muni_12_0_7 extends Fragment {
     RadioButton rdempoderacionPersonalSi, rdempoderacionPersonalNo, rdempoderacionPersonalMS, rdempoderacionPersonalS, rdempoderacionPersonalI, rdempoderacionPersonalIn, rdempoderacionPersonalMIn;
     RadioButton rdnegocioJuvenilSi, rdnegocioJuvenilNo, rdnegocioJuvenilMS, rdnegocioJuvenilS, rdnegocioJuvenilI, rdnegocioJuvenilIn, rdnegocioJuvenilMIn;
     RadioButton rdintervencionDefensoriaSi, rdintervencionDefensoriaNo, rdintervencionDefensoriaMS, rdintervencionDefensoriaS, rdintervencionDefensoriaI, rdintervencionDefensoriaIn, rdintervencionDefensoriaMIn;
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
+
 
     //volley
     ProgressDialog progreso;
@@ -154,6 +162,9 @@ public class sat_muni_12_0_7 extends Fragment {
         rdintervencionDefensoriaIn=(RadioButton) vista.findViewById(R.id.RdInsatisfecho1210);
         rdintervencionDefensoriaMIn=(RadioButton) vista.findViewById(R.id.RdMuyInsatisfecho1210);
 
+
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         Bundle data=getArguments();
 
         if(data!=null){
@@ -171,260 +182,253 @@ public class sat_muni_12_0_7 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta75(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta73(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                empleoJuvenil = jsonObject.optInt("empleo_juvenil");
-                empleoJuvenilSatisfaccion = jsonObject.optInt("empleo_juvenil_satisfaccion");
-                empoderacionPersonal = jsonObject.optInt("empoderamiento_personal");
-                empoderacionPersonalSatisfaccion = jsonObject.optInt("empoderamiento_persona_satisfaccion");
-                negocioJuvenil = jsonObject.optInt("negocio_juvenil");
-                negocioJuvenilSatisfaccion = jsonObject.optInt("negocio_juvenil_satisfaccion");
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-                intervencionDefensoria = jsonObject.optInt("intervencion_defensoria");
-                intervencionDefensoriaSatisfaccion = jsonObject.optInt("intervencion_defensoria_satisfaccion");
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "empleo_juvenil"
 
+                ,"empleo_juvenil_satisfaccion"
+                ,"empoderamiento_personal"
+                ,"empoderamiento_persona_satisfaccion"
+                ,"negocio_juvenil"
+                ,"negocio_juvenil_satisfaccion"
+                ,"intervencion_defensoria"
+                ,"intervencion_defensoria_satisfaccion"
 
-                if(empleoJuvenil==1){
-                    rdempleoJuvenilSi.setChecked(true);
-                }else if(empleoJuvenil==2){
-                    rdempleoJuvenilNo.setChecked(true);
-                }
+        };
 
-                if(empleoJuvenilSatisfaccion==1){
-                    rdempleoJuvenilMS.setChecked(true);
-                }else if(empleoJuvenilSatisfaccion==2){
-                    rdempleoJuvenilS.setChecked(true);
-                }else if(empleoJuvenilSatisfaccion==3){
-                    rdempleoJuvenilI.setChecked(true);
-                }else if(empleoJuvenilSatisfaccion==4){
-                    rdempleoJuvenilIn.setChecked(true);
-                }else if(empleoJuvenilSatisfaccion==5){
-                    rdempleoJuvenilMIn.setChecked(true);
-                }
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
-                if(empoderacionPersonal==1){
-                    rdempoderacionPersonalSi.setChecked(true);
-                }else if(empoderacionPersonal==2){
-                    rdempoderacionPersonalNo.setChecked(true);
-                }
+        empleoJuvenil = Integer.parseInt( cursor.getString(0));
+        empleoJuvenilSatisfaccion =Integer.parseInt( cursor.getString(1));
+        empoderacionPersonal = Integer.parseInt( cursor.getString(2));
+        empoderacionPersonalSatisfaccion = Integer.parseInt( cursor.getString(3));
+        negocioJuvenil = Integer.parseInt( cursor.getString(4));
+        negocioJuvenilSatisfaccion = Integer.parseInt( cursor.getString(5));
 
-                if(empoderacionPersonalSatisfaccion==1){
-                    rdempoderacionPersonalMS.setChecked(true);
-                }else if(empoderacionPersonalSatisfaccion==2){
-                    rdempoderacionPersonalS.setChecked(true);
-                }else if(empoderacionPersonalSatisfaccion==3){
-                    rdempoderacionPersonalI.setChecked(true);
-                }else if(empoderacionPersonalSatisfaccion==4){
-                    rdempoderacionPersonalIn.setChecked(true);
-                }else if(empoderacionPersonalSatisfaccion==5){
-                    rdempoderacionPersonalMIn.setChecked(true);
-                }
-
-                if(negocioJuvenil==1){
-                    rdnegocioJuvenilSi.setChecked(true);
-                }else if(negocioJuvenil==2){
-                    rdnegocioJuvenilNo.setChecked(true);
-                }
-
-                if(negocioJuvenilSatisfaccion==1){
-                    rdnegocioJuvenilMS.setChecked(true);
-                }else if(negocioJuvenilSatisfaccion==2){
-                    rdnegocioJuvenilS.setChecked(true);
-                }else if(negocioJuvenilSatisfaccion==3){
-                    rdnegocioJuvenilI.setChecked(true);
-                }else if(negocioJuvenilSatisfaccion==4){
-                    rdnegocioJuvenilIn.setChecked(true);
-                }else if(negocioJuvenilSatisfaccion==5){
-                    rdnegocioJuvenilMIn.setChecked(true);
-                }
-
-                if(intervencionDefensoria==1){
-                    rdintervencionDefensoriaSi.setChecked(true);
-                }else if(intervencionDefensoria==2){
-                    rdintervencionDefensoriaNo.setChecked(true);
-                }
-
-                if(intervencionDefensoriaSatisfaccion==1){
-                    rdintervencionDefensoriaMS.setChecked(true);
-                }else if(intervencionDefensoriaSatisfaccion==2){
-                    rdintervencionDefensoriaS.setChecked(true);
-                }else if(intervencionDefensoriaSatisfaccion==3){
-                    rdintervencionDefensoriaI.setChecked(true);
-                }else if(intervencionDefensoriaSatisfaccion==4){
-                    rdintervencionDefensoriaIn.setChecked(true);
-                }else if(intervencionDefensoriaSatisfaccion==5){
-                    rdintervencionDefensoriaMIn.setChecked(true);
-                }
+        intervencionDefensoria = Integer.parseInt( cursor.getString(6));
+        intervencionDefensoriaSatisfaccion = Integer.parseInt( cursor.getString(7));
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-      // request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        if(empleoJuvenil==1){
+            rdempleoJuvenilSi.setChecked(true);
+        }else if(empleoJuvenil==2){
+            rdempleoJuvenilNo.setChecked(true);
+        }
+
+        if(empleoJuvenilSatisfaccion==1){
+            rdempleoJuvenilMS.setChecked(true);
+        }else if(empleoJuvenilSatisfaccion==2){
+            rdempleoJuvenilS.setChecked(true);
+        }else if(empleoJuvenilSatisfaccion==3){
+            rdempleoJuvenilI.setChecked(true);
+        }else if(empleoJuvenilSatisfaccion==4){
+            rdempleoJuvenilIn.setChecked(true);
+        }else if(empleoJuvenilSatisfaccion==5){
+            rdempleoJuvenilMIn.setChecked(true);
+        }
+
+        if(empoderacionPersonal==1){
+            rdempoderacionPersonalSi.setChecked(true);
+        }else if(empoderacionPersonal==2){
+            rdempoderacionPersonalNo.setChecked(true);
+        }
+
+        if(empoderacionPersonalSatisfaccion==1){
+            rdempoderacionPersonalMS.setChecked(true);
+        }else if(empoderacionPersonalSatisfaccion==2){
+            rdempoderacionPersonalS.setChecked(true);
+        }else if(empoderacionPersonalSatisfaccion==3){
+            rdempoderacionPersonalI.setChecked(true);
+        }else if(empoderacionPersonalSatisfaccion==4){
+            rdempoderacionPersonalIn.setChecked(true);
+        }else if(empoderacionPersonalSatisfaccion==5){
+            rdempoderacionPersonalMIn.setChecked(true);
+        }
+
+        if(negocioJuvenil==1){
+            rdnegocioJuvenilSi.setChecked(true);
+        }else if(negocioJuvenil==2){
+            rdnegocioJuvenilNo.setChecked(true);
+        }
+
+        if(negocioJuvenilSatisfaccion==1){
+            rdnegocioJuvenilMS.setChecked(true);
+        }else if(negocioJuvenilSatisfaccion==2){
+            rdnegocioJuvenilS.setChecked(true);
+        }else if(negocioJuvenilSatisfaccion==3){
+            rdnegocioJuvenilI.setChecked(true);
+        }else if(negocioJuvenilSatisfaccion==4){
+            rdnegocioJuvenilIn.setChecked(true);
+        }else if(negocioJuvenilSatisfaccion==5){
+            rdnegocioJuvenilMIn.setChecked(true);
+        }
+
+        if(intervencionDefensoria==1){
+            rdintervencionDefensoriaSi.setChecked(true);
+        }else if(intervencionDefensoria==2){
+            rdintervencionDefensoriaNo.setChecked(true);
+        }
+
+        if(intervencionDefensoriaSatisfaccion==1){
+            rdintervencionDefensoriaMS.setChecked(true);
+        }else if(intervencionDefensoriaSatisfaccion==2){
+            rdintervencionDefensoriaS.setChecked(true);
+        }else if(intervencionDefensoriaSatisfaccion==3){
+            rdintervencionDefensoriaI.setChecked(true);
+        }else if(intervencionDefensoriaSatisfaccion==4){
+            rdintervencionDefensoriaIn.setChecked(true);
+        }else if(intervencionDefensoriaSatisfaccion==5){
+            rdintervencionDefensoriaMIn.setChecked(true);
+        }
+
+
+
+
+
+
+        cursor.close();
+
+
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1207.php?";
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
+        try {
 
-                    interfaceComunicaFragments.enviarEncuesta75(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-
-                    interfaceComunicaFragments.enviarEncuesta73(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
-
-
-
+            String empleoJuvenil="0";
+            if(rdempleoJuvenilSi.isChecked()){
+                empleoJuvenil="1";
+            }else if(rdempleoJuvenilNo.isChecked()){
+                empleoJuvenil="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
 
+            String empleoJuvenilSatisfaccion="0";
+            if(rdempleoJuvenilMS.isChecked()){
+                empleoJuvenilSatisfaccion="1";
 
-
-                String empleoJuvenil="0";
-                if(rdempleoJuvenilSi.isChecked()){
-                    empleoJuvenil="1";
-                }else if(rdempleoJuvenilNo.isChecked()){
-                    empleoJuvenil="2";
-                }
-
-
-                String empleoJuvenilSatisfaccion="0";
-                if(rdempleoJuvenilMS.isChecked()){
-                    empleoJuvenilSatisfaccion="1";
-
-                }else if(rdempleoJuvenilS.isChecked()){
-                    empleoJuvenilSatisfaccion="2";
-                }else if(rdempleoJuvenilI.isChecked()){
-                    empleoJuvenilSatisfaccion="3";
-                }else if(rdempleoJuvenilIn.isChecked()){
-                    empleoJuvenilSatisfaccion="4";
-                }else if(rdempleoJuvenilMIn.isChecked()){
-                    empleoJuvenilSatisfaccion="5";
-                }
-
-
-                String empoderamientoPersonal="0";
-                if(rdempoderacionPersonalSi.isChecked()){
-                    empoderamientoPersonal="1";
-                }else if(rdempoderacionPersonalNo.isChecked()){
-                    empoderamientoPersonal="2";
-                }
-
-                String empoderamientoPersonalSatisfaccion="0";
-                if(rdempoderacionPersonalMS.isChecked()){
-                    empoderamientoPersonalSatisfaccion="1";
-
-                }else if(rdempoderacionPersonalS.isChecked()){
-                    empoderamientoPersonalSatisfaccion="2";
-                }else if(rdempoderacionPersonalI.isChecked()){
-                    empoderamientoPersonalSatisfaccion="3";
-                }else if(rdempoderacionPersonalIn.isChecked()){
-                    empoderamientoPersonalSatisfaccion="4";
-                }else if(rdempoderacionPersonalMIn.isChecked()){
-                    empoderamientoPersonalSatisfaccion="5";
-                }
-
-                String negocioJuvenil="0";
-                if(rdnegocioJuvenilSi.isChecked()){
-                    negocioJuvenil="1";
-                }else if(rdnegocioJuvenilNo.isChecked()){
-                    negocioJuvenil="2";
-                }
-
-                String negocioJuvenilSatisfaccion="0";
-                if(rdnegocioJuvenilMS.isChecked()){
-                    negocioJuvenilSatisfaccion="1";
-
-                }else if(rdnegocioJuvenilS.isChecked()){
-                    negocioJuvenilSatisfaccion="2";
-                }else if(rdnegocioJuvenilI.isChecked()){
-                    negocioJuvenilSatisfaccion="3";
-                }else if(rdnegocioJuvenilIn.isChecked()){
-                    negocioJuvenilSatisfaccion="4";
-                }else if(rdnegocioJuvenilMIn.isChecked()){
-                    negocioJuvenilSatisfaccion="5";
-                }
-
-                String intervencionDefensoria="0";
-                if(rdintervencionDefensoriaSi.isChecked()){
-                    intervencionDefensoria="1";
-                }else if(rdintervencionDefensoriaNo.isChecked()){
-                    intervencionDefensoria="2";
-                }
-
-                String intervecionDefensoriaSatisfaccion="0";
-                if(rdintervencionDefensoriaMS.isChecked()){
-                    intervecionDefensoriaSatisfaccion="1";
-
-                }else if(rdintervencionDefensoriaS.isChecked()){
-                    intervecionDefensoriaSatisfaccion="2";
-                }else if(rdintervencionDefensoriaI.isChecked()){
-                    intervecionDefensoriaSatisfaccion="3";
-                }else if(rdintervencionDefensoriaIn.isChecked()){
-                    intervecionDefensoriaSatisfaccion="4";
-                }else if(rdintervencionDefensoriaMIn.isChecked()){
-                    intervecionDefensoriaSatisfaccion="5";
-                }
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("empleoJuvenil", empleoJuvenil);
-                parametros.put("empleoJuvenilSatisfaccion", empleoJuvenilSatisfaccion);
-                parametros.put("empoderamientoPersonal", empoderamientoPersonal);
-                parametros.put("empoderamientoPersonalSatisfaccion", empoderamientoPersonalSatisfaccion);
-                parametros.put("negocioJuvenil", negocioJuvenil);
-                parametros.put("negocioJuvenilSatisfaccion", negocioJuvenilSatisfaccion);
-                parametros.put("intervencionDefensoria", intervencionDefensoria);
-                parametros.put("intervecionDefensoriaSatisfaccion", intervecionDefensoriaSatisfaccion);
-                return parametros;
+            }else if(rdempleoJuvenilS.isChecked()){
+                empleoJuvenilSatisfaccion="2";
+            }else if(rdempleoJuvenilI.isChecked()){
+                empleoJuvenilSatisfaccion="3";
+            }else if(rdempleoJuvenilIn.isChecked()){
+                empleoJuvenilSatisfaccion="4";
+            }else if(rdempleoJuvenilMIn.isChecked()){
+                empleoJuvenilSatisfaccion="5";
             }
-        };
-       // request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+
+            String empoderamientoPersonal="0";
+            if(rdempoderacionPersonalSi.isChecked()){
+                empoderamientoPersonal="1";
+            }else if(rdempoderacionPersonalNo.isChecked()){
+                empoderamientoPersonal="2";
+            }
+
+            String empoderamientoPersonalSatisfaccion="0";
+            if(rdempoderacionPersonalMS.isChecked()){
+                empoderamientoPersonalSatisfaccion="1";
+
+            }else if(rdempoderacionPersonalS.isChecked()){
+                empoderamientoPersonalSatisfaccion="2";
+            }else if(rdempoderacionPersonalI.isChecked()){
+                empoderamientoPersonalSatisfaccion="3";
+            }else if(rdempoderacionPersonalIn.isChecked()){
+                empoderamientoPersonalSatisfaccion="4";
+            }else if(rdempoderacionPersonalMIn.isChecked()){
+                empoderamientoPersonalSatisfaccion="5";
+            }
+
+            String negocioJuvenil="0";
+            if(rdnegocioJuvenilSi.isChecked()){
+                negocioJuvenil="1";
+            }else if(rdnegocioJuvenilNo.isChecked()){
+                negocioJuvenil="2";
+            }
+
+            String negocioJuvenilSatisfaccion="0";
+            if(rdnegocioJuvenilMS.isChecked()){
+                negocioJuvenilSatisfaccion="1";
+
+            }else if(rdnegocioJuvenilS.isChecked()){
+                negocioJuvenilSatisfaccion="2";
+            }else if(rdnegocioJuvenilI.isChecked()){
+                negocioJuvenilSatisfaccion="3";
+            }else if(rdnegocioJuvenilIn.isChecked()){
+                negocioJuvenilSatisfaccion="4";
+            }else if(rdnegocioJuvenilMIn.isChecked()){
+                negocioJuvenilSatisfaccion="5";
+            }
+
+            String intervencionDefensoria="0";
+            if(rdintervencionDefensoriaSi.isChecked()){
+                intervencionDefensoria="1";
+            }else if(rdintervencionDefensoriaNo.isChecked()){
+                intervencionDefensoria="2";
+            }
+
+            String intervecionDefensoriaSatisfaccion="0";
+            if(rdintervencionDefensoriaMS.isChecked()){
+                intervecionDefensoriaSatisfaccion="1";
+
+            }else if(rdintervencionDefensoriaS.isChecked()){
+                intervecionDefensoriaSatisfaccion="2";
+            }else if(rdintervencionDefensoriaI.isChecked()){
+                intervecionDefensoriaSatisfaccion="3";
+            }else if(rdintervencionDefensoriaIn.isChecked()){
+                intervecionDefensoriaSatisfaccion="4";
+            }else if(rdintervencionDefensoriaMIn.isChecked()){
+                intervecionDefensoriaSatisfaccion="5";
+            }
+
+
+
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put("empleo_juvenil", empleoJuvenil);
+            values.put("empleo_juvenil_satisfaccion", empleoJuvenilSatisfaccion);
+            values.put("empoderamiento_personal", empoderamientoPersonal);
+            values.put("empoderamiento_persona_satisfaccion", empoderamientoPersonalSatisfaccion);
+            values.put("negocio_juvenil", negocioJuvenil);
+            values.put("negocio_juvenil_satisfaccion", negocioJuvenilSatisfaccion);
+            values.put("intervencion_defensoria", intervencionDefensoria);
+            values.put("intervencion_defensoria_satisfaccion", intervecionDefensoriaSatisfaccion);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

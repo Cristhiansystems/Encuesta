@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -78,6 +81,9 @@ public class emp_lab_11_0_9 extends Fragment {
     Integer gustariaCapacitarte;
     RadioButton rdCapacitarteSi, rdCapacitarteNo;
     LinearLayout display1109, display1110, display1111, display1112, display1113;
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
 
     ProgressDialog progreso;
@@ -132,6 +138,8 @@ public class emp_lab_11_0_9 extends Fragment {
         display1112=(LinearLayout) vista.findViewById(R.id.layout1112);
         display1113=(LinearLayout) vista.findViewById(R.id.layout1113);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
 
         rdCapacitarteNo.setOnClickListener(v -> {
 
@@ -166,128 +174,113 @@ public class emp_lab_11_0_9 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta64(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta62(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                rubro = jsonObject.optString("rubro_desea_capacitar");
-                capacitarte = jsonObject.optString("no_desea_capacitarte");
-                edad = jsonObject.optString("edad_trabajar");
-                trabajarEdad = jsonObject.optString("razon_edad_trabajar");
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "rubro_desea_capacitar"
+                ,"no_desea_capacitarte"
+                ,"edad_trabajar"
+                ,"razon_edad_trabajar"
+                ,"te_gustaria_capacitarte"
+        };
 
-                gustariaCapacitarte = jsonObject.optInt("te_gustaria_capacitarte");
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
+
+        rubro = cursor.getString(0);
+        capacitarte = cursor.getString(1);
+        edad = cursor.getString(2);
+        trabajarEdad = cursor.getString(3);
+
+        gustariaCapacitarte = Integer.parseInt( cursor.getString(4));
+
+        txtrubro.setText(rubro.toString());
+        txtnoCapacitarte.setText(capacitarte.toString());
+        txtedad.setText(edad.toString());
+        txttrabajarEdad.setText(trabajarEdad.toString());
+
+        if(gustariaCapacitarte==2){
+            display1110.setVisibility(View.INVISIBLE);
+            display1110.setVisibility(View.GONE);
+        }else if(gustariaCapacitarte==1){
+            display1111.setVisibility(View.INVISIBLE);
+            display1111.setVisibility(View.GONE);
+        }
+
+        if(gustariaCapacitarte==1){
+            rdCapacitarteSi.setChecked(true);
+        }else if(gustariaCapacitarte==2){
+            rdCapacitarteNo.setChecked(true);
+        }
+        cursor.close();
 
 
-                txtrubro.setText(rubro.toString());
-                txtnoCapacitarte.setText(capacitarte.toString());
-                txtedad.setText(edad.toString());
-                txttrabajarEdad.setText(trabajarEdad.toString());
-
-                if(gustariaCapacitarte==2){
-                    display1110.setVisibility(View.INVISIBLE);
-                    display1110.setVisibility(View.GONE);
-                }else if(gustariaCapacitarte==1){
-                    display1111.setVisibility(View.INVISIBLE);
-                    display1111.setVisibility(View.GONE);
-                }
-
-                if(gustariaCapacitarte==1){
-                    rdCapacitarteSi.setChecked(true);
-                }else if(gustariaCapacitarte==2){
-                    rdCapacitarteNo.setChecked(true);
-                }
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1109.php?";
-
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta64(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta62(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
 
 
+        try {
 
+            String rubro=txtrubro.getText().toString();
+            String noCapacitarte=txtnoCapacitarte.getText().toString();
+            String edad=txtedad.getText().toString();
+            String trabajarEdad=txttrabajarEdad.getText().toString();
+
+            String gustariaCapacitarte="0";
+            if(rdCapacitarteSi.isChecked()){
+                gustariaCapacitarte="1";
+            }else if(rdCapacitarteNo.isChecked()){
+
+                gustariaCapacitarte="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
 
-                String rubro=txtrubro.getText().toString();
-                String noCapacitarte=txtnoCapacitarte.getText().toString();
-                String edad=txtedad.getText().toString();
-                String trabajarEdad=txttrabajarEdad.getText().toString();
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
 
-                String gustariaCapacitarte="0";
-                if(rdCapacitarteSi.isChecked()){
-                    gustariaCapacitarte="1";
-                }else if(rdCapacitarteNo.isChecked()){
+            values.put("rubro_desea_capacitar", rubro);
+            values.put("no_desea_capacitarte", noCapacitarte);
+            values.put("edad_trabajar", edad);
+            values.put("razon_edad_trabajar", trabajarEdad);
+            values.put("te_gustaria_capacitarte", gustariaCapacitarte);
+            //   values.put("no_desarrollo_plan_vida", noproyecto);
 
-                    gustariaCapacitarte="2";
-                }
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
 
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("rubro", rubro);
-                parametros.put("noCapacitarte", noCapacitarte);
-                parametros.put("edad", edad);
-                parametros.put("trabajarEdad", trabajarEdad);
-                parametros.put("gustariaCapacitarte", gustariaCapacitarte);
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
 
 
 
-                return parametros;
-            }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

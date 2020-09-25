@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -78,6 +81,10 @@ public class emp_lab_11_0_6 extends Fragment {
     Integer recursos, tiempo, interes, otro, capacitacion;
     RadioButton rdCapacitacionSi, rdCapacitacionNo, rdRecursosSi, rdRecursosNo, rdTiempoSi, rdTiempoNo, rdInteresSi, rdInteresNo, rdOtroSI, rdOtroNO;
     LinearLayout display1106, display1107, display1108, display1107ops;
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
 
     ProgressDialog progreso;
@@ -148,6 +155,8 @@ public class emp_lab_11_0_6 extends Fragment {
         display1107ops.setVisibility(View.INVISIBLE);
         display1107ops.setVisibility(View.GONE);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         rdCapacitacionSi.setOnClickListener(v -> {
 
             display1107.setVisibility(View.INVISIBLE);
@@ -180,192 +189,185 @@ public class emp_lab_11_0_6 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta63(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta61(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                otronom = jsonObject.optString("falta_capacitacion_otro_nombre");
-                curso1 = jsonObject.optString("curso_realizo1");
-                curso2 = jsonObject.optString("curso_realizo2");
-                curso3 = jsonObject.optString("curso_realizo3");
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "falta_capacitacion_otro_nombre"
+                ,"curso_realizo1"
+                ,"curso_realizo2"
+                ,"curso_realizo3"
 
-                capacitacion = jsonObject.optInt("realizate_capacitacion_trabajo");
-                recursos = jsonObject.optInt("falta_recursos");
-                tiempo = jsonObject.optInt("falta_tiempo");
-                interes = jsonObject.optInt("falta_interes");
-                otro = jsonObject.optInt("falta_capacitacion_otro");
-                respuesta = jsonObject.optString("respuesta_capacitacion");
-
-                txtotro.setText(otronom.toString());
-                txtcurso1.setText(curso1.toString());
-                txtcurso2.setText(curso2.toString());
-                txtcurso3.setText(curso3.toString());
-                txtrespuesta.setText(respuesta.toString());
-
-                if(capacitacion==1){
-                    display1107.setVisibility(View.INVISIBLE);
-                    display1107.setVisibility(View.GONE);
-                }else if(capacitacion==2){
-                    display1108.setVisibility(View.INVISIBLE);
-                    display1108.setVisibility(View.GONE);
-                }
-
-                if(capacitacion==1){
-                    rdCapacitacionSi.setChecked(true);
-                }else if(capacitacion==2){
-                    rdCapacitacionNo.setChecked(true);
-                }
-
-                if(recursos==1){
-                    rdRecursosSi.setChecked(true);
-                }else if(recursos==2){
-                    rdRecursosNo.setChecked(true);
-                }
-                if(tiempo==1){
-                    rdTiempoSi.setChecked(true);
-                }else if(tiempo==2){
-                    rdTiempoNo.setChecked(true);
-                }
-
-                if(interes==1){
-                    rdInteresSi.setChecked(true);
-                }else if(interes==2){
-                    rdInteresNo.setChecked(true);
-                }
-                if(otro==1){
-                    rdOtroSI.setChecked(true);
-                }else if(otro==2){
-                    rdOtroNO.setChecked(true);
-                }
+                ,"realizate_capacitacion_trabajo"
+                ,"falta_recursos"
+                ,"falta_tiempo"
+                ,"falta_interes"
+                ,"falta_capacitacion_otro"
+                ,"respuesta_capacitacion"
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+
+
+        };
+
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
+
+        otronom = cursor.getString(0);
+        curso1 = cursor.getString(1);
+        curso2 = cursor.getString(2);
+        curso3 = cursor.getString(3);
+
+        capacitacion =Integer.parseInt( cursor.getString(4));
+        recursos =Integer.parseInt( cursor.getString(5));
+        tiempo =Integer.parseInt( cursor.getString(6));
+        interes = Integer.parseInt( cursor.getString(7));
+        otro = Integer.parseInt( cursor.getString(8));
+        respuesta = cursor.getString(9);
+
+        txtotro.setText(otronom.toString());
+        txtcurso1.setText(curso1.toString());
+        txtcurso2.setText(curso2.toString());
+        txtcurso3.setText(curso3.toString());
+        txtrespuesta.setText(respuesta.toString());
+
+        if(capacitacion==1){
+            display1107.setVisibility(View.INVISIBLE);
+            display1107.setVisibility(View.GONE);
+        }else if(capacitacion==2){
+            display1108.setVisibility(View.INVISIBLE);
+            display1108.setVisibility(View.GONE);
+        }
+
+        if(capacitacion==1){
+            rdCapacitacionSi.setChecked(true);
+        }else if(capacitacion==2){
+            rdCapacitacionNo.setChecked(true);
+        }
+
+        if(recursos==1){
+            rdRecursosSi.setChecked(true);
+        }else if(recursos==2){
+            rdRecursosNo.setChecked(true);
+        }
+        if(tiempo==1){
+            rdTiempoSi.setChecked(true);
+        }else if(tiempo==2){
+            rdTiempoNo.setChecked(true);
+        }
+
+        if(interes==1){
+            rdInteresSi.setChecked(true);
+        }else if(interes==2){
+            rdInteresNo.setChecked(true);
+        }
+        if(otro==1){
+            rdOtroSI.setChecked(true);
+        }else if(otro==2){
+            rdOtroNO.setChecked(true);
+        }
+
+        cursor.close();
+
+
+
+
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1106.php?";
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta63(idFragment.getText().toString());
+        try {
 
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta61(idFragment.getText().toString());
+            String otronom=txtotro.getText().toString();
+            String curso1=txtcurso1.getText().toString();
+            String curso2=txtcurso2.getText().toString();
+            String curso3=txtcurso3.getText().toString();
+            String respuesta=txtrespuesta.getText().toString();
 
-                }
+            String capacitacion="0";
+            if(rdCapacitacionSi.isChecked()){
+                capacitacion="1";
+            }else if(rdCapacitacionNo.isChecked()){
 
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
-
-
-
+                capacitacion="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
+            String recursos="0";
+            if(rdRecursosSi.isChecked()){
+                recursos="1";
+            }else if(rdRecursosNo.isChecked()){
 
-                String otronom=txtotro.getText().toString();
-                String curso1=txtcurso1.getText().toString();
-                String curso2=txtcurso2.getText().toString();
-                String curso3=txtcurso3.getText().toString();
-                String respuesta=txtrespuesta.getText().toString();
-
-                String capacitacion="0";
-                if(rdCapacitacionSi.isChecked()){
-                    capacitacion="1";
-                }else if(rdCapacitacionNo.isChecked()){
-
-                    capacitacion="2";
-                }
-
-                String recursos="0";
-                if(rdRecursosSi.isChecked()){
-                    recursos="1";
-                }else if(rdRecursosNo.isChecked()){
-
-                    recursos="2";
-                }
-
-                String tiempo="0";
-                if(rdTiempoSi.isChecked()){
-                    tiempo="1";
-                }else if(rdTiempoNo.isChecked()){
-
-                    tiempo="2";
-                }
-
-                String interes="0";
-                if(rdInteresSi.isChecked()){
-                    interes="1";
-                }else if(rdInteresNo.isChecked()){
-
-                    interes="2";
-                }
-
-                String otro="0";
-                if(rdOtroSI.isChecked()){
-                    otro="1";
-                }else if(rdOtroNO.isChecked()){
-
-                    otro="2";
-                }
-
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("curso1", curso1);
-                parametros.put("curso2", curso2);
-                parametros.put("curso3", curso3);
-                parametros.put("otronom", otronom);
-                parametros.put("capacitacion", capacitacion);
-                parametros.put("recursos", recursos);
-                parametros.put("tiempo", tiempo);
-                parametros.put("interes", interes);
-                parametros.put("otro", otro);
-                parametros.put("respuesta", respuesta);
-
-
-                return parametros;
+                recursos="2";
             }
-        };
-       // request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+            String tiempo="0";
+            if(rdTiempoSi.isChecked()){
+                tiempo="1";
+            }else if(rdTiempoNo.isChecked()){
+
+                tiempo="2";
+            }
+
+            String interes="0";
+            if(rdInteresSi.isChecked()){
+                interes="1";
+            }else if(rdInteresNo.isChecked()){
+
+                interes="2";
+            }
+
+            String otro="0";
+            if(rdOtroSI.isChecked()){
+                otro="1";
+            }else if(rdOtroNO.isChecked()){
+
+                otro="2";
+            }
+
+
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put("curso_realizo1", curso1);
+            values.put("curso_realizo2", curso2);
+            values.put("curso_realizo3", curso3);
+            values.put("falta_capacitacion_otro_nombre", otronom);
+            values.put("realizate_capacitacion_trabajo", capacitacion);
+            values.put("falta_recursos", recursos);
+            values.put("falta_tiempo", tiempo);
+            values.put("falta_interes", interes);
+            values.put("falta_capacitacion_otro", otro);
+            values.put("respuesta_capacitacion", respuesta);
+            //   values.put("no_desarrollo_plan_vida", noproyecto);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

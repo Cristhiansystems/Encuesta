@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -76,6 +79,10 @@ public class emp_lab_11_0_29 extends Fragment {
     String otronom, idEncuesta, orEstudio, orRopa, orAlimentacion, orDiversion, orPagoServicios, orEquipos, orApoyoFamilia, orahorro, orotro;
     Integer satisfecho;
     RadioButton rdSi, rdNo;
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
 
     ProgressDialog progreso;
@@ -132,6 +139,8 @@ public class emp_lab_11_0_29 extends Fragment {
         rdSi=(RadioButton) vista.findViewById(R.id.RdSiEstoySatisfechoConMiTrabajo);
         rdNo=(RadioButton) vista.findViewById(R.id.RdNoEstoySatisfechoConMiTrabajo);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         Bundle data=getArguments();
 
         if(data!=null){
@@ -149,142 +158,132 @@ public class emp_lab_11_0_29 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta70(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta68(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
-
-
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
-
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                orEstudio = jsonObject.optString("gastar_dinero_estudio_orden");
-                orRopa = jsonObject.optString("gastar_dinero_ropa_orden");
-                orAlimentacion = jsonObject.optString("gastar_dinero_alimentacion_orden");
-                orDiversion = jsonObject.optString("gastar_dinero_diversion_orden");
-                orPagoServicios = jsonObject.optString("gastar_dinero_servicios_orden");
-                orEquipos = jsonObject.optString("gastar_dinero_equipo_orden");
-                orApoyoFamilia = jsonObject.optString("gastar_dinero_familia_orden");
-                orahorro = jsonObject.optString("gastar_dinero_ahorro_orden");
-                orotro = jsonObject.optString("gastar_dinero_estudio_orden_otro");
-                otronom = jsonObject.optString("gastar_dinero_estudio_orden_otro_nombre");
-                satisfecho = jsonObject.optInt("satisfecho_trabajo");
 
 
 
-                txtotro.setText(otronom.toString());
-                txtorEstudio.setText(orEstudio.toString());
-                txtorRopa.setText(orRopa.toString());
-                txtorAlimentacion.setText(orAlimentacion.toString());
-                txtorDiversion.setText(orDiversion.toString());
-                txtorPagoServicios.setText(orPagoServicios.toString());
-                txtorEquipos.setText(orEquipos.toString());
-                txtorApoyoFamilia.setText(orApoyoFamilia.toString());
-                txtorahorro.setText(orahorro.toString());
-                txtorotro.setText(orotro.toString());
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-                if(satisfecho==1){
-                    rdSi.setChecked(true);
-                }else if(satisfecho==2){
-                    rdNo.setChecked(true);
-                }
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "gastar_dinero_estudio_orden"
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+                ,"gastar_dinero_ropa_orden"
+                ,"gastar_dinero_alimentacion_orden"
+                ,"gastar_dinero_diversion_orden"
+                ,"gastar_dinero_servicios_orden"
+                ,"gastar_dinero_equipo_orden"
+                ,"gastar_dinero_familia_orden"
+                ,"gastar_dinero_ahorro_orden"
+                ,"gastar_dinero_estudio_orden_otro"
+                ,"gastar_dinero_estudio_orden_otro_nombre"
+                ,"satisfecho_trabajo"
+
+
+        };
+
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
+
+        orEstudio = cursor.getString(0);
+        orRopa = cursor.getString(1);
+        orAlimentacion = cursor.getString(2);
+        orDiversion =cursor.getString(3);;
+        orPagoServicios = cursor.getString(4);
+        orEquipos =cursor.getString(5);
+        orApoyoFamilia = cursor.getString(6);
+        orahorro = cursor.getString(7);
+        orotro = cursor.getString(8);
+        otronom = cursor.getString(9);
+        satisfecho = Integer.parseInt( cursor.getString(10));
+
+
+        txtotro.setText(otronom.toString());
+        txtorEstudio.setText(orEstudio.toString());
+        txtorRopa.setText(orRopa.toString());
+        txtorAlimentacion.setText(orAlimentacion.toString());
+        txtorDiversion.setText(orDiversion.toString());
+        txtorPagoServicios.setText(orPagoServicios.toString());
+        txtorEquipos.setText(orEquipos.toString());
+        txtorApoyoFamilia.setText(orApoyoFamilia.toString());
+        txtorahorro.setText(orahorro.toString());
+        txtorotro.setText(orotro.toString());
+
+        if(satisfecho==1){
+            rdSi.setChecked(true);
+        }else if(satisfecho==2){
+            rdNo.setChecked(true);
+        }
+
+        cursor.close();
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1129.php?";
-
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta70(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta68(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
 
 
+        try {
 
+            String otronom=txtotro.getText().toString();
+            String orEstudios=txtorEstudio.getText().toString();
+            String orRopa=txtorRopa.getText().toString();
+            String orAlimentacion=txtorAlimentacion.getText().toString();
+            String orDiversion=txtorDiversion.getText().toString();
+            String orPagoServicios=txtorPagoServicios.getText().toString();
+            String orEquipos=txtorEquipos.getText().toString();
+            String orApoyoFamilia=txtorApoyoFamilia.getText().toString();
+            String orAhorro=txtorahorro.getText().toString();
+            String orOtro=txtorotro.getText().toString();
+
+            String satisfecho="0";
+
+            if(rdSi.isChecked()){
+                satisfecho="1";
+
+            }else if(rdNo.isChecked()){
+                satisfecho="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
-
-                String otronom=txtotro.getText().toString();
-                String orEstudios=txtorEstudio.getText().toString();
-                String orRopa=txtorRopa.getText().toString();
-                String orAlimentacion=txtorAlimentacion.getText().toString();
-                String orDiversion=txtorDiversion.getText().toString();
-                String orPagoServicios=txtorPagoServicios.getText().toString();
-                String orEquipos=txtorEquipos.getText().toString();
-                String orApoyoFamilia=txtorApoyoFamilia.getText().toString();
-                String orAhorro=txtorahorro.getText().toString();
-                String orOtro=txtorotro.getText().toString();
-
-                String satisfecho="0";
-
-                if(rdSi.isChecked()){
-                    satisfecho="1";
-
-                }else if(rdNo.isChecked()){
-                    satisfecho="2";
-                }
 
 
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
 
-                parametros.put("otronom", otronom);
-                parametros.put("orEstudios", orEstudios);
-                parametros.put("orRopa", orRopa);
-                parametros.put("orAlimentacion", orAlimentacion);
-                parametros.put("orDiversion", orDiversion);
-                parametros.put("orPagoServicios", orPagoServicios);
-                parametros.put("orEquipos", orEquipos);
-                parametros.put("orApoyoFamilia", orApoyoFamilia);
-                parametros.put("orAhorro", orAhorro);
-                parametros.put("orOtro", orOtro);
-                parametros.put("satisfecho", satisfecho);
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
 
-                return parametros;
-            }
-        };
-       // request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+            values.put("gastar_dinero_estudio_orden_otro_nombre", otronom);
+            values.put("gastar_dinero_estudio_orden", orEstudios);
+            values.put("gastar_dinero_ropa_orden", orRopa);
+            values.put("gastar_dinero_alimentacion_orden", orAlimentacion);
+            values.put("gastar_dinero_diversion_orden", orDiversion);
+            values.put("gastar_dinero_servicios_orden", orPagoServicios);
+            values.put("gastar_dinero_equipo_orden", orEquipos);
+            values.put("gastar_dinero_familia_orden", orApoyoFamilia);
+            values.put("gastar_dinero_ahorro_orden", orAhorro);
+            values.put("gastar_dinero_estudio_orden_otro", orOtro);
+            values.put("satisfecho_trabajo", satisfecho);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

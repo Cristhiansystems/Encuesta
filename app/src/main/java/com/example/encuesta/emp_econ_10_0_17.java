@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -77,6 +80,9 @@ public class emp_econ_10_0_17 extends Fragment {
     Integer analizarGasto;
     RadioButton rdSiempre, rdAlgunaVez, rdOcasionalmente, rdNunca;
 
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
 
     ProgressDialog progreso;
@@ -134,6 +140,8 @@ public class emp_econ_10_0_17 extends Fragment {
         rdOcasionalmente=(RadioButton) vista.findViewById(R.id.RdOcasionalmente);
         rdNunca=(RadioButton) vista.findViewById(R.id.RdNunca);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         Bundle data=getArguments();
 
         if(data!=null){
@@ -152,156 +160,148 @@ public class emp_econ_10_0_17 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta58(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta56(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+        SQLiteDatabase db=conn.getReadableDatabase();
 
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "mes_1_monto"
+                ,"mes_2_monto"
+                ,"mes_3_monto"
+                ,"mes_1_ingreso_dia"
+                ,"mes_2_ingreso_dia"
+                ,"mes_3_ingreso_dia"
+                ,"mes_1_dias_trabajados"
+                ,"mes_2_dias_trabajados"
+                ,"mes_3_dias_trabajados"
+                ,"analizas_gastar"
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
+        };
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                monto1 = jsonObject.optString("mes_1_monto");
-                monto2 = jsonObject.optString("mes_2_monto");
-                monto3= jsonObject.optString("mes_3_monto");
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
-
-                ingreso1 = jsonObject.optString("mes_1_ingreso_dia");
-                ingreso2 = jsonObject.optString("mes_2_ingreso_dia");
-                ingreso3= jsonObject.optString("mes_3_ingreso_dia");
-                dias1 = jsonObject.optString("mes_1_dias_trabajados");
-                dias2 = jsonObject.optString("mes_2_dias_trabajados");
-                dias3 = jsonObject.optString("mes_3_dias_trabajados");
-
-
-                analizarGasto = jsonObject.optInt("analizas_gastar");
+        monto1 = cursor.getString(0);
+        monto2 = cursor.getString(1);
+        monto3= cursor.getString(2);
 
 
-
-                if(analizarGasto==1){
-                    rdSiempre.setChecked(true);
-                }else if(analizarGasto==2){
-                    rdAlgunaVez.setChecked(true);
-                }else if(analizarGasto==3){
-                    rdOcasionalmente.setChecked(true);
-                }else if(analizarGasto==4){
-                    rdNunca.setChecked(true);
-                }
+        ingreso1 = cursor.getString(3);
+        ingreso2 = cursor.getString(4);
+        ingreso3= cursor.getString(5);
+        dias1 = cursor.getString(6);
+        dias2 = cursor.getString(7);
+        dias3 = cursor.getString(8);
 
 
+        analizarGasto =  Integer.parseInt( cursor.getString(9));
 
 
-                txtmonto1.setText(monto1.toString());
-                txtmonto2.setText(monto2.toString());
-                txtmonto3.setText(monto3.toString());
-
-              txtingreso1.setText(ingreso1.toString());
-              txtingreso2.setText(ingreso2.toString());
-              txtingreso3.setText(ingreso3.toString());
-
-              txtdias1.setText(dias1.toString());
-              txtdias2.setText(dias2.toString());
-              txtdias3.setText(dias3.toString());
+        if(analizarGasto==1){
+            rdSiempre.setChecked(true);
+        }else if(analizarGasto==2){
+            rdAlgunaVez.setChecked(true);
+        }else if(analizarGasto==3){
+            rdOcasionalmente.setChecked(true);
+        }else if(analizarGasto==4){
+            rdNunca.setChecked(true);
+        }
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-       // request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+
+
+        txtmonto1.setText(monto1.toString());
+        txtmonto2.setText(monto2.toString());
+        txtmonto3.setText(monto3.toString());
+
+        txtingreso1.setText(ingreso1.toString());
+        txtingreso2.setText(ingreso2.toString());
+        txtingreso3.setText(ingreso3.toString());
+
+        txtdias1.setText(dias1.toString());
+        txtdias2.setText(dias2.toString());
+        txtdias3.setText(dias3.toString());
+        cursor.close();
+
+
+
+
+
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1017.php?";
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta58(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta56(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+        try {
 
 
+            String monto1=txtmonto1.getText().toString();
+            String monto2=txtmonto2.getText().toString();
+            String monto3=txtmonto3.getText().toString();
 
+            String ingreso1=txtingreso1.getText().toString();
+            String ingreso2=txtingreso2.getText().toString();
+            String ingreso3=txtingreso3.getText().toString();
+
+            String dias1=txtdias1.getText().toString();
+            String dias2=txtdias2.getText().toString();
+            String dias3=txtdias3.getText().toString();
+
+            String analizarIngreso="0";
+            if(rdSiempre.isChecked()){
+                analizarIngreso="1";
+            }else if(rdAlgunaVez.isChecked()){
+                analizarIngreso="2";
+            }else if(rdOcasionalmente.isChecked()){
+                analizarIngreso="3";
+            }else if(rdNunca.isChecked()){
+                analizarIngreso="4";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
-
-                String monto1=txtmonto1.getText().toString();
-                String monto2=txtmonto2.getText().toString();
-                String monto3=txtmonto3.getText().toString();
-
-                String ingreso1=txtingreso1.getText().toString();
-                String ingreso2=txtingreso2.getText().toString();
-                String ingreso3=txtingreso3.getText().toString();
-
-                String dias1=txtdias1.getText().toString();
-                String dias2=txtdias2.getText().toString();
-                String dias3=txtdias3.getText().toString();
-
-                String analizarIngreso="0";
-                if(rdSiempre.isChecked()){
-                    analizarIngreso="1";
-                }else if(rdAlgunaVez.isChecked()){
-                    analizarIngreso="2";
-                }else if(rdOcasionalmente.isChecked()){
-                    analizarIngreso="3";
-                }else if(rdNunca.isChecked()){
-                    analizarIngreso="4";
-                }
 
 
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
 
-                parametros.put("monto1", monto1);
-                parametros.put("monto2", monto2);
-                parametros.put("monto3", monto3);
-                parametros.put("ingreso1", ingreso1);
-                parametros.put("ingreso2", ingreso2);
-                parametros.put("ingreso3", ingreso3);
-                parametros.put("dias1", dias1);
-                parametros.put("dias2", dias2);
-                parametros.put("dias3", dias3);
-                parametros.put("analizarIngreso", analizarIngreso);
+            values.put("mes_1_monto", monto1);
+            values.put("mes_2_monto", monto2);
+            values.put("mes_3_monto", monto3);
+            values.put("mes_1_ingreso_dia", ingreso1);
+            values.put("mes_2_ingreso_dia", ingreso2);
+            values.put("mes_3_ingreso_dia", ingreso3);
+            values.put("mes_1_dias_trabajados", dias1);
+            values.put("mes_2_dias_trabajados", dias2);
+            values.put("mes_3_dias_trabajados", dias3);
+            values.put("analizas_gastar", analizarIngreso);
+            //   values.put("no_desarrollo_plan_vida", noproyecto);
 
-                return parametros;
-            }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

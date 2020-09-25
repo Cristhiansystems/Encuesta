@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -93,7 +96,8 @@ public class emp_pers_8_0_7 extends Fragment {
     JsonObjectRequest jsonObjectRequest;
     StringRequest stringRequest;
     //
-    //
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
 
     //navegar pantallas
     Activity actividad;
@@ -123,6 +127,8 @@ public class emp_pers_8_0_7 extends Fragment {
         // Inflate the layout for this fragment
         vista= inflater.inflate(R.layout.fragment_emp_pers_8_0_7, container, false);
         idFragment=(TextView) vista.findViewById(R.id.idemppers807);
+
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
 
         //Grado Primario
         rdPrimario1=(RadioButton) vista.findViewById(R.id.Rd1Pri88);
@@ -200,367 +206,380 @@ public class emp_pers_8_0_7 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+
+            interfaceComunicaFragments.enviarEncuesta45(idFragment.getText().toString());
+
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta43(idFragment.getText().toString());
         });
         return vista;
 
     }
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+        try {
 
+            SQLiteDatabase db=conn.getReadableDatabase();
+            // String[] parametros={idFragment.getText().toString()};
+            String[] parametros={idFragment.getText().toString()};
+            String [] campos={
+                    "colegio"
+                    ,"grado_colegio"
+                    ,"nivel_colegio"
+                    ,"paralelo_colegio"
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
+                    ,"grado_secundaria"
+                    ,"nivel_secundaria"
+                    ,"paralelo_secundaria"
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                colegio = jsonObject.optString("colegio");
+                    ,"grado_policia"
+                    ,"nivel_policia"
 
-                //primaria
-                gradoPrimaria = jsonObject.optInt("grado_colegio");
-                nivel1 = jsonObject.optInt("nivel_colegio");
-                paraleloPrimaria = jsonObject.optString("paralelo_colegio");
+                    ,"grado_universidad"
+                    ,"nivel_universidad"
 
-                //secundaria
-                gradoSecundaria = jsonObject.optInt("grado_secundaria");
-                nivel2 = jsonObject.optInt("nivel_secundaria");
-                paraleloSecundaria = jsonObject.optString("paralelo_secundaria");
+                    ,"grado_tecnico_universitario"
+                    ,"nivel_tecnico_universitario"
 
-                //policia
-                gradoPolicia = jsonObject.optInt("grado_policia");
-                nivel3 = jsonObject.optInt("nivel_policia");
+                    ,"grado_tecnico_medio"
+                    ,"nivel_tecnico_medio"
 
-                //universidad
-                gradoUniversidad = jsonObject.optInt("grado_universidad");
-                nivel4 = jsonObject.optInt("nivel_universidad");
+                    ,"nivel_otro_actual"
+                     ,"nivel_otro_actual_nombre"
 
+                    ,"nivel_no_sabe"
+            };
 
-                //tecnico universitario
-                gradoTecnicoUniversitario = jsonObject.optInt("grado_tecnico_universitario");
-                nivel5 = jsonObject.optInt("nivel_tecnico_universitario");
-
-                //tecnico medio
-                gradoTecnicoMedio = jsonObject.optInt("grado_tecnico_medio");
-                nivel6 = jsonObject.optInt("nivel_tecnico_medio");
-
-                //otro
-
-                nivel7 = jsonObject.optInt("nivel_otro_actual");
-                otro = jsonObject.optString("nivel_otro_actual_nombre");
-                //nosabe
-                nivel8 = jsonObject.optInt("nivel_no_sabe");
-
-                colegio = jsonObject.optString("colegio");
-
-                if(gradoPrimaria==1){
-                    rdPrimario1.setChecked(true);
-                }else if(gradoPrimaria==2){
-                    rdPrimario2.setChecked(true);
-                }else if(gradoPrimaria==3){
-                    rdPrimario3.setChecked(true);
-                }else if(gradoPrimaria==4){
-                    rdPrimario4.setChecked(true);
-                }else if(gradoPrimaria==5){
-                    rdPrimario5.setChecked(true);
-                }else if(gradoPrimaria==6){
-                    rdPrimario6.setChecked(true);
-                }
-
-
-                if(gradoSecundaria==1){
-                    rdSecundario1.setChecked(true);
-                }else if(gradoSecundaria==2){
-                    rdSecundario2.setChecked(true);
-                }else if(gradoSecundaria==3){
-                    rdSecundario3.setChecked(true);
-                }else if(gradoSecundaria==4){
-                    rdSecundario4.setChecked(true);
-                }else if(gradoSecundaria==5){
-                    rdSecundario5.setChecked(true);
-                }else if(gradoSecundaria==6){
-                    rdSecundario6.setChecked(true);
-                }
-
-
-                if(gradoPolicia==1){
-                    rdPolicia1.setChecked(true);
-                }else if(gradoPolicia==2){
-                    rdPolicia2.setChecked(true);
-                }else if(gradoPolicia==3){
-                    rdPolicia3.setChecked(true);
-                }else if(gradoPolicia==4){
-                    rdPolicia4.setChecked(true);
-                }
-
-
-                if(gradoUniversidad==1){
-                    rdUniversidad1.setChecked(true);
-                }else if(gradoUniversidad==2){
-                    rdUniversidad2.setChecked(true);
-                }else if(gradoUniversidad==3){
-                    rdUniversidad3.setChecked(true);
-                }else if(gradoUniversidad==4){
-                    rdUniversidad4.setChecked(true);
-                }else if(gradoUniversidad==5){
-                    rdUniversidad5.setChecked(true);
-                }
-
-                if(gradoTecnicoUniversitario==1){
-                    rdTecnicoUniversidad1.setChecked(true);
-                }else if(gradoTecnicoUniversitario==2){
-                    rdTecnicoUniversidad2.setChecked(true);
-                }else if(gradoTecnicoUniversitario==3){
-                    rdTecnicoUniversidad3.setChecked(true);
-                }
-
-                if(gradoTecnicoMedio==1){
-                    rdTecnicoMedio1.setChecked(true);
-                }else if(gradoTecnicoMedio==2){
-                    rdTecnicoMedio2.setChecked(true);
-                }else if(gradoTecnicoMedio==3){
-                    rdTecnicoMedio3.setChecked(true);
-                }
-
-                if(nivel1==1){
-                    chNivel1.setChecked(true);
-                }
-
-                if(nivel2==1){
-                    chNivel2.setChecked(true);
-                }
-
-                if(nivel3==1){
-                    chNivel3.setChecked(true);
-                }
-
-                if(nivel4==1){
-                    chNivel4.setChecked(true);
-                }
-
-                if(nivel5==1){
-                    chNivel5.setChecked(true);
-                }
-
-                if(nivel6==1){
-                    chNivel6.setChecked(true);
-                }
-
-                if(nivel7==1){
-                    chNivel7.setChecked(true);
-                }
-
-                if(nivel8==1){
-                    chNivel8.setChecked(true);
-                }
+            Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+            cursor.moveToFirst();
 
 
 
 
 
-                txtcolegio.setText(colegio.toString());
-                txtotro.setText(otro.toString());
-                txtparaleloprimaria.setText(paraleloPrimaria.toString());
-                txtparalelosecundaria.setText(paraleloSecundaria.toString());
+            colegio = cursor.getString(0);
+
+            //primaria
+            gradoPrimaria = Integer.parseInt(cursor.getString(1));
+            nivel1 =Integer.parseInt( cursor.getString(2));
+            paraleloPrimaria = cursor.getString(3);
+
+            //secundaria
+            gradoSecundaria =Integer.parseInt(cursor.getString(4));
+            nivel2 =Integer.parseInt( cursor.getString(5));
+            paraleloSecundaria = cursor.getString(6);
+
+            //policia
+            gradoPolicia =Integer.parseInt( cursor.getString(7));
+            nivel3 =Integer.parseInt( cursor.getString(8));
+
+            //universidad
+            gradoUniversidad =Integer.parseInt(cursor.getString(9));
+            nivel4 =Integer.parseInt( cursor.getString(10));
+
+            //tecnico universitario
+            gradoTecnicoUniversitario =Integer.parseInt(cursor.getString(11));
+            nivel5 =Integer.parseInt( cursor.getString(12));
+
+            //tecnico medio
+            gradoTecnicoMedio =Integer.parseInt(  cursor.getString(13));
+            nivel6 = Integer.parseInt( cursor.getString(14));
+
+            //otro
+
+            nivel7 =Integer.parseInt(  cursor.getString(15));
+            otro =  cursor.getString(16);
+            //nosabe
+            nivel8 =Integer.parseInt(  cursor.getString(17));
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+
+            if(gradoPrimaria==1){
+                rdPrimario1.setChecked(true);
+            }else if(gradoPrimaria==2){
+                rdPrimario2.setChecked(true);
+            }else if(gradoPrimaria==3){
+                rdPrimario3.setChecked(true);
+            }else if(gradoPrimaria==4){
+                rdPrimario4.setChecked(true);
+            }else if(gradoPrimaria==5){
+                rdPrimario5.setChecked(true);
+            }else if(gradoPrimaria==6){
+                rdPrimario6.setChecked(true);
             }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+
+
+            if(gradoSecundaria==1){
+                rdSecundario1.setChecked(true);
+            }else if(gradoSecundaria==2){
+                rdSecundario2.setChecked(true);
+            }else if(gradoSecundaria==3){
+                rdSecundario3.setChecked(true);
+            }else if(gradoSecundaria==4){
+                rdSecundario4.setChecked(true);
+            }else if(gradoSecundaria==5){
+                rdSecundario5.setChecked(true);
+            }else if(gradoSecundaria==6){
+                rdSecundario6.setChecked(true);
+            }
+
+
+            if(gradoPolicia==1){
+                rdPolicia1.setChecked(true);
+            }else if(gradoPolicia==2){
+                rdPolicia2.setChecked(true);
+            }else if(gradoPolicia==3){
+                rdPolicia3.setChecked(true);
+            }else if(gradoPolicia==4){
+                rdPolicia4.setChecked(true);
+            }
+
+
+            if(gradoUniversidad==1){
+                rdUniversidad1.setChecked(true);
+            }else if(gradoUniversidad==2){
+                rdUniversidad2.setChecked(true);
+            }else if(gradoUniversidad==3){
+                rdUniversidad3.setChecked(true);
+            }else if(gradoUniversidad==4){
+                rdUniversidad4.setChecked(true);
+            }else if(gradoUniversidad==5){
+                rdUniversidad5.setChecked(true);
+            }
+
+            if(gradoTecnicoUniversitario==1){
+                rdTecnicoUniversidad1.setChecked(true);
+            }else if(gradoTecnicoUniversitario==2){
+                rdTecnicoUniversidad2.setChecked(true);
+            }else if(gradoTecnicoUniversitario==3){
+                rdTecnicoUniversidad3.setChecked(true);
+            }
+
+            if(gradoTecnicoMedio==1){
+                rdTecnicoMedio1.setChecked(true);
+            }else if(gradoTecnicoMedio==2){
+                rdTecnicoMedio2.setChecked(true);
+            }else if(gradoTecnicoMedio==3){
+                rdTecnicoMedio3.setChecked(true);
+            }
+
+            if(nivel1==1){
+                chNivel1.setChecked(true);
+            }
+
+            if(nivel2==1){
+                chNivel2.setChecked(true);
+            }
+
+            if(nivel3==1){
+                chNivel3.setChecked(true);
+            }
+
+            if(nivel4==1){
+                chNivel4.setChecked(true);
+            }
+
+            if(nivel5==1){
+                chNivel5.setChecked(true);
+            }
+
+            if(nivel6==1){
+                chNivel6.setChecked(true);
+            }
+
+            if(nivel7==1){
+                chNivel7.setChecked(true);
+            }
+
+            if(nivel8==1){
+                chNivel8.setChecked(true);
+            }
+
+
+
+
+            txtcolegio.setText(colegio);
+            txtotro.setText(otro);
+            txtparaleloprimaria.setText(paraleloPrimaria);
+            txtparalelosecundaria.setText(paraleloSecundaria);
+
+
+
+
+            cursor.close();
+
+        } catch (Exception e) {
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza87.php?";
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta45(idFragment.getText().toString());
+        try {
+            String colegio=txtcolegio.getText().toString();
+            String otro=txtotro.getText().toString();
+            String paraleloPrimaria=txtparaleloprimaria.getText().toString();
+            String paraleloSecundaria=txtparalelosecundaria.getText().toString();
 
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta43(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
-
-
-
+            String gradoPrimaria="0";
+            if(rdPrimario1.isChecked()){
+                gradoPrimaria="1";
+            }else if(rdPrimario2.isChecked()){
+                gradoPrimaria="2";
+            }else if(rdPrimario3.isChecked()){
+                gradoPrimaria="3";
+            }else if(rdPrimario4.isChecked()){
+                gradoPrimaria="4";
+            }else if(rdPrimario5.isChecked()){
+                gradoPrimaria="5";
+            }else if(rdPrimario6.isChecked()){
+                gradoPrimaria="6";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
 
-                String colegio=txtcolegio.getText().toString();
-                String otro=txtotro.getText().toString();
-                String paraleloPrimaria=txtparaleloprimaria.getText().toString();
-                String paraleloSecundaria=txtparalelosecundaria.getText().toString();
-
-                String gradoPrimaria="0";
-                if(rdPrimario1.isChecked()){
-                    gradoPrimaria="1";
-                }else if(rdPrimario2.isChecked()){
-                    gradoPrimaria="2";
-                }else if(rdPrimario3.isChecked()){
-                    gradoPrimaria="3";
-                }else if(rdPrimario4.isChecked()){
-                    gradoPrimaria="4";
-                }else if(rdPrimario5.isChecked()){
-                    gradoPrimaria="5";
-                }else if(rdPrimario6.isChecked()){
-                    gradoPrimaria="6";
-                }
-
-
-                String gradoSecundaria="0";
-                if(rdSecundario1.isChecked()){
-                    gradoSecundaria="1";
-                }else if(rdSecundario2.isChecked()){
-                    gradoSecundaria="2";
-                }else if(rdSecundario3.isChecked()){
-                    gradoSecundaria="3";
-                }else if(rdSecundario4.isChecked()){
-                    gradoSecundaria="4";
-                }else if(rdSecundario5.isChecked()){
-                    gradoSecundaria="5";
-                }else if(rdSecundario6.isChecked()){
-                    gradoSecundaria="6";
-                }
-
-                String gradoPolicia="0";
-                if(rdPolicia1.isChecked()){
-                    gradoPolicia="1";
-                }else if(rdPolicia2.isChecked()){
-                    gradoPolicia="2";
-                }else if(rdPolicia3.isChecked()){
-                    gradoPolicia="3";
-                }else if(rdPolicia4.isChecked()){
-                    gradoPolicia="4";
-                }
-
-
-                String gradouniversidad="0";
-                if(rdUniversidad1.isChecked()){
-                    gradouniversidad="1";
-                }else if(rdUniversidad2.isChecked()){
-                    gradouniversidad="2";
-                }else if(rdUniversidad3.isChecked()){
-                    gradouniversidad="3";
-                }else if(rdUniversidad4.isChecked()){
-                    gradouniversidad="4";
-                }else if(rdUniversidad5.isChecked()){
-                    gradouniversidad="5";
-                }
-
-                String gradoTecnicouniversidad="0";
-                if(rdTecnicoUniversidad1.isChecked()){
-                    gradoTecnicouniversidad="1";
-                }else if(rdTecnicoUniversidad2.isChecked()){
-                    gradoTecnicouniversidad="2";
-                }else if(rdTecnicoUniversidad3.isChecked()){
-                    gradoTecnicouniversidad="3";
-                }
-
-                String gradoTecnicomedio="0";
-                if(rdTecnicoMedio1.isChecked()){
-                    gradoTecnicomedio="1";
-                }else if(rdTecnicoMedio2.isChecked()){
-                    gradoTecnicomedio="2";
-                }else if(rdTecnicoMedio3.isChecked()){
-                    gradoTecnicomedio="3";
-                }
-
-                String nivel1="0";
-                if(chNivel1.isChecked()) {
-                    nivel1 = "1";
-                }
-
-                String nivel2="0";
-                if(chNivel2.isChecked()) {
-                    nivel2 = "1";
-                }
-
-                String nivel3="0";
-                if(chNivel3.isChecked()) {
-                    nivel3 = "1";
-                }
-
-                String nivel4="0";
-                if(chNivel4.isChecked()) {
-                    nivel4 = "1";
-                }
-
-                String nivel5="0";
-                if(chNivel5.isChecked()) {
-                    nivel5 = "1";
-                }
-
-                String nivel6="0";
-                if(chNivel6.isChecked()) {
-                    nivel6 = "1";
-                }
-
-                String nivel7="0";
-                if(chNivel7.isChecked()) {
-                    nivel7 = "1";
-                }
-
-                String nivel8="0";
-                if(chNivel8.isChecked()) {
-                    nivel8 = "1";
-                }
-
-                    Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("colegio", colegio);
-                parametros.put("otro", otro);
-                parametros.put("paraleloPrimaria", paraleloPrimaria);
-                parametros.put("paraleloSecundaria", paraleloSecundaria);
-                parametros.put("gradoPrimaria", gradoPrimaria);
-                parametros.put("gradoSecundaria", gradoSecundaria);
-                parametros.put("gradoPolicia", gradoPolicia);
-                parametros.put("gradoUniversidad", gradouniversidad);
-                parametros.put("gradoTecnicoUniversidad", gradoTecnicouniversidad);
-                parametros.put("gradoTecnicoMedio", gradoTecnicomedio);
-                parametros.put("nivel1", nivel1);
-                parametros.put("nivel2", nivel2);
-                parametros.put("nivel3", nivel3);
-                parametros.put("nivel4", nivel4);
-                parametros.put("nivel5", nivel5);
-                parametros.put("nivel6", nivel6);
-                parametros.put("nivel7", nivel7);
-                parametros.put("nivel8", nivel8);
-
-
-                return parametros;
+            String gradoSecundaria="0";
+            if(rdSecundario1.isChecked()){
+                gradoSecundaria="1";
+            }else if(rdSecundario2.isChecked()){
+                gradoSecundaria="2";
+            }else if(rdSecundario3.isChecked()){
+                gradoSecundaria="3";
+            }else if(rdSecundario4.isChecked()){
+                gradoSecundaria="4";
+            }else if(rdSecundario5.isChecked()){
+                gradoSecundaria="5";
+            }else if(rdSecundario6.isChecked()){
+                gradoSecundaria="6";
             }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+            String gradoPolicia="0";
+            if(rdPolicia1.isChecked()){
+                gradoPolicia="1";
+            }else if(rdPolicia2.isChecked()){
+                gradoPolicia="2";
+            }else if(rdPolicia3.isChecked()){
+                gradoPolicia="3";
+            }else if(rdPolicia4.isChecked()){
+                gradoPolicia="4";
+            }
+
+
+            String gradouniversidad="0";
+            if(rdUniversidad1.isChecked()){
+                gradouniversidad="1";
+            }else if(rdUniversidad2.isChecked()){
+                gradouniversidad="2";
+            }else if(rdUniversidad3.isChecked()){
+                gradouniversidad="3";
+            }else if(rdUniversidad4.isChecked()){
+                gradouniversidad="4";
+            }else if(rdUniversidad5.isChecked()){
+                gradouniversidad="5";
+            }
+
+            String gradoTecnicouniversidad="0";
+            if(rdTecnicoUniversidad1.isChecked()){
+                gradoTecnicouniversidad="1";
+            }else if(rdTecnicoUniversidad2.isChecked()){
+                gradoTecnicouniversidad="2";
+            }else if(rdTecnicoUniversidad3.isChecked()){
+                gradoTecnicouniversidad="3";
+            }
+
+            String gradoTecnicomedio="0";
+            if(rdTecnicoMedio1.isChecked()){
+                gradoTecnicomedio="1";
+            }else if(rdTecnicoMedio2.isChecked()){
+                gradoTecnicomedio="2";
+            }else if(rdTecnicoMedio3.isChecked()){
+                gradoTecnicomedio="3";
+            }
+
+            String nivel1="0";
+            if(chNivel1.isChecked()) {
+                nivel1 = "1";
+            }
+
+            String nivel2="0";
+            if(chNivel2.isChecked()) {
+                nivel2 = "1";
+            }
+
+            String nivel3="0";
+            if(chNivel3.isChecked()) {
+                nivel3 = "1";
+            }
+
+            String nivel4="0";
+            if(chNivel4.isChecked()) {
+                nivel4 = "1";
+            }
+
+            String nivel5="0";
+            if(chNivel5.isChecked()) {
+                nivel5 = "1";
+            }
+
+            String nivel6="0";
+            if(chNivel6.isChecked()) {
+                nivel6 = "1";
+            }
+
+            String nivel7="0";
+            if(chNivel7.isChecked()) {
+                nivel7 = "1";
+            }
+
+            String nivel8="0";
+            if(chNivel8.isChecked()) {
+                nivel8 = "1";
+            }
+
+
+
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put("colegio", colegio);
+            values.put("nivel_otro_actual_nombre", otro);
+            values.put("paralelo_colegio", paraleloPrimaria);
+            values.put("paralelo_secundaria", paraleloSecundaria);
+            values.put("grado_colegio", gradoPrimaria);
+            values.put("grado_secundaria", gradoSecundaria);
+            values.put("grado_policia", gradoPolicia);
+            values.put("grado_universidad", gradouniversidad);
+            values.put("grado_tecnico_universitario", gradoTecnicouniversidad);
+            values.put("grado_tecnico_medio", gradoTecnicomedio);
+            values.put("nivel_colegio", nivel1);
+            values.put("nivel_secundaria", nivel2);
+            values.put("nivel_policia", nivel3);
+            values.put("nivel_universidad", nivel4);
+            values.put("nivel_tecnico_universitario", nivel5);
+            values.put("nivel_tecnico_medio", nivel6);
+            values.put("nivel_otro_actual", nivel7);
+            values.put("nivel_no_sabe", nivel8);
+
+
+
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

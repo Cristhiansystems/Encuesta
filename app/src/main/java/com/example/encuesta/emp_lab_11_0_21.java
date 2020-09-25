@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -75,6 +78,9 @@ public class emp_lab_11_0_21 extends Fragment {
     String  idEncuesta, otronom;
     Integer colegio, universidad, instituto, hogar, cea, icap, fuente, otro, tiempoCapacitaste;
     RadioButton rd13meses, rd36meses, rd6meses, rd1ano, rd3ano, rdColegioSi,rdColegioNo, rdUniversidadSi, rdUniversidadNo, rdInstitutoSi, rdInstitutoNo, rdHogarSi, rdHogarNo, rdCeaSi, rdCeaNo, rdIcapSi, rdIcapNo, rdFuenteSi, rdFuenteNo, rdOtroSi, rdOtroNo;
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
 
     //volley
 
@@ -149,6 +155,9 @@ public class emp_lab_11_0_21 extends Fragment {
         rd6meses=(RadioButton) vista.findViewById(R.id.RdMeses6AUnAno1122);
         rd1ano=(RadioButton) vista.findViewById(R.id.RdAnos131122);
         rd3ano=(RadioButton) vista.findViewById(R.id.RdAnosMasDe31122);
+
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         Bundle data=getArguments();
 
         if(data!=null){
@@ -166,251 +175,248 @@ public class emp_lab_11_0_21 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta67(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta65(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+        SQLiteDatabase db=conn.getReadableDatabase();
+
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "capacitacion_otro_nombre"
+
+                ,"capacitacion_colegio"
+                ,"capacitacion_universidad"
+                ,"capacitacion_instituto"
+                ,"capacitacion_acogida"
+                ,"capacitacion_cea"
+                ,"capacitacion_icap"
+                ,"capacitacion_fuente_laboral"
+                ,"capacitacion_otro"
+                ,"tiempo_capacitacion"
+        };
+
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
+
+        otronom = cursor.getString(0);
+
+        colegio = Integer.parseInt( cursor.getString(1));
+        universidad = Integer.parseInt( cursor.getString(2));
+        instituto = Integer.parseInt( cursor.getString(3));
+        hogar = Integer.parseInt( cursor.getString(4));
+        cea = Integer.parseInt( cursor.getString(5));
+        icap = Integer.parseInt( cursor.getString(6));
+        fuente =Integer.parseInt( cursor.getString(7));
+        otro = Integer.parseInt( cursor.getString(8));
+        tiempoCapacitaste = Integer.parseInt( cursor.getString(9));
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
-
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                otronom = jsonObject.optString("capacitacion_otro_nombre");
-
-                colegio = jsonObject.optInt("capacitacion_colegio");
-                universidad = jsonObject.optInt("capacitacion_universidad");
-                instituto = jsonObject.optInt("capacitacion_instituto");
-                hogar = jsonObject.optInt("capacitacion_acogida");
-                cea = jsonObject.optInt("capacitacion_cea");
-                icap = jsonObject.optInt("capacitacion_icap");
-                fuente = jsonObject.optInt("capacitacion_fuente_laboral");
-                otro = jsonObject.optInt("capacitacion_otro");
-                tiempoCapacitaste = jsonObject.optInt("tiempo_capacitacion");
+        txtotro.setText(otronom.toString());
 
 
-                txtotro.setText(otronom.toString());
+        if(colegio==1){
+            rdColegioSi.setChecked(true);
+        }else if(colegio==2){
+            rdColegioNo.setChecked(true);
+        }
+
+        if(universidad==1){
+            rdUniversidadSi.setChecked(true);
+        }else if(universidad==2){
+            rdUniversidadNo.setChecked(true);
+        }
+
+        if(hogar==1){
+            rdHogarSi.setChecked(true);
+        }else if(hogar==2){
+            rdHogarNo.setChecked(true);
+        }
+
+        if(instituto==1){
+            rdInstitutoSi.setChecked(true);
+        }else if(instituto==2){
+            rdInstitutoNo.setChecked(true);
+        }
+
+        if(cea==1){
+            rdCeaSi.setChecked(true);
+        }else if(cea==2){
+            rdCeaNo.setChecked(true);
+        }
+
+        if(icap==1){
+            rdIcapSi.setChecked(true);
+        }else if(icap==2){
+            rdIcapNo.setChecked(true);
+        }
+
+        if(fuente==1){
+            rdFuenteSi.setChecked(true);
+        }else if(fuente==2){
+            rdFuenteNo.setChecked(true);
+        }
+
+        if(otro==1){
+            rdOtroSi.setChecked(true);
+        }else if(otro==2){
+            rdOtroNo.setChecked(true);
+        }
+
+        if(tiempoCapacitaste==1){
+            rd13meses.setChecked(true);
+        }else if(tiempoCapacitaste==2){
+            rd36meses.setChecked(true);
+        }else if(tiempoCapacitaste==3){
+            rd6meses.setChecked(true);
+        }else if(tiempoCapacitaste==4){
+            rd1ano.setChecked(true);
+        }else if(tiempoCapacitaste==5){
+            rd3ano.setChecked(true);
+        }
 
 
-                if(colegio==1){
-                    rdColegioSi.setChecked(true);
-                }else if(colegio==2){
-                    rdColegioNo.setChecked(true);
-                }
 
-                if(universidad==1){
-                    rdUniversidadSi.setChecked(true);
-                }else if(universidad==2){
-                    rdUniversidadNo.setChecked(true);
-                }
+        cursor.close();
 
-                if(hogar==1){
-                    rdHogarSi.setChecked(true);
-                }else if(hogar==2){
-                    rdHogarNo.setChecked(true);
-                }
-
-                if(instituto==1){
-                    rdInstitutoSi.setChecked(true);
-                }else if(instituto==2){
-                    rdInstitutoNo.setChecked(true);
-                }
-
-                if(cea==1){
-                    rdCeaSi.setChecked(true);
-                }else if(cea==2){
-                    rdCeaNo.setChecked(true);
-                }
-
-                if(icap==1){
-                    rdIcapSi.setChecked(true);
-                }else if(icap==2){
-                    rdIcapNo.setChecked(true);
-                }
-
-                if(fuente==1){
-                    rdFuenteSi.setChecked(true);
-                }else if(fuente==2){
-                    rdFuenteNo.setChecked(true);
-                }
-
-                if(otro==1){
-                    rdOtroSi.setChecked(true);
-                }else if(otro==2){
-                    rdOtroNo.setChecked(true);
-                }
-
-                if(tiempoCapacitaste==1){
-                    rd13meses.setChecked(true);
-                }else if(tiempoCapacitaste==2){
-                    rd36meses.setChecked(true);
-                }else if(tiempoCapacitaste==3){
-                    rd6meses.setChecked(true);
-                }else if(tiempoCapacitaste==4){
-                    rd1ano.setChecked(true);
-                }else if(tiempoCapacitaste==5){
-                    rd3ano.setChecked(true);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1121.php?";
-
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta67(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta65(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
 
 
+        try {
+
+            String otronom=txtotro.getText().toString();
+
+
+            String colegio="0";
+            if(rdColegioSi.isChecked()){
+                colegio="1";
+            }else if(rdColegioNo.isChecked()){
+
+                colegio="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
+            String universidad="0";
+            if(rdUniversidadSi.isChecked()){
+                universidad="1";
+            }else if(rdUniversidadNo.isChecked()){
 
-                String otronom=txtotro.getText().toString();
-
-
-                String colegio="0";
-                if(rdColegioSi.isChecked()){
-                    colegio="1";
-                }else if(rdColegioNo.isChecked()){
-
-                    colegio="2";
-                }
-
-                String universidad="0";
-                if(rdUniversidadSi.isChecked()){
-                    universidad="1";
-                }else if(rdUniversidadNo.isChecked()){
-
-                    universidad="2";
-                }
-
-                String instituto="0";
-                if(rdInstitutoSi.isChecked()){
-                    instituto="1";
-                }else if(rdInstitutoNo.isChecked()){
-
-                    instituto="2";
-                }
-
-                String hogar="0";
-                if(rdHogarSi.isChecked()){
-                    hogar="1";
-                }else if(rdHogarNo.isChecked()){
-
-                    hogar="2";
-                }
-
-                String cea="0";
-                if(rdCeaSi.isChecked()){
-                    cea="1";
-                }else if(rdCeaNo.isChecked()){
-
-                    cea="2";
-                }
-
-                String icap="0";
-                if(rdIcapSi.isChecked()){
-                    icap="1";
-                }else if(rdIcapNo.isChecked()){
-
-                    icap="2";
-                }
-
-                String fuente="0";
-                if(rdFuenteSi.isChecked()){
-                    fuente="1";
-                }else if(rdFuenteNo.isChecked()){
-
-                    fuente="2";
-                }
-
-                String otro="0";
-                if(rdOtroSi.isChecked()){
-                    otro="1";
-                }else if(rdOtroNo.isChecked()){
-
-                    otro="2";
-                }
-
-                String tiempoCapacitaste="0";
-                if(rd13meses.isChecked()){
-                    tiempoCapacitaste="1";
-                }else if(rd36meses.isChecked()){
-
-                    tiempoCapacitaste="2";
-                }else if(rd6meses.isChecked()){
-
-                    tiempoCapacitaste="3";
-                }else if(rd1ano.isChecked()){
-
-                    tiempoCapacitaste="4";
-                }else if(rd3ano.isChecked()){
-
-                    tiempoCapacitaste="5";
-                }
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-
-                parametros.put("colegio", colegio);
-                parametros.put("universidad", universidad);
-                parametros.put("instituto", instituto);
-                parametros.put("hogar", hogar);
-                parametros.put("cea", cea);
-                parametros.put("icap", icap);
-                parametros.put("fuente", fuente);
-                parametros.put("otro", otro);
-                parametros.put("otronom", otronom);
-                parametros.put("tiempoCapacitaste", tiempoCapacitaste);
-
-
-
-                return parametros;
+                universidad="2";
             }
-        };
-       // request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+            String instituto="0";
+            if(rdInstitutoSi.isChecked()){
+                instituto="1";
+            }else if(rdInstitutoNo.isChecked()){
+
+                instituto="2";
+            }
+
+            String hogar="0";
+            if(rdHogarSi.isChecked()){
+                hogar="1";
+            }else if(rdHogarNo.isChecked()){
+
+                hogar="2";
+            }
+
+            String cea="0";
+            if(rdCeaSi.isChecked()){
+                cea="1";
+            }else if(rdCeaNo.isChecked()){
+
+                cea="2";
+            }
+
+            String icap="0";
+            if(rdIcapSi.isChecked()){
+                icap="1";
+            }else if(rdIcapNo.isChecked()){
+
+                icap="2";
+            }
+
+            String fuente="0";
+            if(rdFuenteSi.isChecked()){
+                fuente="1";
+            }else if(rdFuenteNo.isChecked()){
+
+                fuente="2";
+            }
+
+            String otro="0";
+            if(rdOtroSi.isChecked()){
+                otro="1";
+            }else if(rdOtroNo.isChecked()){
+
+                otro="2";
+            }
+
+            String tiempoCapacitaste="0";
+            if(rd13meses.isChecked()){
+                tiempoCapacitaste="1";
+            }else if(rd36meses.isChecked()){
+
+                tiempoCapacitaste="2";
+            }else if(rd6meses.isChecked()){
+
+                tiempoCapacitaste="3";
+            }else if(rd1ano.isChecked()){
+
+                tiempoCapacitaste="4";
+            }else if(rd3ano.isChecked()){
+
+                tiempoCapacitaste="5";
+            }
+
+
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put("capacitacion_colegio", colegio);
+            values.put("capacitacion_universidad", universidad);
+            values.put("capacitacion_instituto", instituto);
+            values.put("capacitacion_acogida", hogar);
+            values.put("capacitacion_cea", cea);
+            values.put("capacitacion_icap", icap);
+            values.put("capacitacion_fuente_laboral", fuente);
+            values.put("capacitacion_otro", otro);
+            values.put("capacitacion_otro_nombre", otronom);
+            values.put("tiempo_capacitacion", tiempoCapacitaste);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

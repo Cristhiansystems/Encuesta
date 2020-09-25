@@ -13,11 +13,12 @@
       android:layout_height="wrap_content"
       android:gravity="center"
       android:text="ACCESO A LA APLICACIÓN"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="Por favor seleccione uno de los usuarios"/>
+        android:text="Por favor seleccione uno de los usuarios" />
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

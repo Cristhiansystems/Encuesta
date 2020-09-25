@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -76,6 +79,9 @@ public class preg_eval_13_0_1 extends Fragment {
     Integer ingresoMejoro, trabajado, programaAyuda;
     RadioButton rdIngresoMejoroSi, rdIngresoMejoroNo, rdTrabajadiSi, rdTrabajadoNo, rdprogramaAyudaSi, rdProgramaAyudaNo;
 
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
     ProgressDialog progreso;
     //RequestQueue request;
@@ -128,6 +134,8 @@ public class preg_eval_13_0_1 extends Fragment {
         rdprogramaAyudaSi=(RadioButton) vista.findViewById(R.id.RdSiMeAyudoTenerEmpleo);
         rdProgramaAyudaNo=(RadioButton) vista.findViewById(R.id.RdNoMeAyudoTenerEmpleo);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
 
         Bundle data=getArguments();
 
@@ -146,148 +154,142 @@ public class preg_eval_13_0_1 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta76(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta74(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                ingresoMensual = jsonObject.optString("ingreso_mensual_antes");
-                salario = jsonObject.optString("salario_antes");
-                ingresoMensualActual = jsonObject.optString("ingreso_mensual_ahora");
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "ingreso_mensual_antes"
 
-                ingresoMejoro = jsonObject.optInt("ingreso_mejoro");
-                trabajado = jsonObject.optInt("trabajo_3_meses");
-                programaAyuda = jsonObject.optInt("programa_ayudo_empleo");
+                ,"salario_antes"
+                ,"ingreso_mensual_ahora"
+                ,"ingreso_mejoro"
+                ,"trabajo_3_meses"
+                ,"programa_ayudo_empleo"
 
-                if(ingresoMejoro==1){
-                    rdIngresoMejoroSi.setChecked(true);
-                }else if(ingresoMejoro==2){
-                    rdIngresoMejoroNo.setChecked(true);
-                }
+        };
 
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
-                if(trabajado==1){
-                    rdTrabajadiSi.setChecked(true);
-                }else if(trabajado==2){
-                    rdTrabajadoNo.setChecked(true);
-                }
+        ingresoMensual = cursor.getString(0);
+        salario = cursor.getString(1);
+        ingresoMensualActual = cursor.getString(2);
+
+        ingresoMejoro = Integer.parseInt( cursor.getString(3));
+        trabajado = Integer.parseInt( cursor.getString(4));
+        programaAyuda = Integer.parseInt( cursor.getString(5));
 
 
-                if(programaAyuda==1){
-                    rdprogramaAyudaSi.setChecked(true);
-                }else if(programaAyuda==2){
-                    rdProgramaAyudaNo.setChecked(true);
-                }
+        if(ingresoMejoro==1){
+            rdIngresoMejoroSi.setChecked(true);
+        }else if(ingresoMejoro==2){
+            rdIngresoMejoroNo.setChecked(true);
+        }
 
-                txtIngresoMensual.setText(ingresoMensual.toString());
-                txtingresoMensualActual.setText(ingresoMensualActual.toString());
-                txtSalario.setText(salario.toString());
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        if(trabajado==1){
+            rdTrabajadiSi.setChecked(true);
+        }else if(trabajado==2){
+            rdTrabajadoNo.setChecked(true);
+        }
+
+
+        if(programaAyuda==1){
+            rdprogramaAyudaSi.setChecked(true);
+        }else if(programaAyuda==2){
+            rdProgramaAyudaNo.setChecked(true);
+        }
+
+        txtIngresoMensual.setText(ingresoMensual.toString());
+        txtingresoMensualActual.setText(ingresoMensualActual.toString());
+        txtSalario.setText(salario.toString());
+
+
+
+
+
+
+        cursor.close();
+
+
+
+
+
+
+
+
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1301.php?";
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
+        try {
 
-                    interfaceComunicaFragments.enviarEncuesta76(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-
-                    interfaceComunicaFragments.enviarEncuesta74(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+            String ingresoMensual= txtIngresoMensual.getText().toString();
+            String ingresoMensualActual= txtingresoMensualActual.getText().toString();
+            String salario= txtSalario.getText().toString();
 
 
-
+            String ingresoMejoro="0";
+            if(rdIngresoMejoroSi.isChecked()){
+                ingresoMejoro="1";
+            }else if(rdIngresoMejoroNo.isChecked()){
+                ingresoMejoro="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
-                String ingresoMensual= txtIngresoMensual.getText().toString();
-                String ingresoMensualActual= txtingresoMensualActual.getText().toString();
-                String salario= txtSalario.getText().toString();
 
-
-                String ingresoMejoro="0";
-                if(rdIngresoMejoroSi.isChecked()){
-                    ingresoMejoro="1";
-                }else if(rdIngresoMejoroNo.isChecked()){
-                    ingresoMejoro="2";
-                }
-
-
-                String trabajado="0";
-                if(rdTrabajadiSi.isChecked()){
-                    trabajado="1";
-                }else if(rdTrabajadoNo.isChecked()){
-                    trabajado="2";
-                }
-
-
-
-                String programaAyuda="0";
-                if(rdprogramaAyudaSi.isChecked()){
-                    programaAyuda="1";
-                }else if(rdProgramaAyudaNo.isChecked()){
-                    programaAyuda="2";
-                }
-
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("ingresoMensual", ingresoMensual);
-                parametros.put("ingresoMensualActual", ingresoMensualActual);
-                parametros.put("salario", salario);
-                parametros.put("ingresoMejoro", ingresoMejoro);
-                parametros.put("trabajado", trabajado);
-                parametros.put("programaAyuda", programaAyuda);
-
-                return parametros;
+            String trabajado="0";
+            if(rdTrabajadiSi.isChecked()){
+                trabajado="1";
+            }else if(rdTrabajadoNo.isChecked()){
+                trabajado="2";
             }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+
+
+            String programaAyuda="0";
+            if(rdprogramaAyudaSi.isChecked()){
+                programaAyuda="1";
+            }else if(rdProgramaAyudaNo.isChecked()){
+                programaAyuda="2";
+            }
+
+
+
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+           values.put("ingreso_mensual_antes", ingresoMensual);
+            values.put("ingreso_mensual_ahora", ingresoMensualActual);
+            values.put("salario_antes", salario);
+            values.put("ingreso_mejoro", ingresoMejoro);
+            values.put("trabajo_3_meses", trabajado);
+            values.put("programa_ayudo_empleo", programaAyuda);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

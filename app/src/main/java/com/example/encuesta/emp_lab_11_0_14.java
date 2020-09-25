@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -76,6 +79,10 @@ public class emp_lab_11_0_14 extends Fragment {
     Integer trabajas, tiempoTrabajo;
     RadioButton rd13meses, rd36meses, rd6meses, rd1ano, rd3ano, rdSi,rdNo;
     LinearLayout display1114, display1115, display1116, display1117;
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
 
     ProgressDialog progreso;
@@ -135,6 +142,8 @@ public class emp_lab_11_0_14 extends Fragment {
         display1116=(LinearLayout) vista.findViewById(R.id.layout1116);
         display1117=(LinearLayout) vista.findViewById(R.id.layout1117);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         rdSi.setOnClickListener(v -> {
 
             display1115.setVisibility(View.INVISIBLE);
@@ -172,159 +181,136 @@ public class emp_lab_11_0_14 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            if(rdNo.isChecked()){
+                interfaceComunicaFragments.enviarEncuesta70(idFragment.getText().toString());
+            }else{
+                interfaceComunicaFragments.enviarEncuesta65(idFragment.getText().toString());
+            }
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta63(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                noTrabajo = jsonObject.optString("razon_no_trabajar");
-                cargo = jsonObject.optString("cargo_trabajo");
-                puesto = jsonObject.optString("lugar_trabajo");
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "razon_no_trabajar"
+                ,"cargo_trabajo"
+                ,"lugar_trabajo"
+                ,"trabajas_actualmente"
+                ,"tiempo_trabajo"
+        };
+
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
+
+        noTrabajo = cursor.getString(0);
+        cargo = cursor.getString(1);
+        puesto = cursor.getString(2);
 
 
-                trabajas = jsonObject.optInt("trabajas_actualmente");
-                tiempoTrabajo = jsonObject.optInt("tiempo_trabajo");
+        trabajas = Integer.parseInt( cursor.getString(3));
+        tiempoTrabajo = Integer.parseInt( cursor.getString(4));
 
 
-                txtnoTrabajo.setText(noTrabajo.toString());
-                txtcargo.setText(cargo.toString());
-                txtpuesto.setText(puesto.toString());
+        txtnoTrabajo.setText(noTrabajo.toString());
+        txtcargo.setText(cargo.toString());
+        txtpuesto.setText(puesto.toString());
 
-                if(trabajas==1){
-                    display1115.setVisibility(View.INVISIBLE);
-                    display1115.setVisibility(View.GONE);
-                }else if(trabajas==2){
-                    display1116.setVisibility(View.INVISIBLE);
-                    display1116.setVisibility(View.GONE);
-                    display1117.setVisibility(View.INVISIBLE);
-                    display1117.setVisibility(View.GONE);
-                }
-                if(trabajas==1){
-                    rdSi.setChecked(true);
-                }else if(trabajas==2){
-                    rdNo.setChecked(true);
-                }
+        if(trabajas==1){
+            display1115.setVisibility(View.INVISIBLE);
+            display1115.setVisibility(View.GONE);
+        }else if(trabajas==2){
+            display1116.setVisibility(View.INVISIBLE);
+            display1116.setVisibility(View.GONE);
+            display1117.setVisibility(View.INVISIBLE);
+            display1117.setVisibility(View.GONE);
+        }
+        if(trabajas==1){
+            rdSi.setChecked(true);
+        }else if(trabajas==2){
+            rdNo.setChecked(true);
+        }
 
-                if(tiempoTrabajo==1){
-                    rd13meses.setChecked(true);
-                }else if(tiempoTrabajo==2){
-                    rd36meses.setChecked(true);
-                }else if(tiempoTrabajo==3){
-                    rd6meses.setChecked(true);
-                }else if(tiempoTrabajo==4){
-                    rd1ano.setChecked(true);
-                }else if(tiempoTrabajo==5){
-                    rd3ano.setChecked(true);
-                }
+        if(tiempoTrabajo==1){
+            rd13meses.setChecked(true);
+        }else if(tiempoTrabajo==2){
+            rd36meses.setChecked(true);
+        }else if(tiempoTrabajo==3){
+            rd6meses.setChecked(true);
+        }else if(tiempoTrabajo==4){
+            rd1ano.setChecked(true);
+        }else if(tiempoTrabajo==5){
+            rd3ano.setChecked(true);
+        }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-       // request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        cursor.close();
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1114.php?";
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    if(rdNo.isChecked()){
-                        interfaceComunicaFragments.enviarEncuesta70(idFragment.getText().toString());
-                    }else{
-                        interfaceComunicaFragments.enviarEncuesta65(idFragment.getText().toString());
-                    }
+        try {
 
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta63(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+            String noTrabajas=txtnoTrabajo.getText().toString();
+            String cargo=txtcargo.getText().toString();
+            String puesto=txtpuesto.getText().toString();
 
 
+            String trabajas="0";
+            if(rdSi.isChecked()){
+                trabajas="1";
+            }else if(rdNo.isChecked()){
+
+                trabajas="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
+            String tiempoTrabajo="0";
+            if(rd13meses.isChecked()){
+                tiempoTrabajo="1";
+            }else if(rd36meses.isChecked()){
 
-                String noTrabajas=txtnoTrabajo.getText().toString();
-                String cargo=txtcargo.getText().toString();
-                String puesto=txtpuesto.getText().toString();
+                tiempoTrabajo="2";
+            }else if(rd6meses.isChecked()){
 
+                tiempoTrabajo="3";
+            }else if(rd1ano.isChecked()){
 
-                String trabajas="0";
-                if(rdSi.isChecked()){
-                    trabajas="1";
-                }else if(rdNo.isChecked()){
+                tiempoTrabajo="4";
+            }else if(rd3ano.isChecked()){
 
-                    trabajas="2";
-                }
-
-                String tiempoTrabajo="0";
-                if(rd13meses.isChecked()){
-                    tiempoTrabajo="1";
-                }else if(rd36meses.isChecked()){
-
-                    tiempoTrabajo="2";
-                }else if(rd6meses.isChecked()){
-
-                    tiempoTrabajo="3";
-                }else if(rd1ano.isChecked()){
-
-                    tiempoTrabajo="4";
-                }else if(rd3ano.isChecked()){
-
-                    tiempoTrabajo="5";
-                }
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("noTrabajas", noTrabajas);
-                parametros.put("cargo", cargo);
-                parametros.put("puesto", puesto);
-                parametros.put("trabajas", trabajas);
-                parametros.put("tiempoTrabajo", tiempoTrabajo);
-
-
-
-                return parametros;
+                tiempoTrabajo="5";
             }
-        };
-       // request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put("razon_no_trabajar", noTrabajas);
+            values.put("cargo_trabajo", cargo);
+            values.put("lugar_trabajo", puesto);
+            values.put("trabajas_actualmente", trabajas);
+            values.put("tiempo_trabajo", tiempoTrabajo);
+            //   values.put("no_desarrollo_plan_vida", noproyecto);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

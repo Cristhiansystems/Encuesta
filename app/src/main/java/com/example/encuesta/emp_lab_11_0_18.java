@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -77,6 +80,9 @@ public class emp_lab_11_0_18 extends Fragment {
     Integer familiares, amistades, presna, agencias, programa, otro, taller;
     RadioButton rdFamiliaresSi, rdFamiliaresNo, rdAmistadesSi, rdAmistadesNo, rdPrensaSi, rdPrensaNo,rdAgenciasSi, rdAgenciasNo, rdProgramaSi, rdProgramaNo, rdOtroSi, rdOtroNo, rdTallerSi, rdTallerNo;
     LinearLayout display1120;
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
     //volley
 
     ProgressDialog progreso;
@@ -144,6 +150,8 @@ public class emp_lab_11_0_18 extends Fragment {
 
         display1120=(LinearLayout) vista.findViewById(R.id.layout1120);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         rdTallerSi.setOnClickListener(v -> {
 
             display1120.setVisibility(View.INVISIBLE);
@@ -175,218 +183,213 @@ public class emp_lab_11_0_18 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            if(rdTallerNo.isChecked()){
+                interfaceComunicaFragments.enviarEncuesta67(idFragment.getText().toString());
+            }else{
+                interfaceComunicaFragments.enviarEncuesta66(idFragment.getText().toString());
+            }
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta64(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
-
-
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
-
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                otronom = jsonObject.optString("encontrar_trabajo_otro_nombre");
-                razonNoCurso = jsonObject.optString("razon_no_realizar_curso");
-
-                familiares = jsonObject.optInt("encontrar_trabajo_familia");
-                amistades = jsonObject.optInt("encontrar_trabajo_amistad");
-                presna = jsonObject.optInt("encontrar_trabajo_prensa");
-                agencias = jsonObject.optInt("encontrar_trabajo_agencia");
-                programa = jsonObject.optInt("encontrar_trabajo_programa");
-                otro = jsonObject.optInt("encontrar_trabajo_otro");
-                taller = jsonObject.optInt("realizo_capacitacion");
-
-
-                txtrazonNoCurso.setText(razonNoCurso.toString());
-                txtotro.setText(otronom.toString());
-
-                if(taller==1){
-                    display1120.setVisibility(View.INVISIBLE);
-                    display1120.setVisibility(View.GONE);
-                }
-
-                if(familiares==1){
-                    rdFamiliaresSi.setChecked(true);
-                }else if(familiares==2){
-                    rdFamiliaresNo.setChecked(true);
-                }
-
-                if(amistades==1){
-                    rdAmistadesSi.setChecked(true);
-                }else if(amistades==2){
-                    rdAmistadesNo.setChecked(true);
-                }
-
-                if(presna==1){
-                    rdPrensaSi.setChecked(true);
-                }else if(presna==2){
-                    rdPrensaNo.setChecked(true);
-                }
-
-                if(agencias==1){
-                    rdAgenciasSi.setChecked(true);
-                }else if(agencias==2){
-                    rdAgenciasNo.setChecked(true);
-                }
 
 
 
-                if(programa==1){
-                    rdProgramaSi.setChecked(true);
-                }else if(programa==2){
-                    rdProgramaNo.setChecked(true);
-                }
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-                if(otro==1){
-                    rdOtroSi.setChecked(true);
-                }else if(otro==2){
-                    rdOtroNo.setChecked(true);
-                }
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "encontrar_trabajo_otro_nombre"
+                ,"razon_no_realizar_curso"
+                ,"encontrar_trabajo_familia"
+                ,"encontrar_trabajo_amistad"
+                ,"encontrar_trabajo_prensa"
+                ,"encontrar_trabajo_agencia"
+                ,"encontrar_trabajo_programa"
+                ,"encontrar_trabajo_otro"
+                ,"realizo_capacitacion"
+        };
 
-                if(taller==1){
-                    rdTallerSi.setChecked(true);
-                }else if(taller==2){
-                    rdTallerNo.setChecked(true);
-                }
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-       // request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        otronom = cursor.getString(0);
+        razonNoCurso = cursor.getString(1);
+
+        familiares =Integer.parseInt( cursor.getString(2));
+        amistades = Integer.parseInt( cursor.getString(3));
+        presna = Integer.parseInt( cursor.getString(4));
+        agencias = Integer.parseInt( cursor.getString(5));
+        programa = Integer.parseInt( cursor.getString(6));
+        otro = Integer.parseInt( cursor.getString(7));
+        taller =Integer.parseInt( cursor.getString(8));
+
+
+        txtrazonNoCurso.setText(razonNoCurso.toString());
+        txtotro.setText(otronom.toString());
+
+        if(taller==1){
+            display1120.setVisibility(View.INVISIBLE);
+            display1120.setVisibility(View.GONE);
+        }
+
+        if(familiares==1){
+            rdFamiliaresSi.setChecked(true);
+        }else if(familiares==2){
+            rdFamiliaresNo.setChecked(true);
+        }
+
+        if(amistades==1){
+            rdAmistadesSi.setChecked(true);
+        }else if(amistades==2){
+            rdAmistadesNo.setChecked(true);
+        }
+
+        if(presna==1){
+            rdPrensaSi.setChecked(true);
+        }else if(presna==2){
+            rdPrensaNo.setChecked(true);
+        }
+
+        if(agencias==1){
+            rdAgenciasSi.setChecked(true);
+        }else if(agencias==2){
+            rdAgenciasNo.setChecked(true);
+        }
+
+
+
+        if(programa==1){
+            rdProgramaSi.setChecked(true);
+        }else if(programa==2){
+            rdProgramaNo.setChecked(true);
+        }
+
+        if(otro==1){
+            rdOtroSi.setChecked(true);
+        }else if(otro==2){
+            rdOtroNo.setChecked(true);
+        }
+
+        if(taller==1){
+            rdTallerSi.setChecked(true);
+        }else if(taller==2){
+            rdTallerNo.setChecked(true);
+        }
+
+
+        cursor.close();
+
+
+
+
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1118.php?";
-
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    if(rdTallerNo.isChecked()){
-                        interfaceComunicaFragments.enviarEncuesta67(idFragment.getText().toString());
-                    }else{
-                        interfaceComunicaFragments.enviarEncuesta66(idFragment.getText().toString());
-                    }
-
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta64(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
 
 
+        try {
+
+            String otronom=txtotro.getText().toString();
+            String razonNoCurso=txtrazonNoCurso.getText().toString();
+
+
+
+            String familiar="0";
+            if(rdFamiliaresSi.isChecked()){
+                familiar="1";
+            }else if(rdFamiliaresNo.isChecked()){
+
+                familiar="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
+            String amistad="0";
+            if(rdAmistadesSi.isChecked()){
+                amistad="1";
+            }else if(rdAmistadesNo.isChecked()){
 
-                String otronom=txtotro.getText().toString();
-                String razonNoCurso=txtrazonNoCurso.getText().toString();
-
-
-
-                String familiar="0";
-                if(rdFamiliaresSi.isChecked()){
-                    familiar="1";
-                }else if(rdFamiliaresNo.isChecked()){
-
-                    familiar="2";
-                }
-
-                String amistad="0";
-                if(rdAmistadesSi.isChecked()){
-                    amistad="1";
-                }else if(rdAmistadesNo.isChecked()){
-
-                    amistad="2";
-                }
-                String prensa="0";
-                if(rdPrensaSi.isChecked()){
-                    prensa="1";
-                }else if(rdPrensaNo.isChecked()){
-
-                    prensa="2";
-                }
-
-                String agencia="0";
-                if(rdAgenciasSi.isChecked()){
-                    agencia="1";
-                }else if(rdAgenciasNo.isChecked()){
-
-                    agencia="2";
-                }
-
-                String programa="0";
-                if(rdProgramaSi.isChecked()){
-                    programa="1";
-                }else if(rdProgramaNo.isChecked()){
-
-                    programa="2";
-                }
-
-                String otro="0";
-                if(rdOtroSi.isChecked()){
-                    otro="1";
-                }else if(rdOtroNo.isChecked()){
-
-                    otro="2";
-                }
-
-                String taller="0";
-                if(rdTallerSi.isChecked()){
-                    taller="1";
-                }else if(rdTallerNo.isChecked()){
-
-                    taller="2";
-                }
-
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("familiar", familiar);
-                parametros.put("amistad", amistad);
-                parametros.put("prensa", prensa);
-                parametros.put("agencia", agencia);
-                parametros.put("programa", programa);
-                parametros.put("otro", otro);
-                parametros.put("taller", taller);
-                parametros.put("otronom", otronom);
-                parametros.put("razonNoCurso", razonNoCurso);
-
-
-
-                return parametros;
+                amistad="2";
             }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+            String prensa="0";
+            if(rdPrensaSi.isChecked()){
+                prensa="1";
+            }else if(rdPrensaNo.isChecked()){
+
+                prensa="2";
+            }
+
+            String agencia="0";
+            if(rdAgenciasSi.isChecked()){
+                agencia="1";
+            }else if(rdAgenciasNo.isChecked()){
+
+                agencia="2";
+            }
+
+            String programa="0";
+            if(rdProgramaSi.isChecked()){
+                programa="1";
+            }else if(rdProgramaNo.isChecked()){
+
+                programa="2";
+            }
+
+            String otro="0";
+            if(rdOtroSi.isChecked()){
+                otro="1";
+            }else if(rdOtroNo.isChecked()){
+
+                otro="2";
+            }
+
+            String taller="0";
+            if(rdTallerSi.isChecked()){
+                taller="1";
+            }else if(rdTallerNo.isChecked()){
+
+                taller="2";
+            }
+
+
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put("encontrar_trabajo_familia", familiar);
+            values.put("encontrar_trabajo_amistad", amistad);
+            values.put("encontrar_trabajo_prensa", prensa);
+            values.put("encontrar_trabajo_agencia", agencia);
+            values.put("encontrar_trabajo_programa", programa);
+            values.put("encontrar_trabajo_otro", otro);
+            values.put("realizo_capacitacion", taller);
+            values.put("encontrar_trabajo_otro_nombre", otronom);
+            values.put("razon_no_realizar_curso", razonNoCurso);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+
+
+
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

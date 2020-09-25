@@ -262,25 +262,36 @@ public class utilidades {
             " otro_plan_vida INTEGER NOT NULL DEFAULT 0," +
             " otro_plan_vida_nombre TEXT NOT NULL DEFAULT ''," +
             " estudiante_actualmente INTEGER NOT NULL DEFAULT 0," +
+
             " colegio TEXT NOT NULL DEFAULT ''," +
+
             " nivel_colegio INTEGER NOT NULL DEFAULT 0," +
             " grado_colegio INTEGER NOT NULL DEFAULT 0," +
             " paralelo_colegio TEXT NOT NULL DEFAULT ''," +
+
             " nivel_secundaria INTEGER NOT NULL DEFAULT 0," +
             " grado_secundaria INTEGER NOT NULL DEFAULT 0," +
             " paralelo_secundaria TEXT NOT NULL DEFAULT ''," +
+
             " nivel_policia INTEGER NOT NULL DEFAULT 0," +
             " grado_policia INTEGER NOT NULL DEFAULT 0," +
+
             " nivel_universidad INTEGER NOT NULL DEFAULT 0," +
             " grado_universidad INTEGER NOT NULL DEFAULT 0," +
+
             " nivel_tecnico_universitario INTEGER NOT NULL DEFAULT 0," +
             " grado_tecnico_universitario INTEGER NOT NULL DEFAULT 0," +
+
             " nivel_tecnico_medio INTEGER NOT NULL DEFAULT 0," +
             " grado_tecnico_medio INTEGER NOT NULL DEFAULT 0," +
+
             " nivel_otro_actual INTEGER NOT NULL DEFAULT 0," +
+
             " nivel_no_sabe INTEGER NOT NULL DEFAULT 0," +
             " nivel_otro_actual_nombre TEXT NOT NULL DEFAULT ''," +
+
             " respuesta_motiva_estudiar TEXT NOT NULL DEFAULT ''," +
+
             " mejores_oportunidades_trabajo INTEGER NOT NULL DEFAULT 0," +
             " superacion_personal INTEGER NOT NULL DEFAULT 0," +
             " oportunidades_vida INTEGER NOT NULL DEFAULT 0," +

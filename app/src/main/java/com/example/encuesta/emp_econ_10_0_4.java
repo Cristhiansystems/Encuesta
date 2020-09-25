@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -78,6 +81,10 @@ public class emp_econ_10_0_4 extends Fragment {
     Integer emprendimiento;
     RadioButton rdSi, rdNo;
     LinearLayout display106;
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
 
     ProgressDialog progreso;
@@ -122,6 +129,8 @@ public class emp_econ_10_0_4 extends Fragment {
         txtnoemprendimiento=(EditText) vista.findViewById(R.id.txtResp106);
         display106=(LinearLayout) vista.findViewById(R.id.layout106);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         rdSi=(RadioButton) vista.findViewById(R.id.SiContinuoHaciendoEmprendimiento);
         rdNo=(RadioButton) vista.findViewById(R.id.NoContinuoHaciendoEmprendimiento);
 
@@ -157,123 +166,111 @@ public class emp_econ_10_0_4 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+
+            if(rdSi.isChecked()){
+                interfaceComunicaFragments.enviarEncuesta60(idFragment.getText().toString());
+            }else{
+                interfaceComunicaFragments.enviarEncuesta54(idFragment.getText().toString());
+            }
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+
+            interfaceComunicaFragments.enviarEncuesta52(idFragment.getText().toString());
         });
         return vista;
     }
 
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                tiempomprendimiento = jsonObject.optString("tiempo_estar_emprendimiento");
-                emprendimiento = jsonObject.optInt("contunia_emprendimiento");
-                noempprendimiento = jsonObject.optString("no_continuo_emprendimiento");
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={"tiempo_estar_emprendimiento"
+                ,"contunia_emprendimiento"
+                ,"no_continuo_emprendimiento"
+               };
 
-                if(emprendimiento==1){
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
-                    display106.setVisibility(View.INVISIBLE);
-                    display106.setVisibility(View.GONE);
-
-                }
-
-                if(emprendimiento==1){
-                    rdSi.setChecked(true);
-                }else if(emprendimiento==2){
-                    rdNo.setChecked(true);
-                }
-
-                txttiempoemprendimiento.setText(tiempomprendimiento.toString());
-                txtnoemprendimiento.setText(noempprendimiento.toString());
+        tiempomprendimiento = cursor.getString(0);
+        emprendimiento =Integer.parseInt( cursor.getString(1));
+        noempprendimiento = cursor.getString(2);
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        if(emprendimiento==1){
+
+            display106.setVisibility(View.INVISIBLE);
+            display106.setVisibility(View.GONE);
+
+        }
+
+        if(emprendimiento==1){
+            rdSi.setChecked(true);
+        }else if(emprendimiento==2){
+            rdNo.setChecked(true);
+        }
+
+        txttiempoemprendimiento.setText(tiempomprendimiento.toString());
+        txtnoemprendimiento.setText(noempprendimiento.toString());
+
+        cursor.close();
+
+
+
+
+
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza104.php?";
-
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    if(rdSi.isChecked()){
-                        interfaceComunicaFragments.enviarEncuesta60(idFragment.getText().toString());
-                    }else{
-                        interfaceComunicaFragments.enviarEncuesta54(idFragment.getText().toString());
-                    }
 
 
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta52(idFragment.getText().toString());
+        try {
 
-                }
+            String tiempoemprendimiento=txttiempoemprendimiento.getText().toString();
+            String noemprendimiento=txtnoemprendimiento.getText().toString();
 
-            } else {
+            String emprendimiento="0";
 
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
-
-
-
+            if(rdSi.isChecked()){
+                emprendimiento="1";
+            }else if(rdNo.isChecked()){
+                emprendimiento="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
 
-                String tiempoemprendimiento=txttiempoemprendimiento.getText().toString();
-                String noemprendimiento=txtnoemprendimiento.getText().toString();
-
-                String emprendimiento="0";
-
-                if(rdSi.isChecked()){
-                    emprendimiento="1";
-                }else if(rdNo.isChecked()){
-                    emprendimiento="2";
-                }
-
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("tiempoemprendimiento", tiempoemprendimiento);
-                parametros.put("noemprendimiento", noemprendimiento);
-                parametros.put("emprendimiento", emprendimiento);
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
 
 
 
-                return parametros;
-            }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+            values.put("tiempo_estar_emprendimiento", tiempoemprendimiento);
+            values.put("no_continuo_emprendimiento", noemprendimiento);
+            values.put("contunia_emprendimiento", emprendimiento);
+
+
+
+
+            //   values.put("no_desarrollo_plan_vida", noproyecto);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

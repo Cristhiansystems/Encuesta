@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -78,6 +81,12 @@ public class org_9_0_6 extends Fragment {
     Integer ley, concejos, actividadConcejo, participar, organizacion95;
     RadioButton rdLeySi, rdLeyNo, rdConsejosSi, rdConsejosNo, rdActividadSi, rdActividadNo, rdParticiparSi, rdParticparNo;
     LinearLayout display96, display97, display98, display99, display910, display911;
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
+
+
     //volley
 
     ProgressDialog progreso;
@@ -141,6 +150,8 @@ public class org_9_0_6 extends Fragment {
         display910=(LinearLayout) vista.findViewById(R.id.layout910);
         display911=(LinearLayout) vista.findViewById(R.id.layout911);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         rdConsejosNo.setOnClickListener(v -> {
 
             display910.setVisibility(View.INVISIBLE);
@@ -197,168 +208,157 @@ public class org_9_0_6 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta52(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta50(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+        SQLiteDatabase db=conn.getReadableDatabase();
 
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={"conoces_organizaciones_ayuda_jovenes_nombre"
+                ,"conoces_organizaciones_ayuda_jovenes_objetivo"
+                ,"conoces_ley_342"
+                 ,"conoces_consejo_juvenil"
+        ,"conoces_actividad_consejo_juvenil"
+        ,"participar_consejo_juvenil"
+        ,"conoces_organizaciones_ayuda_jovenes"};
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
-
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                organizacion = jsonObject.optString("conoces_organizaciones_ayuda_jovenes_nombre");
-                objetivo = jsonObject.optString("conoces_organizaciones_ayuda_jovenes_objetivo");
-
-                ley = jsonObject.optInt("conoces_ley_342");
-                concejos = jsonObject.optInt("conoces_consejo_juvenil");
-                actividadConcejo = jsonObject.optInt("conoces_actividad_consejo_juvenil");
-                participar = jsonObject.optInt("participar_consejo_juvenil");
-
-
-                //otro fragment
-                organizacion95 = jsonObject.optInt("conoces_organizaciones_ayuda_jovenes");
-
-                if(organizacion95==2){
-                    display96.setVisibility(View.INVISIBLE);
-                    display96.setVisibility(View.GONE);
-
-                    display97.setVisibility(View.INVISIBLE);
-                    display97.setVisibility(View.GONE);
-                }
-                if(ley==1){
-                    rdLeySi.setChecked(true);
-                }else if(ley==2){
-                    rdLeyNo.setChecked(true);
-                }
-
-
-                if(concejos==1){
-                    rdConsejosSi.setChecked(true);
-                }else if(concejos==2){
-                    rdConsejosNo.setChecked(true);
-                }
-
-                if(actividadConcejo==1){
-                    rdActividadSi.setChecked(true);
-                }else if(actividadConcejo==2){
-                    rdActividadNo.setChecked(true);
-                }
-
-                if(participar==1){
-                    rdParticiparSi.setChecked(true);
-                }else if(participar==2){
-                    rdParticparNo.setChecked(true);
-                }
-
-                txtorganizacion.setText(organizacion.toString());
-                txtobjetivo.setText(objetivo.toString());
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
 
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+
+        organizacion = cursor.getString(0);
+        objetivo = cursor.getString(1);
+
+        ley =Integer.parseInt(  cursor.getString(2));
+        concejos =Integer.parseInt(  cursor.getString(3));
+        actividadConcejo =Integer.parseInt( cursor.getString(4));
+        participar =Integer.parseInt( cursor.getString(5));
+
+
+        //otro fragment
+        organizacion95 =Integer.parseInt(  cursor.getString(6));
+
+        if(organizacion95==2){
+            display96.setVisibility(View.INVISIBLE);
+            display96.setVisibility(View.GONE);
+
+            display97.setVisibility(View.INVISIBLE);
+            display97.setVisibility(View.GONE);
+        }
+        if(ley==1){
+            rdLeySi.setChecked(true);
+        }else if(ley==2){
+            rdLeyNo.setChecked(true);
+        }
+
+
+        if(concejos==1){
+            rdConsejosSi.setChecked(true);
+        }else if(concejos==2){
+            rdConsejosNo.setChecked(true);
+        }
+
+        if(actividadConcejo==1){
+            rdActividadSi.setChecked(true);
+        }else if(actividadConcejo==2){
+            rdActividadNo.setChecked(true);
+        }
+
+        if(participar==1){
+            rdParticiparSi.setChecked(true);
+        }else if(participar==2){
+            rdParticparNo.setChecked(true);
+        }
+
+        txtorganizacion.setText(organizacion.toString());
+        txtobjetivo.setText(objetivo.toString());
+
+
+        cursor.close();
+
+
+
+
+
+
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza96.php?";
-
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta52(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta50(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
 
 
+        try {
 
+            String organizacion=txtorganizacion.getText().toString();
+            String objetivo=txtobjetivo.getText().toString();
+
+            String ley="0";
+
+            if(rdLeySi.isChecked()){
+                ley="1";
+            }else if(rdLeyNo.isChecked()){
+                ley="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
-
-                String organizacion=txtorganizacion.getText().toString();
-                String objetivo=txtobjetivo.getText().toString();
-
-                String ley="0";
-
-                if(rdLeySi.isChecked()){
-                    ley="1";
-                }else if(rdLeyNo.isChecked()){
-                    ley="2";
-                }
-
-                String concejos="0";
-                if(rdConsejosSi.isChecked()){
-                    concejos="1";
-                }else if(rdConsejosNo.isChecked()){
-                    concejos="2";
-                }
-
-                String actividadConcejo="0";
-                if(rdActividadSi.isChecked()){
-                    actividadConcejo="1";
-                }else if(rdActividadNo.isChecked()){
-                    actividadConcejo="2";
-                }
-
-                String participar="0";
-                if(rdParticiparSi.isChecked()){
-                    participar="1";
-                }else if(rdParticparNo.isChecked()){
-                    participar="2";
-                }
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("organizacion", organizacion);
-                parametros.put("objetivo", objetivo);
-                parametros.put("ley", ley);
-                parametros.put("concejos", concejos);
-                parametros.put("actividadConcejo", actividadConcejo);
-                parametros.put("participar", participar);
-
-
-                return parametros;
+            String concejos="0";
+            if(rdConsejosSi.isChecked()){
+                concejos="1";
+            }else if(rdConsejosNo.isChecked()){
+                concejos="2";
             }
-        };
-       // request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+            String actividadConcejo="0";
+            if(rdActividadSi.isChecked()){
+                actividadConcejo="1";
+            }else if(rdActividadNo.isChecked()){
+                actividadConcejo="2";
+            }
+
+            String participar="0";
+            if(rdParticiparSi.isChecked()){
+                participar="1";
+            }else if(rdParticparNo.isChecked()){
+                participar="2";
+            }
+
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+
+
+            values.put("conoces_organizaciones_ayuda_jovenes_nombre", organizacion);
+            values.put("conoces_organizaciones_ayuda_jovenes_objetivo", objetivo);
+            values.put("conoces_ley_342", ley);
+            values.put("conoces_consejo_juvenil", concejos);
+            values.put("conoces_actividad_consejo_juvenil", actividadConcejo);
+            values.put("participar_consejo_juvenil", participar);
+
+
+
+            //   values.put("no_desarrollo_plan_vida", noproyecto);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

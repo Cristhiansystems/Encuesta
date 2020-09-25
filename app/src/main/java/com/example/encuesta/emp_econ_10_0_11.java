@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -78,6 +81,9 @@ public class emp_econ_10_0_11 extends Fragment {
     Integer vendes, ferias, puesto, mercadoFormales, consignacion, particulares, otro;
     RadioButton rdvendesSi, rdvendesNo, rdFeriaSi, rdFeriaNo, rdPuestoSi, rdPuestoNo, rdMercadoFormalSi, rdMercadoFormalNo, rdOtroSi, rdOtroNo, rdConsignacionSi, rdConsignacionNo, rdParticularSi, rdparticularNo;
     LinearLayout display1012, display1013ops;
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
     //volley
 
     ProgressDialog progreso;
@@ -149,6 +155,8 @@ public class emp_econ_10_0_11 extends Fragment {
         display1013ops.setVisibility(View.INVISIBLE);
         display1013ops.setVisibility(View.GONE);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         rdvendesSi.setOnClickListener(v -> {
 
             display1012.setVisibility(View.INVISIBLE);
@@ -182,212 +190,193 @@ public class emp_econ_10_0_11 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta56(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta54(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                vendes = jsonObject.optInt("vendes_productos");
-                novendes = jsonObject.optString("no_vendes_productos");
-                ferias = jsonObject.optInt("ferias");
-                puesto = jsonObject.optInt("puestos");
-                mercadoFormales = jsonObject.optInt("mercado_formal");
-                consignacion = jsonObject.optInt("consignacion");
-                particulares = jsonObject.optInt("particulares");
-                otro = jsonObject.optInt("otro_lugar_vender");
-                otronom = jsonObject.optString("otro_lugar_vender_nombre");
-                respuesta = jsonObject.optString("respuesta_vendes_producto");
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "vendes_productos"
+                ,"no_vendes_productos"
+                ,"ferias"
+                ,"puestos"
+                ,"mercado_formal"
+                ,"consignacion"
+                ,"particulares"
+                ,"otro_lugar_vender"
+                ,"otro_lugar_vender_nombre"
+                ,"respuesta_vendes_producto"
+        };
 
-                if(vendes==1){
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
-                    display1012.setVisibility(View.INVISIBLE);
-                    display1012.setVisibility(View.GONE);
-
-                }
-
-                if(vendes==1){
-                    rdvendesSi.setChecked(true);
-                }else if(vendes==2){
-                    rdvendesNo.setChecked(true);
-                }
-
-                if(ferias==1){
-                    rdFeriaSi.setChecked(true);
-                }else if(ferias==2){
-                    rdFeriaNo.setChecked(true);
-                }
-
-                if(puesto==1){
-                    rdPuestoSi.setChecked(true);
-                }else if(puesto==2){
-                    rdPuestoNo.setChecked(true);
-                }
-
-                if(mercadoFormales==1){
-                    rdMercadoFormalSi.setChecked(true);
-                }else if(mercadoFormales==2){
-                    rdMercadoFormalNo.setChecked(true);
-                }
-
-                if(consignacion==1){
-                    rdConsignacionSi.setChecked(true);
-                }else if(consignacion==2){
-                    rdConsignacionNo.setChecked(true);
-                }
-
-                if(particulares==1){
-                    rdParticularSi.setChecked(true);
-                }else if(particulares==2){
-                    rdparticularNo.setChecked(true);
-                }
-
-                if(otro==1){
-                    rdOtroSi.setChecked(true);
-                }else if(otro==2){
-                    rdOtroNo.setChecked(true);
-                }
-
-                txtotro.setText(otronom.toString());
-                txtnovendes.setText(novendes.toString());
-                txtrespuesta.setText(respuesta.toString());
+        vendes =Integer.parseInt( cursor.getString(0));
+        novendes =  cursor.getString(1);
+        ferias = Integer.parseInt( cursor.getString(2));
+        puesto =  Integer.parseInt( cursor.getString(3));
+        mercadoFormales = Integer.parseInt( cursor.getString(4));
+        consignacion =  Integer.parseInt( cursor.getString(5));
+        particulares =Integer.parseInt( cursor.getString(6));
+        otro =  Integer.parseInt( cursor.getString(7));
+        otronom =  cursor.getString(8);
+        respuesta =  cursor.getString(9);
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-       // request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        if(vendes==1){
+
+            display1012.setVisibility(View.INVISIBLE);
+            display1012.setVisibility(View.GONE);
+
+        }
+
+        if(vendes==1){
+            rdvendesSi.setChecked(true);
+        }else if(vendes==2){
+            rdvendesNo.setChecked(true);
+        }
+
+        if(ferias==1){
+            rdFeriaSi.setChecked(true);
+        }else if(ferias==2){
+            rdFeriaNo.setChecked(true);
+        }
+
+        if(puesto==1){
+            rdPuestoSi.setChecked(true);
+        }else if(puesto==2){
+            rdPuestoNo.setChecked(true);
+        }
+
+        if(mercadoFormales==1){
+            rdMercadoFormalSi.setChecked(true);
+        }else if(mercadoFormales==2){
+            rdMercadoFormalNo.setChecked(true);
+        }
+
+        if(consignacion==1){
+            rdConsignacionSi.setChecked(true);
+        }else if(consignacion==2){
+            rdConsignacionNo.setChecked(true);
+        }
+
+        if(particulares==1){
+            rdParticularSi.setChecked(true);
+        }else if(particulares==2){
+            rdparticularNo.setChecked(true);
+        }
+
+        if(otro==1){
+            rdOtroSi.setChecked(true);
+        }else if(otro==2){
+            rdOtroNo.setChecked(true);
+        }
+
+        txtotro.setText(otronom.toString());
+        txtnovendes.setText(novendes.toString());
+        txtrespuesta.setText(respuesta.toString());
+        cursor.close();
+
+
+
+
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1011.php?";
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta56(idFragment.getText().toString());
+        try {
 
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta54(idFragment.getText().toString());
+            String otronom=txtotro.getText().toString();
+            String novendes=txtnovendes.getText().toString();
+            String respuesta=txtrespuesta.getText().toString();
 
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
-
-
-
+            String vendes="0";
+            if(rdvendesSi.isChecked()){
+                vendes="1";
+            }else if(rdvendesNo.isChecked()){
+                vendes="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
 
-                String otronom=txtotro.getText().toString();
-                String novendes=txtnovendes.getText().toString();
-                String respuesta=txtrespuesta.getText().toString();
-
-                String vendes="0";
-                if(rdvendesSi.isChecked()){
-                    vendes="1";
-                }else if(rdvendesNo.isChecked()){
-                    vendes="2";
-                }
-
-
-                String feria="0";
-                if(rdFeriaSi.isChecked()){
-                    feria="1";
-                }else if(rdFeriaNo.isChecked()){
-                    feria="2";
-                }
-
-
-                String puesto="0";
-                if(rdPuestoSi.isChecked()){
-                    puesto="1";
-                }else if(rdPuestoNo.isChecked()){
-                    puesto="2";
-                }
-
-                String mercadoFormal="0";
-                if(rdMercadoFormalSi.isChecked()){
-                    mercadoFormal="1";
-                }else if(rdMercadoFormalNo.isChecked()){
-                    mercadoFormal="2";
-                }
-
-                String consignacion="0";
-                if(rdConsignacionSi.isChecked()){
-                    consignacion="1";
-                }else if(rdConsignacionNo.isChecked()){
-                    consignacion="2";
-                }
-
-                String particulares="0";
-                if(rdParticularSi.isChecked()){
-                    particulares="1";
-                }else if(rdparticularNo.isChecked()){
-                    particulares="2";
-                }
-
-                String otro="0";
-                if(rdOtroSi.isChecked()){
-                    otro="1";
-                }else if(rdOtroNo.isChecked()){
-                    otro="2";
-                }
-
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("otronom", otronom);
-                parametros.put("novendes", novendes);
-                parametros.put("vendes", vendes);
-                parametros.put("feria", feria);
-                parametros.put("puesto", puesto);
-                parametros.put("otro", otro);
-                parametros.put("mercadoFormal", mercadoFormal);
-                parametros.put("consignacion", consignacion);
-                parametros.put("particulares", particulares);
-                parametros.put("respuesta", respuesta);
-
-
-
-                return parametros;
+            String feria="0";
+            if(rdFeriaSi.isChecked()){
+                feria="1";
+            }else if(rdFeriaNo.isChecked()){
+                feria="2";
             }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+
+            String puesto="0";
+            if(rdPuestoSi.isChecked()){
+                puesto="1";
+            }else if(rdPuestoNo.isChecked()){
+                puesto="2";
+            }
+
+            String mercadoFormal="0";
+            if(rdMercadoFormalSi.isChecked()){
+                mercadoFormal="1";
+            }else if(rdMercadoFormalNo.isChecked()){
+                mercadoFormal="2";
+            }
+
+            String consignacion="0";
+            if(rdConsignacionSi.isChecked()){
+                consignacion="1";
+            }else if(rdConsignacionNo.isChecked()){
+                consignacion="2";
+            }
+
+            String particulares="0";
+            if(rdParticularSi.isChecked()){
+                particulares="1";
+            }else if(rdparticularNo.isChecked()){
+                particulares="2";
+            }
+
+            String otro="0";
+            if(rdOtroSi.isChecked()){
+                otro="1";
+            }else if(rdOtroNo.isChecked()){
+                otro="2";
+            }
+
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put("otro_lugar_vender_nombre", otronom);
+            values.put("no_vendes_productos", novendes);
+            values.put("vendes_productos", vendes);
+            values.put("ferias", feria);
+            values.put("puestos", puesto);
+            values.put("otro_lugar_vender", otro);
+            values.put("mercado_formal", mercadoFormal);
+            values.put("consignacion", consignacion);
+            values.put("particulares", particulares);
+            values.put("respuesta_vendes_producto", respuesta);
+            //   values.put("no_desarrollo_plan_vida", noproyecto);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

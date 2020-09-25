@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -78,6 +81,10 @@ public class emp_pers_8_0_10 extends Fragment {
     RadioButton rdPrimaria, rdSecundaria, rdNormal, rdUniversitaria, rdTecnicoUniversitario, rdTecnicoMedio, rdOtro;
     Integer estudio, estudiando;
 
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
 
     ProgressDialog progreso;
@@ -120,6 +127,8 @@ public class emp_pers_8_0_10 extends Fragment {
         idFragment=(TextView) vista.findViewById(R.id.idemppers810);
         txtotro=(EditText) vista.findViewById(R.id.txtResp810);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         rdPrimaria=(RadioButton) vista.findViewById(R.id.RdPri810);
         rdSecundaria=(RadioButton) vista.findViewById(R.id.RdSec810);
         rdNormal=(RadioButton) vista.findViewById(R.id.RdNorPolMil810);
@@ -145,127 +154,109 @@ public class emp_pers_8_0_10 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            if(estudiando==1){
+                interfaceComunicaFragments.enviarEncuesta49(idFragment.getText().toString());
+            }else{
+                interfaceComunicaFragments.enviarEncuesta47(idFragment.getText().toString());
+            }
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta45(idFragment.getText().toString());
         });
         return vista;
     }
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
-
-
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
-
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                otro = jsonObject.optString("piensa_estudiar_otro");
-                estudio = jsonObject.optInt("piensa_estudiar");
-                estudiando = jsonObject.optInt("estudiante_actualmente");
-                if(estudio==1){
-                    rdPrimaria.setChecked(true);
-                }else if(estudio==2){
-                    rdSecundaria.setChecked(true);
-                } if(estudio==3){
-                    rdNormal.setChecked(true);
-                }if(estudio==4){
-                    rdUniversitaria.setChecked(true);
-                }if(estudio==5){
-                    rdTecnicoUniversitario.setChecked(true);
-                }if(estudio==6){
-                    rdTecnicoMedio.setChecked(true);
-                }if(estudio==7){
-                    rdOtro.setChecked(true);
-                }
-
-                txtotro.setText(otro.toString());
 
 
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+            SQLiteDatabase db=conn.getReadableDatabase();
+
+            String[] parametros={idFragment.getText().toString()};
+            String [] campos={"piensa_estudiar_otro"
+                    ,"piensa_estudiar"
+                    ,"estudiante_actualmente"};
+
+            Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+            cursor.moveToFirst();
+
+
+
+
+            otro = cursor.getString(0);
+            estudio =Integer.parseInt( cursor.getString(1));
+            estudiando =Integer.parseInt( cursor.getString(2));
+
+
+            if(estudio==1){
+                rdPrimaria.setChecked(true);
+            }else if(estudio==2){
+                rdSecundaria.setChecked(true);
+            } if(estudio==3){
+                rdNormal.setChecked(true);
+            }if(estudio==4){
+                rdUniversitaria.setChecked(true);
+            }if(estudio==5){
+                rdTecnicoUniversitario.setChecked(true);
+            }if(estudio==6){
+                rdTecnicoMedio.setChecked(true);
+            }if(estudio==7){
+                rdOtro.setChecked(true);
             }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-       // request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+
+            txtotro.setText(otro);
+
+            cursor.close();
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza810.php?";
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    if(estudiando==1){
-                        interfaceComunicaFragments.enviarEncuesta49(idFragment.getText().toString());
-                    }else{
-                        interfaceComunicaFragments.enviarEncuesta47(idFragment.getText().toString());
-                    }
+        try {
+            String otro=txtotro.getText().toString();
+            String estudio="0";
 
-
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta45(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
-
+            if(rdPrimaria.isChecked()){
+                estudio="1";
+            }else if(rdSecundaria.isChecked()){
+                estudio="2";
+            }else if(rdNormal.isChecked()){
+                estudio="3";
+            }else if(rdUniversitaria.isChecked()){
+                estudio="4";
+            }else if(rdTecnicoUniversitario.isChecked()){
+                estudio="5";
+            }else if(rdTecnicoMedio.isChecked()){
+                estudio="6";
+            }else if(rdOtro.isChecked()){
+                estudio="7";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
 
-                String otro=txtotro.getText().toString();
-                String estudio="0";
-
-                if(rdPrimaria.isChecked()){
-                    estudio="1";
-                }else if(rdSecundaria.isChecked()){
-                    estudio="2";
-                }else if(rdNormal.isChecked()){
-                    estudio="3";
-                }else if(rdUniversitaria.isChecked()){
-                    estudio="4";
-                }else if(rdTecnicoUniversitario.isChecked()){
-                    estudio="5";
-                }else if(rdTecnicoMedio.isChecked()){
-                    estudio="6";
-                }else if(rdOtro.isChecked()){
-                    estudio="7";
-                }
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("otro", otro);
-                parametros.put("estudio", estudio);
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
 
 
-                return parametros;
-            }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+            values.put("piensa_estudiar_otro",otro);
+            values.put(" piensa_estudiar",estudio);
+
+            //   values.put("no_desarrollo_plan_vida", noproyecto);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

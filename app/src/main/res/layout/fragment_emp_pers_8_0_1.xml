@@ -400,14 +400,14 @@
             >
 
             <RadioButton
-                android:id="@+id/OtroSi8.1"
+                android:id="@+id/OtroSi81"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="SI" />
 
             <RadioButton
-                android:id="@+id/OtroNo8.1"
+                android:id="@+id/OtroNo81"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NO" />

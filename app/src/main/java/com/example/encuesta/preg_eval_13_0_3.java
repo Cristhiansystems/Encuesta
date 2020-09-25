@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -76,6 +79,11 @@ public class preg_eval_13_0_3 extends Fragment {
     Integer antesEmpleo, empleo, planDesarrollo;
     RadioButton rdEmpleoSi, rdEmpleoNo, rdantesEmpleoSi, rdantesEmpleoNo, rdPlanDesarrolloSi, rdPlanDesarrolloNo;
 
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
+
     //volley
     ProgressDialog progreso;
    // RequestQueue request;
@@ -127,6 +135,8 @@ public class preg_eval_13_0_3 extends Fragment {
         rdPlanDesarrolloSi=(RadioButton) vista.findViewById(R.id.RdSiCreo);
         rdPlanDesarrolloNo=(RadioButton) vista.findViewById(R.id.RdNoCreo);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
 
         Bundle data=getArguments();
 
@@ -145,141 +155,130 @@ public class preg_eval_13_0_3 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta77(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta75(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+        SQLiteDatabase db=conn.getReadableDatabase();
 
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "mas_gusto_programa"
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
-
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                programa = jsonObject.optString("mas_gusto_programa");
-                comentarios = jsonObject.optString("comentarios");
-
-                antesEmpleo= jsonObject.optInt("empleado_antes");
-                empleo = jsonObject.optInt("tiene_empleo_actual");
-                planDesarrollo = jsonObject.optInt("hubiera_tenido_plan_desarrollo_sin_programa");
+                ,"comentarios"
+                ,"empleado_antes"
+                ,"tiene_empleo_actual"
+                ,"hubiera_tenido_plan_desarrollo_sin_programa"
 
 
-                if(empleo==1){
-                    rdEmpleoSi.setChecked(true);
-                }else if(empleo==2){
-                    rdEmpleoNo.setChecked(true);
-                }
+        };
 
-                if(antesEmpleo==1){
-                    rdantesEmpleoSi.setChecked(true);
-                }else if(antesEmpleo==2){
-                    rdantesEmpleoNo.setChecked(true);
-                }
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
+        programa = cursor.getString(0);
+        comentarios = cursor.getString(1);
 
-                if(planDesarrollo==1){
-                    rdPlanDesarrolloSi.setChecked(true);
-                }else if(planDesarrollo==2){
-                    rdPlanDesarrolloNo.setChecked(true);
-                }
-
-                txtprograma.setText(programa.toString());
-                txtcomentarios.setText(comentarios.toString());
+        antesEmpleo= Integer.parseInt( cursor.getString(2));
+        empleo = Integer.parseInt( cursor.getString(3));
+        planDesarrollo = Integer.parseInt( cursor.getString(4));
 
 
+        if(empleo==1){
+            rdEmpleoSi.setChecked(true);
+        }else if(empleo==2){
+            rdEmpleoNo.setChecked(true);
+        }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        if(antesEmpleo==1){
+            rdantesEmpleoSi.setChecked(true);
+        }else if(antesEmpleo==2){
+            rdantesEmpleoNo.setChecked(true);
+        }
+
+
+        if(planDesarrollo==1){
+            rdPlanDesarrolloSi.setChecked(true);
+        }else if(planDesarrollo==2){
+            rdPlanDesarrolloNo.setChecked(true);
+        }
+
+        txtprograma.setText(programa.toString());
+        txtcomentarios.setText(comentarios.toString());
+
+
+
+
+
+        cursor.close();
+
+
+
+
+
+
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1304.php?";
+        try {
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
+            String programa= txtprograma.getText().toString();
+            String comentarios= txtcomentarios.getText().toString();
 
-                    interfaceComunicaFragments.enviarEncuesta77(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-
-                    interfaceComunicaFragments.enviarEncuesta75(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
-
+            String antesEmpleo="0";
+            if(rdantesEmpleoSi.isChecked()){
+                antesEmpleo="1";
+            }else if(rdantesEmpleoNo.isChecked()){
+                antesEmpleo="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
-                String programa= txtprograma.getText().toString();
-                String comentarios= txtcomentarios.getText().toString();
-
-                String antesEmpleo="0";
-                if(rdantesEmpleoSi.isChecked()){
-                    antesEmpleo="1";
-                }else if(rdantesEmpleoNo.isChecked()){
-                    antesEmpleo="2";
-                }
-
-                String empleo="0";
-                if(rdEmpleoSi.isChecked()){
-                    empleo="1";
-                }else if(rdEmpleoNo.isChecked()){
-                    empleo="2";
-                }
-
-                String planDesarrollo="0";
-                if(rdPlanDesarrolloSi.isChecked()){
-                    planDesarrollo="1";
-                }else if(rdPlanDesarrolloNo.isChecked()){
-                    planDesarrollo="2";
-                }
-
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("programa", programa);
-                parametros.put("comentarios", comentarios);
-                parametros.put("empleo", empleo);
-                parametros.put("antesEmpleo", antesEmpleo);
-                parametros.put("planDesarrollo", planDesarrollo);
-
-
-                return parametros;
+            String empleo="0";
+            if(rdEmpleoSi.isChecked()){
+                empleo="1";
+            }else if(rdEmpleoNo.isChecked()){
+                empleo="2";
             }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+            String planDesarrollo="0";
+            if(rdPlanDesarrolloSi.isChecked()){
+                planDesarrollo="1";
+            }else if(rdPlanDesarrolloNo.isChecked()){
+                planDesarrollo="2";
+            }
+
+
+
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put("mas_gusto_programa", programa);
+           values.put("comentarios", comentarios);
+            values.put("tiene_empleo_actual", empleo);
+            values.put("empleado_antes", antesEmpleo);
+            values.put("hubiera_tenido_plan_desarrollo_sin_programa", planDesarrollo);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+
 
     }
     // TODO: Rename method, update argument and hook method into UI event

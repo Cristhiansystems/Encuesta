@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -79,6 +82,10 @@ public class emp_lab_11_0_31 extends Fragment {
     RadioButton rdLeySi, rdLeyNo, rdContratoSi, rdContratoNo, rdSalarioSi, rdSalarioNo, rdHorarioSi, rdHorarioNo, rdDerechoSi, rdDerechoNo, rdOtroSi, rdOtroNo;
     LinearLayout display1131, display1132, display1133;
 
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
 
     ProgressDialog progreso;
@@ -147,6 +154,8 @@ public class emp_lab_11_0_31 extends Fragment {
         display1132=(LinearLayout) vista.findViewById(R.id.layout1132);
         display1133=(LinearLayout) vista.findViewById(R.id.layout1133);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
 
 
         rdLeyNo.setOnClickListener(v -> {
@@ -180,215 +189,207 @@ public class emp_lab_11_0_31 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta71(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            if(trabajas==2){
+                interfaceComunicaFragments.enviarEncuesta64(idFragment.getText().toString());
+            }else{
+                interfaceComunicaFragments.enviarEncuesta69(idFragment.getText().toString());
+            }
         });
         return vista;
     }
 
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                noSatisfecho = jsonObject.optString("no_satisfecho");
-                ley = jsonObject.optInt("conoces_ley_laboral");
-                contrato = jsonObject.optInt("que_es_contrato");
-                salario= jsonObject.optInt("cual_salario_minimo");
-                horario = jsonObject.optInt("los_horarios");
-                derechos = jsonObject.optInt("derechos_deberes");
-                otro = jsonObject.optInt("derecho_laboral_otro");
-                otronom = jsonObject.optString("derecho_laboral_otro_nombre");
-                trabajas = jsonObject.optInt("trabajas_actualmente");
 
-                satisfecho = jsonObject.optInt("satisfecho_trabajo");
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-                if(satisfecho==1){
-                    display1131.setVisibility(View.INVISIBLE);
-                    display1131.setVisibility(View.GONE);
-                }
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "no_satisfecho"
 
-                if(ley==2){
-                    display1133.setVisibility(View.INVISIBLE);
-                    display1133.setVisibility(View.GONE);
-                }
+                ,"conoces_ley_laboral"
+                ,"que_es_contrato"
+                ,"cual_salario_minimo"
+                ,"los_horarios"
+                ,"derechos_deberes"
+                ,"derecho_laboral_otro"
+                ,"derecho_laboral_otro_nombre"
+                ,"trabajas_actualmente"
+                ,"satisfecho_trabajo"
 
-                txtotro.setText(otronom.toString());
-                txtNoSatisfecho.setText(noSatisfecho.toString());
 
-                if(trabajas==2){
 
-                    display1131.setVisibility(View.INVISIBLE);
-                    display1131.setVisibility(View.GONE);
+        };
 
-                    display1132.setVisibility(View.INVISIBLE);
-                    display1132.setVisibility(View.GONE);
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
-                }
+        noSatisfecho =  cursor.getString(0);
+        ley = Integer.parseInt( cursor.getString(1));
+        contrato =Integer.parseInt( cursor.getString(2));
+        salario= Integer.parseInt( cursor.getString(3));
+        horario = Integer.parseInt( cursor.getString(4));
+        derechos = Integer.parseInt( cursor.getString(5));
+        otro = Integer.parseInt( cursor.getString(6));
+        otronom =  cursor.getString(7);
+        trabajas = Integer.parseInt( cursor.getString(8));
 
-                if(ley==1){
-                    rdLeySi.setChecked(true);
-                }else if(ley==2){
-                    rdLeyNo.setChecked(true);
-                }
+        satisfecho = Integer.parseInt( cursor.getString(9));
 
-                if(contrato==1){
-                    rdContratoSi.setChecked(true);
-                }else if(contrato==2){
-                    rdContratoNo.setChecked(true);
-                }
 
-                if(salario==1){
-                    rdSalarioSi.setChecked(true);
-                }else if(salario==2){
-                    rdSalarioNo.setChecked(true);
-                }
+        if(satisfecho==1){
+            display1131.setVisibility(View.INVISIBLE);
+            display1131.setVisibility(View.GONE);
+        }
 
-                if(horario==1){
-                    rdHorarioSi.setChecked(true);
-                }else if(horario==2){
-                    rdHorarioNo.setChecked(true);
-                }
+        if(ley==2){
+            display1133.setVisibility(View.INVISIBLE);
+            display1133.setVisibility(View.GONE);
+        }
 
-                if(derechos==1){
-                    rdDerechoSi.setChecked(true);
-                }else if(derechos==2){
-                    rdDerechoNo.setChecked(true);
-                }
+        txtotro.setText(otronom.toString());
+        txtNoSatisfecho.setText(noSatisfecho.toString());
 
-                if(otro==1){
-                    rdOtroSi.setChecked(true);
-                }else if(otro==2){
-                    rdOtroNo.setChecked(true);
-                }
+        if(trabajas==2){
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+            display1131.setVisibility(View.INVISIBLE);
+            display1131.setVisibility(View.GONE);
+
+            display1132.setVisibility(View.INVISIBLE);
+            display1132.setVisibility(View.GONE);
+
+        }
+
+        if(ley==1){
+            rdLeySi.setChecked(true);
+        }else if(ley==2){
+            rdLeyNo.setChecked(true);
+        }
+
+        if(contrato==1){
+            rdContratoSi.setChecked(true);
+        }else if(contrato==2){
+            rdContratoNo.setChecked(true);
+        }
+
+        if(salario==1){
+            rdSalarioSi.setChecked(true);
+        }else if(salario==2){
+            rdSalarioNo.setChecked(true);
+        }
+
+        if(horario==1){
+            rdHorarioSi.setChecked(true);
+        }else if(horario==2){
+            rdHorarioNo.setChecked(true);
+        }
+
+        if(derechos==1){
+            rdDerechoSi.setChecked(true);
+        }else if(derechos==2){
+            rdDerechoNo.setChecked(true);
+        }
+
+        if(otro==1){
+            rdOtroSi.setChecked(true);
+        }else if(otro==2){
+            rdOtroNo.setChecked(true);
+        }
+
+
+        cursor.close();
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1131.php?";
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta71(idFragment.getText().toString());
+        try {
 
-                }else if(pantalla=="Atras"){
-                    if(trabajas==2){
-                        interfaceComunicaFragments.enviarEncuesta64(idFragment.getText().toString());
-                    }else{
-                        interfaceComunicaFragments.enviarEncuesta69(idFragment.getText().toString());
-                    }
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+            String otronom=txtotro.getText().toString();
+            String noSatisfecho=txtNoSatisfecho.getText().toString();
 
 
+            String ley="0";
+            if(rdLeySi.isChecked()){
+                ley="1";
 
+            }else if(rdLeyNo.isChecked()){
+                ley="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
+            String contrato="0";
+            if(rdContratoSi.isChecked()){
+                contrato="1";
 
-                String otronom=txtotro.getText().toString();
-                String noSatisfecho=txtNoSatisfecho.getText().toString();
-
-
-                String ley="0";
-                if(rdLeySi.isChecked()){
-                    ley="1";
-
-                }else if(rdLeyNo.isChecked()){
-                    ley="2";
-                }
-
-                String contrato="0";
-                if(rdContratoSi.isChecked()){
-                    contrato="1";
-
-                }else if(rdContratoNo.isChecked()){
-                    contrato="2";
-                }
-
-                String salario="0";
-                if(rdSalarioSi.isChecked()){
-                    salario="1";
-
-                }else if(rdSalarioNo.isChecked()){
-                    salario="2";
-                }
-
-                String horario="0";
-                if(rdHorarioSi.isChecked()){
-                    horario="1";
-
-                }else if(rdHorarioNo.isChecked()){
-                    horario="2";
-                }
-
-                String derecho="0";
-                if(rdDerechoSi.isChecked()){
-                    derecho="1";
-
-                }else if(rdDerechoNo.isChecked()){
-                    derecho="2";
-                }
-
-                String otro="0";
-                if(rdOtroSi.isChecked()){
-                    otro="1";
-
-                }else if(rdOtroNo.isChecked()){
-                    otro="2";
-                }
-
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("otronom", otronom);
-                parametros.put("noSatisfecho", noSatisfecho);
-                parametros.put("ley", ley);
-                parametros.put("contrato", contrato);
-                parametros.put("salario", salario);
-                parametros.put("horario", horario);
-                parametros.put("derecho", derecho);
-                parametros.put("otro", otro);
-                return parametros;
+            }else if(rdContratoNo.isChecked()){
+                contrato="2";
             }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+            String salario="0";
+            if(rdSalarioSi.isChecked()){
+                salario="1";
+
+            }else if(rdSalarioNo.isChecked()){
+                salario="2";
+            }
+
+            String horario="0";
+            if(rdHorarioSi.isChecked()){
+                horario="1";
+
+            }else if(rdHorarioNo.isChecked()){
+                horario="2";
+            }
+
+            String derecho="0";
+            if(rdDerechoSi.isChecked()){
+                derecho="1";
+
+            }else if(rdDerechoNo.isChecked()){
+                derecho="2";
+            }
+
+            String otro="0";
+            if(rdOtroSi.isChecked()){
+                otro="1";
+
+            }else if(rdOtroNo.isChecked()){
+                otro="2";
+            }
+
+
+
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put("derecho_laboral_otro_nombre", otronom);
+            values.put("no_satisfecho", noSatisfecho);
+            values.put("conoces_ley_laboral", ley);
+            values.put("que_es_contrato", contrato);
+            values.put("cual_salario_minimo", salario);
+            values.put("los_horarios", horario);
+            values.put("derechos_deberes", derecho);
+            values.put("derecho_laboral_otro", otro);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

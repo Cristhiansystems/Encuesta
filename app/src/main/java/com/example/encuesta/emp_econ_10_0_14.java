@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -77,6 +80,9 @@ public class emp_econ_10_0_14 extends Fragment {
     Integer frecuenciaVender, contratos, acuerdoVerbal, pedidoVerbal, importanteDocumento, otro15;
     RadioButton rdCadaDia, rdUnaSemana, rdUnaMes, rdotro14, rdContratoSi, rdContratoNo, rdacuerdosVerbalesSi, rdacuerdosVerbalesNo, rdOtro15Si, rdOtro15No, rdPedidosSi, rdPedidosNo, rdImportanteSi, rdImportanteNo;
 
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
 
     ProgressDialog progreso;
@@ -142,6 +148,8 @@ public class emp_econ_10_0_14 extends Fragment {
         rdImportanteSi=(RadioButton) vista.findViewById(R.id.SiEsImportVentConDocum);
         rdImportanteNo=(RadioButton) vista.findViewById(R.id.NoEsImportVentConDocum);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         Bundle data=getArguments();
 
         if(data!=null){
@@ -160,196 +168,174 @@ public class emp_econ_10_0_14 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta57(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta55(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+        SQLiteDatabase db=conn.getReadableDatabase();
 
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "frecuencia_vender"
+                ,"frecuencia_vender_otro_nombre"
+                ,"contratos"
+                ,"acuerdos_verbales"
+                ,"pedidos_verbales"
+                ,"venta_atraves_otro"
+                ,"venta_atraves_otro_nombre"
+                ,"importante_vender_formal"
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
+        };
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                frecuenciaVender = jsonObject.optInt("frecuencia_vender");
-                otronom14 = jsonObject.optString("frecuencia_vender_otro_nombre");
-                contratos= jsonObject.optInt("contratos");
-                acuerdoVerbal = jsonObject.optInt("acuerdos_verbales");
-                pedidoVerbal = jsonObject.optInt("pedidos_verbales");
-                otro15 = jsonObject.optInt("venta_atraves_otro");
-                otronom15 = jsonObject.optString("venta_atraves_otro_nombre");
-                importanteDocumento = jsonObject.optInt("importante_vender_formal");
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
-
-
-                if(frecuenciaVender==1){
-                    rdCadaDia.setChecked(true);
-                }else if(frecuenciaVender==2){
-                    rdUnaSemana.setChecked(true);
-                }else if(frecuenciaVender==3){
-                    rdUnaMes.setChecked(true);
-                }else if(frecuenciaVender==4){
-                    rdotro14.setChecked(true);
-                }
-
-                if(contratos==1){
-                    rdContratoSi.setChecked(true);
-                }else if(contratos==2){
-                    rdContratoNo.setChecked(true);
-                }
-
-                if(acuerdoVerbal==1){
-                    rdacuerdosVerbalesSi.setChecked(true);
-                }else if(acuerdoVerbal==2){
-                    rdacuerdosVerbalesNo.setChecked(true);
-                }
-
-                if(pedidoVerbal==1){
-                    rdPedidosSi.setChecked(true);
-                }else if(pedidoVerbal==2){
-                    rdPedidosNo.setChecked(true);
-                }
-
-                if(otro15==1){
-                    rdOtro15Si.setChecked(true);
-                }else if(otro15==2){
-                    rdOtro15No.setChecked(true);
-                }
-
-                if(importanteDocumento==1){
-                    rdImportanteSi.setChecked(true);
-                }else if(importanteDocumento==2){
-                    rdImportanteNo.setChecked(true);
-                }
+        frecuenciaVender = Integer.parseInt( cursor.getString(0));
+        otronom14 = cursor.getString(1);
+        contratos= Integer.parseInt( cursor.getString(2));
+        acuerdoVerbal = Integer.parseInt( cursor.getString(3));
+        pedidoVerbal = Integer.parseInt( cursor.getString(4));
+        otro15 =Integer.parseInt( cursor.getString(5));
+        otronom15 = cursor.getString(6);
+        importanteDocumento =Integer.parseInt( cursor.getString(7));
 
 
-                txtotro15.setText(otronom15.toString());
-                txtotro14.setText(otronom14.toString());
+        if(frecuenciaVender==1){
+            rdCadaDia.setChecked(true);
+        }else if(frecuenciaVender==2){
+            rdUnaSemana.setChecked(true);
+        }else if(frecuenciaVender==3){
+            rdUnaMes.setChecked(true);
+        }else if(frecuenciaVender==4){
+            rdotro14.setChecked(true);
+        }
 
+        if(contratos==1){
+            rdContratoSi.setChecked(true);
+        }else if(contratos==2){
+            rdContratoNo.setChecked(true);
+        }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        if(acuerdoVerbal==1){
+            rdacuerdosVerbalesSi.setChecked(true);
+        }else if(acuerdoVerbal==2){
+            rdacuerdosVerbalesNo.setChecked(true);
+        }
+
+        if(pedidoVerbal==1){
+            rdPedidosSi.setChecked(true);
+        }else if(pedidoVerbal==2){
+            rdPedidosNo.setChecked(true);
+        }
+
+        if(otro15==1){
+            rdOtro15Si.setChecked(true);
+        }else if(otro15==2){
+            rdOtro15No.setChecked(true);
+        }
+
+        if(importanteDocumento==1){
+            rdImportanteSi.setChecked(true);
+        }else if(importanteDocumento==2){
+            rdImportanteNo.setChecked(true);
+        }
+
+        txtotro15.setText(otronom15.toString());
+        txtotro14.setText(otronom14.toString());
+        cursor.close();
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1014.php?";
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta57(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta55(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+        try {
 
 
+            String otronom14=txtotro14.getText().toString();
+            String otronom15=txtotro15.getText().toString();
 
+            String frecuencia="0";
+            if(rdCadaDia.isChecked()){
+                frecuencia="1";
+            }else if(rdUnaSemana.isChecked()){
+                frecuencia="2";
+            }else if(rdUnaMes.isChecked()){
+                frecuencia="3";
+            }else if(rdotro14.isChecked()){
+                frecuencia="4";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
 
-                String otronom14=txtotro14.getText().toString();
-                String otronom15=txtotro15.getText().toString();
-
-                String frecuencia="0";
-                if(rdCadaDia.isChecked()){
-                    frecuencia="1";
-                }else if(rdUnaSemana.isChecked()){
-                    frecuencia="2";
-                }else if(rdUnaMes.isChecked()){
-                    frecuencia="3";
-                }else if(rdotro14.isChecked()){
-                    frecuencia="4";
-                }
-
-
-                String contrato="0";
-                if(rdContratoSi.isChecked()){
-                    contrato="1";
-                }else if(rdContratoNo.isChecked()){
-                    contrato="2";
-                }
-
-
-                String acuerdoVerbal="0";
-                if(rdacuerdosVerbalesSi.isChecked()){
-                    acuerdoVerbal="1";
-                }else if(rdacuerdosVerbalesNo.isChecked()){
-                    acuerdoVerbal="2";
-                }
-
-                String pedidoVerbal="0";
-                if(rdPedidosSi.isChecked()){
-                    pedidoVerbal="1";
-                }else if(rdPedidosNo.isChecked()){
-                    pedidoVerbal="2";
-                }
-
-                String otro15="0";
-                if(rdOtro15Si.isChecked()){
-                    otro15="1";
-                }else if(rdOtro15No.isChecked()){
-                    otro15="2";
-                }
-
-                String importanteDccumento="0";
-                if(rdImportanteSi.isChecked()){
-                    importanteDccumento="1";
-                }else if(rdImportanteNo.isChecked()){
-                    importanteDccumento="2";
-                }
-
-
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("otronom14", otronom14);
-                parametros.put("otronom15", otronom15);
-                parametros.put("frecuencia", frecuencia);
-                parametros.put("contrato", contrato);
-                parametros.put("acuerdoVerbal", acuerdoVerbal);
-                parametros.put("pedidoVerbal", pedidoVerbal);
-                parametros.put("otro15", otro15);
-                parametros.put("importanteDccumento", importanteDccumento);
-
-                return parametros;
+            String contrato="0";
+            if(rdContratoSi.isChecked()){
+                contrato="1";
+            }else if(rdContratoNo.isChecked()){
+                contrato="2";
             }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+
+            String acuerdoVerbal="0";
+            if(rdacuerdosVerbalesSi.isChecked()){
+                acuerdoVerbal="1";
+            }else if(rdacuerdosVerbalesNo.isChecked()){
+                acuerdoVerbal="2";
+            }
+
+            String pedidoVerbal="0";
+            if(rdPedidosSi.isChecked()){
+                pedidoVerbal="1";
+            }else if(rdPedidosNo.isChecked()){
+                pedidoVerbal="2";
+            }
+
+            String otro15="0";
+            if(rdOtro15Si.isChecked()){
+                otro15="1";
+            }else if(rdOtro15No.isChecked()){
+                otro15="2";
+            }
+
+            String importanteDccumento="0";
+            if(rdImportanteSi.isChecked()){
+                importanteDccumento="1";
+            }else if(rdImportanteNo.isChecked()){
+                importanteDccumento="2";
+            }
+
+
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put("frecuencia_vender_otro_nombre", otronom14);
+            values.put("venta_atraves_otro_nombre", otronom15);
+            values.put("frecuencia_vender", frecuencia);
+            values.put("contratos", contrato);
+            values.put("acuerdos_verbales", acuerdoVerbal);
+            values.put("pedidos_verbales", pedidoVerbal);
+            values.put("venta_atraves_otro", otro15);
+            values.put("importante_vender_formal", importanteDccumento);
+            //   values.put("no_desarrollo_plan_vida", noproyecto);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

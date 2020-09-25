@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -76,6 +79,10 @@ public class sat_muni_12_0_1 extends Fragment {
     RadioButton rdRecreativoSi, rdRecreativoNo, rdRecreativoMS, rdRecreativoS, rdRecreativoI, rdRecreativoIn, rdRecreativoMIn;
     RadioButton rdaidajSi, rdaidajNo, rdaidajMS, rdaidajS, rdaidajI, rdaidajIn, rdaidajMIn;
     RadioButton rdalbergueSi, rdalbergueNo, rdalbergueMS, rdalbergueS, rdalbergueI, rdalbergueIn, rdalbergueMIn;
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
+
     //volley
 
     ProgressDialog progreso;
@@ -144,6 +151,8 @@ public class sat_muni_12_0_1 extends Fragment {
         rdalbergueIn=(RadioButton) vista.findViewById(R.id.RdInsatisfecho1203);
         rdalbergueMIn=(RadioButton) vista.findViewById(R.id.RdMuyInsatisfecho1203);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         Bundle data=getArguments();
 
         if(data!=null){
@@ -161,218 +170,208 @@ public class sat_muni_12_0_1 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta73(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta71(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                recreativo = jsonObject.optInt("programacion_recreativa");
-                recreativoSatisfaccion = jsonObject.optInt("programacion_recreativa_satisfaccion");
-                aidaj = jsonObject.optInt("atencion_salud");
-                aidajSatisfaccion = jsonObject.optInt("atencion_salud_satisfaccion");
-                albergue = jsonObject.optInt("atencion_albergues");
-                albergueSatisfaccion = jsonObject.optInt("atencion_albergues_satisfaccion");
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "programacion_recreativa"
 
+                ,"programacion_recreativa_satisfaccion"
+                ,"atencion_salud"
+                ,"atencion_salud_satisfaccion"
+                ,"atencion_albergues"
+                ,"atencion_albergues_satisfaccion"
 
+        };
 
-                if(recreativo==1){
-                    rdRecreativoSi.setChecked(true);
-                }else if(recreativo==2){
-                    rdRecreativoNo.setChecked(true);
-                }
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
-                if(recreativoSatisfaccion==1){
-                    rdRecreativoMS.setChecked(true);
-                }else if(recreativoSatisfaccion==2){
-                    rdRecreativoS.setChecked(true);
-                }else if(recreativoSatisfaccion==3){
-                    rdRecreativoI.setChecked(true);
-                }else if(recreativoSatisfaccion==4){
-                    rdRecreativoIn.setChecked(true);
-                }else if(recreativoSatisfaccion==5){
-                    rdRecreativoMIn.setChecked(true);
-                }
-
-                if(aidaj==1){
-                    rdaidajSi.setChecked(true);
-                }else if(aidaj==2){
-                    rdaidajNo.setChecked(true);
-                }
-
-                if(aidajSatisfaccion==1){
-                    rdaidajMS.setChecked(true);
-                }else if(aidajSatisfaccion==2){
-                    rdaidajS.setChecked(true);
-                }else if(aidajSatisfaccion==3){
-                    rdaidajI.setChecked(true);
-                }else if(aidajSatisfaccion==4){
-                    rdaidajIn.setChecked(true);
-                }else if(aidajSatisfaccion==5){
-                    rdaidajMIn.setChecked(true);
-                }
-
-                if(albergue==1){
-                    rdalbergueSi.setChecked(true);
-                }else if(albergue==2){
-                    rdalbergueNo.setChecked(true);
-                }
-
-                if(albergueSatisfaccion==1){
-                    rdalbergueMS.setChecked(true);
-                }else if(albergueSatisfaccion==2){
-                    rdalbergueS.setChecked(true);
-                }else if(albergueSatisfaccion==3){
-                    rdalbergueI.setChecked(true);
-                }else if(albergueSatisfaccion==4){
-                    rdalbergueIn.setChecked(true);
-                }else if(albergueSatisfaccion==5){
-                    rdalbergueMIn.setChecked(true);
-                }
+        recreativo = Integer.parseInt( cursor.getString(0));
+        recreativoSatisfaccion = Integer.parseInt( cursor.getString(1));
+        aidaj = Integer.parseInt( cursor.getString(2));
+        aidajSatisfaccion = Integer.parseInt( cursor.getString(3));
+        albergue = Integer.parseInt( cursor.getString(4));
+        albergueSatisfaccion = Integer.parseInt( cursor.getString(5));
 
 
 
+        if(recreativo==1){
+            rdRecreativoSi.setChecked(true);
+        }else if(recreativo==2){
+            rdRecreativoNo.setChecked(true);
+        }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        if(recreativoSatisfaccion==1){
+            rdRecreativoMS.setChecked(true);
+        }else if(recreativoSatisfaccion==2){
+            rdRecreativoS.setChecked(true);
+        }else if(recreativoSatisfaccion==3){
+            rdRecreativoI.setChecked(true);
+        }else if(recreativoSatisfaccion==4){
+            rdRecreativoIn.setChecked(true);
+        }else if(recreativoSatisfaccion==5){
+            rdRecreativoMIn.setChecked(true);
+        }
+
+        if(aidaj==1){
+            rdaidajSi.setChecked(true);
+        }else if(aidaj==2){
+            rdaidajNo.setChecked(true);
+        }
+
+        if(aidajSatisfaccion==1){
+            rdaidajMS.setChecked(true);
+        }else if(aidajSatisfaccion==2){
+            rdaidajS.setChecked(true);
+        }else if(aidajSatisfaccion==3){
+            rdaidajI.setChecked(true);
+        }else if(aidajSatisfaccion==4){
+            rdaidajIn.setChecked(true);
+        }else if(aidajSatisfaccion==5){
+            rdaidajMIn.setChecked(true);
+        }
+
+        if(albergue==1){
+            rdalbergueSi.setChecked(true);
+        }else if(albergue==2){
+            rdalbergueNo.setChecked(true);
+        }
+
+        if(albergueSatisfaccion==1){
+            rdalbergueMS.setChecked(true);
+        }else if(albergueSatisfaccion==2){
+            rdalbergueS.setChecked(true);
+        }else if(albergueSatisfaccion==3){
+            rdalbergueI.setChecked(true);
+        }else if(albergueSatisfaccion==4){
+            rdalbergueIn.setChecked(true);
+        }else if(albergueSatisfaccion==5){
+            rdalbergueMIn.setChecked(true);
+        }
+
+
+
+
+
+        cursor.close();
+
+
+
+
+
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1201.php?";
-
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-
-                    interfaceComunicaFragments.enviarEncuesta73(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-
-                    interfaceComunicaFragments.enviarEncuesta71(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
 
 
+        try {
 
+            String recreativo="0";
+            if(rdRecreativoSi.isChecked()){
+                recreativo="1";
+            }else if(rdRecreativoNo.isChecked()){
+                recreativo="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
+            String recreativoSatisfaccion="0";
+            if(rdRecreativoMS.isChecked()){
+                recreativoSatisfaccion="1";
 
-
-
-                String recreativo="0";
-                if(rdRecreativoSi.isChecked()){
-                    recreativo="1";
-                }else if(rdRecreativoNo.isChecked()){
-                    recreativo="2";
-                }
-
-                String recreativoSatisfaccion="0";
-                if(rdRecreativoMS.isChecked()){
-                    recreativoSatisfaccion="1";
-
-                }else if(rdRecreativoS.isChecked()){
-                    recreativoSatisfaccion="2";
-                }else if(rdRecreativoI.isChecked()){
-                    recreativoSatisfaccion="3";
-                }else if(rdRecreativoIn.isChecked()){
-                    recreativoSatisfaccion="4";
-                }else if(rdRecreativoMIn.isChecked()){
-                    recreativoSatisfaccion="5";
-                }
-
-
-                String aidaj="0";
-                if(rdaidajSi.isChecked()){
-                    aidaj="1";
-                }else if(rdaidajNo.isChecked()){
-                    aidaj="2";
-                }
-
-                String aidajSatisfaccion="0";
-                if(rdaidajMS.isChecked()){
-                    aidajSatisfaccion="1";
-
-                }else if(rdaidajS.isChecked()){
-                    aidajSatisfaccion="2";
-                }else if(rdaidajI.isChecked()){
-                    aidajSatisfaccion="3";
-                }else if(rdaidajIn.isChecked()){
-                    aidajSatisfaccion="4";
-                }else if(rdaidajMIn.isChecked()){
-                    aidajSatisfaccion="5";
-                }
-
-                String albergue="0";
-                if(rdalbergueSi.isChecked()){
-                    albergue="1";
-                }else if(rdalbergueNo.isChecked()){
-                    albergue="2";
-                }
-
-                String albergueSatisfaccion="0";
-                if(rdalbergueMS.isChecked()){
-                    albergueSatisfaccion="1";
-
-                }else if(rdalbergueS.isChecked()){
-                    albergueSatisfaccion="2";
-                }else if(rdalbergueI.isChecked()){
-                    albergueSatisfaccion="3";
-                }else if(rdalbergueIn.isChecked()){
-                    albergueSatisfaccion="4";
-                }else if(rdalbergueMIn.isChecked()){
-                    albergueSatisfaccion="5";
-                }
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("recreativo", recreativo);
-                parametros.put("recreativoSatisfaccion", recreativoSatisfaccion);
-                parametros.put("aidaj", aidaj);
-                parametros.put("aidajSatisfaccion", aidajSatisfaccion);
-                parametros.put("albergue", albergue);
-                parametros.put("albergueSatisfaccion", albergueSatisfaccion);
-                return parametros;
+            }else if(rdRecreativoS.isChecked()){
+                recreativoSatisfaccion="2";
+            }else if(rdRecreativoI.isChecked()){
+                recreativoSatisfaccion="3";
+            }else if(rdRecreativoIn.isChecked()){
+                recreativoSatisfaccion="4";
+            }else if(rdRecreativoMIn.isChecked()){
+                recreativoSatisfaccion="5";
             }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+
+            String aidaj="0";
+            if(rdaidajSi.isChecked()){
+                aidaj="1";
+            }else if(rdaidajNo.isChecked()){
+                aidaj="2";
+            }
+
+            String aidajSatisfaccion="0";
+            if(rdaidajMS.isChecked()){
+                aidajSatisfaccion="1";
+
+            }else if(rdaidajS.isChecked()){
+                aidajSatisfaccion="2";
+            }else if(rdaidajI.isChecked()){
+                aidajSatisfaccion="3";
+            }else if(rdaidajIn.isChecked()){
+                aidajSatisfaccion="4";
+            }else if(rdaidajMIn.isChecked()){
+                aidajSatisfaccion="5";
+            }
+
+            String albergue="0";
+            if(rdalbergueSi.isChecked()){
+                albergue="1";
+            }else if(rdalbergueNo.isChecked()){
+                albergue="2";
+            }
+
+            String albergueSatisfaccion="0";
+            if(rdalbergueMS.isChecked()){
+                albergueSatisfaccion="1";
+
+            }else if(rdalbergueS.isChecked()){
+                albergueSatisfaccion="2";
+            }else if(rdalbergueI.isChecked()){
+                albergueSatisfaccion="3";
+            }else if(rdalbergueIn.isChecked()){
+                albergueSatisfaccion="4";
+            }else if(rdalbergueMIn.isChecked()){
+                albergueSatisfaccion="5";
+            }
+
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put("programacion_recreativa", recreativo);
+            values.put("programacion_recreativa_satisfaccion", recreativoSatisfaccion);
+            values.put("atencion_salud", aidaj);
+            values.put("atencion_salud_satisfaccion", aidajSatisfaccion);
+            values.put("atencion_albergues", albergue);
+            values.put("atencion_albergues_satisfaccion", albergueSatisfaccion);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+
+
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

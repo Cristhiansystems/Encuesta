@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -79,6 +82,10 @@ public class emp_econ_10_0_19 extends Fragment {
     RadioButton rdCostoDirectoSi, rdCostoDirectoNo, rdCostoIndirectoSi, rdCostoIndirectoNo, rdotroSi, rdOtroNo, rdAnalisisSi, rdAnalisisNo;
     LinearLayout display1020, display1020ops;
 
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
     ProgressDialog progreso;
     //RequestQueue request;
@@ -140,6 +147,8 @@ public class emp_econ_10_0_19 extends Fragment {
         display1020ops.setVisibility(View.INVISIBLE);
         display1020ops.setVisibility(View.GONE);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         rdAnalisisNo.setOnClickListener(v -> {
 
             display1020.setVisibility(View.INVISIBLE);
@@ -170,158 +179,151 @@ public class emp_econ_10_0_19 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta59(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta57(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
-
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                analisisCostos = jsonObject.optInt("realizas_analisis_costos");
-                costoDirecto = jsonObject.optInt("costo_directo");
-                costoIndirecto= jsonObject.optInt("costo_indirecto");
-                otro= jsonObject.optInt("analisis_costos_otro");
-                otronom = jsonObject.optString("analisis_costos_otro_nombre");
-                respuesta = jsonObject.optString("respuesta_analisis");
-
-                if(analisisCostos==2){
-
-                    display1020.setVisibility(View.INVISIBLE);
-                    display1020.setVisibility(View.GONE);
-
-                }
-
-                if(costoDirecto==1){
-                    rdCostoDirectoSi.setChecked(true);
-                }else if(costoDirecto==2){
-                    rdCostoDirectoNo.setChecked(true);
-                }
-
-                if(costoIndirecto==1){
-                    rdCostoIndirectoSi.setChecked(true);
-                }else if(costoIndirecto==2){
-                    rdCostoIndirectoNo.setChecked(true);
-                }
-
-                if(otro==1){
-                    rdotroSi.setChecked(true);
-                }else if(otro==2){
-                    rdOtroNo.setChecked(true);
-                }
-
-                if(analisisCostos==1){
-                    rdAnalisisSi.setChecked(true);
-                }else if(analisisCostos==2){
-                    rdAnalisisNo.setChecked(true);
-                }
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "realizas_analisis_costos"
+                ,"costo_directo"
+                ,"costo_indirecto"
+                ,"analisis_costos_otro"
+                ,"analisis_costos_otro_nombre"
+                ,"respuesta_analisis"
 
 
-                txtotro.setText(otronom.toString());
-                txtrespuesta.setText(respuesta.toString());
+        };
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
+
+        analisisCostos = Integer.parseInt( cursor.getString(0));
+        costoDirecto =Integer.parseInt( cursor.getString(1));
+        costoIndirecto=Integer.parseInt( cursor.getString(2));
+        otro= Integer.parseInt( cursor.getString(3));
+        otronom = cursor.getString(4);
+        respuesta = cursor.getString(5);
+
+
+
+        if(analisisCostos==2){
+
+            display1020.setVisibility(View.INVISIBLE);
+            display1020.setVisibility(View.GONE);
+
+        }
+
+        if(costoDirecto==1){
+            rdCostoDirectoSi.setChecked(true);
+        }else if(costoDirecto==2){
+            rdCostoDirectoNo.setChecked(true);
+        }
+
+        if(costoIndirecto==1){
+            rdCostoIndirectoSi.setChecked(true);
+        }else if(costoIndirecto==2){
+            rdCostoIndirectoNo.setChecked(true);
+        }
+
+        if(otro==1){
+            rdotroSi.setChecked(true);
+        }else if(otro==2){
+            rdOtroNo.setChecked(true);
+        }
+
+        if(analisisCostos==1){
+            rdAnalisisSi.setChecked(true);
+        }else if(analisisCostos==2){
+            rdAnalisisNo.setChecked(true);
+        }
+
+
+        txtotro.setText(otronom.toString());
+        txtrespuesta.setText(respuesta.toString());
+        cursor.close();
+
+
+
+
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1019.php?";
-
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta59(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta57(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
 
 
+        try {
 
+
+            String otronom=txtotro.getText().toString();
+            String respuesta=txtrespuesta.getText().toString();
+
+
+            String analizarCostos="0";
+            if(rdAnalisisSi.isChecked()){
+                analizarCostos="1";
+            }else if(rdAnalisisNo.isChecked()){
+                analizarCostos="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
-
-                String otronom=txtotro.getText().toString();
-                String respuesta=txtrespuesta.getText().toString();
-
-
-                String analizarCostos="0";
-                if(rdAnalisisSi.isChecked()){
-                    analizarCostos="1";
-                }else if(rdAnalisisNo.isChecked()){
-                    analizarCostos="2";
-                }
-
-                String costoDirecto="0";
-                if(rdCostoDirectoSi.isChecked()){
-                    costoDirecto="1";
-                }else if(rdCostoDirectoNo.isChecked()){
-                    costoDirecto="2";
-                }
-
-                String costoIndirecto="0";
-                if(rdCostoIndirectoSi.isChecked()){
-                    costoIndirecto="1";
-                }else if(rdCostoIndirectoNo.isChecked()){
-                    costoIndirecto="2";
-                }
-
-                String otro="0";
-                if(rdotroSi.isChecked()){
-                    otro="1";
-                }else if(rdOtroNo.isChecked()){
-                    otro="2";
-                }
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("otronom", otronom);
-                parametros.put("analizarCostos", analizarCostos);
-                parametros.put("costoDirecto", costoDirecto);
-                parametros.put("costoIndirecto", costoIndirecto);
-                parametros.put("otro", otro);
-                parametros.put("respuesta", respuesta);
-
-                return parametros;
+            String costoDirecto="0";
+            if(rdCostoDirectoSi.isChecked()){
+                costoDirecto="1";
+            }else if(rdCostoDirectoNo.isChecked()){
+                costoDirecto="2";
             }
-        };
-       // request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+            String costoIndirecto="0";
+            if(rdCostoIndirectoSi.isChecked()){
+                costoIndirecto="1";
+            }else if(rdCostoIndirectoNo.isChecked()){
+                costoIndirecto="2";
+            }
+
+            String otro="0";
+            if(rdotroSi.isChecked()){
+                otro="1";
+            }else if(rdOtroNo.isChecked()){
+                otro="2";
+            }
+
+
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put("analisis_costos_otro_nombre", otronom);
+            values.put("realizas_analisis_costos", analizarCostos);
+            values.put("costo_directo", costoDirecto);
+            values.put("costo_indirecto", costoIndirecto);
+            values.put("analisis_costos_otro", otro);
+            values.put("respuesta_analisis", respuesta);
+            //   values.put("no_desarrollo_plan_vida", noproyecto);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -79,6 +82,9 @@ public class org_9_0_1 extends Fragment {
     RadioButton rdSi, rdNo;
     LinearLayout display;
 
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
 
     ProgressDialog progreso;
@@ -126,6 +132,8 @@ public class org_9_0_1 extends Fragment {
         display.setVisibility(View.INVISIBLE);
         display.setVisibility(View.GONE);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         rdSi=(RadioButton) vista.findViewById(R.id.SiOcupasCarg);
         rdNo=(RadioButton) vista.findViewById(R.id.NoOcupasCarg);
 
@@ -146,111 +154,93 @@ public class org_9_0_1 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta50(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            if(estudiando==1){
+                interfaceComunicaFragments.enviarEncuesta46(idFragment.getText().toString());
+            }else{
+                interfaceComunicaFragments.enviarEncuesta48(idFragment.getText().toString());
+            }
         });
         return vista;
     }
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                respuesta = jsonObject.optString("respuesta_agrupacion");
-                organizacion = jsonObject.optString("nombre_agrupacion");
-                cargo = jsonObject.optInt("ocupaste_cargo_agrupacion");
 
-                estudiando = jsonObject.optInt("estudiante_actualmente");
-                txtrespuesta.setText(respuesta.toString());
-                txtorganizacion.setText(organizacion.toString());
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-                if(cargo==1){
-                    rdSi.setChecked(true);
-                }else if(cargo==2){
-                    rdNo.setChecked(true);
-                }
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={"respuesta_agrupacion","nombre_agrupacion","ocupaste_cargo_agrupacion","estudiante_actualmente"};
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-       // request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
+
+        respuesta =  cursor.getString(0);
+        organizacion =  cursor.getString(1);
+        cargo =Integer.parseInt( cursor.getString(2));
+
+        estudiando =Integer.parseInt(  cursor.getString(3));
+        txtrespuesta.setText(respuesta.toString());
+        txtorganizacion.setText(organizacion.toString());
+
+        if(cargo==1){
+            rdSi.setChecked(true);
+        }else if(cargo==2){
+            rdNo.setChecked(true);
+        }
+
+
+
+        cursor.close();
+
+
+
+
+
+
     }
 
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza91.php?";
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
+        try {
 
-                    interfaceComunicaFragments.enviarEncuesta50(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-                    if(estudiando==1){
-                        interfaceComunicaFragments.enviarEncuesta46(idFragment.getText().toString());
-                    }else{
-                        interfaceComunicaFragments.enviarEncuesta48(idFragment.getText().toString());
-                    }
-
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
-
-
-
+            String respuesta=txtrespuesta.getText().toString();
+            String organizacion=txtorganizacion.getText().toString();
+            String cargo="0";
+            if(rdSi.isChecked()){
+                cargo="1";
+            }else if(rdNo.isChecked()){
+                cargo="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
 
-                String respuesta=txtrespuesta.getText().toString();
-                String organizacion=txtorganizacion.getText().toString();
-                String cargo="0";
-                if(rdSi.isChecked()){
-                    cargo="1";
-                }else if(rdNo.isChecked()){
-                    cargo="2";
-                }
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("respuesta", respuesta);
-                parametros.put("organizacion", organizacion);
-                parametros.put("cargo", cargo);
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
 
 
-                return parametros;
-            }
-        };
-       // request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+            values.put("respuesta_agrupacion",respuesta);//string
+            values.put("nombre_agrupacion",organizacion);//string
+            values.put("ocupaste_cargo_agrupacion",cargo);//bool
+
+            //   values.put("no_desarrollo_plan_vida", noproyecto);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

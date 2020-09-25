@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -76,6 +79,10 @@ public class emp_lab_11_0_27 extends Fragment {
     Integer horario;
     RadioButton rdTiempoCompleto, rdMedioTiempo, rdhoras, rdProducto, rdOtro;
 
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
 
     ProgressDialog progreso;
@@ -127,6 +134,8 @@ public class emp_lab_11_0_27 extends Fragment {
         rdProducto=(RadioButton) vista.findViewById(R.id.RdPorProducto);
         rdOtro=(RadioButton) vista.findViewById(R.id.RdOtro1127);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
 
         Bundle data=getArguments();
 
@@ -145,135 +154,113 @@ public class emp_lab_11_0_27 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta69(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta67(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
 
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+        SQLiteDatabase db=conn.getReadableDatabase();
 
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "horario_trabajo"
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
-
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-
-                horario = jsonObject.optInt("horario_trabajo");
-
-                otronom = jsonObject.optString("horario_trabajo_otro_nombre");
-                sueldo1 = jsonObject.optString("monto1");
-                sueldo2 = jsonObject.optString("monto2");
+                ,"horario_trabajo_otro_nombre"
+                ,"monto1"
+                ,"monto2"
 
 
-                txtotro.setText(otronom.toString());
-                txtsueldo1.setText(sueldo1.toString());
-                txtsueldo2.setText(sueldo2.toString());
+        };
+
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
+
+        horario = Integer.parseInt( cursor.getString(0));
+
+        otronom = cursor.getString(1);
+        sueldo1 = cursor.getString(2);
+        sueldo2 = cursor.getString(3);
+
+
+        txtotro.setText(otronom.toString());
+        txtsueldo1.setText(sueldo1.toString());
+        txtsueldo2.setText(sueldo2.toString());
 
 
 
-                if(horario==1){
-                    rdTiempoCompleto.setChecked(true);
-                }else if(horario==2){
-                    rdMedioTiempo.setChecked(true);
-                }else if(horario==3){
-                    rdhoras.setChecked(true);
-                }else if(horario==4){
-                    rdProducto.setChecked(true);
-                }else if(horario==88){
-                    rdOtro.setChecked(true);
-                }
+        if(horario==1){
+            rdTiempoCompleto.setChecked(true);
+        }else if(horario==2){
+            rdMedioTiempo.setChecked(true);
+        }else if(horario==3){
+            rdhoras.setChecked(true);
+        }else if(horario==4){
+            rdProducto.setChecked(true);
+        }else if(horario==88){
+            rdOtro.setChecked(true);
+        }
+
+        cursor.close();
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1127.php?";
-
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta69(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta67(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
 
 
+
+        try {
+
+            String otronom=txtotro.getText().toString();
+            String sueldo1=txtsueldo1.getText().toString();
+            String sueldo2=txtsueldo2.getText().toString();
+
+            String horario="0";
+            if(rdTiempoCompleto.isChecked()){
+                horario="1";
+            }else if(rdMedioTiempo.isChecked()){
+
+                horario="2";
+            }else if(rdhoras.isChecked()){
+
+                horario="3";
+            }else if(rdProducto.isChecked()){
+
+                horario="4";
+            }else if(rdOtro.isChecked()){
+
+                horario="88";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
-
-                String otronom=txtotro.getText().toString();
-                String sueldo1=txtsueldo1.getText().toString();
-                String sueldo2=txtsueldo2.getText().toString();
-
-                String horario="0";
-                if(rdTiempoCompleto.isChecked()){
-                    horario="1";
-                }else if(rdMedioTiempo.isChecked()){
-
-                    horario="2";
-                }else if(rdhoras.isChecked()){
-
-                    horario="3";
-                }else if(rdProducto.isChecked()){
-
-                    horario="4";
-                }else if(rdOtro.isChecked()){
-
-                    horario="88";
-                }
 
 
 
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
 
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
+            values.put("monto1", sueldo1);
+            values.put("monto2", sueldo2);
+            values.put("horario_trabajo", horario);
+            values.put("horario_trabajo_otro_nombre", otronom);
 
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
 
-                parametros.put("sueldo1", sueldo1);
-                parametros.put("sueldo2", sueldo2);
-                parametros.put("horario", horario);
-                parametros.put("otronom", otronom);
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
 
-
-                return parametros;
-            }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

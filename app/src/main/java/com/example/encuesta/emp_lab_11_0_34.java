@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -78,6 +81,11 @@ public class emp_lab_11_0_34 extends Fragment {
     Integer bolsaTrabajo, planLaboral, realizaralguno, cumplir;
     RadioButton rdBolsaTrabajoSi, rdBolsaTrabajoNo, rdPlanLaboralSi, rdPlanlaboralNo, rdRealizasteAlgunoSi, rdRealizasteAlgunoNo, rdCumplirSi, rdCumplirNo, rdProceso;
     LinearLayout display1134, display1135, display1136, display1137, display1138, display1139;
+
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
     //volley
 
     ProgressDialog progreso;
@@ -143,6 +151,8 @@ public class emp_lab_11_0_34 extends Fragment {
         display1137=(LinearLayout) vista.findViewById(R.id.layout1137);
         display1138=(LinearLayout) vista.findViewById(R.id.layout1138);
         display1139=(LinearLayout) vista.findViewById(R.id.layout1139);
+
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
 
         rdBolsaTrabajoNo.setOnClickListener(v -> {
 
@@ -216,185 +226,170 @@ public class emp_lab_11_0_34 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta72(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta70(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
-
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                bolsaTrabajo = jsonObject.optInt("conoces_bolsa_laboral");
-                planLaboral = jsonObject.optInt("conoces_plan_laboral");
-                realizaralguno = jsonObject.optInt("ralizo_plan_laboral");
-                cumplir = jsonObject.optInt("cumplir_plan_laboral");
-                mencionarBolsa = jsonObject.optString("mencionar_bolsa_laboral");
-                objetivo = jsonObject.optString("objetivo_plan_laboral");
 
 
-                txtObjetivo.setText(objetivo.toString());
-                txtmencionarBolsa.setText(mencionarBolsa.toString());
 
-                if(bolsaTrabajo==2){
-                    display1135.setVisibility(View.INVISIBLE);
-                    display1135.setVisibility(View.GONE);
-                }
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-                if(planLaboral==2){
-                    display1137.setVisibility(View.INVISIBLE);
-                    display1137.setVisibility(View.GONE);
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "conoces_bolsa_laboral"
 
-                    display1138.setVisibility(View.INVISIBLE);
-                    display1138.setVisibility(View.GONE);
+                ,"conoces_plan_laboral"
+                ,"ralizo_plan_laboral"
+                ,"cumplir_plan_laboral"
+                ,"mencionar_bolsa_laboral"
+                ,"objetivo_plan_laboral"
 
-                    display1139.setVisibility(View.INVISIBLE);
-                    display1139.setVisibility(View.GONE);
-                }
+        };
 
-                if(realizaralguno==2){
-                    display1138.setVisibility(View.INVISIBLE);
-                    display1138.setVisibility(View.GONE);
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
-                    display1139.setVisibility(View.INVISIBLE);
-                    display1139.setVisibility(View.GONE);
-                }
-                if(bolsaTrabajo==1){
-                    rdBolsaTrabajoSi.setChecked(true);
-                }else if(bolsaTrabajo==2){
-                    rdBolsaTrabajoNo.setChecked(true);
-                }
-
-                if(planLaboral==1){
-                    rdPlanLaboralSi.setChecked(true);
-                }else if(planLaboral==2){
-                    rdPlanlaboralNo.setChecked(true);
-                }
-
-                if(realizaralguno==1){
-                    rdRealizasteAlgunoSi.setChecked(true);
-                }else if(realizaralguno==2){
-                    rdRealizasteAlgunoNo.setChecked(true);
-                }
-
-                if(cumplir==1){
-                    rdCumplirSi.setChecked(true);
-                }else if(cumplir==2){
-                    rdCumplirNo.setChecked(true);
-                }else if(cumplir==3){
-                    rdProceso.setChecked(true);
-                }
+        bolsaTrabajo = Integer.parseInt( cursor.getString(0));
+        planLaboral = Integer.parseInt( cursor.getString(1));
+        realizaralguno = Integer.parseInt( cursor.getString(2));
+        cumplir = Integer.parseInt( cursor.getString(3));
+        mencionarBolsa = cursor.getString(4);
+        objetivo = cursor.getString(5);
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        txtObjetivo.setText(objetivo.toString());
+        txtmencionarBolsa.setText(mencionarBolsa.toString());
+
+        if(bolsaTrabajo==2){
+            display1135.setVisibility(View.INVISIBLE);
+            display1135.setVisibility(View.GONE);
+        }
+
+        if(planLaboral==2){
+            display1137.setVisibility(View.INVISIBLE);
+            display1137.setVisibility(View.GONE);
+
+            display1138.setVisibility(View.INVISIBLE);
+            display1138.setVisibility(View.GONE);
+
+            display1139.setVisibility(View.INVISIBLE);
+            display1139.setVisibility(View.GONE);
+        }
+
+        if(realizaralguno==2){
+            display1138.setVisibility(View.INVISIBLE);
+            display1138.setVisibility(View.GONE);
+
+            display1139.setVisibility(View.INVISIBLE);
+            display1139.setVisibility(View.GONE);
+        }
+        if(bolsaTrabajo==1){
+            rdBolsaTrabajoSi.setChecked(true);
+        }else if(bolsaTrabajo==2){
+            rdBolsaTrabajoNo.setChecked(true);
+        }
+
+        if(planLaboral==1){
+            rdPlanLaboralSi.setChecked(true);
+        }else if(planLaboral==2){
+            rdPlanlaboralNo.setChecked(true);
+        }
+
+        if(realizaralguno==1){
+            rdRealizasteAlgunoSi.setChecked(true);
+        }else if(realizaralguno==2){
+            rdRealizasteAlgunoNo.setChecked(true);
+        }
+
+        if(cumplir==1){
+            rdCumplirSi.setChecked(true);
+        }else if(cumplir==2){
+            rdCumplirNo.setChecked(true);
+        }else if(cumplir==3){
+            rdProceso.setChecked(true);
+        }
+
+
+
+        cursor.close();
+
+
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza1134.php?";
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
+        try {
 
-                    interfaceComunicaFragments.enviarEncuesta72(idFragment.getText().toString());
-
-                }else if(pantalla=="Atras"){
-
-                    interfaceComunicaFragments.enviarEncuesta70(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
+            String mencionarBolsa=txtmencionarBolsa.getText().toString();
+            String objetivo=txtObjetivo.getText().toString();
 
 
-
+            String bolsaTrabajo="0";
+            if(rdBolsaTrabajoSi.isChecked()){
+                bolsaTrabajo="1";
+            }else if(rdBolsaTrabajoNo.isChecked()){
+                bolsaTrabajo="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
+            String planLaboral="0";
+            if(rdPlanLaboralSi.isChecked()){
+                planLaboral="1";
 
-                String mencionarBolsa=txtmencionarBolsa.getText().toString();
-                String objetivo=txtObjetivo.getText().toString();
-
-
-                String bolsaTrabajo="0";
-                if(rdBolsaTrabajoSi.isChecked()){
-                    bolsaTrabajo="1";
-                }else if(rdBolsaTrabajoNo.isChecked()){
-                    bolsaTrabajo="2";
-                }
-
-                String planLaboral="0";
-                if(rdPlanLaboralSi.isChecked()){
-                    planLaboral="1";
-
-                }else if(rdPlanlaboralNo.isChecked()){
-                    planLaboral="2";
-                }
-
-                String realizasteAlguno="0";
-                if(rdRealizasteAlgunoSi.isChecked()){
-                    realizasteAlguno="1";
-
-                }else if(rdRealizasteAlgunoNo.isChecked()){
-                    realizasteAlguno="2";
-                }
-
-                String cumplir="0";
-                if(rdCumplirSi.isChecked()){
-                    cumplir="1";
-
-                }else if(rdCumplirNo.isChecked()){
-                    cumplir="2";
-                }else if(rdProceso.isChecked()){
-                    cumplir="3";
-                }
-
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("mencionarBolsa", mencionarBolsa);
-                parametros.put("objetivo", objetivo);
-                parametros.put("bolsaTrabajo", bolsaTrabajo);
-                parametros.put("planLaboral", planLaboral);
-                parametros.put("realizasteAlguno", realizasteAlguno);
-                parametros.put("cumplir", cumplir);
-                return parametros;
+            }else if(rdPlanlaboralNo.isChecked()){
+                planLaboral="2";
             }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+            String realizasteAlguno="0";
+            if(rdRealizasteAlgunoSi.isChecked()){
+                realizasteAlguno="1";
+
+            }else if(rdRealizasteAlgunoNo.isChecked()){
+                realizasteAlguno="2";
+            }
+
+            String cumplir="0";
+            if(rdCumplirSi.isChecked()){
+                cumplir="1";
+
+            }else if(rdCumplirNo.isChecked()){
+                cumplir="2";
+            }else if(rdProceso.isChecked()){
+                cumplir="3";
+            }
+
+
+
+            //  Toast.makeText(getContext(),respuesta,Toast.LENGTH_SHORT).show();
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put("mencionar_bolsa_laboral", mencionarBolsa);
+            values.put("objetivo_plan_laboral", objetivo);
+            values.put("conoces_bolsa_laboral", bolsaTrabajo);
+            values.put("conoces_plan_laboral", planLaboral);
+            values.put("ralizo_plan_laboral", realizasteAlguno);
+            values.put("cumplir_plan_laboral", cumplir);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -83,6 +86,14 @@ public class emp_pers_8_0_11 extends Fragment {
     RadioButton rdTecnicoUniversidad1, rdTecnicoUniversidad2, rdTecnicoUniversidad3;
     RadioButton rdTecnicoMedio1, rdTecnicoMedio2, rdTecnicoMedio3;
     CheckBox chNivel1, chNivel2, chNivel3, chNivel4, chNivel5, chNivel6, chNivel7, chNivel8;
+
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
+
+
+
+
     //volley
 
     ProgressDialog progreso;
@@ -182,6 +193,9 @@ public class emp_pers_8_0_11 extends Fragment {
         txtotro=(EditText) vista.findViewById(R.id.txtOtro811);
         txtparaleloprimaria=(EditText) vista.findViewById(R.id.txtParPri811);
         txtparalelosecundaria=(EditText) vista.findViewById(R.id.txtSec811);
+
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         Bundle data=getArguments();
 
         if(data!=null){
@@ -200,292 +214,280 @@ public class emp_pers_8_0_11 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta48(idFragment.getText().toString());
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            if(estudiando==2){
+                interfaceComunicaFragments.enviarEncuesta43 (idFragment.getText().toString());
+
+            }else{
+                interfaceComunicaFragments.enviarEncuesta46 (idFragment.getText().toString());
+            }
+
         });
         return vista;
     }
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={
+                "grado_maximo"
 
-                MaximoGrado = jsonObject.optInt("grado_maximo");
-                Maximonivel = jsonObject.optInt("nivel_maximo");
-                paralelomaximo = jsonObject.optString("paralelo_maximo");
-
-                //otro grafment
-                estudiando = jsonObject.optInt("estudiante_actualmente");
-
-                otro="";
-                otro = jsonObject.optString("otro_nivel_maximo_nombre");
+                ,"nivel_maximo"
+                ,"paralelo_maximo"
+                ,"estudiante_actualmente"
+                ,"otro_nivel_maximo_nombre"
 
 
-                if(Maximonivel==1){
-                    chNivel1.setChecked(true);
-                    if(MaximoGrado==1){
-                        rdPrimario1.setChecked(true);
-                    }else if(MaximoGrado==2){
-                        rdPrimario2.setChecked(true);
-                    }else if(MaximoGrado==3){
-                        rdPrimario3.setChecked(true);
-                    }else if(MaximoGrado==4){
-                        rdPrimario4.setChecked(true);
-                    }else if(MaximoGrado==5){
-                        rdPrimario5.setChecked(true);
-                    }else if(MaximoGrado==6){
-                        rdPrimario6.setChecked(true);
-                    }
+        };
 
-                    txtparaleloprimaria.setText(paralelomaximo.toString());
-                } else if(Maximonivel==2){
-                    chNivel2.setChecked(true);
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
-                    if(MaximoGrado==1){
-                        rdSecundario1.setChecked(true);
-                    }else if(MaximoGrado==2){
-                        rdSecundario2.setChecked(true);
-                    }else if(MaximoGrado==3){
-                        rdSecundario3.setChecked(true);
-                    }else if(MaximoGrado==4){
-                        rdSecundario4.setChecked(true);
-                    }else if(MaximoGrado==5){
-                        rdSecundario5.setChecked(true);
-                    }else if(MaximoGrado==6){
-                        rdSecundario6.setChecked(true);
-                    }
+        MaximoGrado =Integer.parseInt( cursor.getString(0));
+        Maximonivel = Integer.parseInt( cursor.getString(1));
+        paralelomaximo = cursor.getString(2);
 
-                    txtparalelosecundaria.setText(paralelomaximo.toString());
-                } else if(Maximonivel==3){
-                    chNivel3.setChecked(true);
-                    if(MaximoGrado==1){
-                        rdPolicia1.setChecked(true);
-                    }else if(MaximoGrado==2){
-                        rdPolicia2.setChecked(true);
-                    }else if(MaximoGrado==3){
-                        rdPolicia3.setChecked(true);
-                    }else if(MaximoGrado==4){
-                        rdPolicia4.setChecked(true);
-                    }
-                } else if(Maximonivel==4){
-                    chNivel4.setChecked(true);
-                    if(MaximoGrado==1){
-                        rdUniversidad1.setChecked(true);
-                    }else if(MaximoGrado==2){
-                        rdUniversidad2.setChecked(true);
-                    }else if(MaximoGrado==3){
-                        rdUniversidad3.setChecked(true);
-                    }else if(MaximoGrado==4){
-                        rdUniversidad4.setChecked(true);
-                    }else if(MaximoGrado==5){
-                        rdUniversidad5.setChecked(true);
-                    }
-                } else if(Maximonivel==5){
-                    chNivel5.setChecked(true);
-                    if(MaximoGrado==1){
-                        rdTecnicoUniversidad1.setChecked(true);
-                    }else if(MaximoGrado==2){
-                        rdTecnicoUniversidad2.setChecked(true);
-                    }else if(MaximoGrado==3){
-                        rdTecnicoUniversidad3.setChecked(true);
-                    }
-                } else if(Maximonivel==6){
-                    chNivel6.setChecked(true);
-                    if(MaximoGrado==1){
-                        rdTecnicoMedio1.setChecked(true);
-                    }else if(MaximoGrado==2){
-                        rdTecnicoMedio2.setChecked(true);
-                    }else if(MaximoGrado==3){
-                        rdTecnicoMedio3.setChecked(true);
-                    }
+        //otro grafment
+        estudiando = Integer.parseInt( cursor.getString(3));
 
-                } else if(Maximonivel==7){
-                    chNivel7.setChecked(true);
-                    txtotro.setText(otro.toString());
-                } else if(Maximonivel==8){
-                    chNivel8.setChecked(true);
-                }
+        otro="";
+        otro =cursor.getString(1);
 
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+        if(Maximonivel==1){
+            chNivel1.setChecked(true);
+            if(MaximoGrado==1){
+                rdPrimario1.setChecked(true);
+            }else if(MaximoGrado==2){
+                rdPrimario2.setChecked(true);
+            }else if(MaximoGrado==3){
+                rdPrimario3.setChecked(true);
+            }else if(MaximoGrado==4){
+                rdPrimario4.setChecked(true);
+            }else if(MaximoGrado==5){
+                rdPrimario5.setChecked(true);
+            }else if(MaximoGrado==6){
+                rdPrimario6.setChecked(true);
             }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-        //request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+
+            txtparaleloprimaria.setText(paralelomaximo.toString());
+        } else if(Maximonivel==2){
+            chNivel2.setChecked(true);
+
+            if(MaximoGrado==1){
+                rdSecundario1.setChecked(true);
+            }else if(MaximoGrado==2){
+                rdSecundario2.setChecked(true);
+            }else if(MaximoGrado==3){
+                rdSecundario3.setChecked(true);
+            }else if(MaximoGrado==4){
+                rdSecundario4.setChecked(true);
+            }else if(MaximoGrado==5){
+                rdSecundario5.setChecked(true);
+            }else if(MaximoGrado==6){
+                rdSecundario6.setChecked(true);
+            }
+
+            txtparalelosecundaria.setText(paralelomaximo.toString());
+        } else if(Maximonivel==3){
+            chNivel3.setChecked(true);
+            if(MaximoGrado==1){
+                rdPolicia1.setChecked(true);
+            }else if(MaximoGrado==2){
+                rdPolicia2.setChecked(true);
+            }else if(MaximoGrado==3){
+                rdPolicia3.setChecked(true);
+            }else if(MaximoGrado==4){
+                rdPolicia4.setChecked(true);
+            }
+        } else if(Maximonivel==4){
+            chNivel4.setChecked(true);
+            if(MaximoGrado==1){
+                rdUniversidad1.setChecked(true);
+            }else if(MaximoGrado==2){
+                rdUniversidad2.setChecked(true);
+            }else if(MaximoGrado==3){
+                rdUniversidad3.setChecked(true);
+            }else if(MaximoGrado==4){
+                rdUniversidad4.setChecked(true);
+            }else if(MaximoGrado==5){
+                rdUniversidad5.setChecked(true);
+            }
+        } else if(Maximonivel==5){
+            chNivel5.setChecked(true);
+            if(MaximoGrado==1){
+                rdTecnicoUniversidad1.setChecked(true);
+            }else if(MaximoGrado==2){
+                rdTecnicoUniversidad2.setChecked(true);
+            }else if(MaximoGrado==3){
+                rdTecnicoUniversidad3.setChecked(true);
+            }
+        } else if(Maximonivel==6){
+            chNivel6.setChecked(true);
+            if(MaximoGrado==1){
+                rdTecnicoMedio1.setChecked(true);
+            }else if(MaximoGrado==2){
+                rdTecnicoMedio2.setChecked(true);
+            }else if(MaximoGrado==3){
+                rdTecnicoMedio3.setChecked(true);
+            }
+
+        } else if(Maximonivel==7){
+            chNivel7.setChecked(true);
+            txtotro.setText(otro.toString());
+        } else if(Maximonivel==8){
+            chNivel8.setChecked(true);
+        }
+
+        cursor.close();
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza811.php?";
 
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    interfaceComunicaFragments.enviarEncuesta48(idFragment.getText().toString());
+        try {
 
-                }else if(pantalla=="Atras"){
+            String otro="";
+            String paraleloMaximo="";
 
-                    if(estudiando==2){
-                        interfaceComunicaFragments.enviarEncuesta43 (idFragment.getText().toString());
 
-                    }else{
-                        interfaceComunicaFragments.enviarEncuesta46 (idFragment.getText().toString());
-                    }
 
+            String gradoMaximo="0";
+            String nivelMaximo="0";
+            if(chNivel1.isChecked()) {
+                nivelMaximo = "1";
+                paraleloMaximo=txtparaleloprimaria.getText().toString();
+                if(rdPrimario1.isChecked()){
+                    gradoMaximo="1";
+                }else if(rdPrimario2.isChecked()){
+                    gradoMaximo="2";
+                }else if(rdPrimario3.isChecked()){
+                    gradoMaximo="3";
+                }else if(rdPrimario4.isChecked()){
+                    gradoMaximo="4";
+                }else if(rdPrimario5.isChecked()){
+                    gradoMaximo="5";
+                }else if(rdPrimario6.isChecked()){
+                    gradoMaximo="6";
                 }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
-
-
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
-                String otro="";
-                String paraleloMaximo="";
 
-
-
-                String gradoMaximo="0";
-                String nivelMaximo="0";
-                if(chNivel1.isChecked()) {
-                    nivelMaximo = "1";
-                    paraleloMaximo=txtparaleloprimaria.getText().toString();
-                    if(rdPrimario1.isChecked()){
-                        gradoMaximo="1";
-                    }else if(rdPrimario2.isChecked()){
-                        gradoMaximo="2";
-                    }else if(rdPrimario3.isChecked()){
-                        gradoMaximo="3";
-                    }else if(rdPrimario4.isChecked()){
-                        gradoMaximo="4";
-                    }else if(rdPrimario5.isChecked()){
-                        gradoMaximo="5";
-                    }else if(rdPrimario6.isChecked()){
-                        gradoMaximo="6";
-                    }
+            else if(chNivel2.isChecked()) {
+                nivelMaximo = "2";
+                paraleloMaximo=txtparalelosecundaria.getText().toString();
+                if(rdSecundario1.isChecked()){
+                    gradoMaximo="1";
+                }else if(rdSecundario2.isChecked()){
+                    gradoMaximo="2";
+                }else if(rdSecundario3.isChecked()){
+                    gradoMaximo="3";
+                }else if(rdSecundario4.isChecked()){
+                    gradoMaximo="4";
+                }else if(rdSecundario5.isChecked()){
+                    gradoMaximo="5";
+                }else if(rdSecundario6.isChecked()){
+                    gradoMaximo="6";
                 }
-
-
-               else if(chNivel2.isChecked()) {
-                    nivelMaximo = "2";
-                    paraleloMaximo=txtparalelosecundaria.getText().toString();
-                    if(rdSecundario1.isChecked()){
-                        gradoMaximo="1";
-                    }else if(rdSecundario2.isChecked()){
-                        gradoMaximo="2";
-                    }else if(rdSecundario3.isChecked()){
-                        gradoMaximo="3";
-                    }else if(rdSecundario4.isChecked()){
-                        gradoMaximo="4";
-                    }else if(rdSecundario5.isChecked()){
-                        gradoMaximo="5";
-                    }else if(rdSecundario6.isChecked()){
-                        gradoMaximo="6";
-                    }
-                }
-
-
-               else if(chNivel3.isChecked()) {
-                    nivelMaximo = "3";
-                    if(rdPolicia1.isChecked()){
-                        gradoMaximo="1";
-                    }else if(rdPolicia2.isChecked()){
-                        gradoMaximo="2";
-                    }else if(rdPolicia3.isChecked()){
-                        gradoMaximo="3";
-                    }else if(rdPolicia4.isChecked()){
-                        gradoMaximo="4";
-                    }
-                }
-
-               else if(chNivel4.isChecked()) {
-                    nivelMaximo = "4";
-                    if(rdUniversidad1.isChecked()){
-                        gradoMaximo="1";
-                    }else if(rdUniversidad2.isChecked()){
-                        gradoMaximo="2";
-                    }else if(rdUniversidad3.isChecked()){
-                        gradoMaximo="3";
-                    }else if(rdUniversidad4.isChecked()){
-                        gradoMaximo="4";
-                    }else if(rdUniversidad5.isChecked()){
-                        gradoMaximo="5";
-                    }
-                }
-
-                else if(chNivel5.isChecked()) {
-                    nivelMaximo = "5";
-                    if(rdTecnicoUniversidad1.isChecked()){
-                        gradoMaximo="1";
-                    }else if(rdTecnicoUniversidad2.isChecked()){
-                        gradoMaximo="2";
-                    }else if(rdTecnicoUniversidad3.isChecked()){
-                        gradoMaximo="3";
-                    }
-                }
-
-               else if(chNivel6.isChecked()) {
-                    nivelMaximo = "6";
-                    if(rdTecnicoMedio1.isChecked()){
-                        gradoMaximo="1";
-                    }else if(rdTecnicoMedio2.isChecked()){
-                        gradoMaximo="2";
-                    }else if(rdTecnicoMedio3.isChecked()){
-                        gradoMaximo="3";
-                    }
-                }
-
-
-               else if(chNivel7.isChecked()) {
-                    nivelMaximo = "7";
-                    otro=txtotro.getText().toString();
-                }
-
-                else if(chNivel8.isChecked()) {
-                    nivelMaximo = "8";
-                }
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("otro", otro);
-                parametros.put("nivelMaximo", nivelMaximo);
-                parametros.put("gradoMaximo", gradoMaximo);
-                parametros.put("paralelomaximo", paraleloMaximo);
-
-
-
-                return parametros;
             }
-        };
-       // request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+
+            else if(chNivel3.isChecked()) {
+                nivelMaximo = "3";
+                if(rdPolicia1.isChecked()){
+                    gradoMaximo="1";
+                }else if(rdPolicia2.isChecked()){
+                    gradoMaximo="2";
+                }else if(rdPolicia3.isChecked()){
+                    gradoMaximo="3";
+                }else if(rdPolicia4.isChecked()){
+                    gradoMaximo="4";
+                }
+            }
+
+            else if(chNivel4.isChecked()) {
+                nivelMaximo = "4";
+                if(rdUniversidad1.isChecked()){
+                    gradoMaximo="1";
+                }else if(rdUniversidad2.isChecked()){
+                    gradoMaximo="2";
+                }else if(rdUniversidad3.isChecked()){
+                    gradoMaximo="3";
+                }else if(rdUniversidad4.isChecked()){
+                    gradoMaximo="4";
+                }else if(rdUniversidad5.isChecked()){
+                    gradoMaximo="5";
+                }
+            }
+
+            else if(chNivel5.isChecked()) {
+                nivelMaximo = "5";
+                if(rdTecnicoUniversidad1.isChecked()){
+                    gradoMaximo="1";
+                }else if(rdTecnicoUniversidad2.isChecked()){
+                    gradoMaximo="2";
+                }else if(rdTecnicoUniversidad3.isChecked()){
+                    gradoMaximo="3";
+                }
+            }
+
+            else if(chNivel6.isChecked()) {
+                nivelMaximo = "6";
+                if(rdTecnicoMedio1.isChecked()){
+                    gradoMaximo="1";
+                }else if(rdTecnicoMedio2.isChecked()){
+                    gradoMaximo="2";
+                }else if(rdTecnicoMedio3.isChecked()){
+                    gradoMaximo="3";
+                }
+            }
+
+
+            else if(chNivel7.isChecked()) {
+                nivelMaximo = "7";
+                otro=txtotro.getText().toString();
+            }
+
+            else if(chNivel8.isChecked()) {
+                nivelMaximo = "8";
+            }
+
+
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+            values.put(" otro_nivel_maximo_nombre", otro);
+            values.put("nivel_maximo", nivelMaximo);
+            values.put("grado_maximo", gradoMaximo);
+            values.put("paralelo_maximo", paraleloMaximo);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

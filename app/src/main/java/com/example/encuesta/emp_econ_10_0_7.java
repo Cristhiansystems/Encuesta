@@ -2,7 +2,10 @@ package com.example.encuesta;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -78,6 +81,9 @@ public class emp_econ_10_0_7 extends Fragment {
     Integer actividadActual, planNegocio, productivo, servicios, otro;
     RadioButton rdactividadSi, rdactividadNo, rdplanNegocioSi, rdplanNegocioNo, rdproductivoSi, rdproductivoNo, rdServiciosSi, rdServiciosNo, rdOtroSi, rdOtroNo;
     LinearLayout display108;
+
+    //Conexion Sqlite
+    ConexionSQLiteHelper conn;
     //volley
 
     ProgressDialog progreso;
@@ -139,6 +145,8 @@ public class emp_econ_10_0_7 extends Fragment {
         rdOtroSi=(RadioButton) vista.findViewById(R.id.OtroSi109);
         rdOtroNo=(RadioButton) vista.findViewById(R.id.OtroNo109);
 
+        conn=new ConexionSQLiteHelper(vista.getContext(), "encuestas", null, 2);
+
         display108=(LinearLayout) vista.findViewById(R.id.layout108);
 
         rdactividadNo.setOnClickListener(v -> {
@@ -172,182 +180,166 @@ public class emp_econ_10_0_7 extends Fragment {
 
             String pantalla="Siguiente";
             actualizar(pantalla);
+            if(rdactividadNo.isChecked()){
+                interfaceComunicaFragments.enviarEncuesta60(idFragment.getText().toString());
+            }else{
+                interfaceComunicaFragments.enviarEncuesta55(idFragment.getText().toString());
+            }
         });
 
         btnAtras.setOnClickListener(v -> {
 
             String pantalla="Atras";
             actualizar(pantalla);
+            interfaceComunicaFragments.enviarEncuesta53(idFragment.getText().toString());
         });
         return vista;
     }
 
     private void cargarWebServices() {
-        String ip=getString(R.string.ip);
-        String url=ip+"consultaEncuesta.php?id="+idFragment.getText().toString();
-
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
 
-            JSONArray json = response.optJSONArray("usuario");
-            JSONObject jsonObject = null;
 
-            try {
-                jsonObject = json.getJSONObject(0);
-                idEncuesta = jsonObject.optString("encuesta_emt");
-                actividadActual = jsonObject.optInt("actividad_economica");
-                planNegocio = jsonObject.optInt("emprendimiento_plan_negocio");
-                productivo = jsonObject.optInt("productivo");
-                servicios = jsonObject.optInt("servicio");
-                otro = jsonObject.optInt("otro_emprendimiento");
-                otronom = jsonObject.optString("otro_emprendimiento_nombre");
-                emprendimiento = jsonObject.optString("cual_emprendimiento");
+        SQLiteDatabase db=conn.getReadableDatabase();
 
-                if(actividadActual==2){
+        String[] parametros={idFragment.getText().toString()};
+        String [] campos={"actividad_economica"
+                ,"emprendimiento_plan_negocio"
+                ,"productivo"
+                ,"servicio"
+                ,"otro_emprendimiento"
+                ,"otro_emprendimiento_nombre"
+                ,"cual_emprendimiento"
+        };
 
-                    display108.setVisibility(View.INVISIBLE);
-                    display108.setVisibility(View.GONE);
-
-                }
-
-                if(actividadActual==1){
-                    rdactividadSi.setChecked(true);
-                }else if(actividadActual==2){
-                    rdactividadNo.setChecked(true);
-                }
-
-                if(planNegocio==1){
-                    rdplanNegocioSi.setChecked(true);
-                }else if(planNegocio==2){
-                    rdplanNegocioNo.setChecked(true);
-                }
-
-                if(productivo==1){
-                    rdproductivoSi.setChecked(true);
-                }else if(productivo==2){
-                    rdproductivoNo.setChecked(true);
-                }
-
-                if(servicios==1){
-                    rdServiciosSi.setChecked(true);
-                }else if(servicios==2){
-                    rdServiciosNo.setChecked(true);
-                }
-
-                if(otro==1){
-                    rdOtroSi.setChecked(true);
-                }else if(otro==2){
-                    rdOtroNo.setChecked(true);
-                }
-
-                txtotro.setText(otronom.toString());
-                txtemprendimiento.setText(emprendimiento.toString());
+        Cursor cursor=db.query("encuesta_emt",campos,"encuesta_emt=?",parametros,null,null,null);
+        cursor.moveToFirst();
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        });
-       // request.add(jsonObjectRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+
+        actividadActual =Integer.parseInt( cursor.getString(0));
+        planNegocio =Integer.parseInt( cursor.getString(1));
+        productivo = Integer.parseInt( cursor.getString(2));
+        servicios = Integer.parseInt( cursor.getString(3));
+        otro = Integer.parseInt( cursor.getString(4));
+        otronom = cursor.getString(5);
+        emprendimiento = cursor.getString(6);
+
+
+        if(actividadActual==2){
+
+            display108.setVisibility(View.INVISIBLE);
+            display108.setVisibility(View.GONE);
+
+        }
+
+        if(actividadActual==1){
+            rdactividadSi.setChecked(true);
+        }else if(actividadActual==2){
+            rdactividadNo.setChecked(true);
+        }
+
+        if(planNegocio==1){
+            rdplanNegocioSi.setChecked(true);
+        }else if(planNegocio==2){
+            rdplanNegocioNo.setChecked(true);
+        }
+
+        if(productivo==1){
+            rdproductivoSi.setChecked(true);
+        }else if(productivo==2){
+            rdproductivoNo.setChecked(true);
+        }
+
+        if(servicios==1){
+            rdServiciosSi.setChecked(true);
+        }else if(servicios==2){
+            rdServiciosNo.setChecked(true);
+        }
+
+        if(otro==1){
+            rdOtroSi.setChecked(true);
+        }else if(otro==2){
+            rdOtroNo.setChecked(true);
+        }
+
+        txtotro.setText(otronom.toString());
+        txtemprendimiento.setText(emprendimiento.toString());
+        cursor.close();
     }
 
     private void actualizar(String pantalla) {
-        String ip=getString(R.string.ip);
-        String url=ip+"actualiza107.php?";
-
-        stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            if (response.trim().equalsIgnoreCase("actualiza")) {
-                if(pantalla=="Siguiente"){
-                    if(rdactividadNo.isChecked()){
-                        interfaceComunicaFragments.enviarEncuesta60(idFragment.getText().toString());
-                    }else{
-                        interfaceComunicaFragments.enviarEncuesta55(idFragment.getText().toString());
-                    }
-
-                }else if(pantalla=="Atras"){
-                    interfaceComunicaFragments.enviarEncuesta53(idFragment.getText().toString());
-
-                }
-
-            } else {
-
-                Toast.makeText(getContext(), "Error en la actualizacion" + response.toString() , Toast.LENGTH_SHORT).show();
 
 
+        try {
 
+            String otronom=txtotro.getText().toString();
+            String emprendimiento=txtemprendimiento.getText().toString();
+
+            String actividadactual="0";
+            if(rdactividadSi.isChecked()){
+                actividadactual="1";
+            }else if(rdactividadNo.isChecked()){
+                actividadactual="2";
             }
 
-        }, error -> {
-            Toast.makeText(getContext(), "No se pudo registrar" + error.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("ERROR: ", error.toString());
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                String id = idFragment.getText().toString();
 
-                String otronom=txtotro.getText().toString();
-                String emprendimiento=txtemprendimiento.getText().toString();
-
-                String actividadactual="0";
-                if(rdactividadSi.isChecked()){
-                    actividadactual="1";
-                }else if(rdactividadNo.isChecked()){
-                    actividadactual="2";
-                }
-
-
-                String planNegocio="0";
-                if(rdplanNegocioSi.isChecked()){
-                    planNegocio="1";
-                }else if(rdplanNegocioNo.isChecked()){
-                    planNegocio="2";
-                }
-
-
-                String productivo="0";
-                if(rdproductivoSi.isChecked()){
-                    productivo="1";
-                }else if(rdproductivoNo.isChecked()){
-                    productivo="2";
-                }
-
-                String servicios="0";
-                if(rdServiciosSi.isChecked()){
-                    servicios="1";
-                }else if(rdServiciosNo.isChecked()){
-                    servicios="2";
-                }
-
-                String otro="0";
-                if(rdOtroSi.isChecked()){
-                    otro="1";
-                }else if(rdOtroNo.isChecked()){
-                    otro="2";
-                }
-
-
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id", id);
-
-                parametros.put("otronom", otronom);
-                parametros.put("actividadactual", actividadactual);
-                parametros.put("planNegocio", planNegocio);
-                parametros.put("productivo", productivo);
-                parametros.put("servicios", servicios);
-                parametros.put("otro", otro);
-                parametros.put("emprendimiento", emprendimiento);
-
-
-
-                return parametros;
+            String planNegocio="0";
+            if(rdplanNegocioSi.isChecked()){
+                planNegocio="1";
+            }else if(rdplanNegocioNo.isChecked()){
+                planNegocio="2";
             }
-        };
-        //request.add(stringRequest);
-        volleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+
+            String productivo="0";
+            if(rdproductivoSi.isChecked()){
+                productivo="1";
+            }else if(rdproductivoNo.isChecked()){
+                productivo="2";
+            }
+
+            String servicios="0";
+            if(rdServiciosSi.isChecked()){
+                servicios="1";
+            }else if(rdServiciosNo.isChecked()){
+                servicios="2";
+            }
+
+            String otro="0";
+            if(rdOtroSi.isChecked()){
+                otro="1";
+            }else if(rdOtroNo.isChecked()){
+                otro="2";
+            }
+
+
+            SQLiteDatabase db = conn.getWritableDatabase();
+            String[] parametros = {idFragment.getText().toString()};
+            ContentValues values = new ContentValues();
+
+
+
+           values.put("otro_emprendimiento_nombre", otronom);
+            values.put("actividad_economica", actividadactual);
+            values.put("emprendimiento_plan_negocio", planNegocio);
+            values.put("productivo", productivo);
+            values.put("servicio", servicios);
+            values.put("otro_emprendimiento", otro);
+            values.put("cual_emprendimiento", emprendimiento);
+
+
+
+
+            //   values.put("no_desarrollo_plan_vida", noproyecto);
+
+            db.update("encuesta_emt",values,"encuesta_emt=?",parametros);
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
