@@ -1,6 +1,19 @@
 package com.example.encuesta.utilidades;
 
 public class utilidades {
+    public static final String TABLA_FAMILIA="familia_encuestado";
+    public static final String CREAR_TABLA_FAMILIA="CREATE TABLE "+ TABLA_FAMILIA +" (" +
+            " id_familia_encuestado INTEGER PRIMARY KEY AUTOINCREMENT," +
+            " id_encuesta INTEGER NOT NULL," +
+            " nombre TEXT NOT NULL," +
+            " apellidos TEXT NOT NULL," +
+            " genero INTEGER NOT NULL," +
+            " parentesco INTEGER NOT NULL," +
+            " referencia TEXT NOT NULL," +
+            " telefono TEXT NOT NULL," +
+            " actividad_laboral TEXT NOT NULL," +
+            " ingreso_mensual INTEGER NOT NULL" +
+            ")";
 
     public static final String TABLA_ENCUESTA="encuesta_emt";
     public static final String CREAR_TABLA_ENCUESTA="CREATE TABLE "+ TABLA_ENCUESTA +" (" +
@@ -14,7 +27,7 @@ public class utilidades {
             " apellido_materno TEXT NOT NULL DEFAULT ''," +
             " apodo TEXT NOT NULL DEFAULT ''," +
             " genero INTEGER NOT NULL DEFAULT 0," +
-            " `edad` INTEGER NOT NULL DEFAULT 0," +
+            " edad INTEGER NOT NULL DEFAULT 0," +
             " fecha_nacimiento TEXT NOT NULL," +
             " numero_ci TEXT NOT NULL DEFAULT ''," +
             " numero_run TEXT NOT NULL DEFAULT ''," +
@@ -127,9 +140,9 @@ public class utilidades {
             " cocaina_frecuencia INTEGER NOT NULL DEFAULT 0," +
             " otro_substancia INTEGER NOT NULL DEFAULT 0," +
             " otro_substancia_frecuencia INTEGER NOT NULL DEFAULT 0," +
-            " otro_substancia_nombre INTEGER DEFAULT ''," +
+            " otro_substancia_nombre TEXT DEFAULT ''," +
             " conoces_medio_anticonceptivo INTEGER NOT NULL DEFAULT 0," +
-            " respuesta_metodo_anticonceptivo INTEGER NOT NULL DEFAULT ''," +
+            " respuesta_metodo_anticonceptivo TEXT NOT NULL DEFAULT ''," +
             " abstinencia INTEGER NOT NULL DEFAULT 0," +
             " ligadura_trompas INTEGER NOT NULL DEFAULT 0," +
             " vasectomia INTEGER NOT NULL DEFAULT 0," +
@@ -262,36 +275,25 @@ public class utilidades {
             " otro_plan_vida INTEGER NOT NULL DEFAULT 0," +
             " otro_plan_vida_nombre TEXT NOT NULL DEFAULT ''," +
             " estudiante_actualmente INTEGER NOT NULL DEFAULT 0," +
-
             " colegio TEXT NOT NULL DEFAULT ''," +
-
             " nivel_colegio INTEGER NOT NULL DEFAULT 0," +
             " grado_colegio INTEGER NOT NULL DEFAULT 0," +
             " paralelo_colegio TEXT NOT NULL DEFAULT ''," +
-
             " nivel_secundaria INTEGER NOT NULL DEFAULT 0," +
             " grado_secundaria INTEGER NOT NULL DEFAULT 0," +
             " paralelo_secundaria TEXT NOT NULL DEFAULT ''," +
-
             " nivel_policia INTEGER NOT NULL DEFAULT 0," +
             " grado_policia INTEGER NOT NULL DEFAULT 0," +
-
             " nivel_universidad INTEGER NOT NULL DEFAULT 0," +
             " grado_universidad INTEGER NOT NULL DEFAULT 0," +
-
             " nivel_tecnico_universitario INTEGER NOT NULL DEFAULT 0," +
             " grado_tecnico_universitario INTEGER NOT NULL DEFAULT 0," +
-
             " nivel_tecnico_medio INTEGER NOT NULL DEFAULT 0," +
             " grado_tecnico_medio INTEGER NOT NULL DEFAULT 0," +
-
             " nivel_otro_actual INTEGER NOT NULL DEFAULT 0," +
-
             " nivel_no_sabe INTEGER NOT NULL DEFAULT 0," +
             " nivel_otro_actual_nombre TEXT NOT NULL DEFAULT ''," +
-
             " respuesta_motiva_estudiar TEXT NOT NULL DEFAULT ''," +
-
             " mejores_oportunidades_trabajo INTEGER NOT NULL DEFAULT 0," +
             " superacion_personal INTEGER NOT NULL DEFAULT 0," +
             " oportunidades_vida INTEGER NOT NULL DEFAULT 0," +
