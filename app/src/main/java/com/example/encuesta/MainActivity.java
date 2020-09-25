@@ -107,10 +107,6 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
     FragmentTransaction fragmentTransaction;
     EditText txtusuario;
 
-
-    //Conexion Sqlite
-    ConexionSQLiteHelper conn;
-
     //volley
     ProgressDialog progreso;
    // RequestQueue request;
@@ -212,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        conn=new ConexionSQLiteHelper(this, "encuestas", null, 1);
+        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, "encuestas", null, 2);
 
        Bundle parametros = this.getIntent().getExtras();
 
@@ -335,28 +331,25 @@ public class MainActivity extends AppCompatActivity implements IComunicacionFrag
         String sDate = c.get(Calendar.YEAR) + "-"
                 + c.get(Calendar.MONTH)
                 + "-" + c.get(Calendar.DAY_OF_MONTH);
-       // Toast.makeText(this, "Fecha: " + sDate, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Fecha: " + sDate, Toast.LENGTH_SHORT).show();
         String insert="insert into encuesta_emt (id_usuario, nombre, fecha, fecha_nacimiento) VALUES ('1', '', '"+sDate+"', '"+sDate+"')";
         db.execSQL(insert);
-
-        String name;
-        int id;
-        Cursor cursor = db.rawQuery("SELECT * FROM encuesta_emt", null);
-        if(cursor.moveToLast()){
-            idEncuesta = cursor.getString(0);
-           // Toast.makeText(this,idEncuesta.toString(),Toast.LENGTH_LONG).show();
-           // to get other values id = cursor.getInt(0);
-            //to get id, 0 is the column index
-        }
-
-
-
-
         db.close();
+
+        SQLiteDatabase dbcon=conn.getReadableDatabase();
+        String[] parametros={};
+        try{
+            Cursor cursor=dbcon.rawQuery("Select * from encuesta_emt order by encuesta_emt desc", parametros);
+            cursor.moveToFirst();
+            idEncuesta=cursor.getString(0);
+        }catch (Exception e){
+            Toast.makeText(this, "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+        }
+        dbcon.close();
         Bundle bundle = new Bundle();
 
         bundle.putString("idEncuesta", idEncuesta );
-        Identificacion_geografica identificacion_geografica = new  Identificacion_geografica();
+        Identificacion_geografica identificacion_geografica = new Identificacion_geografica();
         identificacion_geografica.setArguments(bundle);
         getSupportFragmentManager().
                 beginTransaction().
